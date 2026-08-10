@@ -579,3 +579,386 @@
   }
 
 }
+
+
+
+/* =====================================================
+   SASHA FOOTER
+===================================================== */
+
+.sasha-footer {
+  margin-top: 80px;
+
+  background: #0e0c33;
+  color: #ffffff;
+}
+
+
+/* =====================================================
+   FOOTER CONTENT
+===================================================== */
+
+.sasha-footer-inner {
+  display: grid;
+
+  grid-template-columns:
+    minmax(220px, 0.85fr)
+    minmax(0, 1.6fr);
+
+  gap: 80px;
+
+  width: min(
+    1180px,
+    calc(100% - 40px)
+  );
+
+  margin: 0 auto;
+
+  padding:
+    58px
+    0
+    48px;
+}
+
+
+/* =====================================================
+   FOOTER BRAND
+===================================================== */
+
+.sasha-footer-brand {
+  max-width: 340px;
+}
+
+
+.sasha-footer-logo {
+  display: inline-block;
+
+  color: #ffffff;
+
+  font-size: 2.3rem;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.05em;
+
+  text-decoration: none;
+}
+
+
+.sasha-footer-logo:hover {
+  color: var(--sasha-pink);
+}
+
+
+.sasha-footer-brand p {
+  margin:
+    15px
+    0
+    0;
+
+  color: rgba(255, 255, 255, 0.72);
+
+  font-size: 0.94rem;
+  line-height: 1.65;
+}
+
+
+/* =====================================================
+   FOOTER NAVIGATION
+===================================================== */
+
+.sasha-footer-navigation {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  gap: 42px;
+}
+
+
+.sasha-footer-navigation-group {
+  display: flex;
+
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+
+.sasha-footer-navigation-group h2 {
+  margin:
+    0
+    0
+    17px;
+
+  color: var(--sasha-pink);
+
+  font-size: 0.74rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+
+  text-transform: uppercase;
+}
+
+
+.sasha-footer-navigation-group a {
+  position: relative;
+
+  display: inline-block;
+
+  margin-bottom: 11px;
+
+  color: rgba(255, 255, 255, 0.78);
+
+  font-size: 0.88rem;
+  line-height: 1.4;
+
+  text-decoration: none;
+
+  transition:
+    color 150ms ease,
+    transform 150ms ease;
+}
+
+
+.sasha-footer-navigation-group a:hover {
+  color: #ffffff;
+
+  transform: translateX(2px);
+}
+
+
+.sasha-footer-navigation-group a:focus-visible {
+  border-radius: 3px;
+
+  outline:
+    3px solid
+    rgba(242, 130, 170, 0.5);
+
+  outline-offset: 4px;
+}
+
+
+/* =====================================================
+   ORGANIZATION SETUP LINK
+===================================================== */
+
+.sasha-footer-navigation-group a[href="/setup-organization"] {
+  margin-top: 5px;
+
+  padding:
+    9px
+    13px;
+
+  border:
+    1px solid
+    rgba(242, 130, 170, 0.75);
+
+  border-radius: 8px;
+
+  color: var(--sasha-pink);
+
+  font-weight: 800;
+}
+
+
+.sasha-footer-navigation-group a[href="/setup-organization"]:hover {
+  border-color: var(--sasha-pink);
+
+  background:
+    rgba(242, 130, 170, 0.12);
+
+  color: #ffffff;
+
+  transform: translateY(-1px);
+}
+
+
+/* =====================================================
+   DISABLED FUTURE LINKS
+===================================================== */
+
+.sasha-footer-link-disabled {
+  opacity: 0.42;
+
+  pointer-events: none;
+}
+
+
+/* =====================================================
+   SIGNED-IN ORGANIZATION
+===================================================== */
+
+.sasha-footer-organization-name {
+  margin:
+    0
+    0
+    0.85rem;
+
+  color: #ffffff;
+
+  font-size: 0.88rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+
+/* =====================================================
+   FOOTER LOGOUT
+===================================================== */
+
+.sasha-footer-logout-form {
+  margin: 0;
+  padding: 0;
+}
+
+
+.sasha-footer-logout-button {
+  display: inline-block;
+
+  margin: 0;
+  padding: 0;
+
+  color: rgba(255, 255, 255, 0.78);
+
+  background: transparent;
+
+  border: 0;
+
+  font: inherit;
+  font-size: 0.88rem;
+  line-height: 1.4;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  transition:
+    color 150ms ease,
+    transform 150ms ease;
+}
+
+
+.sasha-footer-logout-button:hover {
+  color: #ffffff;
+
+  transform: translateX(2px);
+}
+
+
+.sasha-footer-logout-button:focus-visible {
+  border-radius: 3px;
+
+  outline:
+    3px solid
+    rgba(242, 130, 170, 0.5);
+
+  outline-offset: 4px;
+}
+
+
+/* =====================================================
+   FOOTER BOTTOM
+===================================================== */
+
+.sasha-footer-bottom {
+  display: flex;
+
+  gap: 30px;
+
+  align-items: center;
+  justify-content: space-between;
+
+  width: min(
+    1180px,
+    calc(100% - 40px)
+  );
+
+  margin: 0 auto;
+
+  padding:
+    22px
+    0
+    26px;
+
+  border-top:
+    1px solid
+    rgba(255, 255, 255, 0.13);
+}
+
+
+.sasha-footer-bottom p {
+  margin: 0;
+
+  color: rgba(255, 255, 255, 0.55);
+
+  font-size: 0.76rem;
+  line-height: 1.5;
+}
+
+
+/* =====================================================
+   TABLET
+===================================================== */
+
+@media screen and (max-width: 900px) {
+
+  .sasha-footer-inner {
+    grid-template-columns: 1fr;
+
+    gap: 42px;
+  }
+
+
+  .sasha-footer-brand {
+    max-width: 500px;
+  }
+
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media screen and (max-width: 680px) {
+
+  .sasha-footer {
+    margin-top: 55px;
+  }
+
+
+  .sasha-footer-inner {
+    width:
+      min(
+        calc(100% - 28px),
+        1180px
+      );
+
+    padding:
+      44px
+      0
+      36px;
+  }
+
+
+  .sasha-footer-navigation {
+    grid-template-columns: 1fr;
+
+    gap: 32px;
+  }
+
+
+  .sasha-footer-bottom {
+    align-items: flex-start;
+    flex-direction: column;
+
+    gap: 7px;
+
+    width:
+      min(
+        calc(100% - 28px),
+        1180px
+      );
+  }
+
+}
