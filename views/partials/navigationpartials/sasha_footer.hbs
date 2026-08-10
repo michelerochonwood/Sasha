@@ -2,158 +2,181 @@
      SASHA FOOTER
 ====================================================== --}}
 
-{{!-- =================================================
-     FOOTER BRAND
-================================================== --}}
+<footer class="sasha-footer">
 
-<div class="sasha-footer-brand">
-
-  <a
-    href="/"
-    class="sasha-footer-logo"
-    aria-label="Sasha home"
-  >
-    Sasha
-  </a>
-
-  <p>
-    Proposals, organized and ready to win.
-  </p>
-
-</div>
+  <div class="sasha-footer-inner">
 
 
-{{!-- =================================================
-     FOOTER NAVIGATION
-================================================== --}}
+    {{!-- =================================================
+         FOOTER BRAND
+    ================================================== --}}
 
-<nav
-  class="sasha-footer-navigation"
-  aria-label="Footer navigation"
->
+    <div class="sasha-footer-brand">
 
-  {{!-- ===============================================
-       SASHA LINKS
-  ================================================ --}}
-
-  <div class="sasha-footer-navigation-group">
-
-    <h2>
-      Sasha
-    </h2>
-
-    <a href="/">
-      Home
-    </a>
-
-    <a href="/browse_projects">
-      Browse Projects
-    </a>
-
-    <a href="/add_project">
-      Add a Project
-    </a>
-
-    <a href="/sashas_resume">
-      Sasha's Resume
-    </a>
-
-  </div>
-
-
-  {{!-- ===============================================
-       ORGANIZATION LINKS
-  ================================================ --}}
-
-  <div class="sasha-footer-navigation-group">
-
-    <h2>
-      Organization
-    </h2>
-
-    {{#if isAuthenticated}}
-
-      <form
-        action="/logout"
-        method="POST"
-        class="sasha-footer-logout-form"
+      <a
+        href="/"
+        class="sasha-footer-logo"
+        aria-label="Sasha home"
       >
+        Sasha
+      </a>
 
-        {{#if csrfToken}}
+      <p>
+        Proposals, organized and ready to win.
+      </p>
 
-          <input
-            type="hidden"
-            name="_csrf"
-            value="{{csrfToken}}"
+    </div>
+
+
+    {{!-- =================================================
+         FOOTER NAVIGATION
+    ================================================== --}}
+
+    <nav
+      class="sasha-footer-navigation"
+      aria-label="Footer navigation"
+    >
+
+
+      {{!-- ===============================================
+           SASHA LINKS
+      ================================================ --}}
+
+      <div class="sasha-footer-navigation-group">
+
+        <h2>
+          Sasha
+        </h2>
+
+        <a href="/">
+          Home
+        </a>
+
+        <a href="/browse_projects">
+          Browse Projects
+        </a>
+
+        <a href="/add_project">
+          Add a Project
+        </a>
+
+        <a href="/sashas_resume">
+          Sasha's Resume
+        </a>
+
+      </div>
+
+
+      {{!-- ===============================================
+           ORGANIZATION LINKS
+      ================================================ --}}
+
+      <div class="sasha-footer-navigation-group">
+
+        <h2>
+          Organization
+        </h2>
+
+        {{#if isAuthenticated}}
+
+          {{#if organizationName}}
+
+            <p class="sasha-footer-organization-name">
+              {{organizationName}}
+            </p>
+
+          {{/if}}
+
+          <form
+            action="/logout"
+            method="POST"
+            class="sasha-footer-logout-form"
           >
+
+            {{#if csrfToken}}
+
+              <input
+                type="hidden"
+                name="_csrf"
+                value="{{csrfToken}}"
+              >
+
+            {{/if}}
+
+            <button
+              type="submit"
+              class="sasha-footer-logout-button"
+            >
+              Sign Out
+            </button>
+
+          </form>
+
+        {{else}}
+
+          <a href="/login">
+            Organization Login
+          </a>
+
+          <a href="/setup-organization">
+            Set Up My Organization
+          </a>
 
         {{/if}}
 
-        <button
-          type="submit"
-          class="sasha-footer-logout-button"
+      </div>
+
+
+      {{!-- ===============================================
+           OTHER ASSISTANTS
+      ================================================ --}}
+
+      <div class="sasha-footer-navigation-group">
+
+        <h2>
+          Twennie Assistants
+        </h2>
+
+        <a
+          href="#"
+          aria-disabled="true"
+          class="sasha-footer-link-disabled"
+          tabindex="-1"
         >
-          Sign Out
-        </button>
+          Phil
+        </a>
 
-      </form>
+        <a
+          href="#"
+          aria-disabled="true"
+          class="sasha-footer-link-disabled"
+          tabindex="-1"
+        >
+          Zoe
+        </a>
 
-    {{else}}
-
-      <a href="/login">
-        Organization Login
-      </a>
-
-      <a href="/setup-organization">
-        Set Up My Organization
-      </a>
-
-    {{/if}}
-
-  </div>
+      </div>
 
 
-  {{!-- ===============================================
-       OTHER ASSISTANTS
-  ================================================ --}}
-
-  <div class="sasha-footer-navigation-group">
-
-    <h2>
-      Twennie Assistants
-    </h2>
-
-    <a
-      href="#"
-      aria-disabled="true"
-      class="sasha-footer-link-disabled"
-      tabindex="-1"
-    >
-      Phil
-    </a>
-
-    <a
-      href="#"
-      aria-disabled="true"
-      class="sasha-footer-link-disabled"
-      tabindex="-1"
-    >
-      Zoe
-    </a>
+    </nav>
 
   </div>
 
-</nav>
 
+  {{!-- =================================================
+       FOOTER BOTTOM
+  ================================================== --}}
 
-{{!-- =================================================
-     FOOTER BOTTOM
-================================================== --}}
+  <div class="sasha-footer-bottom">
 
-<p>
-  &copy; {{currentYear}} Twennie Inc. All rights reserved.
-</p>
+    <p>
+      © Twennie Inc. All rights reserved.
+    </p>
 
-<p class="sasha-footer-bottom-note">
-  Sasha is a Twennie proposal assistant.
-</p>
+    <p>
+      Sasha is a Twennie proposal assistant.
+    </p>
+
+  </div>
+
+</footer>
