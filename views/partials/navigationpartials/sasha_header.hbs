@@ -1,0 +1,257 @@
+{{!-- =====================================================
+     SASHA GLOBAL HEADER
+====================================================== --}}
+
+<a
+  href="/"
+  class="sasha-header-home"
+  aria-label="Sasha homepage"
+>
+  <img
+    src="/images/homelink.png"
+    alt=""
+  >
+</a>
+
+
+{{!-- =================================================
+     ORGANIZATION IDENTITY
+================================================== --}}
+
+{{#if isAuthenticated}}
+
+  <a
+    href="/my_organization_settings"
+    class="sasha-header-organization"
+    aria-label="Organization settings"
+  >
+
+    <span class="sasha-header-organization-label">
+      Organization
+    </span>
+
+    <span class="sasha-header-organization-name">
+      {{organizationName}}
+    </span>
+
+  </a>
+
+{{else}}
+
+  <a
+    href="/login"
+    class="sasha-header-login"
+  >
+    Organization Login
+  </a>
+
+{{/if}}
+
+
+{{!-- =================================================
+     MOBILE MENU BUTTON
+================================================== --}}
+
+<button
+  class="sasha-mobile-menu-button"
+  type="button"
+  aria-label="Open navigation"
+  aria-controls="sasha-mobile-navigation"
+  aria-expanded="false"
+>
+  <span></span>
+  <span></span>
+  <span></span>
+</button>
+
+
+{{!-- =================================================
+     HEADER WAVE
+================================================== --}}
+
+<svg
+  viewBox="0 0 1440 190"
+  preserveAspectRatio="none"
+  role="presentation"
+>
+  <path
+    d="
+      M0,32
+      C145,112 310,151 510,139
+      C720,127 811,69 1035,64
+      C1212,60 1337,100 1440,151
+      L1440,0
+      L0,0
+      Z
+    "
+  ></path>
+</svg>
+
+
+{{!-- =================================================
+     DESKTOP SIDE NAVIGATION
+================================================== --}}
+
+<a
+  href="/sashas_resume"
+  class="sasha-side-tab"
+>
+  <span>
+    Sasha’s<br>
+    Resume
+  </span>
+</a>
+
+
+<a
+  href="/browse_projects"
+  class="sasha-side-tab"
+>
+  <span>
+    Browse<br>
+    Projects
+  </span>
+</a>
+
+
+<a
+  href="/add_project"
+  class="sasha-side-tab"
+>
+  <span>
+    Add a<br>
+    Project
+  </span>
+</a>
+
+
+<a
+  href="/write"
+  class="sasha-side-tab"
+>
+  <span>
+    Write<br>
+    with Sasha
+  </span>
+</a>
+
+
+<a
+  href="/add_instructions"
+  class="sasha-side-tab"
+>
+  <span>
+    Add<br>
+    Instructions
+  </span>
+</a>
+
+
+{{#if isAuthenticated}}
+
+  <form
+    action="/logout"
+    method="POST"
+    class="sasha-side-tab sasha-side-tab-form"
+  >
+
+    {{#if csrfToken}}
+
+      <input
+        type="hidden"
+        name="_csrf"
+        value="{{csrfToken}}"
+      >
+
+    {{/if}}
+
+    <button
+      type="submit"
+      class="sasha-side-tab-button"
+    >
+      <span>
+        Log Out
+      </span>
+    </button>
+
+  </form>
+
+{{else}}
+
+  <a
+    href="/login"
+    class="sasha-side-tab"
+  >
+    <span>
+      Organization<br>
+      Login
+    </span>
+  </a>
+
+{{/if}}
+
+
+{{!-- =================================================
+     MOBILE NAVIGATION
+================================================== --}}
+
+<a href="/sashas_resume">
+  Sasha’s Resume
+</a>
+
+<a href="/browse_projects">
+  Browse Projects
+</a>
+
+<a href="/add_project">
+  Add a Project
+</a>
+
+<a href="/write">
+  Write with Sasha
+</a>
+
+<a href="/add_instructions">
+  Add Instructions
+</a>
+
+
+{{#if isAuthenticated}}
+
+  <a href="/my_organization_settings">
+    Organization Settings
+  </a>
+
+
+  <form
+    action="/logout"
+    method="POST"
+    class="sasha-mobile-logout-form"
+  >
+
+    {{#if csrfToken}}
+
+      <input
+        type="hidden"
+        name="_csrf"
+        value="{{csrfToken}}"
+      >
+
+    {{/if}}
+
+    <button
+      type="submit"
+      class="sasha-mobile-logout-button"
+    >
+      Log Out
+    </button>
+
+  </form>
+
+{{else}}
+
+  <a href="/login">
+    Organization Login
+  </a>
+
+{{/if}}

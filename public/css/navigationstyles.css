@@ -1,0 +1,505 @@
+/* =====================================================
+   SASHA HEADER AND NAVIGATION
+====================================================== */
+
+
+.sasha-header {
+  position: relative;
+  width: 100%;
+  min-height: 175px;
+  z-index: 50;
+}
+
+
+/* =====================================================
+   PAGE POSITIONING BELOW HEADER
+====================================================== */
+
+
+.sasha-main-content {
+  position: relative;
+  z-index: 1;
+
+  margin-top: 5rem;
+}
+
+
+/* =====================================================
+   TOP HEADER BAND
+====================================================== */
+
+
+.sasha-header-bar {
+  position: relative;
+  z-index: 4;
+  display: flex;
+  width: 100%;
+  height: 112px;
+  align-items: center;
+  padding: 0 clamp(2rem, 7vw, 7rem);
+  background: #4f50a2;
+}
+
+
+.sasha-header-home {
+  display: flex;
+  width: 48px;
+  height: 48px;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.4;
+  text-decoration: none;
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease;
+}
+
+
+.sasha-header-home:hover {
+  opacity: 1;
+  transform: translateY(-2px);
+}
+
+
+.sasha-header-home img {
+  display: block;
+  width: 38px;
+  height: 38px;
+  object-fit: contain;
+}
+
+
+.sasha-header-user {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin-left: clamp(4rem, 10vw, 10rem);
+  color: #ffffff;
+  text-decoration: none;
+}
+
+
+.sasha-header-greeting {
+  font-family: "Figtree", sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+
+.sasha-header-profile-image {
+  width: 94px;
+  height: 94px;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+
+.sasha-header-login {
+  margin-left: auto;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+
+/* =====================================================
+   SASHA HEADER HOME IMAGE
+===================================================== */
+
+
+.sasha-header-bar .sasha-header-home {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100px;
+  min-width: 100px;
+  height: 100px;
+
+  padding: 0;
+  margin: 0;
+
+  opacity: 0.35;
+  text-decoration: none;
+}
+
+
+.sasha-header-bar .sasha-header-home img {
+  display: block;
+
+  width: 100px;
+  min-width: 100px;
+  max-width: none;
+
+  height: 100px;
+  max-height: none;
+  margin-top: 30px;
+
+  object-fit: contain;
+}
+
+
+.sasha-header-bar .sasha-header-home:hover {
+  opacity: 1;
+  transform: translateY(-2px);
+}
+
+
+/* =====================================================
+   PRONOUNCED WAVE
+====================================================== */
+
+
+.sasha-header-wave {
+  position: absolute;
+  z-index: 3;
+  top: 111px;
+  left: 0;
+  width: 100%;
+  height: 145px;
+  overflow: hidden;
+  line-height: 0;
+  pointer-events: none;
+}
+
+
+.sasha-header-wave svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+
+.sasha-header-wave path {
+  fill: #4f50a2;
+}
+
+
+/* =====================================================
+   RIGHT-SIDE DESKTOP TABS
+====================================================== */
+
+
+.sasha-side-navigation {
+  position: fixed;
+  z-index: 100;
+
+  top: 270px;
+  right: 0;
+
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+
+  width: 155px;
+}
+
+
+.sasha-side-tab {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 145px;
+  min-height: 100px;
+
+  margin-left: auto;
+
+  padding: 1rem 0.9rem 1rem 1.35rem;
+
+  color: #ffffff;
+
+  background: rgba(255, 255, 255, 0.08);
+
+  border-top: 1px solid rgba(255, 255, 255, 0.28);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.28);
+  border-left: 1px solid rgba(255, 255, 255, 0.28);
+
+  border-radius: 8px 0 0 8px;
+
+  text-decoration: none;
+
+  transition:
+    width 180ms ease,
+    background-color 180ms ease,
+    border-color 180ms ease,
+    transform 180ms ease;
+}
+
+
+.sasha-side-tab::before {
+  content: "";
+
+  position: absolute;
+
+  top: 50%;
+  left: -17px;
+
+  width: 30px;
+  height: 30px;
+
+  background: #2d286b;
+
+  border-left: 1px solid rgba(255, 255, 255, 0.28);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.28);
+
+  transform:
+    translateY(-50%)
+    rotate(45deg);
+
+  border-radius: 0 0 0 5px;
+}
+
+
+.sasha-side-tab span {
+  position: relative;
+  z-index: 2;
+
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.2;
+
+  text-align: center;
+  text-transform: uppercase;
+}
+
+
+.sasha-side-tab:hover {
+  width: 160px;
+
+  background: rgba(255, 255, 255, 0.14);
+
+  border-color: rgba(255, 255, 255, 0.45);
+
+  transform: translateX(-4px);
+}
+
+
+.sasha-side-tab:hover::before {
+  background: #3b347f;
+}
+
+
+.sasha-side-tab:focus-visible,
+.sasha-header-home:focus-visible,
+.sasha-header-user:focus-visible,
+.sasha-header-login:focus-visible,
+.sasha-header-organization:focus-visible {
+  outline: 3px solid #f282aa;
+  outline-offset: 4px;
+}
+
+
+/* =====================================================
+   MOBILE MENU BUTTON
+====================================================== */
+
+
+.sasha-mobile-menu-button {
+  display: none;
+  width: 48px;
+  height: 48px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-left: auto;
+  padding: 0;
+  color: #ffffff;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+
+.sasha-mobile-menu-button span {
+  display: block;
+  width: 21px;
+  height: 2px;
+  background: currentColor;
+  border-radius: 999px;
+}
+
+
+/* =====================================================
+   MOBILE NAVIGATION PANEL
+====================================================== */
+
+
+.sasha-mobile-navigation {
+  position: relative;
+  z-index: 8;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.8rem;
+  padding: 1.5rem;
+  background: #262262;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+
+.sasha-mobile-navigation[hidden] {
+  display: none;
+}
+
+
+.sasha-mobile-navigation a {
+  display: flex;
+  min-height: 54px;
+  align-items: center;
+  justify-content: center;
+  padding: 0.8rem 1rem;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 12px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+}
+
+
+/* =====================================================
+   PAGE POSITIONING BELOW HEADER
+====================================================== */
+
+
+.sasha-main-content {
+  position: relative;
+  z-index: 1;
+}
+
+
+/* =====================================================
+   RESPONSIVE HEADER
+====================================================== */
+
+
+@media screen and (max-width: 1100px) {
+
+  .sasha-side-navigation {
+    display: none;
+  }
+
+
+  .sasha-mobile-menu-button {
+    display: flex;
+  }
+
+}
+
+
+@media screen and (max-width: 680px) {
+
+  .sasha-header {
+    min-height: 145px;
+  }
+
+
+  .sasha-header-bar {
+    height: 92px;
+    padding: 0 1.25rem;
+  }
+
+
+  .sasha-header-wave {
+    top: 91px;
+    height: 110px;
+  }
+
+
+  .sasha-header-home {
+    width: 40px;
+    height: 40px;
+  }
+
+
+  .sasha-header-home img {
+    width: 32px;
+    height: 32px;
+  }
+
+
+  .sasha-header-user {
+    gap: 0.75rem;
+    margin-left: 1.25rem;
+  }
+
+
+  .sasha-header-greeting {
+    font-size: 0.85rem;
+  }
+
+
+  .sasha-header-profile-image {
+    width: 64px;
+    height: 64px;
+  }
+
+}
+
+
+@media screen and (max-width: 460px) {
+
+  .sasha-header-greeting {
+    display: none;
+  }
+
+
+  .sasha-header-user {
+    margin-left: 1rem;
+  }
+
+
+  .sasha-mobile-navigation {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+
+/* =====================================================
+   ORGANIZATION IDENTITY
+====================================================== */
+
+
+.sasha-header-organization {
+  display: flex;
+  flex-direction: column;
+
+  align-items: flex-end;
+  justify-content: center;
+
+  margin-left: auto;
+
+  min-height: 112px;
+
+  text-decoration: none;
+}
+
+
+.sasha-header-organization-label {
+  margin: 0;
+
+  color: var(--sasha-pink);
+
+  font-size: 0.72rem;
+  font-weight: 700;
+
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+
+.sasha-header-organization-name {
+  margin-top: 0.2rem;
+
+  font-size: 1rem;
+  font-weight: 700;
+}
