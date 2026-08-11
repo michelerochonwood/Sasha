@@ -8172,3 +8172,620 @@ input[type="file"]::file-selector-button:hover {
   }
 
 }
+
+/* =====================================================
+   SASHA WRITE — MISSING COMPONENT FIXES
+===================================================== */
+
+
+/* =====================================================
+   OUTLINE PANEL
+===================================================== */
+
+
+.sasha-write-outline {
+  position:
+    sticky;
+
+  top:
+    2rem;
+
+  align-self:
+    start;
+
+  overflow:
+    hidden;
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.06
+    );
+
+  border:
+    1px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.22
+    );
+
+  border-radius:
+    20px;
+
+  box-shadow:
+    0
+    18px
+    45px
+    rgba(
+      20,
+      16,
+      72,
+      0.14
+    );
+}
+
+
+.sasha-write-outline-header {
+  padding:
+    1.5rem
+    1.5rem
+    1.25rem;
+
+  border-bottom:
+    1px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.14
+    );
+}
+
+
+.sasha-write-outline-header h2 {
+  margin:
+    0;
+
+  color:
+    #ffffff;
+
+  font-size:
+    1.5rem;
+
+  font-weight:
+    700;
+
+  line-height:
+    1.15;
+}
+
+
+/* =====================================================
+   EMPTY OUTLINE
+===================================================== */
+
+
+.sasha-write-outline-empty {
+  padding:
+    1.5rem;
+
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.7
+    );
+
+  font-size:
+    0.88rem;
+
+  line-height:
+    1.55;
+}
+
+
+.sasha-write-outline-empty p {
+  margin:
+    0;
+}
+
+
+.sasha-write-outline-empty p + p {
+  margin-top:
+    0.85rem;
+}
+
+
+/* =====================================================
+   OUTLINE ACTION
+===================================================== */
+
+
+.sasha-write-outline-actions {
+  padding:
+    1rem
+    1.5rem
+    1.4rem;
+
+  border-top:
+    1px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.14
+    );
+}
+
+
+.sasha-write-outline-button {
+  display:
+    inline-flex;
+
+  width:
+    100%;
+
+  min-height:
+    46px;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  padding:
+    0.75rem
+    1rem;
+
+  color:
+    #ffffff;
+
+  background:
+    transparent;
+
+  border:
+    1px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.3
+    );
+
+  border-radius:
+    999px;
+
+  font-family:
+    inherit;
+
+  font-size:
+    0.78rem;
+
+  font-weight:
+    800;
+
+  cursor:
+    pointer;
+
+  appearance:
+    none;
+
+  transition:
+    color
+    180ms ease,
+    background-color
+    180ms ease,
+    border-color
+    180ms ease,
+    transform
+    180ms ease;
+}
+
+
+.sasha-write-outline-button:hover {
+  transform:
+    translateY(-2px);
+
+  color:
+    #17164f;
+
+  background:
+    #f59ac0;
+
+  border-color:
+    #f59ac0;
+}
+
+
+/* =====================================================
+   NO ACTIVE SECTION / WORKING DRAFT
+===================================================== */
+
+
+.sasha-write-no-section {
+  margin-bottom:
+    clamp(
+      3.5rem,
+      7vw,
+      5.5rem
+    );
+
+  padding:
+    clamp(
+      1.75rem,
+      4vw,
+      2.5rem
+    );
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.06
+    );
+
+  border:
+    1px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.22
+    );
+
+  border-radius:
+    20px;
+}
+
+
+.sasha-write-no-section h2 {
+  margin:
+    0;
+
+  color:
+    #ffffff;
+
+  font-size:
+    clamp(
+      1.6rem,
+      3vw,
+      2.25rem
+    );
+
+  font-weight:
+    700;
+
+  letter-spacing:
+    -0.03em;
+}
+
+
+.sasha-write-no-section > p:not(
+  .sasha-work-eyebrow
+) {
+  max-width:
+    760px;
+
+  margin:
+    0.9rem
+    0
+    0;
+
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.68
+    );
+
+  font-size:
+    0.9rem;
+
+  line-height:
+    1.55;
+}
+
+
+/* =====================================================
+   PURSUIT KNOWLEDGE HEADING
+===================================================== */
+
+
+.sasha-write-context-section {
+  margin-bottom:
+    clamp(
+      4rem,
+      8vw,
+      6rem
+    );
+}
+
+
+.sasha-write-section-heading {
+  display:
+    flex;
+
+  align-items:
+    flex-end;
+
+  justify-content:
+    space-between;
+
+  gap:
+    2rem;
+
+  margin-bottom:
+    1.75rem;
+}
+
+
+.sasha-write-section-heading h2 {
+  margin:
+    0;
+
+  color:
+    #ffffff;
+
+  font-size:
+    clamp(
+      1.8rem,
+      3.5vw,
+      2.7rem
+    );
+
+  font-weight:
+    700;
+
+  letter-spacing:
+    -0.04em;
+}
+
+
+.sasha-write-section-heading > p {
+  max-width:
+    520px;
+
+  margin:
+    0;
+
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.62
+    );
+
+  font-size:
+    0.88rem;
+
+  line-height:
+    1.5;
+}
+
+
+/* =====================================================
+   PURSUIT KNOWLEDGE GRID
+===================================================== */
+
+
+.sasha-write-context-grid {
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(
+      4,
+      minmax(0, 1fr)
+    );
+
+  gap:
+    1rem;
+}
+
+
+/* =====================================================
+   PURSUIT KNOWLEDGE CARDS
+===================================================== */
+
+
+.sasha-write-context-card {
+  display:
+    flex;
+
+  min-width:
+    0;
+
+  min-height:
+    240px;
+
+  flex-direction:
+    column;
+
+  padding:
+    1.4rem;
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.06
+    );
+
+  border:
+    1px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.2
+    );
+
+  border-radius:
+    16px;
+
+  box-shadow:
+    0
+    14px
+    32px
+    rgba(
+      20,
+      16,
+      72,
+      0.1
+    );
+}
+
+
+.sasha-write-context-card > span:first-child {
+  display:
+    block;
+
+  margin-bottom:
+    0.75rem;
+
+  color:
+    #f59ac0;
+
+  font-size:
+    0.72rem;
+
+  font-weight:
+    800;
+
+  letter-spacing:
+    0.05em;
+}
+
+
+.sasha-write-context-card h3 {
+  margin:
+    0;
+
+  color:
+    #ffffff;
+
+  font-size:
+    1.08rem;
+
+  font-weight:
+    700;
+
+  line-height:
+    1.25;
+}
+
+
+.sasha-write-context-card p {
+  margin:
+    0.8rem
+    0
+    1rem;
+
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.62
+    );
+
+  font-size:
+    0.82rem;
+
+  line-height:
+    1.5;
+}
+
+
+.sasha-write-context-card a,
+.sasha-write-context-source {
+  display:
+    inline-block;
+
+  margin-top:
+    auto;
+
+  color:
+    #f59ac0;
+
+  font-size:
+    0.78rem;
+
+  font-weight:
+    800;
+
+  text-decoration:
+    none;
+}
+
+
+.sasha-write-context-card a:hover {
+  color:
+    #ffffff;
+}
+
+
+/* =====================================================
+   TABLET
+===================================================== */
+
+
+@media screen and (max-width: 1100px) {
+
+  .sasha-write-context-grid {
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(0, 1fr)
+      );
+  }
+
+}
+
+
+@media screen and (max-width: 950px) {
+
+  .sasha-write-outline {
+    position:
+      static;
+  }
+
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+
+@media screen and (max-width: 760px) {
+
+  .sasha-write-section-heading {
+    align-items:
+      flex-start;
+
+    flex-direction:
+      column;
+  }
+
+}
+
+
+@media screen and (max-width: 620px) {
+
+  .sasha-write-context-grid {
+    grid-template-columns:
+      1fr;
+  }
+
+}
