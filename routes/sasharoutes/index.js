@@ -52,18 +52,10 @@ router.get(
 
 
 router.post(
-  '/create_pursuit/analyze',
-  ensureOrganization,
-  proposalController.analyzePursuit
-);
-
-
-router.post(
   '/create_pursuit',
   ensureOrganization,
   proposalController.postCreatePursuit
 );
-
 
 /* =====================================================
 PURSUITS
