@@ -10,6 +10,10 @@ const organizationController = require(
   '../../controllers/organizationController'
 );
 
+const proposalController = require(
+  '../../controllers/proposalController'
+);
+
 const router = express.Router();
 
 
@@ -35,25 +39,26 @@ router.get(
 
 
 /* =====================================================
-   CREATE A PURSUIT
+CREATE A PURSUIT
 ===================================================== */
+
+
+
 
 router.get(
   '/create_pursuit',
   ensureOrganization,
-  (req, res) => {
-    return res.render(
-      'create_pursuit',
-      {
-        layout:
-          'mainlayout',
-
-        pageTitle:
-          'Create a Pursuit | Sasha'
-      }
-    );
-  }
+  proposalController.getCreatePursuit
 );
+
+
+router.post(
+  '/create_pursuit',
+  ensureOrganization,
+  proposalController.postCreatePursuit
+);
+
+
 
 
 /* =====================================================
