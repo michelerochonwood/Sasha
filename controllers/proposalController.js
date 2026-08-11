@@ -66,6 +66,15 @@ async (
 
     }
 
+/* =================================================
+   SET ACTIVE PURSUIT
+================================================== */
+
+req.session.activePursuitId =
+  proposal._id.toString();
+
+req.session.activePursuitName =
+  proposal.proposalName;
 
     /* =================================================
        DEADLINE
@@ -313,30 +322,7 @@ async (
   }
 
 };
-/* =====================================================
-ANALYZE PURSUIT
-===================================================== */
 
-exports.analyzePursuit =
-async (req, res) => {
-
-  /*
-   * Sasha's AI analysis will be added here.
-   *
-   * For now this route exists so the application
-   * can start successfully and the controller matches
-   * the routes file.
-   */
-
-  return res.status(501).json({
-    success:
-      false,
-
-    errorMessage:
-      'Sasha’s pursuit analysis is not connected yet.'
-  });
-
-};
 
 
 /* =====================================================
@@ -538,6 +524,37 @@ async (
 };
 
 /* =====================================================
+ANALYZE PURSUIT
+===================================================== */
+
+exports.analyzePursuit =
+async (
+  req,
+  res
+) => {
+
+  /*
+   * Sasha's AI analysis will be added here.
+   *
+   * For now this route exists so the application
+   * can start successfully and the controller matches
+   * the routes file.
+   */
+
+  return res.status(501).json(
+    {
+      success:
+        false,
+
+      errorMessage:
+        'Sasha’s pursuit analysis is not connected yet.'
+    }
+  );
+
+};
+
+
+/* =====================================================
 GET ANALYZE | GO NO GO
 ===================================================== */
 
@@ -550,8 +567,19 @@ async (
 
   try {
 
+    /* =================================================
+       DETERMINE PURSUIT
+    ================================================== */
+
+    const requestedPursuitId =
+      req.query.pursuit ||
+      null;
+
+
     const pursuitId =
-      req.query.pursuit;
+      requestedPursuitId ||
+      req.session.activePursuitId ||
+      null;
 
 
     /* =================================================
@@ -594,6 +622,22 @@ async (
       !proposal
     ) {
 
+      /*
+       * Clear a stale pursuit from the session
+       * so the user is not repeatedly sent to
+       * a pursuit that no longer exists.
+       */
+
+      if (
+        req.session.activePursuitId ===
+        pursuitId
+      ) {
+
+        delete req.session.activePursuitId;
+
+      }
+
+
       return res.status(404).render(
         'not_found',
         {
@@ -604,6 +648,58 @@ async (
             'Pursuit Not Found | Sasha'
         }
       );
+
+    }
+
+
+    /* =================================================
+       SET ACTIVE PURSUIT
+    ================================================== */
+
+    let pursuitNotification =
+      null;
+
+
+    /*
+     * If the user explicitly selected a pursuit,
+     * make it the active pursuit for this session.
+     */
+
+    if (
+      requestedPursuitId
+    ) {
+
+      const previousPursuitId =
+        req.session.activePursuitId ||
+        null;
+
+
+      req.session.activePursuitId =
+        proposal._id.toString();
+
+
+      /*
+       * Only show the notification when the
+       * active pursuit actually changes.
+       */
+
+      if (
+        previousPursuitId !==
+        proposal._id.toString()
+      ) {
+
+        pursuitNotification = {
+          type:
+            'success',
+
+          title:
+            'Pursuit selected',
+
+          message:
+            `You are now working on Pursuit ${proposal._id}: ${proposal.proposalName}.`
+        };
+
+      }
 
     }
 
@@ -675,7 +771,9 @@ async (
 
         risks,
 
-        unknowns
+        unknowns,
+
+        pursuitNotification
       }
     );
 
@@ -696,4 +794,3 @@ async (
   }
 
 };
-
