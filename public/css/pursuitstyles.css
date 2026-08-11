@@ -1072,3 +1072,772 @@ input[type="file"]::file-selector-button:hover {
   }
 
 }
+
+/* =====================================================
+   SASHA PURSUITS PAGE
+===================================================== */
+
+
+.sasha-pursuits-page {
+  position: relative;
+
+  min-height: 70vh;
+
+  padding:
+    clamp(3.5rem, 7vw, 6rem)
+    0
+    clamp(6rem, 10vw, 9rem);
+}
+
+
+.sasha-pursuits-container {
+  width:
+    min(
+      calc(
+        100% -
+        (var(--sasha-content-padding) * 2)
+      ),
+      var(--sasha-container-width)
+    );
+
+  margin:
+    0 auto;
+}
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+
+.sasha-pursuits-header {
+  display:
+    flex;
+
+  align-items:
+    flex-end;
+
+  justify-content:
+    space-between;
+
+  gap:
+    2rem;
+
+  margin-bottom:
+    clamp(2.5rem, 5vw, 4rem);
+}
+
+
+.sasha-pursuits-header > div {
+  max-width:
+    760px;
+}
+
+
+.sasha-pursuits-eyebrow {
+  margin:
+    0
+    0
+    0.65rem;
+
+  color:
+    var(--sasha-pink);
+
+  font-size:
+    0.82rem;
+
+  font-weight:
+    800;
+
+  letter-spacing:
+    0.08em;
+
+  text-transform:
+    uppercase;
+}
+
+
+.sasha-pursuits-header h1 {
+  margin:
+    0;
+
+  color:
+    var(--sasha-white);
+
+  font-size:
+    clamp(
+      2.6rem,
+      6vw,
+      5.25rem
+    );
+
+  font-weight:
+    700;
+
+  letter-spacing:
+    -0.05em;
+
+  line-height:
+    0.95;
+}
+
+
+.sasha-pursuits-introduction {
+  max-width:
+    680px;
+
+  margin:
+    1.35rem
+    0
+    0;
+
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.8
+    );
+
+  font-size:
+    clamp(
+      1rem,
+      1.8vw,
+      1.18rem
+    );
+
+  line-height:
+    1.55;
+}
+
+
+/* =====================================================
+   CREATE BUTTON
+===================================================== */
+
+
+.sasha-pursuits-create-button {
+  display:
+    inline-flex;
+
+  flex:
+    0 0 auto;
+
+  min-height:
+    50px;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  padding:
+    0.8rem
+    1.5rem;
+
+  color:
+    var(--sasha-navy);
+
+  background:
+    var(--sasha-pink);
+
+  border:
+    2px solid
+    var(--sasha-pink);
+
+  border-radius:
+    999px;
+
+  font-size:
+    0.88rem;
+
+  font-weight:
+    800;
+
+  text-decoration:
+    none;
+
+  transition:
+    transform
+    180ms ease,
+    background-color
+    180ms ease,
+    border-color
+    180ms ease;
+}
+
+
+.sasha-pursuits-create-button:hover {
+  transform:
+    translateY(-2px);
+
+  background:
+    var(--sasha-white);
+
+  border-color:
+    var(--sasha-white);
+}
+
+
+/* =====================================================
+   PURSUIT GRID
+===================================================== */
+
+
+.sasha-pursuits-grid {
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(
+      3,
+      minmax(0, 1fr)
+    );
+
+  gap:
+    clamp(
+      1.25rem,
+      2.5vw,
+      2rem
+    );
+}
+
+
+/* =====================================================
+   PURSUIT CARD
+===================================================== */
+
+
+.sasha-pursuit-card {
+  display:
+    flex;
+
+  min-width:
+    0;
+
+  min-height:
+    310px;
+
+  flex-direction:
+    column;
+
+  padding:
+    clamp(
+      1.5rem,
+      3vw,
+      2rem
+    );
+
+  color:
+    var(--sasha-white);
+
+  background:
+    var(--sasha-white-06);
+
+  border:
+    1px solid
+    var(--sasha-white-25);
+
+  border-radius:
+    var(--sasha-radius-medium);
+
+  box-shadow:
+    inset
+    0
+    1px
+    0
+    rgba(
+      255,
+      255,
+      255,
+      0.05
+    ),
+    0
+    18px
+    42px
+    rgba(
+      20,
+      16,
+      72,
+      0.12
+    );
+
+  text-decoration:
+    none;
+
+  transition:
+    transform
+    180ms ease,
+    background-color
+    180ms ease,
+    border-color
+    180ms ease,
+    box-shadow
+    180ms ease;
+}
+
+
+.sasha-pursuit-card:hover {
+  transform:
+    translateY(-5px);
+
+  background:
+    var(--sasha-white-10);
+
+  border-color:
+    var(--sasha-white-40);
+
+  box-shadow:
+    inset
+    0
+    1px
+    0
+    rgba(
+      255,
+      255,
+      255,
+      0.06
+    ),
+    0
+    24px
+    50px
+    rgba(
+      20,
+      16,
+      72,
+      0.2
+    );
+}
+
+
+/* =====================================================
+   CARD TOP
+===================================================== */
+
+
+.sasha-pursuit-card-top {
+  display:
+    flex;
+
+  align-items:
+    flex-start;
+
+  justify-content:
+    space-between;
+
+  gap:
+    1rem;
+
+  margin-bottom:
+    1.75rem;
+}
+
+
+.sasha-pursuit-card-client {
+  margin:
+    0
+    0
+    0.55rem;
+
+  color:
+    var(--sasha-pink);
+
+  font-size:
+    0.75rem;
+
+  font-weight:
+    800;
+
+  letter-spacing:
+    0.06em;
+
+  text-transform:
+    uppercase;
+}
+
+
+.sasha-pursuit-card h2 {
+  margin:
+    0;
+
+  color:
+    var(--sasha-white);
+
+  font-size:
+    clamp(
+      1.25rem,
+      2vw,
+      1.65rem
+    );
+
+  font-weight:
+    700;
+
+  line-height:
+    1.15;
+}
+
+
+/* =====================================================
+   STATUS
+===================================================== */
+
+
+.sasha-pursuit-status {
+  display:
+    inline-flex;
+
+  flex:
+    0 0 auto;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  padding:
+    0.4rem
+    0.7rem;
+
+  color:
+    var(--sasha-white);
+
+  background:
+    var(--sasha-white-08);
+
+  border:
+    1px solid
+    var(--sasha-white-25);
+
+  border-radius:
+    999px;
+
+  font-size:
+    0.68rem;
+
+  font-weight:
+    800;
+
+  letter-spacing:
+    0.05em;
+
+  text-transform:
+    uppercase;
+}
+
+
+.sasha-pursuit-status-new,
+.sasha-pursuit-status-planning {
+  border-color:
+    rgba(
+      242,
+      130,
+      170,
+      0.65
+    );
+}
+
+
+.sasha-pursuit-status-writing,
+.sasha-pursuit-status-review {
+  background:
+    var(--sasha-white-10);
+}
+
+
+.sasha-pursuit-status-won {
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.14
+    );
+
+  border-color:
+    var(--sasha-pink);
+}
+
+
+/* =====================================================
+   CARD DETAILS
+===================================================== */
+
+
+.sasha-pursuit-card-detail {
+  margin-bottom:
+    1.25rem;
+}
+
+
+.sasha-pursuit-card-detail span {
+  display:
+    block;
+
+  margin-bottom:
+    0.25rem;
+
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.58
+    );
+
+  font-size:
+    0.72rem;
+
+  font-weight:
+    700;
+
+  letter-spacing:
+    0.04em;
+
+  text-transform:
+    uppercase;
+}
+
+
+.sasha-pursuit-card-detail strong {
+  display:
+    block;
+
+  color:
+    var(--sasha-white);
+
+  font-size:
+    0.94rem;
+
+  font-weight:
+    700;
+
+  line-height:
+    1.4;
+}
+
+
+/* =====================================================
+   CARD FOOTER
+===================================================== */
+
+
+.sasha-pursuit-card-footer {
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    space-between;
+
+  gap:
+    1rem;
+
+  margin-top:
+    auto;
+
+  padding-top:
+    1.25rem;
+
+  border-top:
+    1px solid
+    var(--sasha-white-18);
+}
+
+
+.sasha-pursuit-card-footer span,
+.sasha-pursuit-card-footer strong {
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.62
+    );
+
+  font-size:
+    0.75rem;
+
+  font-weight:
+    600;
+}
+
+
+/* =====================================================
+   EMPTY STATE
+===================================================== */
+
+
+.sasha-pursuits-empty {
+  max-width:
+    760px;
+
+  padding:
+    clamp(
+      2rem,
+      5vw,
+      3.5rem
+    );
+
+  color:
+    var(--sasha-white);
+
+  background:
+    var(--sasha-white-06);
+
+  border:
+    1px solid
+    var(--sasha-white-25);
+
+  border-radius:
+    var(--sasha-radius-medium);
+}
+
+
+.sasha-pursuits-empty-eyebrow {
+  margin:
+    0
+    0
+    0.6rem;
+
+  color:
+    var(--sasha-pink);
+
+  font-size:
+    0.76rem;
+
+  font-weight:
+    800;
+
+  letter-spacing:
+    0.07em;
+
+  text-transform:
+    uppercase;
+}
+
+
+.sasha-pursuits-empty h2 {
+  margin:
+    0;
+
+  color:
+    var(--sasha-white);
+
+  font-size:
+    clamp(
+      1.8rem,
+      3vw,
+      2.5rem
+    );
+
+  font-weight:
+    700;
+}
+
+
+.sasha-pursuits-empty > p:not(.sasha-pursuits-empty-eyebrow) {
+  max-width:
+    620px;
+
+  margin:
+    1rem
+    0
+    1.75rem;
+
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.78
+    );
+
+  line-height:
+    1.55;
+}
+
+
+/* =====================================================
+   TABLET
+===================================================== */
+
+
+@media screen and (max-width: 1000px) {
+
+  .sasha-pursuits-grid {
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(0, 1fr)
+      );
+  }
+
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+
+@media screen and (max-width: 680px) {
+
+  .sasha-pursuits-container {
+    width:
+      calc(
+        100% -
+        2rem
+      );
+  }
+
+
+  .sasha-pursuits-header {
+    align-items:
+      flex-start;
+
+    flex-direction:
+      column;
+  }
+
+
+  .sasha-pursuits-grid {
+    grid-template-columns:
+      1fr;
+  }
+
+
+  .sasha-pursuit-card {
+    min-height:
+      0;
+  }
+
+}
+
+
+/* =====================================================
+   SMALL MOBILE
+===================================================== */
+
+
+@media screen and (max-width: 460px) {
+
+  .sasha-pursuits-container {
+    width:
+      calc(
+        100% -
+        1.5rem
+      );
+  }
+
+
+  .sasha-pursuit-card-top {
+    flex-direction:
+      column;
+  }
+
+}

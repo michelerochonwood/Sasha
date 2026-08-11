@@ -76,6 +76,160 @@ const proposalSchema = new mongoose.Schema(
       default: "new"
     },
 
+    /* =====================================================
+   PURSUIT MANAGEMENT
+===================================================== */
+
+proposalManager: {
+  name: {
+    type: String,
+    trim: true,
+    default: ""
+  },
+
+  email: {
+    type: String,
+    trim: true,
+    lowercase: true,
+    default: ""
+  }
+},
+
+
+proposalTeam: [
+  {
+    name: {
+      type: String,
+      trim: true,
+      default: ""
+    },
+
+    role: {
+      type: String,
+      trim: true,
+      default: ""
+    },
+
+    email: {
+      type: String,
+      trim: true,
+      lowercase: true,
+      default: ""
+    }
+  }
+],
+
+
+effortLevel: {
+  type: String,
+
+  enum: [
+    "minimal",
+    "usual",
+    "full"
+  ],
+
+  default: "usual"
+},
+
+
+/* =====================================================
+   PURSUIT WORKFLOW
+===================================================== */
+
+workflowStages: [
+  {
+    stage: {
+      type: String,
+
+      enum: [
+        "create",
+        "analyze",
+        "go_no_go",
+        "plan",
+        "win_strategy",
+        "outline",
+        "write",
+        "review",
+        "submission",
+        "outcome"
+      ],
+
+      required: true
+    },
+
+    status: {
+      type: String,
+
+      enum: [
+        "not_started",
+        "in_progress",
+        "complete",
+        "skipped"
+      ],
+
+      default: "not_started"
+    },
+
+    completedAt: {
+      type: Date,
+      default: null
+    },
+
+    notes: {
+      type: String,
+      trim: true,
+      default: ""
+    }
+  }
+],
+
+
+tasks: [
+  {
+    title: {
+      type: String,
+      trim: true,
+      required: true
+    },
+
+    stage: {
+      type: String,
+      trim: true,
+      default: ""
+    },
+
+    assignedTo: {
+      type: String,
+      trim: true,
+      default: ""
+    },
+
+    dueDate: {
+      type: Date,
+      default: null
+    },
+
+    status: {
+      type: String,
+
+      enum: [
+        "not_started",
+        "in_progress",
+        "complete",
+        "skipped"
+      ],
+
+      default: "not_started"
+    },
+
+    completedAt: {
+      type: Date,
+      default: null
+    }
+  }
+],
+
 
     /* =====================================================
        SOURCE DOCUMENTS

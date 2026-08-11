@@ -23,7 +23,296 @@ exports.getCreatePursuit =
 
 };
 
+/* =====================================================
+GET PURSUIT DASHBOARD
+===================================================== */
 
+exports.getPursuitDashboard =
+async (
+  req,
+  res,
+  next
+) => {
+
+  try {
+
+    const proposal =
+      await Proposal.findOne(
+        {
+          _id:
+            req.params.id,
+
+          organization:
+            req.session.organizationId
+        }
+      )
+        .lean();
+
+
+    if (
+      !proposal
+    ) {
+
+      return res.status(404).render(
+        'not_found',
+        {
+          layout:
+            'mainlayout',
+
+          pageTitle:
+            'Pursuit Not Found | Sasha'
+        }
+      );
+
+    }
+
+
+    /* =================================================
+       DEADLINE
+    ================================================== */
+
+    const deadline =
+      proposal.submissionDeadline
+        ? new Date(
+            proposal.submissionDeadline
+          )
+        : null;
+
+
+    const now =
+      new Date();
+
+
+    let timeRemaining =
+      null;
+
+
+    let isOverdue =
+      false;
+
+
+    if (
+      deadline &&
+      !Number.isNaN(
+        deadline.getTime()
+      )
+    ) {
+
+      const difference =
+        deadline.getTime() -
+        now.getTime();
+
+
+      isOverdue =
+        difference <
+        0;
+
+
+      const absoluteDifference =
+        Math.abs(
+          difference
+        );
+
+
+      const totalHours =
+        Math.floor(
+          absoluteDifference /
+          (
+            1000 *
+            60 *
+            60
+          )
+        );
+
+
+      const days =
+        Math.floor(
+          totalHours /
+          24
+        );
+
+
+      const hours =
+        totalHours %
+        24;
+
+
+      if (
+        isOverdue
+      ) {
+
+        timeRemaining = {
+          label:
+            'Deadline passed',
+
+          days,
+
+          hours
+        };
+
+      } else {
+
+        timeRemaining = {
+          label:
+            days > 0
+              ? `${days} day${days === 1 ? '' : 's'} ${hours} hour${hours === 1 ? '' : 's'}`
+              : `${hours} hour${hours === 1 ? '' : 's'}`,
+
+          days,
+
+          hours
+        };
+
+      }
+
+    }
+
+
+    /* =================================================
+       WORKFLOW
+    ================================================== */
+
+    const workflowStages =
+      Array.isArray(
+        proposal.workflowStages
+      )
+        ? proposal.workflowStages
+        : [];
+
+
+    const completedStages =
+      workflowStages.filter(
+        (
+          stage
+        ) =>
+          stage.status ===
+          'complete'
+      );
+
+
+    const inProgressStages =
+      workflowStages.filter(
+        (
+          stage
+        ) =>
+          stage.status ===
+          'in_progress'
+      );
+
+
+    /* =================================================
+       TASKS
+    ================================================== */
+
+    const tasks =
+      Array.isArray(
+        proposal.tasks
+      )
+        ? proposal.tasks
+        : [];
+
+
+    const completedTasks =
+      tasks.filter(
+        (
+          task
+        ) =>
+          task.status ===
+          'complete'
+      );
+
+
+    /* =================================================
+       TEAM
+    ================================================== */
+
+    const proposalTeam =
+      Array.isArray(
+        proposal.proposalTeam
+      )
+        ? proposal.proposalTeam
+        : [];
+
+
+    /* =================================================
+       DASHBOARD DATA
+    ================================================== */
+
+    const dashboard = {
+
+      deadline,
+
+      timeRemaining,
+
+      isOverdue,
+
+      workflowStages,
+
+      completedStageCount:
+        completedStages.length,
+
+      totalStageCount:
+        workflowStages.length,
+
+      inProgressStageCount:
+        inProgressStages.length,
+
+      tasks,
+
+      completedTaskCount:
+        completedTasks.length,
+
+      totalTaskCount:
+        tasks.length,
+
+      proposalManager:
+        proposal.proposalManager ||
+        {},
+
+      proposalTeam,
+
+      proposalTeamCount:
+        proposalTeam.length,
+
+      effortLevel:
+        proposal.effortLevel ||
+        'usual'
+
+    };
+
+
+    return res.render(
+      'pursuit_dashboard',
+      {
+        layout:
+          'mainlayout',
+
+        pageTitle:
+          `${proposal.proposalName} | Sasha`,
+
+        proposal,
+
+        dashboard
+      }
+    );
+
+  } catch (
+    error
+  ) {
+
+    console.error(
+      'LOAD PURSUIT FAILED:',
+      error
+    );
+
+
+    return next(
+      error
+    );
+
+  }
+
+};
 /* =====================================================
 ANALYZE PURSUIT
 ===================================================== */
@@ -248,86 +537,3 @@ async (
 
 };
 
-
-/* =====================================================
-GET PURSUIT DASHBOARD
-===================================================== */
-
-exports.getPursuitDashboard =
-async (
-  req,
-  res,
-  next
-) => {
-
-  try {
-
-    const proposal =
-      await Proposal.findOne(
-        {
-          _id:
-            req.params.id,
-
-          organization:
-            req.session.organizationId
-        }
-      )
-        .lean();
-
-
-    /* =================================================
-       PURSUIT NOT FOUND
-    ================================================== */
-
-    if (
-      !proposal
-    ) {
-
-      return res.status(404).render(
-        'not_found',
-        {
-          layout:
-            'mainlayout',
-
-          pageTitle:
-            'Pursuit Not Found | Sasha'
-        }
-      );
-
-    }
-
-
-    /* =================================================
-       RENDER DASHBOARD
-    ================================================== */
-
-    return res.render(
-      'pursuit_dashboard',
-      {
-        layout:
-          'mainlayout',
-
-        pageTitle:
-          `${proposal.proposalName} | Sasha`,
-
-        proposal
-      }
-    );
-
-  } catch (
-    error
-  ) {
-
-    console.error(
-      'LOAD PURSUIT FAILED:',
-      error
-    );
-
-
-    return next(
-      error
-    );
-
-  }
-
-};

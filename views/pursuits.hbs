@@ -1,0 +1,203 @@
+{{!-- =====================================================
+     PURSUITS
+====================================================== --}}
+
+<section
+  class="sasha-pursuits-page"
+  aria-labelledby="sasha-pursuits-heading"
+>
+
+  <div class="sasha-pursuits-container">
+
+
+    {{!-- =================================================
+         PAGE HEADER
+    ================================================== --}}
+
+    <header class="sasha-pursuits-header">
+
+      <div>
+
+        <p class="sasha-pursuits-eyebrow">
+          pursuits
+        </p>
+
+        <h1 id="sasha-pursuits-heading">
+          Your Pursuits
+        </h1>
+
+        <p class="sasha-pursuits-introduction">
+          Review your active and past pursuits, track deadlines,
+          and open any pursuit to continue working with Sasha.
+        </p>
+
+      </div>
+
+
+      <a
+        href="/create_pursuit"
+        class="sasha-pursuits-create-button"
+      >
+        Create a Pursuit
+      </a>
+
+    </header>
+
+
+    {{!-- =================================================
+         PURSUIT CARDS
+    ================================================== --}}
+
+    {{#if proposals.length}}
+
+      <div class="sasha-pursuits-grid">
+
+        {{#each proposals}}
+
+          <a
+            href="/pursuit/{{this._id}}"
+            class="sasha-pursuit-card"
+          >
+
+            <div class="sasha-pursuit-card-top">
+
+              <div>
+
+                {{#if this.clientName}}
+
+                  <p class="sasha-pursuit-card-client">
+                    {{this.clientName}}
+                  </p>
+
+                {{else}}
+
+                  <p class="sasha-pursuit-card-client">
+                    Client not yet identified
+                  </p>
+
+                {{/if}}
+
+
+                <h2>
+                  {{this.proposalName}}
+                </h2>
+
+              </div>
+
+
+              <span
+                class="sasha-pursuit-status
+                sasha-pursuit-status-{{this.proposalStatus}}"
+              >
+                {{this.proposalStatus}}
+              </span>
+
+            </div>
+
+
+            {{!-- =========================================
+                 RFP NUMBER
+            ========================================== --}}
+
+            {{#if this.rfpNumber}}
+
+              <div class="sasha-pursuit-card-detail">
+
+                <span>
+                  RFP
+                </span>
+
+                <strong>
+                  {{this.rfpNumber}}
+                </strong>
+
+              </div>
+
+            {{/if}}
+
+
+            {{!-- =========================================
+                 DEADLINE
+            ========================================== --}}
+
+            <div class="sasha-pursuit-card-detail">
+
+              <span>
+                Submission deadline
+              </span>
+
+              {{#if this.submissionDeadline}}
+
+                <strong>
+                  {{this.submissionDeadline}}
+                </strong>
+
+              {{else}}
+
+                <strong>
+                  Not yet identified
+                </strong>
+
+              {{/if}}
+
+            </div>
+
+
+            {{!-- =========================================
+                 UPDATED
+            ========================================== --}}
+
+            <div class="sasha-pursuit-card-footer">
+
+              <span>
+                Updated
+              </span>
+
+              <strong>
+                {{this.updatedAt}}
+              </strong>
+
+            </div>
+
+          </a>
+
+        {{/each}}
+
+      </div>
+
+    {{else}}
+
+      {{!-- =================================================
+           EMPTY STATE
+      ================================================== --}}
+
+      <div class="sasha-pursuits-empty">
+
+        <p class="sasha-pursuits-empty-eyebrow">
+          no pursuits yet
+        </p>
+
+        <h2>
+          Start your first pursuit
+        </h2>
+
+        <p>
+          Create a pursuit and give Sasha whatever information
+          you already have. She can help organize the opportunity
+          from there.
+        </p>
+
+        <a
+          href="/create_pursuit"
+          class="sasha-pursuits-create-button"
+        >
+          Create a Pursuit
+        </a>
+
+      </div>
+
+    {{/if}}
+
+  </div>
+
+</section>

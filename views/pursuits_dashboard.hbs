@@ -1,0 +1,717 @@
+{{!-- =====================================================
+     PURSUIT DASHBOARD
+====================================================== --}}
+
+<section
+  class="sasha-pursuit-dashboard"
+  aria-labelledby="sasha-pursuit-dashboard-heading"
+>
+
+  <div class="sasha-pursuit-dashboard-container">
+
+
+    {{!-- =================================================
+         BACK TO PURSUITS
+    ================================================== --}}
+
+    <div class="sasha-pursuit-dashboard-back">
+
+      <a href="/pursuits">
+        ← All Pursuits
+      </a>
+
+    </div>
+
+
+    {{!-- =================================================
+         PURSUIT HEADER
+    ================================================== --}}
+
+    <header class="sasha-pursuit-dashboard-header">
+
+      <div class="sasha-pursuit-dashboard-identity">
+
+        {{#if proposal.clientName}}
+
+          <p class="sasha-pursuit-dashboard-client">
+            {{proposal.clientName}}
+          </p>
+
+        {{/if}}
+
+
+        <h1 id="sasha-pursuit-dashboard-heading">
+          {{proposal.proposalName}}
+        </h1>
+
+
+        <div class="sasha-pursuit-dashboard-meta">
+
+          {{#if proposal.rfpNumber}}
+
+            <span>
+              RFP {{proposal.rfpNumber}}
+            </span>
+
+          {{/if}}
+
+
+          <span
+            class="
+              sasha-pursuit-dashboard-status
+              sasha-pursuit-dashboard-status-{{proposal.proposalStatus}}
+            "
+          >
+            {{proposal.proposalStatus}}
+          </span>
+
+        </div>
+
+      </div>
+
+
+      {{!-- ===============================================
+           DEADLINE
+      ================================================ --}}
+
+      <div
+        class="
+          sasha-pursuit-dashboard-deadline
+          {{#if dashboard.isOverdue}}
+            is-overdue
+          {{/if}}
+        "
+      >
+
+        <span class="sasha-pursuit-dashboard-deadline-label">
+          Submission
+        </span>
+
+
+        {{#if dashboard.timeRemaining}}
+
+          <strong>
+            {{dashboard.timeRemaining.label}}
+          </strong>
+
+          {{#if dashboard.isOverdue}}
+
+            <span class="sasha-pursuit-dashboard-deadline-caption">
+              Deadline passed
+            </span>
+
+          {{else}}
+
+            <span class="sasha-pursuit-dashboard-deadline-caption">
+              remaining
+            </span>
+
+          {{/if}}
+
+        {{else}}
+
+          <strong>
+            No deadline
+          </strong>
+
+          <span class="sasha-pursuit-dashboard-deadline-caption">
+            Add the submission deadline
+          </span>
+
+        {{/if}}
+
+      </div>
+
+    </header>
+
+
+    {{!-- =================================================
+         AT A GLANCE
+    ================================================== --}}
+
+    <section
+      class="sasha-pursuit-dashboard-summary"
+      aria-label="Pursuit summary"
+    >
+
+
+      {{!-- PROPOSAL MANAGER --}}
+
+      <article class="sasha-pursuit-summary-card">
+
+        <span class="sasha-pursuit-summary-label">
+          Proposal Manager
+        </span>
+
+        {{#if dashboard.proposalManager.name}}
+
+          <strong>
+            {{dashboard.proposalManager.name}}
+          </strong>
+
+        {{else}}
+
+          <strong class="is-empty">
+            Not assigned
+          </strong>
+
+        {{/if}}
+
+      </article>
+
+
+      {{!-- TEAM --}}
+
+      <article class="sasha-pursuit-summary-card">
+
+        <span class="sasha-pursuit-summary-label">
+          Proposal Team
+        </span>
+
+        <strong>
+          {{dashboard.proposalTeamCount}}
+          team members
+        </strong>
+
+      </article>
+
+
+      {{!-- EFFORT LEVEL --}}
+
+      <article class="sasha-pursuit-summary-card">
+
+        <span class="sasha-pursuit-summary-label">
+          Effort Level
+        </span>
+
+        <strong class="sasha-pursuit-capitalize">
+          {{dashboard.effortLevel}}
+        </strong>
+
+      </article>
+
+
+      {{!-- STAGES --}}
+
+      <article class="sasha-pursuit-summary-card">
+
+        <span class="sasha-pursuit-summary-label">
+          Stages Complete
+        </span>
+
+        <strong>
+          {{dashboard.completedStageCount}}
+          of
+          {{dashboard.totalStageCount}}
+        </strong>
+
+      </article>
+
+
+      {{!-- TASKS --}}
+
+      <article class="sasha-pursuit-summary-card">
+
+        <span class="sasha-pursuit-summary-label">
+          Tasks Complete
+        </span>
+
+        <strong>
+          {{dashboard.completedTaskCount}}
+          of
+          {{dashboard.totalTaskCount}}
+        </strong>
+
+      </article>
+
+    </section>
+
+
+    {{!-- =================================================
+         WORKFLOW
+    ================================================== --}}
+
+    <section class="sasha-pursuit-dashboard-section">
+
+      <header class="sasha-pursuit-dashboard-section-heading">
+
+        <div>
+
+          <p class="sasha-pursuit-dashboard-eyebrow">
+            pursuit progress
+          </p>
+
+          <h2>
+            Where Things Stand
+          </h2>
+
+        </div>
+
+        <p>
+          Follow the pursuit from initial analysis through submission
+          and outcome.
+        </p>
+
+      </header>
+
+
+      {{#if dashboard.workflowStages.length}}
+
+        <div class="sasha-pursuit-workflow">
+
+          {{#each dashboard.workflowStages}}
+
+            <div
+              class="
+                sasha-pursuit-workflow-stage
+                is-{{this.status}}
+              "
+            >
+
+              <span class="sasha-pursuit-workflow-marker">
+
+                {{#ifEquals this.status "complete"}}
+                  ✓
+                {{else}}
+                  {{#ifEquals this.status "in_progress"}}
+                    •
+                  {{else}}
+                    ○
+                  {{/ifEquals}}
+                {{/ifEquals}}
+
+              </span>
+
+
+              <div>
+
+                <strong>
+                  {{this.stage}}
+                </strong>
+
+                <span>
+                  {{this.status}}
+                </span>
+
+              </div>
+
+            </div>
+
+          {{/each}}
+
+        </div>
+
+      {{else}}
+
+        <div class="sasha-pursuit-workflow-empty">
+
+          <p>
+            Sasha has not established the pursuit workflow yet.
+            The stages will appear here as the pursuit develops.
+          </p>
+
+        </div>
+
+      {{/if}}
+
+    </section>
+
+
+    {{!-- =================================================
+         SASHA WORKSPACE
+    ================================================== --}}
+
+    <section class="sasha-pursuit-dashboard-section">
+
+      <header class="sasha-pursuit-dashboard-section-heading">
+
+        <div>
+
+          <p class="sasha-pursuit-dashboard-eyebrow">
+            work with Sasha
+          </p>
+
+          <h2>
+            Pursuit Workspace
+          </h2>
+
+        </div>
+
+        <p>
+          Open any part of the pursuit to continue working with Sasha.
+        </p>
+
+      </header>
+
+
+      <div class="sasha-pursuit-workspace-grid">
+
+
+        {{!-- =============================================
+             ANALYZE
+        ============================================== --}}
+
+        <a
+          href="/analyze?pursuit={{proposal._id}}"
+          class="sasha-pursuit-workspace-card"
+        >
+
+          <span class="sasha-pursuit-workspace-number">
+            01
+          </span>
+
+          <h3>
+            Analyze | Go No Go
+          </h3>
+
+          <p>
+            Understand the opportunity, requirements, evaluation
+            criteria, risks, and whether the pursuit is worth pursuing.
+          </p>
+
+          <span class="sasha-pursuit-workspace-action">
+            Open analysis →
+          </span>
+
+        </a>
+
+
+        {{!-- =============================================
+             WIN STRATEGY
+        ============================================== --}}
+
+        <a
+          href="/plan?pursuit={{proposal._id}}"
+          class="sasha-pursuit-workspace-card"
+        >
+
+          <span class="sasha-pursuit-workspace-number">
+            02
+          </span>
+
+          <h3>
+            Plan | Win Strategy
+          </h3>
+
+          <p>
+            Develop the win strategy, proposal plan, assignments,
+            schedule, and approach to the pursuit.
+          </p>
+
+          <span class="sasha-pursuit-workspace-action">
+            Open strategy →
+          </span>
+
+        </a>
+
+
+        {{!-- =============================================
+             WRITE
+        ============================================== --}}
+
+        <a
+          href="/write?pursuit={{proposal._id}}"
+          class="sasha-pursuit-workspace-card"
+        >
+
+          <span class="sasha-pursuit-workspace-number">
+            03
+          </span>
+
+          <h3>
+            Write
+          </h3>
+
+          <p>
+            Develop the outline and proposal content using the pursuit
+            strategy, source material, and organizational knowledge.
+          </p>
+
+          <span class="sasha-pursuit-workspace-action">
+            Open writing →
+          </span>
+
+        </a>
+
+
+        {{!-- =============================================
+             REVIEW
+        ============================================== --}}
+
+        <a
+          href="/review?pursuit={{proposal._id}}"
+          class="sasha-pursuit-workspace-card"
+        >
+
+          <span class="sasha-pursuit-workspace-number">
+            04
+          </span>
+
+          <h3>
+            Review
+          </h3>
+
+          <p>
+            Review proposal content, capture comments, resolve issues,
+            and prepare the submission for final approval.
+          </p>
+
+          <span class="sasha-pursuit-workspace-action">
+            Open reviews →
+          </span>
+
+        </a>
+
+      </div>
+
+    </section>
+
+
+    {{!-- =================================================
+         TASKS AND TEAM
+    ================================================== --}}
+
+    <div class="sasha-pursuit-dashboard-two-column">
+
+
+      {{!-- ===============================================
+           TASKS
+      ================================================ --}}
+
+      <section class="sasha-pursuit-dashboard-panel">
+
+        <header class="sasha-pursuit-dashboard-panel-heading">
+
+          <div>
+
+            <p class="sasha-pursuit-dashboard-eyebrow">
+              tasks
+            </p>
+
+            <h2>
+              Pursuit Tasks
+            </h2>
+
+          </div>
+
+          <span>
+            {{dashboard.completedTaskCount}}
+            /
+            {{dashboard.totalTaskCount}}
+          </span>
+
+        </header>
+
+
+        {{#if dashboard.tasks.length}}
+
+          <div class="sasha-pursuit-task-list">
+
+            {{#each dashboard.tasks}}
+
+              <div
+                class="
+                  sasha-pursuit-task
+                  is-{{this.status}}
+                "
+              >
+
+                <span class="sasha-pursuit-task-marker">
+
+                  {{#ifEquals this.status "complete"}}
+                    ✓
+                  {{else}}
+                    ○
+                  {{/ifEquals}}
+
+                </span>
+
+
+                <div>
+
+                  <strong>
+                    {{this.title}}
+                  </strong>
+
+                  {{#if this.assignedTo}}
+
+                    <span>
+                      {{this.assignedTo}}
+                    </span>
+
+                  {{/if}}
+
+                </div>
+
+              </div>
+
+            {{/each}}
+
+          </div>
+
+        {{else}}
+
+          <p class="sasha-pursuit-dashboard-empty-copy">
+            No pursuit tasks have been added yet.
+          </p>
+
+        {{/if}}
+
+      </section>
+
+
+      {{!-- ===============================================
+           TEAM
+      ================================================ --}}
+
+      <section class="sasha-pursuit-dashboard-panel">
+
+        <header class="sasha-pursuit-dashboard-panel-heading">
+
+          <div>
+
+            <p class="sasha-pursuit-dashboard-eyebrow">
+              people
+            </p>
+
+            <h2>
+              Pursuit Team
+            </h2>
+
+          </div>
+
+          <span>
+            {{dashboard.proposalTeamCount}}
+          </span>
+
+        </header>
+
+
+        {{#if dashboard.proposalManager.name}}
+
+          <div class="sasha-pursuit-team-manager">
+
+            <span>
+              Proposal Manager
+            </span>
+
+            <strong>
+              {{dashboard.proposalManager.name}}
+            </strong>
+
+          </div>
+
+        {{/if}}
+
+
+        {{#if dashboard.proposalTeam.length}}
+
+          <div class="sasha-pursuit-team-list">
+
+            {{#each dashboard.proposalTeam}}
+
+              <div class="sasha-pursuit-team-member">
+
+                <strong>
+                  {{this.name}}
+                </strong>
+
+                {{#if this.role}}
+
+                  <span>
+                    {{this.role}}
+                  </span>
+
+                {{/if}}
+
+              </div>
+
+            {{/each}}
+
+          </div>
+
+        {{else}}
+
+          <p class="sasha-pursuit-dashboard-empty-copy">
+            No additional proposal team members have been added yet.
+          </p>
+
+        {{/if}}
+
+      </section>
+
+    </div>
+
+
+    {{!-- =================================================
+         DOCUMENTS
+    ================================================== --}}
+
+    <section class="sasha-pursuit-dashboard-section">
+
+      <header class="sasha-pursuit-dashboard-section-heading">
+
+        <div>
+
+          <p class="sasha-pursuit-dashboard-eyebrow">
+            pursuit record
+          </p>
+
+          <h2>
+            Documents
+          </h2>
+
+        </div>
+
+      </header>
+
+
+      <div class="sasha-pursuit-document-grid">
+
+
+        {{!-- SOURCE DOCUMENTS --}}
+
+        <div class="sasha-pursuit-document-card">
+
+          <span class="sasha-pursuit-document-count">
+            {{proposal.sourceDocuments.length}}
+          </span>
+
+          <h3>
+            Source Documents
+          </h3>
+
+          <p>
+            RFPs, addenda, procurement material, client information,
+            notes, and other pursuit source documents.
+          </p>
+
+        </div>
+
+
+        {{!-- PROPOSAL DOCUMENTS --}}
+
+        <div class="sasha-pursuit-document-card">
+
+          <span class="sasha-pursuit-document-count">
+            {{proposal.proposalDocuments.length}}
+          </span>
+
+          <h3>
+            Proposal Documents
+          </h3>
+
+          <p>
+            Draft and final proposal documents associated with this
+            pursuit.
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </div>
+
+</section>
