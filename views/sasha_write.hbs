@@ -1,0 +1,887 @@
+{{!-- =====================================================
+     SASHA WRITE
+====================================================== --}}
+
+<section
+  class="sasha-work-page sasha-write-page"
+  aria-labelledby="sasha-write-heading"
+>
+
+  <div class="sasha-work-container">
+
+
+    {{!-- =================================================
+         BACK TO PURSUIT
+    ================================================== --}}
+
+    <div class="sasha-work-back">
+
+      <a href="/pursuit/{{proposal._id}}">
+        ← Pursuit Dashboard
+      </a>
+
+    </div>
+
+
+    {{!-- =================================================
+         PAGE HEADER
+    ================================================== --}}
+
+    <header class="sasha-work-header">
+
+      <div class="sasha-work-header-copy">
+
+        <p class="sasha-work-eyebrow">
+          Write
+        </p>
+
+        <h1 id="sasha-write-heading">
+          {{proposal.proposalName}}
+        </h1>
+
+        {{#if proposal.clientName}}
+
+          <p class="sasha-work-client">
+            {{proposal.clientName}}
+          </p>
+
+        {{/if}}
+
+        <p class="sasha-work-introduction">
+          Draft the proposal collaboratively with Sasha using the RFP,
+          pursuit analysis, win strategy, proposal plan, project evidence,
+          personnel evidence, and everything developed so far.
+        </p>
+
+      </div>
+
+
+      <div class="sasha-work-header-meta">
+
+        {{#if proposal.rfpNumber}}
+
+          <div class="sasha-work-meta-item">
+
+            <span>
+              RFP
+            </span>
+
+            <strong>
+              {{proposal.rfpNumber}}
+            </strong>
+
+          </div>
+
+        {{/if}}
+
+
+        <div class="sasha-work-meta-item">
+
+          <span>
+            Status
+          </span>
+
+          <strong class="sasha-pursuit-capitalize">
+            {{proposal.proposalStatus}}
+          </strong>
+
+        </div>
+
+
+        <div class="sasha-work-meta-item">
+
+          <span>
+            Effort
+          </span>
+
+          <strong class="sasha-pursuit-capitalize">
+            {{proposal.effortLevel}}
+          </strong>
+
+        </div>
+
+
+        <div class="sasha-work-meta-item">
+
+          <span>
+            Sections
+          </span>
+
+          <strong>
+            {{contentSections.length}}
+          </strong>
+
+        </div>
+
+      </div>
+
+    </header>
+
+
+    {{!-- =================================================
+         WRITE WORKSPACE
+    ================================================== --}}
+
+    <div class="sasha-write-layout">
+
+
+      {{!-- =================================================
+           PROPOSAL OUTLINE
+      ================================================== --}}
+
+      <aside
+        class="sasha-write-outline"
+        aria-labelledby="sasha-write-outline-heading"
+      >
+
+        <header class="sasha-write-outline-header">
+
+          <div>
+
+            <p class="sasha-work-eyebrow">
+              Proposal Structure
+            </p>
+
+            <h2 id="sasha-write-outline-heading">
+              Outline
+            </h2>
+
+          </div>
+
+        </header>
+
+
+        {{#if contentSections.length}}
+
+          <nav
+            class="sasha-write-outline-list"
+            aria-label="Proposal sections"
+          >
+
+            {{#each contentSections}}
+
+              <a
+                href="/write?section={{this.sectionId}}"
+                class="
+                  sasha-write-outline-item
+                  is-{{this.status}}
+                  {{#if this.isActive}}
+                    is-active
+                  {{/if}}
+                "
+              >
+
+                <span class="sasha-write-outline-number">
+                  {{this.order}}
+                </span>
+
+
+                <span class="sasha-write-outline-copy">
+
+                  <strong>
+                    {{this.title}}
+                  </strong>
+
+                  <small>
+                    {{this.status}}
+                  </small>
+
+                </span>
+
+
+                <span class="sasha-write-outline-marker">
+
+                  {{#ifEquals this.status "final"}}
+                    ✓
+                  {{else}}
+
+                    {{#ifEquals this.status "reviewed"}}
+                      ✓
+                    {{else}}
+
+                      {{#ifEquals this.status "drafted"}}
+                        •
+                      {{else}}
+
+                        {{#ifEquals this.status "drafting"}}
+                          •
+                        {{else}}
+                          ○
+                        {{/ifEquals}}
+
+                      {{/ifEquals}}
+
+                    {{/ifEquals}}
+
+                  {{/ifEquals}}
+
+                </span>
+
+              </a>
+
+            {{/each}}
+
+          </nav>
+
+        {{else}}
+
+          <div class="sasha-write-outline-empty">
+
+            <p>
+              Sasha has not created the proposal outline yet.
+            </p>
+
+            <p>
+              The outline should normally be based on the RFP structure,
+              evaluation criteria, mandatory requirements, and the way the
+              client expects the proposal to be organized.
+            </p>
+
+          </div>
+
+        {{/if}}
+
+
+        {{!-- ===============================================
+             OUTLINE ACTION
+        ================================================ --}}
+
+        <div class="sasha-write-outline-actions">
+
+          <button
+            type="button"
+            class="sasha-write-outline-button"
+          >
+            Review Outline with Sasha
+          </button>
+
+        </div>
+
+      </aside>
+
+
+      {{!-- =================================================
+           COLLABORATIVE WRITING
+      ================================================== --}}
+
+      <section
+        class="sasha-chat-panel sasha-write-chat-panel"
+        aria-labelledby="sasha-write-chat-heading"
+      >
+
+        <header class="sasha-chat-header">
+
+          <div>
+
+            <p class="sasha-work-eyebrow">
+              Work with Sasha
+            </p>
+
+            <h2 id="sasha-write-chat-heading">
+
+              {{#if activeSection}}
+
+                {{activeSection.title}}
+
+              {{else}}
+
+                Draft the Proposal
+
+              {{/if}}
+
+            </h2>
+
+          </div>
+
+
+          {{#if activeSection}}
+
+            <span
+              class="
+                sasha-chat-status
+                is-{{activeSection.status}}
+              "
+            >
+              {{activeSection.status}}
+            </span>
+
+          {{else}}
+
+            <span class="sasha-chat-status">
+              Writing workspace
+            </span>
+
+          {{/if}}
+
+        </header>
+
+
+        {{!-- ===============================================
+             CHAT THREAD
+        ================================================ --}}
+
+        <div
+          class="sasha-chat-thread sasha-write-chat-thread"
+          id="sasha-write-chat-thread"
+          aria-live="polite"
+        >
+
+
+          {{!-- =============================================
+               INITIAL SASHA MESSAGE
+          ============================================== --}}
+
+          <article class="sasha-chat-message is-sasha">
+
+            <div class="sasha-chat-speaker">
+              Sasha
+            </div>
+
+            <div class="sasha-chat-bubble">
+
+
+              {{#if activeSection}}
+
+                <p>
+                  We’re working on
+                  <strong>{{activeSection.title}}</strong>.
+                </p>
+
+                <p>
+                  I’ll use the RFP requirements, pursuit analysis,
+                  win strategy, proposal plan, relevant project evidence,
+                  personnel evidence, and anything already drafted in this
+                  section as context.
+                </p>
+
+                <p>
+                  Tell me what you want to draft, improve, shorten,
+                  strengthen, reorganize, or test against the RFP.
+                </p>
+
+              {{else}}
+
+                <p>
+                  Select a section from the proposal outline and we can
+                  draft it together.
+                </p>
+
+                <p>
+                  I’ll carry forward the strategy and evidence developed
+                  earlier in the pursuit rather than starting each section
+                  from scratch.
+                </p>
+
+              {{/if}}
+
+            </div>
+
+          </article>
+
+
+          {{!-- =============================================
+               FUTURE SAVED CHAT MESSAGES
+          ============================================== --}}
+
+          {{#each writeMessages}}
+
+            <article
+              class="
+                sasha-chat-message
+                is-{{this.role}}
+              "
+            >
+
+              <div class="sasha-chat-speaker">
+
+                {{#ifEquals this.role "user"}}
+                  You
+                {{else}}
+                  Sasha
+                {{/ifEquals}}
+
+              </div>
+
+              <div class="sasha-chat-bubble">
+                {{{this.content}}}
+              </div>
+
+            </article>
+
+          {{/each}}
+
+        </div>
+
+
+        {{!-- ===============================================
+             CHAT COMPOSER
+        ================================================ --}}
+
+        <form
+          class="sasha-chat-composer"
+          id="sasha-write-chat-form"
+          method="POST"
+          action="/write/chat"
+        >
+
+          {{#if csrfToken}}
+
+            <input
+              type="hidden"
+              name="_csrf"
+              value="{{csrfToken}}"
+            >
+
+          {{/if}}
+
+
+          <input
+            type="hidden"
+            name="pursuitId"
+            value="{{proposal._id}}"
+          >
+
+
+          {{#if activeSection}}
+
+            <input
+              type="hidden"
+              name="sectionId"
+              value="{{activeSection.sectionId}}"
+            >
+
+          {{/if}}
+
+
+          <label
+            for="sasha-write-message"
+            class="sasha-chat-label"
+          >
+            Write with Sasha
+          </label>
+
+
+          <textarea
+            id="sasha-write-message"
+            name="message"
+            rows="5"
+
+            {{#if activeSection}}
+
+              placeholder="Tell Sasha what you want to draft or improve in this section..."
+
+            {{else}}
+
+              placeholder="Select a proposal section first, or ask Sasha about the proposal structure..."
+
+            {{/if}}
+
+            required
+          ></textarea>
+
+
+          <div class="sasha-chat-actions">
+
+            <p>
+
+              {{#if activeSection}}
+
+                Working in:
+                {{activeSection.title}}
+
+              {{else}}
+
+                Select a proposal section to begin drafting.
+
+              {{/if}}
+
+            </p>
+
+
+            <button
+              type="submit"
+              class="sasha-chat-submit"
+            >
+              Send to Sasha
+            </button>
+
+          </div>
+
+        </form>
+
+      </section>
+
+    </div>
+
+
+    {{!-- =================================================
+         CURRENT SECTION
+    ================================================== --}}
+
+    {{#if activeSection}}
+
+      <section
+        class="sasha-write-current-section"
+        aria-labelledby="sasha-current-section-heading"
+      >
+
+        <header class="sasha-write-section-header">
+
+          <div>
+
+            <p class="sasha-work-eyebrow">
+              Working Draft
+            </p>
+
+            <h2 id="sasha-current-section-heading">
+              {{activeSection.title}}
+            </h2>
+
+          </div>
+
+
+          <span
+            class="
+              sasha-write-section-status
+              is-{{activeSection.status}}
+            "
+          >
+            {{activeSection.status}}
+          </span>
+
+        </header>
+
+
+        {{!-- ===============================================
+             SECTION CONTEXT
+        ================================================ --}}
+
+        <div class="sasha-write-section-context">
+
+
+          <div class="sasha-write-context-item">
+
+            <span>
+              Section
+            </span>
+
+            <strong>
+              {{activeSection.order}}
+            </strong>
+
+          </div>
+
+
+          <div class="sasha-write-context-item">
+
+            <span>
+              Status
+            </span>
+
+            <strong class="sasha-pursuit-capitalize">
+              {{activeSection.status}}
+            </strong>
+
+          </div>
+
+
+          <div class="sasha-write-context-item">
+
+            <span>
+              Last Updated
+            </span>
+
+            {{#if activeSection.updatedAt}}
+
+              <strong>
+                {{activeSection.updatedAt}}
+              </strong>
+
+            {{else}}
+
+              <strong>
+                Not yet
+              </strong>
+
+            {{/if}}
+
+          </div>
+
+        </div>
+
+
+        {{!-- ===============================================
+             SECTION DRAFT FORM
+        ================================================ --}}
+
+        <form
+          class="sasha-write-section-form"
+          action="/write/section"
+          method="POST"
+        >
+
+          {{#if csrfToken}}
+
+            <input
+              type="hidden"
+              name="_csrf"
+              value="{{csrfToken}}"
+            >
+
+          {{/if}}
+
+
+          <input
+            type="hidden"
+            name="pursuitId"
+            value="{{proposal._id}}"
+          >
+
+
+          <input
+            type="hidden"
+            name="sectionId"
+            value="{{activeSection.sectionId}}"
+          >
+
+
+          <div class="sasha-write-section-field">
+
+            <label for="sectionContent">
+              Section Draft
+            </label>
+
+            <textarea
+              id="sectionContent"
+              name="content"
+              rows="24"
+              placeholder="The current section draft will appear here as you work with Sasha."
+            >{{activeSection.content}}</textarea>
+
+          </div>
+
+
+          <div class="sasha-write-section-field">
+
+            <label for="sectionNotes">
+              Working Notes
+            </label>
+
+            <textarea
+              id="sectionNotes"
+              name="notes"
+              rows="5"
+              placeholder="Capture assumptions, missing information, contributor notes, review reminders, or anything Sasha should remember about this section."
+            >{{activeSection.notes}}</textarea>
+
+          </div>
+
+
+          <div class="sasha-write-section-actions">
+
+            <a
+              href="/pursuit/{{proposal._id}}"
+              class="sasha-form-cancel-button"
+            >
+              Return to Dashboard
+            </a>
+
+
+            <div class="sasha-write-section-action-group">
+
+              <button
+                type="submit"
+                name="action"
+                value="save"
+                class="sasha-write-secondary-button"
+              >
+                Save Draft
+              </button>
+
+
+              <button
+                type="submit"
+                name="action"
+                value="ready_for_review"
+                class="sasha-form-submit-button"
+              >
+                Mark Ready for Review
+              </button>
+
+            </div>
+
+          </div>
+
+        </form>
+
+      </section>
+
+    {{else}}
+
+      {{!-- =================================================
+           NO ACTIVE SECTION
+      ================================================== --}}
+
+      <section class="sasha-write-no-section">
+
+        <p class="sasha-work-eyebrow">
+          Working Draft
+        </p>
+
+        <h2>
+          Select a Section to Begin
+        </h2>
+
+        <p>
+          Choose a section from the proposal outline. Sasha will bring
+          forward the pursuit strategy and relevant evidence so you can
+          begin drafting in context.
+        </p>
+
+      </section>
+
+    {{/if}}
+
+
+    {{!-- =================================================
+         WRITING CONTEXT
+    ================================================== --}}
+
+    <section class="sasha-write-context-section">
+
+      <header class="sasha-write-section-heading">
+
+        <div>
+
+          <p class="sasha-work-eyebrow">
+            Pursuit Knowledge
+          </p>
+
+          <h2>
+            What Sasha Can Use
+          </h2>
+
+        </div>
+
+        <p>
+          Proposal sections should draw from the work already completed
+          during the pursuit rather than being written in isolation.
+        </p>
+
+      </header>
+
+
+      <div class="sasha-write-context-grid">
+
+
+        {{!-- =============================================
+             RFP ANALYSIS
+        ============================================== --}}
+
+        <article class="sasha-write-context-card">
+
+          <span>
+            01
+          </span>
+
+          <h3>
+            RFP Analysis
+          </h3>
+
+          <p>
+            Mandatory requirements, evaluation criteria, scope,
+            submission requirements, risks, and clarifications.
+          </p>
+
+          <a href="/analyze">
+            Review analysis →
+          </a>
+
+        </article>
+
+
+        {{!-- =============================================
+             WIN STRATEGY
+        ============================================== --}}
+
+        <article class="sasha-write-context-card">
+
+          <span>
+            02
+          </span>
+
+          <h3>
+            Win Strategy
+          </h3>
+
+          <p>
+            Client priorities, project issues, critical success factors,
+            evidence, differentiation, and the current win argument.
+          </p>
+
+          <a href="/plan">
+            Review strategy →
+          </a>
+
+        </article>
+
+
+        {{!-- =============================================
+             PROJECT EVIDENCE
+        ============================================== --}}
+
+        <article class="sasha-write-context-card">
+
+          <span>
+            03
+          </span>
+
+          <h3>
+            Project Evidence
+          </h3>
+
+          <p>
+            Relevant project experience, comparable scope, delivery
+            evidence, outcomes, metrics, and lessons from Phil.
+          </p>
+
+          <span class="sasha-write-context-source">
+            Phil
+          </span>
+
+        </article>
+
+
+        {{!-- =============================================
+             PERSONNEL EVIDENCE
+        ============================================== --}}
+
+        <article class="sasha-write-context-card">
+
+          <span>
+            04
+          </span>
+
+          <h3>
+            Personnel Evidence
+          </h3>
+
+          <p>
+            Relevant team experience, qualifications, roles, and
+            evidence supporting the proposed personnel.
+          </p>
+
+          <span class="sasha-write-context-source">
+            Zoe
+          </span>
+
+        </article>
+
+      </div>
+
+    </section>
+
+
+  </div>
+
+</section>

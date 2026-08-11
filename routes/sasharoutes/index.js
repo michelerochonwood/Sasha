@@ -126,20 +126,7 @@ WRITE
 router.get(
   '/write',
   ensureOrganization,
-  (req, res) => {
-
-    return res.render(
-      'sasha_write',
-      {
-        layout:
-          'mainlayout',
-
-        pageTitle:
-          'Write | Sasha'
-      }
-    );
-
-  }
+  proposalController.getWritePursuit
 );
 
 

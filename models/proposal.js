@@ -303,6 +303,56 @@ tasks: [
       default: {}
     },
 
+    contentSections: [
+  {
+    sectionId: {
+      type: String,
+      trim: true,
+      default: ""
+    },
+
+    title: {
+      type: String,
+      trim: true,
+      required: true
+    },
+
+    order: {
+      type: Number,
+      default: 0
+    },
+
+    status: {
+      type: String,
+
+      enum: [
+        "not_started",
+        "drafting",
+        "drafted",
+        "reviewed",
+        "final"
+      ],
+
+      default: "not_started"
+    },
+
+    content: {
+      type: String,
+      default: ""
+    },
+
+    notes: {
+      type: String,
+      default: ""
+    },
+
+    updatedAt: {
+      type: Date,
+      default: Date.now
+    }
+  }
+],
+
 
     /* =====================================================
        FINAL PROPOSAL
