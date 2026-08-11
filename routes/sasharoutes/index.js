@@ -20,6 +20,10 @@ const proposalController = require(
   '../../controllers/proposalController'
 );
 
+const instructionController = require(
+  '../../controllers/instructionController'
+);
+
 const router = express.Router();
 
 
@@ -179,6 +183,39 @@ router.post(
   '/setup-organization',
   verifyCsrfToken,
   organizationController.createOrganization
+);
+
+
+/* =====================================================
+SASHA INSTRUCTIONS
+===================================================== */
+
+router.get(
+  '/add_instructions',
+  ensureOrganization,
+  instructionController.getAddInstructions
+);
+
+
+/* =====================================================
+ANALYZE INSTRUCTION RESOURCE
+===================================================== */
+
+router.post(
+  '/add_instructions/analyze',
+  ensureOrganization,
+  instructionController.analyzeInstruction
+);
+
+
+/* =====================================================
+SAVE INSTRUCTION RESOURCE
+===================================================== */
+
+router.post(
+  '/add_instructions',
+  ensureOrganization,
+  instructionController.postAddInstructions
 );
 
 
