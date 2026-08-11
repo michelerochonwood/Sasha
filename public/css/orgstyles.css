@@ -1,0 +1,2194 @@
+/* =====================================================
+   ORGANIZATION SETUP PAGE
+===================================================== */
+
+.organization-setup-page {
+  position: relative;
+
+  width: min(
+    calc(100% - (var(--phil-content-padding) * 2)),
+    var(--phil-container-width)
+  );
+
+  margin: 0 auto;
+
+  padding:
+    clamp(3.5rem, 7vw, 6rem)
+    0
+    clamp(6rem, 10vw, 9rem);
+
+  color: var(--phil-white);
+}
+
+
+/* =====================================================
+   PAGE HEADER
+===================================================== */
+
+.organization-setup-header {
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1.45fr)
+    minmax(260px, 0.55fr);
+
+  align-items: end;
+
+  gap: clamp(2rem, 5vw, 4rem);
+
+  margin-bottom: clamp(2.5rem, 5vw, 4rem);
+}
+
+
+.organization-setup-header-copy {
+  min-width: 0;
+  max-width: 760px;
+}
+
+
+.organization-setup-eyebrow {
+  margin: 0 0 0.65rem;
+
+  color: var(--phil-pink);
+
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+
+.organization-setup-header h1 {
+  margin: 0;
+
+  color: var(--phil-white);
+
+  font-size: clamp(2.6rem, 6vw, 5.25rem);
+  font-weight: 700;
+  letter-spacing: -0.05em;
+  line-height: 0.95;
+}
+
+
+.organization-setup-introduction {
+  max-width: 720px;
+
+  margin: 1.5rem 0 0;
+
+  color: var(--phil-white);
+
+  font-size: clamp(1rem, 1.8vw, 1.2rem);
+  font-weight: 400;
+  line-height: 1.55;
+}
+
+
+/* =====================================================
+   HEADER NOTE
+===================================================== */
+
+.organization-setup-header-note {
+  padding: clamp(1.4rem, 3vw, 2rem);
+
+  color: var(--phil-white);
+
+  background: var(--phil-white-06);
+  border: 1px solid var(--phil-white-25);
+  border-radius: var(--phil-radius-medium);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 18px 42px rgba(38, 34, 98, 0.12);
+}
+
+
+.organization-setup-header-note-label {
+  display: block;
+
+  margin-bottom: 0.65rem;
+
+  color: var(--phil-pink);
+
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+
+.organization-setup-header-note p {
+  margin: 0;
+
+  color: var(--phil-white);
+
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+
+/* =====================================================
+   ERROR SUMMARY
+===================================================== */
+
+.organization-setup-error-summary {
+  margin-bottom: 1.5rem;
+  padding: 1.4rem 1.6rem;
+
+  color: var(--phil-white);
+
+  background: rgba(242, 130, 170, 0.14);
+  border: 1px solid rgba(242, 130, 170, 0.75);
+  border-left: 6px solid var(--phil-pink);
+  border-radius: var(--phil-radius-small);
+}
+
+
+.organization-setup-error-summary h2 {
+  margin: 0 0 0.75rem;
+
+  color: var(--phil-white);
+
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+
+.organization-setup-error-summary ul {
+  margin: 0;
+  padding-left: 1.25rem;
+
+  color: var(--phil-white);
+}
+
+
+.organization-setup-error-summary li + li {
+  margin-top: 0.4rem;
+}
+
+
+/* =====================================================
+   FORM SHELL
+===================================================== */
+
+.organization-setup-form {
+  display: flex;
+  flex-direction: column;
+
+  gap: 1rem;
+}
+
+
+/* =====================================================
+   REQUIRED ACCOUNT SECTION
+===================================================== */
+
+.organization-setup-section {
+  overflow: hidden;
+
+  padding: clamp(1.6rem, 4vw, 2.6rem);
+
+  color: var(--phil-white);
+
+  background: var(--phil-white-06);
+  border: 1px solid var(--phil-white-25);
+  border-radius: var(--phil-radius-medium);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 18px 42px rgba(38, 34, 98, 0.12);
+}
+
+
+.organization-setup-section-required {
+  border-top: 5px solid var(--phil-pink);
+}
+
+
+.organization-setup-section-heading {
+  display: flex;
+
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 1.5rem;
+}
+
+
+.organization-setup-section-number {
+  display: block;
+
+  margin: 0 0 0.4rem;
+
+  color: var(--phil-pink);
+
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+
+.organization-setup-section-heading h2 {
+  margin: 0;
+
+  color: var(--phil-white);
+
+  font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+
+.organization-setup-section-description {
+  max-width: 760px;
+
+  margin: 0.85rem 0 2rem;
+
+  color: var(--phil-white);
+
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+
+/* =====================================================
+   STATUS BADGES
+===================================================== */
+
+.organization-setup-required-badge,
+.organization-setup-optional-badge,
+.organization-setup-encouraged-badge {
+  display: inline-flex;
+  flex: 0 0 auto;
+
+  min-height: 30px;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 0.35rem 0.8rem;
+
+  border-radius: 999px;
+
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+
+.organization-setup-required-badge {
+  color: var(--phil-navy);
+
+  background: var(--phil-pink);
+  border: 1px solid var(--phil-pink);
+}
+
+
+.organization-setup-optional-badge {
+  color: var(--phil-white);
+
+  background: var(--phil-white-08);
+  border: 1px solid var(--phil-white-25);
+}
+
+
+.organization-setup-encouraged-badge {
+  color: var(--phil-white);
+
+  background: rgba(242, 130, 170, 0.14);
+  border: 1px solid rgba(242, 130, 170, 0.6);
+}
+
+
+/* =====================================================
+   DISCLOSURE SECTIONS
+===================================================== */
+
+.organization-setup-disclosure {
+  overflow: hidden;
+
+  color: var(--phil-white);
+
+  background: var(--phil-white-06);
+  border: 1px solid var(--phil-white-25);
+  border-radius: var(--phil-radius-medium);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 18px 42px rgba(38, 34, 98, 0.12);
+
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease,
+    transform 180ms ease;
+}
+
+
+.organization-setup-disclosure:hover {
+  background: var(--phil-white-08);
+  border-color: var(--phil-white-40);
+}
+
+
+.organization-setup-disclosure[open] {
+  background: var(--phil-white-08);
+  border-color: var(--phil-white-40);
+}
+
+
+/* =====================================================
+   DISCLOSURE SUMMARY
+===================================================== */
+
+.organization-setup-disclosure summary {
+  position: relative;
+
+  display: flex;
+  min-height: 104px;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 1.5rem;
+
+  padding:
+    1.4rem
+    5.5rem
+    1.4rem
+    clamp(1.4rem, 3vw, 2.4rem);
+
+  color: var(--phil-white);
+
+  cursor: pointer;
+  list-style: none;
+
+  transition: background-color 180ms ease;
+}
+
+
+.organization-setup-disclosure summary::-webkit-details-marker {
+  display: none;
+}
+
+
+.organization-setup-disclosure summary::marker {
+  display: none;
+  content: "";
+}
+
+
+.organization-setup-disclosure summary:hover {
+  background: var(--phil-white-04);
+}
+
+
+.organization-setup-disclosure summary:focus-visible {
+  outline: 3px solid var(--phil-pink);
+  outline-offset: -3px;
+}
+
+
+/* =====================================================
+   DISCLOSURE BUTTON
+===================================================== */
+
+.organization-setup-disclosure summary::after {
+  content: "+";
+
+  position: absolute;
+  top: 50%;
+  right: clamp(1.25rem, 3vw, 2rem);
+
+  display: flex;
+
+  width: 44px;
+  height: 44px;
+
+  align-items: center;
+  justify-content: center;
+
+  color: var(--phil-white);
+  background: var(--phil-navy);
+
+  border: 2px solid var(--phil-white);
+  border-radius: 50%;
+
+  font-size: 1.65rem;
+  font-weight: 300;
+  line-height: 1;
+
+  transform: translateY(-50%);
+
+  transition:
+    transform 180ms ease,
+    background-color 180ms ease;
+}
+
+
+.organization-setup-disclosure[open] summary::after {
+  content: "−";
+
+  background: var(--phil-pink);
+
+  transform:
+    translateY(-50%)
+    rotate(180deg);
+}
+
+
+/* =====================================================
+   SUMMARY COPY
+===================================================== */
+
+.organization-setup-summary-copy {
+  display: block;
+  min-width: 0;
+}
+
+
+.organization-setup-summary-title {
+  display: block;
+
+  color: var(--phil-white);
+
+  font-size: clamp(1.05rem, 2vw, 1.4rem);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+
+.organization-setup-summary-description {
+  display: block;
+
+  max-width: 720px;
+
+  margin-top: 0.45rem;
+
+  color: var(--phil-white);
+
+  font-size: 0.9rem;
+  font-weight: 400;
+  line-height: 1.45;
+}
+
+
+/* =====================================================
+   OPEN SECTION CONTENT
+===================================================== */
+
+.organization-setup-disclosure-content {
+  padding:
+    clamp(1.6rem, 4vw, 2.6rem)
+    clamp(1.4rem, 3vw, 2.4rem)
+    clamp(2rem, 5vw, 3rem);
+
+  border-top: 1px solid var(--phil-white-18);
+
+  background: rgba(38, 34, 98, 0.12);
+}
+
+
+/* =====================================================
+   FORM GRID
+===================================================== */
+
+.organization-setup-grid {
+  display: grid;
+
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  gap:
+    clamp(1.25rem, 3vw, 2rem)
+    clamp(1.25rem, 3vw, 2.25rem);
+}
+
+
+.organization-setup-field {
+  min-width: 0;
+}
+
+
+.organization-setup-field-wide {
+  grid-column: 1 / -1;
+}
+
+
+/* =====================================================
+   LABELS
+===================================================== */
+
+.organization-setup-field label,
+.organization-setup-checkbox-group legend {
+  display: block;
+
+  margin-bottom: 0.55rem;
+
+  color: var(--phil-white);
+
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+
+.organization-setup-field label span {
+  color: var(--phil-pink);
+}
+
+
+/* =====================================================
+   INPUTS
+===================================================== */
+
+.organization-setup-field input,
+.organization-setup-field select,
+.organization-setup-field textarea {
+  width: 100%;
+
+  color: var(--phil-navy);
+  background: var(--phil-white);
+
+  border: 2px solid transparent;
+  border-radius: 12px;
+
+  font: inherit;
+
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+
+
+.organization-setup-field input,
+.organization-setup-field select {
+  min-height: 52px;
+  padding: 0 0.9rem;
+}
+
+
+.organization-setup-field textarea {
+  min-height: 110px;
+
+  padding: 0.9rem;
+
+  line-height: 1.5;
+
+  resize: vertical;
+}
+
+
+.organization-setup-field input::placeholder,
+.organization-setup-field textarea::placeholder {
+  color: rgba(38, 34, 98, 0.48);
+}
+
+
+.organization-setup-field input:hover,
+.organization-setup-field select:hover,
+.organization-setup-field textarea:hover {
+  border-color: rgba(242, 130, 170, 0.65);
+}
+
+
+.organization-setup-field input:focus,
+.organization-setup-field select:focus,
+.organization-setup-field textarea:focus {
+  border-color: var(--phil-pink);
+  outline: none;
+
+  box-shadow:
+    0 0 0 4px rgba(242, 130, 170, 0.2);
+}
+
+
+.organization-setup-field input:required:invalid:not(:placeholder-shown) {
+  border-color: var(--phil-pink);
+}
+
+
+/* =====================================================
+   FIELD HELP
+===================================================== */
+
+.organization-setup-field-help {
+  margin: 0.5rem 0 0;
+
+  color: rgba(255, 255, 255, 0.72);
+
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+
+
+/* =====================================================
+   COLOUR INPUTS
+===================================================== */
+
+.organization-setup-colour-field {
+  display: grid;
+
+  grid-template-columns:
+    58px
+    minmax(0, 1fr);
+
+  gap: 0.65rem;
+}
+
+
+.organization-setup-colour-field input[type="color"] {
+  min-width: 58px;
+
+  padding: 0.35rem;
+
+  cursor: pointer;
+}
+
+
+/* =====================================================
+   CHECKBOX GROUP
+===================================================== */
+
+.organization-setup-checkbox-group {
+  display: grid;
+
+  gap: 0.85rem;
+
+  margin: 0;
+  padding: 0;
+
+  border: 0;
+}
+
+
+.organization-setup-checkbox-group legend {
+  margin-bottom: 1rem;
+
+  color: var(--phil-pink);
+
+  font-size: 1rem;
+}
+
+
+/* =====================================================
+   CHECKBOX CARDS
+===================================================== */
+
+.organization-setup-checkbox {
+  display: grid;
+
+  grid-template-columns:
+    24px
+    minmax(0, 1fr);
+
+  align-items: flex-start;
+
+  gap: 0.85rem;
+
+  padding: 1rem;
+
+  color: var(--phil-white);
+
+  background: var(--phil-white-06);
+  border: 1px solid var(--phil-white-18);
+  border-radius: var(--phil-radius-small);
+
+  cursor: pointer;
+
+  transition:
+    transform 180ms ease,
+    background-color 180ms ease,
+    border-color 180ms ease;
+}
+
+
+.organization-setup-checkbox:hover {
+  transform: translateY(-2px);
+
+  background: var(--phil-white-10);
+  border-color: var(--phil-white-40);
+}
+
+
+.organization-setup-checkbox input {
+  width: 19px;
+  height: 19px;
+
+  margin: 0.15rem 0 0;
+
+  accent-color: var(--phil-pink);
+}
+
+
+.organization-setup-checkbox strong {
+  display: block;
+
+  margin-bottom: 0.25rem;
+
+  color: var(--phil-white);
+
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+
+.organization-setup-checkbox small {
+  display: block;
+
+  color: rgba(255, 255, 255, 0.72);
+
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+
+
+/* =====================================================
+   SUBMIT AREA
+===================================================== */
+
+.organization-setup-actions {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 2rem;
+
+  margin-top: 1rem;
+
+  padding: clamp(1.5rem, 4vw, 2.25rem);
+
+  color: var(--phil-white);
+
+  background: var(--phil-navy);
+  border: 1px solid var(--phil-white-25);
+  border-radius: var(--phil-radius-medium);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 18px 42px rgba(38, 34, 98, 0.18);
+}
+
+
+.organization-setup-actions-copy {
+  max-width: 620px;
+}
+
+
+.organization-setup-actions-copy strong {
+  display: block;
+
+  margin-bottom: 0.35rem;
+
+  color: var(--phil-white);
+
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+
+.organization-setup-actions-copy p {
+  margin: 0;
+
+  color: rgba(255, 255, 255, 0.72);
+
+  font-size: 0.85rem;
+  line-height: 1.45;
+}
+
+
+/* =====================================================
+   BUTTONS
+===================================================== */
+
+.organization-setup-button-group {
+  display: flex;
+  flex: 0 0 auto;
+
+  align-items: center;
+
+  gap: 0.75rem;
+}
+
+
+.organization-setup-button {
+  display: inline-flex;
+
+  min-height: 50px;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 0.8rem 1.5rem;
+
+  border: 2px solid transparent;
+  border-radius: 999px;
+
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 700;
+
+  text-decoration: none;
+
+  cursor: pointer;
+
+  transition:
+    transform 180ms ease,
+    background-color 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease;
+}
+
+
+.organization-setup-button:hover {
+  transform: translateY(-2px);
+}
+
+
+.organization-setup-button-primary {
+  color: var(--phil-navy);
+
+  background: var(--phil-pink);
+  border-color: var(--phil-pink);
+}
+
+
+.organization-setup-button-primary:hover {
+  color: var(--phil-navy);
+
+  background: var(--phil-white);
+  border-color: var(--phil-white);
+}
+
+
+.organization-setup-button-secondary {
+  color: var(--phil-white);
+
+  background: transparent;
+  border-color: var(--phil-white);
+}
+
+
+.organization-setup-button-secondary:hover {
+  color: var(--phil-navy);
+
+  background: var(--phil-white);
+}
+
+
+.organization-setup-button:focus-visible {
+  outline: 3px solid var(--phil-pink);
+  outline-offset: 4px;
+}
+
+
+/* =====================================================
+   TABLET
+===================================================== */
+
+@media screen and (max-width: 900px) {
+
+  .organization-setup-header {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+
+
+  .organization-setup-header-note {
+    max-width: 680px;
+  }
+
+
+  .organization-setup-actions {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+
+  .organization-setup-button-group {
+    width: 100%;
+
+    justify-content: flex-end;
+  }
+
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media screen and (max-width: 680px) {
+
+  .organization-setup-page {
+    width: min(
+      calc(100% - 2rem),
+      var(--phil-container-width)
+    );
+
+    padding-top: 2.75rem;
+  }
+
+
+  .organization-setup-header h1 {
+    font-size: 2.75rem;
+  }
+
+
+  .organization-setup-grid {
+    grid-template-columns: 1fr;
+  }
+
+
+  .organization-setup-field-wide {
+    grid-column: auto;
+  }
+
+
+  .organization-setup-section-heading {
+    align-items: flex-start;
+    flex-direction: column;
+
+    gap: 0.85rem;
+  }
+
+
+  .organization-setup-disclosure summary {
+    min-height: 92px;
+
+    align-items: flex-start;
+    flex-direction: column;
+
+    padding:
+      1.25rem
+      4.5rem
+      1.25rem
+      1.25rem;
+  }
+
+
+  .organization-setup-disclosure summary::after {
+    right: 1rem;
+
+    width: 40px;
+    height: 40px;
+
+    font-size: 1.45rem;
+  }
+
+
+  .organization-setup-disclosure-content {
+    padding:
+      1.5rem
+      1.25rem
+      2rem;
+  }
+
+
+  .organization-setup-actions {
+    padding: 1.5rem 1.25rem;
+  }
+
+
+  .organization-setup-button-group {
+    align-items: stretch;
+    flex-direction: column-reverse;
+  }
+
+
+  .organization-setup-button {
+    width: 100%;
+  }
+
+}
+
+
+/* =====================================================
+   SMALL MOBILE
+===================================================== */
+
+@media screen and (max-width: 460px) {
+
+  .organization-setup-page {
+    width: calc(100% - 1.5rem);
+  }
+
+
+  .organization-setup-header h1 {
+    font-size: 2.45rem;
+  }
+
+
+  .organization-setup-section {
+    padding: 1.4rem 1rem;
+    border-radius: 18px;
+  }
+
+
+  .organization-setup-disclosure {
+    border-radius: 18px;
+  }
+
+
+  .organization-setup-disclosure summary {
+    padding-left: 1rem;
+    padding-right: 4rem;
+  }
+
+
+  .organization-setup-disclosure summary::after {
+    right: 0.8rem;
+
+    width: 36px;
+    height: 36px;
+  }
+
+
+  .organization-setup-disclosure-content {
+    padding:
+      1.4rem
+      1rem
+      1.75rem;
+  }
+
+
+  .organization-setup-colour-field {
+    grid-template-columns: 52px minmax(0, 1fr);
+  }
+
+}
+
+
+/* =====================================================
+   REDUCED MOTION
+===================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .organization-setup-disclosure,
+  .organization-setup-disclosure summary,
+  .organization-setup-disclosure summary::after,
+  .organization-setup-checkbox,
+  .organization-setup-button,
+  .organization-setup-field input,
+  .organization-setup-field select,
+  .organization-setup-field textarea {
+    transition: none;
+  }
+
+}
+
+
+/* =====================================================
+   ORGANIZATION SETTINGS PAGE
+===================================================== */
+
+.organization-settings-page {
+  position: relative;
+
+  width: min(
+    calc(100% - (var(--phil-content-padding) * 2)),
+    var(--phil-container-width)
+  );
+
+  margin: 0 auto;
+
+  padding:
+    clamp(3.5rem, 7vw, 6rem)
+    0
+    clamp(6rem, 10vw, 9rem);
+
+  color: var(--phil-white);
+}
+
+
+/* =====================================================
+   PAGE HEADER
+===================================================== */
+
+.organization-settings-header {
+  display: flex;
+
+  align-items: flex-end;
+  justify-content: space-between;
+
+  gap: clamp(2rem, 5vw, 4rem);
+
+  margin-bottom: clamp(2.5rem, 5vw, 4rem);
+}
+
+
+.organization-settings-header-copy {
+  min-width: 0;
+  max-width: 760px;
+}
+
+
+.organization-settings-eyebrow {
+  margin: 0 0 0.65rem;
+
+  color: var(--phil-pink);
+
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+
+.organization-settings-header h1 {
+  margin: 0;
+
+  color: var(--phil-white);
+
+  font-size: clamp(2.6rem, 6vw, 5.25rem);
+  font-weight: 700;
+  letter-spacing: -0.05em;
+  line-height: 0.95;
+}
+
+
+.organization-settings-introduction {
+  max-width: 720px;
+
+  margin: 1.5rem 0 0;
+
+  color: var(--phil-white);
+
+  font-size: clamp(1rem, 1.8vw, 1.2rem);
+  line-height: 1.55;
+}
+
+
+.organization-settings-header-actions {
+  display: flex;
+  flex: 0 0 auto;
+
+  align-items: center;
+
+  gap: 0.75rem;
+}
+
+
+/* =====================================================
+   FORM
+===================================================== */
+
+.organization-settings-form {
+  display: flex;
+  flex-direction: column;
+
+  gap: 1rem;
+}
+
+
+/* =====================================================
+   SUCCESS AND ERROR MESSAGES
+===================================================== */
+
+.organization-settings-success {
+  margin-bottom: 1.5rem;
+  padding: 1.1rem 1.35rem;
+
+  color: var(--phil-white);
+
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--phil-white-40);
+  border-left: 5px solid var(--phil-pink);
+  border-radius: var(--phil-radius-small);
+
+  font-weight: 700;
+}
+
+
+.organization-settings-error-summary {
+  margin-bottom: 1.5rem;
+  padding: 1.4rem 1.6rem;
+
+  color: var(--phil-white);
+
+  background: rgba(242, 130, 170, 0.14);
+  border: 1px solid rgba(242, 130, 170, 0.75);
+  border-left: 6px solid var(--phil-pink);
+  border-radius: var(--phil-radius-small);
+}
+
+
+.organization-settings-error-summary h2 {
+  margin: 0 0 0.75rem;
+
+  font-size: 1rem;
+}
+
+
+.organization-settings-error-summary ul {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+
+/* =====================================================
+   ACCORDION SECTIONS
+===================================================== */
+
+.organization-settings-section {
+  overflow: hidden;
+
+  color: var(--phil-white);
+
+  background: var(--phil-white-06);
+  border: 1px solid var(--phil-white-25);
+  border-radius: var(--phil-radius-medium);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 18px 42px rgba(38, 34, 98, 0.12);
+
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease;
+}
+
+
+.organization-settings-section:hover,
+.organization-settings-section[open] {
+  background: var(--phil-white-08);
+  border-color: var(--phil-white-40);
+}
+
+
+/* =====================================================
+   ACCORDION SUMMARY
+===================================================== */
+
+.organization-settings-section summary {
+  position: relative;
+
+  display: flex;
+  min-height: 104px;
+
+  align-items: center;
+
+  padding:
+    1.4rem
+    5.5rem
+    1.4rem
+    clamp(1.4rem, 3vw, 2.4rem);
+
+  cursor: pointer;
+  list-style: none;
+}
+
+
+.organization-settings-section summary::-webkit-details-marker {
+  display: none;
+}
+
+
+.organization-settings-section summary::marker {
+  display: none;
+  content: "";
+}
+
+
+.organization-settings-section summary::after {
+  content: "+";
+
+  position: absolute;
+  top: 50%;
+  right: clamp(1.25rem, 3vw, 2rem);
+
+  display: flex;
+
+  width: 44px;
+  height: 44px;
+
+  align-items: center;
+  justify-content: center;
+
+  color: var(--phil-white);
+  background: var(--phil-navy);
+
+  border: 2px solid var(--phil-white);
+  border-radius: 50%;
+
+  font-size: 1.65rem;
+  font-weight: 300;
+
+  transform: translateY(-50%);
+}
+
+
+.organization-settings-section[open] summary::after {
+  content: "−";
+
+  background: var(--phil-pink);
+}
+
+
+.organization-settings-section summary:focus-visible {
+  outline: 3px solid var(--phil-pink);
+  outline-offset: -3px;
+}
+
+
+/* =====================================================
+   SUMMARY COPY
+===================================================== */
+
+.organization-settings-summary-copy {
+  display: block;
+}
+
+
+.organization-settings-section-number {
+  display: block;
+
+  margin-bottom: 0.4rem;
+
+  color: var(--phil-pink);
+
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+
+.organization-settings-summary-title {
+  display: block;
+
+  color: var(--phil-white);
+
+  font-size: clamp(1.05rem, 2vw, 1.4rem);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+
+.organization-settings-summary-description {
+  display: block;
+
+  max-width: 720px;
+
+  margin-top: 0.45rem;
+
+  color: var(--phil-white);
+
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+
+/* =====================================================
+   SECTION CONTENT
+===================================================== */
+
+.organization-settings-section-content {
+  padding:
+    clamp(1.6rem, 4vw, 2.6rem)
+    clamp(1.4rem, 3vw, 2.4rem)
+    clamp(2rem, 5vw, 3rem);
+
+  border-top: 1px solid var(--phil-white-18);
+
+  background: rgba(38, 34, 98, 0.12);
+}
+
+
+/* =====================================================
+   GRID
+===================================================== */
+
+.organization-settings-grid {
+  display: grid;
+
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  gap:
+    clamp(1.25rem, 3vw, 2rem)
+    clamp(1.25rem, 3vw, 2.25rem);
+}
+
+
+.organization-settings-field {
+  min-width: 0;
+}
+
+
+.organization-settings-field-wide {
+  grid-column: 1 / -1;
+}
+
+
+/* =====================================================
+   LABELS
+===================================================== */
+
+.organization-settings-field label,
+.organization-settings-checkbox-group legend {
+  display: block;
+
+  margin-bottom: 0.55rem;
+
+  color: var(--phil-white);
+
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+
+/* =====================================================
+   INPUTS
+===================================================== */
+
+.organization-settings-field input,
+.organization-settings-field select,
+.organization-settings-field textarea {
+  width: 100%;
+
+  color: var(--phil-navy);
+  background: var(--phil-white);
+
+  border: 2px solid transparent;
+  border-radius: 12px;
+
+  font: inherit;
+
+  transition:
+    opacity 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+
+.organization-settings-field input,
+.organization-settings-field select {
+  min-height: 52px;
+  padding: 0 0.9rem;
+}
+
+
+.organization-settings-field textarea {
+  min-height: 110px;
+
+  padding: 0.9rem;
+
+  line-height: 1.5;
+
+  resize: vertical;
+}
+
+
+.organization-settings-field input:disabled,
+.organization-settings-field select:disabled,
+.organization-settings-field textarea:disabled {
+  color: var(--phil-white);
+
+  background: var(--phil-white-06);
+  border-color: var(--phil-white-18);
+
+  opacity: 1;
+
+  cursor: default;
+}
+
+
+.organization-settings-form-editing
+.organization-settings-field input:not(:disabled),
+.organization-settings-form-editing
+.organization-settings-field select:not(:disabled),
+.organization-settings-form-editing
+.organization-settings-field textarea:not(:disabled) {
+  background: var(--phil-white);
+}
+
+
+.organization-settings-field input:focus,
+.organization-settings-field select:focus,
+.organization-settings-field textarea:focus {
+  border-color: var(--phil-pink);
+  outline: none;
+
+  box-shadow:
+    0 0 0 4px rgba(242, 130, 170, 0.2);
+}
+
+
+/* =====================================================
+   READ-ONLY VALUES
+===================================================== */
+
+.organization-settings-readonly-value {
+  display: flex;
+
+  min-height: 52px;
+
+  align-items: center;
+
+  padding: 0 0.9rem;
+
+  color: var(--phil-white);
+
+  background: var(--phil-white-06);
+  border: 2px solid var(--phil-white-18);
+  border-radius: 12px;
+
+  text-transform: capitalize;
+}
+
+
+/* =====================================================
+   FIELD HELP
+===================================================== */
+
+.organization-settings-field-help {
+  margin: 0.5rem 0 0;
+
+  color: rgba(255, 255, 255, 0.72);
+
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+
+
+/* =====================================================
+   COLOUR FIELDS
+===================================================== */
+
+.organization-settings-colour-field {
+  display: grid;
+
+  grid-template-columns:
+    58px
+    minmax(0, 1fr);
+
+  gap: 0.65rem;
+}
+
+
+.organization-settings-colour-field input[type="color"] {
+  min-width: 58px;
+  padding: 0.35rem;
+}
+
+
+/* =====================================================
+   CHECKBOXES
+===================================================== */
+
+.organization-settings-checkbox-group {
+  display: grid;
+
+  gap: 0.85rem;
+
+  margin: 0;
+  padding: 0;
+
+  border: 0;
+}
+
+
+.organization-settings-checkbox-group legend {
+  margin-bottom: 1rem;
+
+  color: var(--phil-pink);
+
+  font-size: 1rem;
+}
+
+
+.organization-settings-checkbox {
+  display: grid;
+
+  grid-template-columns:
+    24px
+    minmax(0, 1fr);
+
+  align-items: flex-start;
+
+  gap: 0.85rem;
+
+  padding: 1rem;
+
+  color: var(--phil-white);
+
+  background: var(--phil-white-06);
+  border: 1px solid var(--phil-white-18);
+  border-radius: var(--phil-radius-small);
+}
+
+
+.organization-settings-checkbox input {
+  width: 19px;
+  height: 19px;
+
+  margin-top: 0.15rem;
+
+  accent-color: var(--phil-pink);
+}
+
+
+.organization-settings-checkbox input:disabled {
+  opacity: 0.6;
+}
+
+
+.organization-settings-checkbox strong {
+  display: block;
+
+  margin-bottom: 0.25rem;
+
+  font-size: 0.9rem;
+}
+
+
+.organization-settings-checkbox small {
+  display: block;
+
+  color: rgba(255, 255, 255, 0.72);
+
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+
+
+/* =====================================================
+   SAVE ACTIONS
+===================================================== */
+
+.organization-settings-save-actions {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 2rem;
+
+  margin-top: 1rem;
+
+  padding: clamp(1.5rem, 4vw, 2.25rem);
+
+  color: var(--phil-white);
+
+  background: var(--phil-navy);
+  border: 1px solid var(--phil-white-25);
+  border-radius: var(--phil-radius-medium);
+}
+
+
+.organization-settings-save-actions[hidden] {
+  display: none;
+}
+
+
+.organization-settings-save-copy {
+  max-width: 620px;
+}
+
+
+.organization-settings-save-copy strong {
+  display: block;
+
+  margin-bottom: 0.35rem;
+}
+
+
+.organization-settings-save-copy p {
+  margin: 0;
+
+  color: rgba(255, 255, 255, 0.72);
+
+  font-size: 0.85rem;
+}
+
+
+.organization-settings-save-button-group {
+  display: flex;
+  flex: 0 0 auto;
+
+  gap: 0.75rem;
+}
+
+
+/* =====================================================
+   BUTTONS
+===================================================== */
+
+.organization-settings-button {
+  display: inline-flex;
+
+  min-height: 50px;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 0.8rem 1.5rem;
+
+  border: 2px solid transparent;
+  border-radius: 999px;
+
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 700;
+
+  text-decoration: none;
+
+  cursor: pointer;
+
+  transition:
+    transform 180ms ease,
+    background-color 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease;
+}
+
+
+.organization-settings-button:hover {
+  transform: translateY(-2px);
+}
+
+
+.organization-settings-button-primary {
+  color: var(--phil-navy);
+
+  background: var(--phil-pink);
+  border-color: var(--phil-pink);
+}
+
+
+.organization-settings-button-primary:hover {
+  background: var(--phil-white);
+  border-color: var(--phil-white);
+}
+
+
+.organization-settings-button-secondary {
+  color: var(--phil-white);
+
+  background: transparent;
+  border-color: var(--phil-white);
+}
+
+
+.organization-settings-button-secondary:hover {
+  color: var(--phil-navy);
+
+  background: var(--phil-white);
+}
+
+
+.organization-settings-button:focus-visible {
+  outline: 3px solid var(--phil-pink);
+  outline-offset: 4px;
+}
+
+
+/* =====================================================
+   TABLET
+===================================================== */
+
+@media screen and (max-width: 900px) {
+
+  .organization-settings-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+
+  .organization-settings-save-actions {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+
+  .organization-settings-save-button-group {
+    width: 100%;
+
+    justify-content: flex-end;
+  }
+
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media screen and (max-width: 680px) {
+
+  .organization-settings-page {
+    width: min(
+      calc(100% - 2rem),
+      var(--phil-container-width)
+    );
+
+    padding-top: 2.75rem;
+  }
+
+
+  .organization-settings-header h1 {
+    font-size: 2.75rem;
+  }
+
+
+  .organization-settings-header-actions {
+    width: 100%;
+
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+
+  .organization-settings-grid {
+    grid-template-columns: 1fr;
+  }
+
+
+  .organization-settings-field-wide {
+    grid-column: auto;
+  }
+
+
+  .organization-settings-section summary {
+    min-height: 92px;
+
+    padding:
+      1.25rem
+      4.5rem
+      1.25rem
+      1.25rem;
+  }
+
+
+  .organization-settings-section summary::after {
+    right: 1rem;
+
+    width: 40px;
+    height: 40px;
+  }
+
+
+  .organization-settings-section-content {
+    padding:
+      1.5rem
+      1.25rem
+      2rem;
+  }
+
+
+  .organization-settings-save-button-group {
+    align-items: stretch;
+    flex-direction: column-reverse;
+  }
+
+
+  .organization-settings-button {
+    width: 100%;
+  }
+
+}
+
+
+/* =====================================================
+   ORGANIZATION ADDED PAGE
+===================================================== */
+
+.organization-added-page {
+  display: flex;
+
+  width: min(
+    calc(100% - (var(--phil-content-padding) * 2)),
+    var(--phil-container-width)
+  );
+
+  min-height: 72vh;
+
+  align-items: center;
+  justify-content: center;
+
+  margin: 0 auto;
+
+  padding:
+    clamp(4rem, 8vw, 7rem)
+    0
+    clamp(6rem, 10vw, 9rem);
+
+  color: var(--phil-white);
+}
+
+
+/* =====================================================
+   SUCCESS CARD
+===================================================== */
+
+.organization-added-card {
+  width: min(100%, 780px);
+
+  padding: clamp(2rem, 6vw, 4rem);
+
+  text-align: center;
+
+  background: var(--phil-white-08);
+  border: 1px solid var(--phil-white-25);
+  border-radius: var(--phil-radius-large);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 24px 60px rgba(14, 12, 51, 0.26);
+}
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.organization-added-eyebrow {
+  margin: 0 0 0.7rem;
+
+  color: var(--phil-pink);
+
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+
+.organization-added-card h1 {
+  margin: 0;
+
+  color: var(--phil-white);
+
+  font-size: clamp(2.6rem, 6vw, 5rem);
+  font-weight: 700;
+  letter-spacing: -0.05em;
+  line-height: 0.95;
+}
+
+
+.organization-added-introduction {
+  max-width: 620px;
+
+  margin: 1.5rem auto 0;
+
+  color: var(--phil-white);
+
+  font-size: clamp(1rem, 1.8vw, 1.18rem);
+  line-height: 1.55;
+}
+
+
+/* =====================================================
+   ORGANIZATION SUMMARY
+===================================================== */
+
+.organization-added-summary {
+  display: grid;
+
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  gap: 1rem;
+
+  margin-top: 2.5rem;
+
+  text-align: left;
+}
+
+
+.organization-added-summary-item {
+  min-width: 0;
+
+  padding: 1.2rem 1.3rem;
+
+  background: var(--phil-white-06);
+  border: 1px solid var(--phil-white-18);
+  border-radius: var(--phil-radius-small);
+}
+
+
+.organization-added-summary-item span {
+  display: block;
+
+  margin-bottom: 0.35rem;
+
+  color: rgba(255, 255, 255, 0.65);
+
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+
+.organization-added-summary-item strong {
+  display: block;
+
+  overflow-wrap: anywhere;
+
+  color: var(--phil-white);
+
+  font-size: 0.98rem;
+  font-weight: 700;
+}
+
+
+/* =====================================================
+   SECURITY NOTE
+===================================================== */
+
+.organization-added-note {
+  margin-top: 1.5rem;
+  padding: 1.3rem 1.4rem;
+
+  text-align: left;
+
+  background: rgba(242, 130, 170, 0.12);
+  border: 1px solid rgba(242, 130, 170, 0.55);
+  border-radius: var(--phil-radius-small);
+}
+
+
+.organization-added-note strong {
+  display: block;
+
+  margin-bottom: 0.35rem;
+
+  color: var(--phil-pink);
+
+  font-size: 0.9rem;
+}
+
+
+.organization-added-note p {
+  margin: 0;
+
+  color: rgba(255, 255, 255, 0.78);
+
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+
+/* =====================================================
+   ACTIONS
+===================================================== */
+
+.organization-added-actions {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 0.8rem;
+
+  margin-top: 2rem;
+}
+
+
+.organization-added-button {
+  display: inline-flex;
+
+  min-height: 50px;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 0.8rem 1.5rem;
+
+  border: 2px solid transparent;
+  border-radius: 999px;
+
+  font-size: 0.88rem;
+  font-weight: 700;
+
+  text-decoration: none;
+
+  transition:
+    transform 180ms ease,
+    background-color 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease;
+}
+
+
+.organization-added-button:hover {
+  transform: translateY(-2px);
+}
+
+
+.organization-added-button-primary {
+  color: var(--phil-navy);
+
+  background: var(--phil-pink);
+  border-color: var(--phil-pink);
+}
+
+
+.organization-added-button-primary:hover {
+  background: var(--phil-white);
+  border-color: var(--phil-white);
+}
+
+
+.organization-added-button-secondary {
+  color: var(--phil-white);
+
+  background: transparent;
+  border-color: var(--phil-white);
+}
+
+
+.organization-added-button-secondary:hover {
+  color: var(--phil-navy);
+
+  background: var(--phil-white);
+}
+
+
+.organization-added-button:focus-visible {
+  outline: 3px solid var(--phil-pink);
+  outline-offset: 4px;
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media screen and (max-width: 680px) {
+
+  .organization-added-page {
+    width: min(
+      calc(100% - 2rem),
+      var(--phil-container-width)
+    );
+
+    padding-top: 3rem;
+  }
+
+
+  .organization-added-card {
+    padding: 2rem 1.25rem;
+
+    border-radius: var(--phil-radius-medium);
+  }
+
+
+  .organization-added-summary {
+    grid-template-columns: 1fr;
+  }
+
+
+  .organization-added-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+
+  .organization-added-button {
+    width: 100%;
+  }
+
+}
+

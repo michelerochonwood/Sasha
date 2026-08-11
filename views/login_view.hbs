@@ -1,0 +1,267 @@
+{{!-- =====================================================
+     ORGANIZATION LOGIN
+====================================================== --}}
+
+<section
+  class="organization-login-page"
+  aria-labelledby="organization-login-heading"
+>
+
+  <div class="organization-login-layout">
+
+
+    {{!-- =================================================
+         INTRODUCTION
+    ================================================== --}}
+
+    <div class="organization-login-introduction">
+
+      <p class="organization-login-eyebrow">
+        Organization Login
+      </p>
+
+      <h1 id="organization-login-heading">
+        Welcome Back
+      </h1>
+
+      <p>
+        Sign in using your organization’s shared Sasha username and password.
+      </p>
+
+
+      <div class="organization-login-note">
+
+        <strong>
+          One account for your organization
+        </strong>
+
+        <p>
+          Everyone in your organization uses the same login credentials
+          to access your shared proposal and pursuit information.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    {{!-- =================================================
+         LOGIN CARD
+    ================================================== --}}
+
+    <div class="organization-login-card">
+
+      <div class="organization-login-card-heading">
+
+        <h2>
+          Sign In to Sasha
+        </h2>
+
+        <p>
+          Enter your organization credentials below.
+        </p>
+
+      </div>
+
+
+      {{!-- ===============================================
+           ERROR MESSAGE
+      ================================================ --}}
+
+      {{#if errorMessage}}
+
+        <div
+          class="organization-login-error"
+          role="alert"
+        >
+          {{errorMessage}}
+        </div>
+
+      {{/if}}
+
+
+      {{!-- ===============================================
+           LOGOUT MESSAGE
+      ================================================ --}}
+
+      {{#if successMessage}}
+
+        <div
+          class="organization-login-success"
+          role="status"
+        >
+          {{successMessage}}
+        </div>
+
+      {{/if}}
+
+
+      {{!-- ===============================================
+           LOGIN FORM
+      ================================================ --}}
+
+      <form
+        class="organization-login-form"
+        action="/login"
+        method="POST"
+      >
+
+        {{#if csrfToken}}
+
+          <input
+            type="hidden"
+            name="_csrf"
+            value="{{csrfToken}}"
+          >
+
+        {{/if}}
+
+
+        <div class="organization-login-field">
+
+          <label for="username">
+            Organization Username
+          </label>
+
+          <input
+            type="text"
+            id="username"
+            name="username"
+            value="{{formData.username}}"
+            autocomplete="username"
+            autocapitalize="none"
+            spellcheck="false"
+            minlength="4"
+            maxlength="80"
+            required
+            autofocus
+          >
+
+        </div>
+
+
+        <div class="organization-login-field">
+
+          <label for="password">
+            Organization Password
+          </label>
+
+          <div class="organization-login-password-wrapper">
+
+            <input
+              type="password"
+              id="password"
+              name="password"
+              autocomplete="current-password"
+              minlength="8"
+              required
+            >
+
+            <button
+              type="button"
+              id="organization-login-password-toggle"
+              class="organization-login-password-toggle"
+              aria-controls="password"
+              aria-pressed="false"
+            >
+              Show
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <button
+          type="submit"
+          class="organization-login-submit"
+        >
+          Sign In
+        </button>
+
+      </form>
+
+
+      <div class="organization-login-support">
+
+        <p>
+          Having trouble signing in?
+        </p>
+
+        <a href="mailto:info@twennie.com">
+          Contact Twennie Support
+        </a>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+{{!-- =====================================================
+     PASSWORD VISIBILITY
+====================================================== --}}
+
+<script>
+
+  document.addEventListener(
+    'DOMContentLoaded',
+    () => {
+
+      const password =
+        document.getElementById(
+          'password'
+        );
+
+      const toggle =
+        document.getElementById(
+          'organization-login-password-toggle'
+        );
+
+
+      if (
+        !password ||
+        !toggle
+      ) {
+        return;
+      }
+
+
+      toggle.addEventListener(
+        'click',
+        () => {
+
+          const isVisible =
+            password.type ===
+            'text';
+
+
+          password.type =
+            isVisible
+              ? 'password'
+              : 'text';
+
+
+          toggle.textContent =
+            isVisible
+              ? 'Show'
+              : 'Hide';
+
+
+          toggle.setAttribute(
+            'aria-pressed',
+            String(
+              !isVisible
+            )
+          );
+
+        }
+      );
+
+    }
+  );
+
+</script>
