@@ -35,18 +35,17 @@
          CREATE PURSUIT FORM
     ====================================================== --}}
 
-    <form
-      class="sasha-pursuit-form"
-      action="/create_pursuit"
-      method="POST"
-      enctype="multipart/form-data"
-    >
+<form
+  class="sasha-pursuit-form"
+  action="/create_pursuit"
+  method="POST"
+>
 
-      <input
-        type="hidden"
-        name="_csrf"
-        value="{{csrfToken}}"
-      >
+<input
+  type="hidden"
+  name="_csrf"
+  value="{{csrfToken}}"
+>
 
 
       <input

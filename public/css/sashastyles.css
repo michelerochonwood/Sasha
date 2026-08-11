@@ -1339,3 +1339,324 @@ select:focus-visible {
 
 }
 
+
+/* =====================================================
+   SASHA SYSTEM / ERROR PAGES
+===================================================== */
+
+
+.sasha-system-page {
+  position: relative;
+
+  display: flex;
+
+  min-height: 68vh;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding:
+    clamp(4rem, 8vw, 7rem)
+    0
+    clamp(6rem, 10vw, 9rem);
+
+  color:
+    var(--sasha-white);
+}
+
+
+.sasha-system-container {
+  width:
+    min(
+      calc(
+        100% -
+        (var(--sasha-content-padding) * 2)
+      ),
+      720px
+    );
+
+  margin:
+    0 auto;
+
+  padding:
+    clamp(
+      2rem,
+      5vw,
+      3.5rem
+    );
+
+  text-align:
+    center;
+
+  background:
+    var(--sasha-white-06);
+
+  border:
+    1px solid
+    var(--sasha-white-25);
+
+  border-radius:
+    var(--sasha-radius-large);
+
+  box-shadow:
+    inset
+    0
+    1px
+    0
+    rgba(
+      255,
+      255,
+      255,
+      0.05
+    ),
+    0
+    24px
+    60px
+    rgba(
+      20,
+      16,
+      72,
+      0.18
+    );
+}
+
+
+/* =====================================================
+   SYSTEM PAGE EYEBROW
+===================================================== */
+
+
+.sasha-system-eyebrow {
+  margin:
+    0
+    0
+    0.75rem;
+
+  color:
+    var(--sasha-pink);
+
+  font-size:
+    0.8rem;
+
+  font-weight:
+    800;
+
+  letter-spacing:
+    0.08em;
+
+  text-transform:
+    uppercase;
+}
+
+
+/* =====================================================
+   SYSTEM PAGE HEADING
+===================================================== */
+
+
+.sasha-system-container h1 {
+  margin:
+    0;
+
+  color:
+    var(--sasha-white);
+
+  font-size:
+    clamp(
+      2.5rem,
+      6vw,
+      4.75rem
+    );
+
+  font-weight:
+    700;
+
+  letter-spacing:
+    -0.05em;
+
+  line-height:
+    0.98;
+}
+
+
+/* =====================================================
+   SYSTEM PAGE COPY
+===================================================== */
+
+
+.sasha-system-container p:not(
+  .sasha-system-eyebrow
+) {
+  max-width:
+    560px;
+
+  margin:
+    1.35rem
+    auto
+    0;
+
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.8
+    );
+
+  font-size:
+    clamp(
+      1rem,
+      1.7vw,
+      1.12rem
+    );
+
+  line-height:
+    1.55;
+}
+
+
+/* =====================================================
+   SYSTEM PAGE ACTION
+===================================================== */
+
+
+.sasha-system-container a {
+  display:
+    inline-flex;
+
+  min-height:
+    50px;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  margin-top:
+    2rem;
+
+  padding:
+    0.8rem
+    1.6rem;
+
+  color:
+    var(--sasha-navy);
+
+  background:
+    var(--sasha-pink);
+
+  border:
+    2px solid
+    var(--sasha-pink);
+
+  border-radius:
+    999px;
+
+  font-size:
+    0.88rem;
+
+  font-weight:
+    800;
+
+  text-decoration:
+    none;
+
+  transition:
+    transform
+    180ms ease,
+    background-color
+    180ms ease,
+    border-color
+    180ms ease;
+}
+
+
+.sasha-system-container a:hover {
+  transform:
+    translateY(-2px);
+
+  background:
+    var(--sasha-white);
+
+  border-color:
+    var(--sasha-white);
+}
+
+
+.sasha-system-container a:focus-visible {
+  outline:
+    3px solid
+    var(--sasha-white);
+
+  outline-offset:
+    4px;
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+
+@media screen and (max-width: 680px) {
+
+  .sasha-system-page {
+    padding:
+      3rem
+      0
+      5rem;
+  }
+
+
+  .sasha-system-container {
+    width:
+      calc(
+        100% -
+        2rem
+      );
+
+    padding:
+      2rem
+      1.25rem;
+
+    border-radius:
+      var(--sasha-radius-medium);
+  }
+
+}
+
+
+/* =====================================================
+   SMALL MOBILE
+===================================================== */
+
+
+@media screen and (max-width: 460px) {
+
+  .sasha-system-container {
+    width:
+      calc(
+        100% -
+        1.5rem
+      );
+  }
+
+}
+
+
+/* =====================================================
+   REDUCED MOTION
+===================================================== */
+
+
+@media (prefers-reduced-motion: reduce) {
+
+  .sasha-system-container a {
+    transition:
+      none;
+  }
+
+}
+
