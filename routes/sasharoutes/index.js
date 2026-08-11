@@ -18,12 +18,13 @@ const router = express.Router();
 
 
 /* =====================================================
-   HOME
+HOME
 ===================================================== */
 
 router.get(
   '/',
   (req, res) => {
+
     return res.render(
       'sasha_homepage',
       {
@@ -34,6 +35,7 @@ router.get(
           'Sasha | Proposal Assistant'
       }
     );
+
   }
 );
 
@@ -42,13 +44,17 @@ router.get(
 CREATE A PURSUIT
 ===================================================== */
 
-
-
-
 router.get(
   '/create_pursuit',
   ensureOrganization,
   proposalController.getCreatePursuit
+);
+
+
+router.post(
+  '/create_pursuit/analyze',
+  ensureOrganization,
+  proposalController.analyzePursuit
 );
 
 
@@ -59,16 +65,37 @@ router.post(
 );
 
 
+/* =====================================================
+PURSUITS
+===================================================== */
+
+router.get(
+  '/pursuits',
+  ensureOrganization,
+  proposalController.getPursuits
+);
 
 
 /* =====================================================
-   ANALYZE | GO NO GO
+PURSUIT DASHBOARD
+===================================================== */
+
+router.get(
+  '/pursuit/:id',
+  ensureOrganization,
+  proposalController.getPursuitDashboard
+);
+
+
+/* =====================================================
+ANALYZE | GO NO GO
 ===================================================== */
 
 router.get(
   '/analyze',
   ensureOrganization,
   (req, res) => {
+
     return res.render(
       'sasha_analyze',
       {
@@ -79,18 +106,20 @@ router.get(
           'Analyze | Sasha'
       }
     );
+
   }
 );
 
 
 /* =====================================================
-   PLAN | WIN STRATEGY
+PLAN | WIN STRATEGY
 ===================================================== */
 
 router.get(
   '/plan',
   ensureOrganization,
   (req, res) => {
+
     return res.render(
       'sasha_plan',
       {
@@ -101,18 +130,20 @@ router.get(
           'Plan and Win Strategy | Sasha'
       }
     );
+
   }
 );
 
 
 /* =====================================================
-   WRITE
+WRITE
 ===================================================== */
 
 router.get(
   '/write',
   ensureOrganization,
   (req, res) => {
+
     return res.render(
       'sasha_write',
       {
@@ -123,18 +154,20 @@ router.get(
           'Write | Sasha'
       }
     );
+
   }
 );
 
 
 /* =====================================================
-   REVIEW
+REVIEW
 ===================================================== */
 
 router.get(
   '/review',
   ensureOrganization,
   (req, res) => {
+
     return res.render(
       'sasha_review',
       {
@@ -145,33 +178,51 @@ router.get(
           'Review | Sasha'
       }
     );
+
   }
 );
 
 
 /* =====================================================
-   ORGANIZATION AUTHENTICATION
+ORGANIZATION AUTHENTICATION
 ===================================================== */
 
 router.get(
   '/login',
-  (req, res) => {
-    return res.render(
-      'login',
-      {
-        layout:
-          'mainlayout',
+  organizationController.showLogin
+);
 
-        pageTitle:
-          'Login | Sasha'
-      }
-    );
-  }
+
+router.post(
+  '/login',
+  organizationController.login
+);
+
+
+router.post(
+  '/logout',
+  organizationController.logout
 );
 
 
 /* =====================================================
-   EXPORT ROUTER
+ORGANIZATION SETUP
 ===================================================== */
 
-module.exports = router;    
+router.get(
+  '/setup-organization',
+  organizationController.showSetupForm
+);
+
+
+router.post(
+  '/setup-organization',
+  organizationController.createOrganization
+);
+
+
+/* =====================================================
+EXPORT ROUTER
+===================================================== */
+
+module.exports = router;
