@@ -1,0 +1,1527 @@
+{{!-- =====================================================
+     SASHA ADD INSTRUCTIONS AND RESOURCES
+====================================================== --}}
+
+<section class="sasha-form-page">
+
+  <div class="sasha-form-container">
+
+
+    {{!-- =================================================
+         PAGE INTRODUCTION
+    ================================================== --}}
+
+    <header class="sasha-form-header">
+
+      <p class="sasha-form-eyebrow">
+        Add instructions and resources
+      </p>
+
+      <h1>
+        Teach Sasha About Your Firm
+      </h1>
+
+      <p class="sasha-form-intro">
+        Upload a document and let Sasha prepare as much of the resource
+        record as possible. Review her suggestions, confirm how the
+        document may be used, and then add it to your organization’s
+        proposal knowledge base.
+      </p>
+
+    </header>
+
+
+    {{!-- =================================================
+         SERVER MESSAGES
+    ================================================== --}}
+
+    {{#if errorMessage}}
+
+      <div
+        class="sasha-form-message sasha-form-message-error"
+        role="alert"
+      >
+        {{errorMessage}}
+      </div>
+
+    {{/if}}
+
+
+    {{#if successMessage}}
+
+      <div
+        class="sasha-form-message sasha-form-message-success"
+        role="status"
+      >
+        {{successMessage}}
+      </div>
+
+    {{/if}}
+
+
+    {{!-- =================================================
+         MAIN FORM
+    ================================================== --}}
+
+    <form
+      class="sasha-instruction-form"
+      id="sasha-instruction-form"
+      action="/add_instructions"
+      method="POST"
+      enctype="multipart/form-data"
+    >
+
+      <input
+        type="hidden"
+        name="_csrf"
+        value="{{csrfToken}}"
+      >
+
+
+      <input
+        type="hidden"
+        id="instructionAnalysisToken"
+        name="instructionAnalysisToken"
+        value=""
+      >
+
+
+      {{!-- =================================================
+           1. UPLOAD AND LET SASHA REVIEW
+      ================================================== --}}
+
+      <section
+        class="sasha-instruction-upload"
+        aria-labelledby="sasha-instruction-upload-heading"
+      >
+
+        <header class="sasha-instruction-upload-header">
+
+          <div>
+
+            <p class="sasha-form-eyebrow">
+              Start here
+            </p>
+
+            <h2 id="sasha-instruction-upload-heading">
+              Upload the resource
+            </h2>
+
+            <p>
+              Sasha can read the document and suggest its title,
+              category, description, purpose, relevance, keywords,
+              usage instructions, and limitations.
+            </p>
+
+          </div>
+
+        </header>
+
+
+        <div class="sasha-instruction-upload-content">
+
+          <div class="sasha-form-field">
+
+            <label for="resourceFiles">
+
+              Select files
+
+              <span
+                class="sasha-form-required"
+                aria-hidden="true"
+              >
+                *
+              </span>
+
+            </label>
+
+
+            <input
+              type="file"
+              id="resourceFiles"
+              name="resourceFiles"
+              accept=".pdf,.docx,.txt"
+              required
+              multiple
+            >
+
+
+            <p class="sasha-form-help">
+              PDF is preferred, especially when the document contains
+              tables, diagrams, forms, or designed pages. You may also
+              upload DOCX and TXT files.
+            </p>
+
+          </div>
+
+
+          <div class="sasha-instruction-ai-action">
+
+            <div>
+
+              <strong>
+                Save time with Sasha
+              </strong>
+
+              <p>
+                Sasha will prepare suggestions. Nothing will be saved
+                until you review the form and select Add Resource.
+              </p>
+
+            </div>
+
+
+            <button
+              class="sasha-instruction-analyze-button"
+              id="sasha-instruction-analyze-button"
+              type="button"
+            >
+              <span data-analyze-label>
+                Let Sasha Prepare This Form
+              </span>
+            </button>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      {{!-- =================================================
+           AI ANALYSIS STATUS
+      ================================================== --}}
+
+      <div
+        class="sasha-instruction-analysis-status"
+        id="sasha-instruction-analysis-status"
+        role="status"
+        aria-live="polite"
+        hidden
+      >
+
+        <p id="sasha-instruction-analysis-status-message">
+          Sasha is reviewing the uploaded document...
+        </p>
+
+      </div>
+
+
+      {{!-- =================================================
+           AI ANALYSIS ERROR
+      ================================================== --}}
+
+      <section
+        class="sasha-instruction-analysis-error"
+        id="sasha-instruction-analysis-error"
+        role="alert"
+        hidden
+      >
+
+        <p id="sasha-instruction-analysis-error-message"></p>
+
+      </section>
+
+
+      {{!-- =================================================
+           AI ANALYSIS SUCCESS
+      ================================================== --}}
+
+      <section
+        class="sasha-instruction-analysis-success"
+        id="sasha-instruction-analysis-success"
+        role="status"
+        hidden
+      >
+
+        <strong>
+          Sasha prepared the form
+        </strong>
+
+        <p>
+          Review the suggested information below. You remain responsible
+          for confirming the document’s authority, confidentiality,
+          intended use, and limitations.
+        </p>
+
+      </section>
+
+
+      {{!-- =================================================
+           2. ABOUT THE RESOURCE
+      ================================================== --}}
+
+      <details
+        class="sasha-form-section"
+        open
+      >
+
+        <summary>
+          About This Resource
+        </summary>
+
+
+        <div class="sasha-form-section-content">
+
+          <p class="sasha-form-section-intro">
+            Review Sasha’s description of the document and correct
+            anything that needs clarification.
+          </p>
+
+
+          <div class="sasha-form-grid sasha-form-grid-two">
+
+
+            {{!-- RESOURCE TITLE --}}
+
+            <div class="sasha-form-field sasha-form-field-wide">
+
+              <label for="resourceTitle">
+
+                Resource title
+
+                <span
+                  class="sasha-form-required"
+                  aria-hidden="true"
+                >
+                  *
+                </span>
+
+              </label>
+
+
+              <input
+                type="text"
+                id="resourceTitle"
+                name="resourceTitle"
+                required
+                maxlength="250"
+                placeholder="Proposal Writing and Review Standards"
+                value="{{formData.resourceTitle}}"
+                data-sasha-fill="resourceTitle"
+              >
+
+            </div>
+
+
+            {{!-- RESOURCE CATEGORY --}}
+
+            <div class="sasha-form-field">
+
+              <label for="resourceCategory">
+
+                Resource category
+
+                <span
+                  class="sasha-form-required"
+                  aria-hidden="true"
+                >
+                  *
+                </span>
+
+              </label>
+
+
+              <select
+                id="resourceCategory"
+                name="resourceCategory"
+                required
+                data-sasha-fill="resourceCategory"
+              >
+
+                <option value="">
+                  Select a category
+                </option>
+
+                <option value="proposal instruction or standard">
+                  Proposal Instruction or Standard
+                </option>
+
+                <option value="branding or writing guideline">
+                  Branding or Writing Guideline
+                </option>
+
+                <option value="proposal or qualifications document">
+                  Proposal or Qualifications Document
+                </option>
+
+                <option value="RFP or RFQ">
+                  RFP or RFQ
+                </option>
+
+                <option value="client or market intelligence">
+                  Client or Market Intelligence
+                </option>
+
+                <option value="win strategy or pursuit guidance">
+                  Win Strategy or Pursuit Guidance
+                </option>
+
+                <option value="proposal review guidance">
+                  Proposal Review Guidance
+                </option>
+
+                <option value="technical standard or procedure">
+                  Technical Standard or Procedure
+                </option>
+
+                <option value="template or approved example">
+                  Template or Approved Example
+                </option>
+
+                <option value="lessons learned or debrief">
+                  Lessons Learned or Debrief
+                </option>
+
+                <option value="other">
+                  Other
+                </option>
+
+              </select>
+
+            </div>
+
+
+            {{!-- DOCUMENT OWNER --}}
+
+            <div class="sasha-form-field">
+
+              <label for="documentOwner">
+
+                Document owner
+
+                <span class="sasha-form-optional">
+                  optional
+                </span>
+
+              </label>
+
+
+              <input
+                type="text"
+                id="documentOwner"
+                name="documentOwner"
+                maxlength="200"
+                placeholder="Marketing, Transportation, Business Development..."
+                value="{{formData.documentOwner}}"
+                data-sasha-fill="documentOwner"
+              >
+
+            </div>
+
+
+            {{!-- DESCRIPTION --}}
+
+            <div class="sasha-form-field sasha-form-field-wide">
+
+              <label for="resourceDescription">
+
+                What is this resource?
+
+                <span
+                  class="sasha-form-required"
+                  aria-hidden="true"
+                >
+                  *
+                </span>
+
+              </label>
+
+
+              <textarea
+                id="resourceDescription"
+                name="resourceDescription"
+                rows="5"
+                maxlength="5000"
+                required
+                placeholder="Explain what the document contains and why it may be useful to Sasha."
+                data-sasha-fill="resourceDescription"
+              >{{formData.resourceDescription}}</textarea>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </details>
+
+
+      {{!-- =================================================
+           3. HOW SASHA SHOULD USE IT
+      ================================================== --}}
+
+      <details
+        class="sasha-form-section"
+        open
+      >
+
+        <summary>
+          How Sasha Should Use It
+        </summary>
+
+
+        <div class="sasha-form-section-content">
+
+          <p class="sasha-form-section-intro">
+            Sasha may suggest a use based on the document. Confirm that
+            her selection matches your intentions.
+          </p>
+
+
+          <fieldset class="sasha-form-choice-group">
+
+            <legend>
+
+              How should Sasha use this resource?
+
+              <span
+                class="sasha-form-required"
+                aria-hidden="true"
+              >
+                *
+              </span>
+
+            </legend>
+
+
+            {{!-- STANDING INSTRUCTION --}}
+
+            <label class="sasha-form-choice-card">
+
+              <input
+                type="radio"
+                name="useType"
+                value="standing instruction"
+                required
+                data-sasha-radio="useType"
+              >
+
+              <span class="sasha-form-choice-copy">
+
+                <strong>
+                  Follow it as a standing instruction
+                </strong>
+
+                <span>
+                  Use for Sasha’s master manual, approved proposal
+                  procedures, required terminology, review standards,
+                  and continuing instructions.
+                </span>
+
+              </span>
+
+            </label>
+
+
+            {{!-- ORGANIZATIONAL CONTEXT --}}
+
+            <label class="sasha-form-choice-card">
+
+              <input
+                type="radio"
+                name="useType"
+                value="organizational context"
+                required
+                data-sasha-radio="useType"
+              >
+
+              <span class="sasha-form-choice-copy">
+
+                <strong>
+                  Use it to understand our organization
+                </strong>
+
+                <span>
+                  Use for strategic plans, organizational priorities,
+                  markets, services, positioning, and business context.
+                </span>
+
+              </span>
+
+            </label>
+
+
+            {{!-- WRITING REFERENCE --}}
+
+            <label class="sasha-form-choice-card">
+
+              <input
+                type="radio"
+                name="useType"
+                value="writing or branding reference"
+                required
+                data-sasha-radio="useType"
+              >
+
+              <span class="sasha-form-choice-copy">
+
+                <strong>
+                  Use it as a writing or branding reference
+                </strong>
+
+                <span>
+                  Use for proposal writing standards, messaging,
+                  terminology, branding guidance, tone, and approved
+                  examples.
+                </span>
+
+              </span>
+
+            </label>
+
+
+            {{!-- SEARCHABLE MATERIAL --}}
+
+            <label class="sasha-form-choice-card">
+
+              <input
+                type="radio"
+                name="useType"
+                value="searchable background material"
+                required
+                data-sasha-radio="useType"
+              >
+
+              <span class="sasha-form-choice-copy">
+
+                <strong>
+                  Search it when it might help
+                </strong>
+
+                <span>
+                  Use for historic proposals, technical references,
+                  debriefs, review findings, client intelligence,
+                  and other background material.
+                </span>
+
+              </span>
+
+            </label>
+
+
+            {{!-- SPECIFIC PURSUIT --}}
+
+            <label class="sasha-form-choice-card">
+
+              <input
+                type="radio"
+                name="useType"
+                value="specific task or project"
+                required
+                data-sasha-radio="useType"
+              >
+
+              <span class="sasha-form-choice-copy">
+
+                <strong>
+                  Use it only for a specific pursuit or task
+                </strong>
+
+                <span>
+                  Use for a particular pursuit, client, proposal,
+                  review, strategy exercise, or other clearly
+                  defined assignment.
+                </span>
+
+              </span>
+
+            </label>
+
+          </fieldset>
+
+
+          <div class="sasha-form-grid sasha-form-grid-two">
+
+
+            {{!-- USAGE INSTRUCTIONS --}}
+
+            <div class="sasha-form-field">
+
+              <label for="usageInstructions">
+
+                Instructions for Sasha
+
+                <span class="sasha-form-optional">
+                  optional
+                </span>
+
+              </label>
+
+
+              <textarea
+                id="usageInstructions"
+                name="usageInstructions"
+                rows="6"
+                maxlength="5000"
+                placeholder="For example: Follow these proposal writing principles whenever you draft methodology sections."
+                data-sasha-fill="usageInstructions"
+              >{{formData.usageInstructions}}</textarea>
+
+            </div>
+
+
+            {{!-- LIMITATIONS --}}
+
+            <div class="sasha-form-field">
+
+              <label for="limitations">
+
+                Limitations
+
+                <span class="sasha-form-optional">
+                  optional
+                </span>
+
+              </label>
+
+
+              <textarea
+                id="limitations"
+                name="limitations"
+                rows="6"
+                maxlength="5000"
+                placeholder="For example: Do not reuse pricing. Confirm technical standards are current. Do not treat this old proposal as an approved corporate standard."
+                data-sasha-fill="limitations"
+              >{{formData.limitations}}</textarea>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </details>
+
+
+      {{!-- =================================================
+           4. RELEVANCE
+      ================================================== --}}
+
+      <details class="sasha-form-section">
+
+        <summary>
+          Where This Resource Is Relevant
+        </summary>
+
+
+        <div class="sasha-form-section-content">
+
+          <p class="sasha-form-section-intro">
+            These fields help Sasha retrieve the resource for the right
+            pursuits, clients, markets, disciplines, regions, and requests.
+          </p>
+
+
+          <div class="sasha-form-grid sasha-form-grid-two">
+
+
+            <div class="sasha-form-field">
+
+              <label for="relevantMarketSector">
+
+                Market sector
+
+                <span class="sasha-form-optional">
+                  optional
+                </span>
+
+              </label>
+
+
+              <input
+                type="text"
+                id="relevantMarketSector"
+                name="relevantMarketSector"
+                maxlength="250"
+                placeholder="Municipal infrastructure"
+                value="{{formData.relevantMarketSector}}"
+                data-sasha-fill="relevantMarketSector"
+              >
+
+            </div>
+
+
+            <div class="sasha-form-field">
+
+              <label for="relevantDiscipline">
+
+                Discipline
+
+                <span class="sasha-form-optional">
+                  optional
+                </span>
+
+              </label>
+
+
+              <input
+                type="text"
+                id="relevantDiscipline"
+                name="relevantDiscipline"
+                maxlength="250"
+                placeholder="Civil engineering"
+                value="{{formData.relevantDiscipline}}"
+                data-sasha-fill="relevantDiscipline"
+              >
+
+            </div>
+
+
+            <div class="sasha-form-field">
+
+              <label for="relevantClient">
+
+                Client
+
+                <span class="sasha-form-optional">
+                  optional
+                </span>
+
+              </label>
+
+
+              <input
+                type="text"
+                id="relevantClient"
+                name="relevantClient"
+                maxlength="250"
+                placeholder="Municipal clients"
+                value="{{formData.relevantClient}}"
+                data-sasha-fill="relevantClient"
+              >
+
+            </div>
+
+
+            <div class="sasha-form-field">
+
+              <label for="relevantRegion">
+
+                Region
+
+                <span class="sasha-form-optional">
+                  optional
+                </span>
+
+              </label>
+
+
+              <input
+                type="text"
+                id="relevantRegion"
+                name="relevantRegion"
+                maxlength="250"
+                placeholder="Ontario"
+                value="{{formData.relevantRegion}}"
+                data-sasha-fill="relevantRegion"
+              >
+
+            </div>
+
+
+            <div class="sasha-form-field sasha-form-field-wide">
+
+              <label for="resourceKeywords">
+
+                Keywords
+
+                <span class="sasha-form-optional">
+                  optional
+                </span>
+
+              </label>
+
+
+              <input
+                type="text"
+                id="resourceKeywords"
+                name="resourceKeywords"
+                placeholder="proposals, methodology, win strategy, municipal, review"
+                value="{{formData.resourceKeywords}}"
+                data-sasha-fill="resourceKeywords"
+              >
+
+
+              <p class="sasha-form-help">
+                Separate keywords with commas.
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </details>
+
+
+      {{!-- =================================================
+           5. AUTHORITY AND PERMISSIONS
+      ================================================== --}}
+
+      <details
+        class="sasha-form-section"
+        open
+      >
+
+        <summary>
+          Confirm Authority and Permissions
+        </summary>
+
+
+        <div class="sasha-form-section-content">
+
+          <p class="sasha-form-section-intro">
+            A person must confirm these settings. Sasha will not choose
+            them automatically.
+          </p>
+
+
+          <div class="sasha-form-grid sasha-form-grid-two">
+
+
+            <div class="sasha-form-field">
+
+              <label for="authorityLevel">
+
+                Authority level
+
+                <span
+                  class="sasha-form-required"
+                  aria-hidden="true"
+                >
+                  *
+                </span>
+
+              </label>
+
+
+              <select
+                id="authorityLevel"
+                name="authorityLevel"
+                required
+              >
+
+                <option value="">
+                  Select an authority level
+                </option>
+
+                <option value="approved corporate standard">
+                  Approved Corporate Standard
+                </option>
+
+                <option value="approved reference">
+                  Approved Reference
+                </option>
+
+                <option value="useful example">
+                  Useful Example
+                </option>
+
+                <option value="historic information">
+                  Historic Information
+                </option>
+
+                <option value="unverified background">
+                  Unverified Background
+                </option>
+
+              </select>
+
+            </div>
+
+
+            <div class="sasha-form-field">
+
+              <label for="confidentiality">
+
+                Confidentiality
+
+                <span
+                  class="sasha-form-required"
+                  aria-hidden="true"
+                >
+                  *
+                </span>
+
+              </label>
+
+
+              <select
+                id="confidentiality"
+                name="confidentiality"
+                required
+              >
+
+                <option value="">
+                  Select a confidentiality level
+                </option>
+
+                <option value="internal">
+                  Internal
+                </option>
+
+                <option value="restricted">
+                  Restricted
+                </option>
+
+                <option value="approved for proposals">
+                  Approved for Proposals
+                </option>
+
+                <option value="approved for public use">
+                  Approved for Public Use
+                </option>
+
+              </select>
+
+            </div>
+
+
+            <div class="sasha-form-field">
+
+              <label for="effectiveDate">
+
+                Effective date
+
+                <span class="sasha-form-optional">
+                  optional
+                </span>
+
+              </label>
+
+              <input
+                type="date"
+                id="effectiveDate"
+                name="effectiveDate"
+              >
+
+            </div>
+
+
+            <div class="sasha-form-field">
+
+              <label for="reviewDate">
+
+                Review date
+
+                <span class="sasha-form-optional">
+                  optional
+                </span>
+
+              </label>
+
+              <input
+                type="date"
+                id="reviewDate"
+                name="reviewDate"
+              >
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </details>
+
+
+      {{!-- =================================================
+           FORM ACTIONS
+      ================================================== --}}
+
+      <div class="sasha-form-actions">
+
+        <a
+          class="sasha-form-cancel-button"
+          href="/"
+        >
+          Cancel
+        </a>
+
+
+        <button
+          class="sasha-form-submit-button"
+          type="submit"
+        >
+          Add Resource
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</section>
+
+
+{{!-- =====================================================
+     SASHA RESOURCE ANALYSIS
+====================================================== --}}
+
+<script>
+
+  document.addEventListener(
+    'DOMContentLoaded',
+    () => {
+
+      const fileInput =
+        document.getElementById(
+          'resourceFiles'
+        );
+
+
+      const analyzeButton =
+        document.getElementById(
+          'sasha-instruction-analyze-button'
+        );
+
+
+      const analyzeLabel =
+        analyzeButton?.querySelector(
+          '[data-analyze-label]'
+        );
+
+
+      const analysisStatus =
+        document.getElementById(
+          'sasha-instruction-analysis-status'
+        );
+
+
+      const analysisStatusMessage =
+        document.getElementById(
+          'sasha-instruction-analysis-status-message'
+        );
+
+
+      const analysisError =
+        document.getElementById(
+          'sasha-instruction-analysis-error'
+        );
+
+
+      const analysisErrorMessage =
+        document.getElementById(
+          'sasha-instruction-analysis-error-message'
+        );
+
+
+      const analysisSuccess =
+        document.getElementById(
+          'sasha-instruction-analysis-success'
+        );
+
+
+      const analysisToken =
+        document.getElementById(
+          'instructionAnalysisToken'
+        );
+
+
+      const csrfInput =
+        document.querySelector(
+          'input[name="_csrf"]'
+        );
+
+
+      /* =================================================
+         MARK A FIELD AS SASHA-SUGGESTED
+      ================================================== */
+
+      const markSuggestedField =
+        (
+          field
+        ) => {
+
+          field.classList.add(
+            'is-sasha-suggested'
+          );
+
+
+          field.addEventListener(
+            'input',
+            () => {
+
+              field.classList.remove(
+                'is-sasha-suggested'
+              );
+
+            },
+            {
+              once:
+                true
+            }
+          );
+
+        };
+
+
+      /* =================================================
+         FILL TEXT OR SELECT FIELD
+      ================================================== */
+
+      const fillField =
+        (
+          fieldName,
+          value
+        ) => {
+
+          if (
+            value === null ||
+            value === undefined ||
+            value === ''
+          ) {
+
+            return;
+
+          }
+
+
+          const field =
+            document.querySelector(
+              `[data-sasha-fill="${fieldName}"]`
+            );
+
+
+          if (
+            !field
+          ) {
+
+            return;
+
+          }
+
+
+          field.value =
+            Array.isArray(
+              value
+            )
+              ? value.join(
+                  ', '
+                )
+              : value;
+
+
+          markSuggestedField(
+            field
+          );
+
+        };
+
+
+      /* =================================================
+         FILL RADIO FIELD
+      ================================================== */
+
+      const fillRadio =
+        (
+          fieldName,
+          value
+        ) => {
+
+          if (
+            !value
+          ) {
+
+            return;
+
+          }
+
+
+          const radios =
+            document.querySelectorAll(
+              `[data-sasha-radio="${fieldName}"]`
+            );
+
+
+          radios.forEach(
+            (
+              radio
+            ) => {
+
+              if (
+                radio.value ===
+                value
+              ) {
+
+                radio.checked =
+                  true;
+
+
+                const card =
+                  radio.closest(
+                    '.sasha-form-choice-card'
+                  );
+
+
+                if (
+                  card
+                ) {
+
+                  card.classList.add(
+                    'is-sasha-suggested'
+                  );
+
+                }
+
+              }
+
+            }
+          );
+
+        };
+
+
+      /* =================================================
+         APPLY SASHA'S SUGGESTIONS
+      ================================================== */
+
+      const applySuggestions =
+        (
+          suggestions
+        ) => {
+
+          const textFields = [
+            'resourceTitle',
+            'resourceCategory',
+            'documentOwner',
+            'resourceDescription',
+            'usageInstructions',
+            'limitations',
+            'relevantMarketSector',
+            'relevantDiscipline',
+            'relevantClient',
+            'relevantRegion',
+            'resourceKeywords'
+          ];
+
+
+          textFields.forEach(
+            (
+              fieldName
+            ) => {
+
+              fillField(
+                fieldName,
+                suggestions[
+                  fieldName
+                ]
+              );
+
+            }
+          );
+
+
+          fillRadio(
+            'useType',
+            suggestions.useType
+          );
+
+        };
+
+
+      /* =================================================
+         ASK SASHA TO ANALYZE FILES
+      ================================================== */
+
+      if (
+        analyzeButton
+      ) {
+
+        analyzeButton.addEventListener(
+          'click',
+          async () => {
+
+            if (
+              !fileInput.files ||
+              fileInput.files.length ===
+              0
+            ) {
+
+              analysisErrorMessage.textContent =
+                'Select at least one file before asking Sasha to prepare the form.';
+
+
+              analysisError.hidden =
+                false;
+
+
+              fileInput.focus();
+
+
+              return;
+
+            }
+
+
+            analysisError.hidden =
+              true;
+
+
+            analysisSuccess.hidden =
+              true;
+
+
+            analysisStatus.hidden =
+              false;
+
+
+            analysisStatusMessage.textContent =
+              'Sasha is reviewing the uploaded document...';
+
+
+            analyzeButton.disabled =
+              true;
+
+
+            analyzeButton.setAttribute(
+              'aria-busy',
+              'true'
+            );
+
+
+            analyzeLabel.textContent =
+              'Reviewing Document';
+
+
+            const requestData =
+              new FormData();
+
+
+            Array.from(
+              fileInput.files
+            ).forEach(
+              (
+                file
+              ) => {
+
+                requestData.append(
+                  'resourceFiles',
+                  file
+                );
+
+              }
+            );
+
+
+            if (
+              csrfInput?.value
+            ) {
+
+              requestData.append(
+                '_csrf',
+                csrfInput.value
+              );
+
+            }
+
+
+            try {
+
+              const response =
+                await fetch(
+                  '/add_instructions/analyze',
+                  {
+                    method:
+                      'POST',
+
+                    body:
+                      requestData
+                  }
+                );
+
+
+              const result =
+                await response.json();
+
+
+              if (
+                !response.ok ||
+                !result.success
+              ) {
+
+                throw new Error(
+                  result.errorMessage ||
+                  'Sasha could not review the uploaded document.'
+                );
+
+              }
+
+
+              applySuggestions(
+                result.suggestions ||
+                {}
+              );
+
+
+              analysisToken.value =
+                result.analysisToken ||
+                '';
+
+
+              analysisStatus.hidden =
+                true;
+
+
+              analysisSuccess.hidden =
+                false;
+
+
+              analysisSuccess.scrollIntoView(
+                {
+                  behavior:
+                    'smooth',
+
+                  block:
+                    'center'
+                }
+              );
+
+            } catch (
+              error
+            ) {
+
+              analysisStatus.hidden =
+                true;
+
+
+              analysisSuccess.hidden =
+                true;
+
+
+              analysisErrorMessage.textContent =
+                error.message ||
+                'Sasha could not review the uploaded document. Please try again.';
+
+
+              analysisError.hidden =
+                false;
+
+            } finally {
+
+              analyzeButton.disabled =
+                false;
+
+
+              analyzeButton.removeAttribute(
+                'aria-busy'
+              );
+
+
+              analyzeLabel.textContent =
+                'Let Sasha Prepare This Form';
+
+            }
+
+          }
+        );
+
+      }
+
+    }
+  );
+
+</script>
