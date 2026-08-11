@@ -137,20 +137,7 @@ REVIEW
 router.get(
   '/review',
   ensureOrganization,
-  (req, res) => {
-
-    return res.render(
-      'sasha_review',
-      {
-        layout:
-          'mainlayout',
-
-        pageTitle:
-          'Review | Sasha'
-      }
-    );
-
-  }
+  proposalController.getReviewPursuit
 );
 
 

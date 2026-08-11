@@ -1,0 +1,1147 @@
+{{!-- =====================================================
+     SASHA REVIEW
+====================================================== --}}
+
+<section
+  class="sasha-work-page sasha-review-page"
+  aria-labelledby="sasha-review-heading"
+>
+
+  <div class="sasha-work-container">
+
+
+    {{!-- =================================================
+         BACK TO PURSUIT
+    ================================================== --}}
+
+    <div class="sasha-work-back">
+
+      <a href="/pursuit/{{proposal._id}}">
+        ← Pursuit Dashboard
+      </a>
+
+    </div>
+
+
+    {{!-- =================================================
+         PAGE HEADER
+    ================================================== --}}
+
+    <header class="sasha-work-header">
+
+      <div class="sasha-work-header-copy">
+
+        <p class="sasha-work-eyebrow">
+          Review
+        </p>
+
+        <h1 id="sasha-review-heading">
+          {{proposal.proposalName}}
+        </h1>
+
+        {{#if proposal.clientName}}
+
+          <p class="sasha-work-client">
+            {{proposal.clientName}}
+          </p>
+
+        {{/if}}
+
+        <p class="sasha-work-introduction">
+          Review the proposal for compliance, competitive strength,
+          consistency, readability, risk, and final quality.
+          Sasha can review continuously or support structured team reviews.
+        </p>
+
+      </div>
+
+
+      <div class="sasha-work-header-meta">
+
+        {{#if proposal.rfpNumber}}
+
+          <div class="sasha-work-meta-item">
+
+            <span>
+              RFP
+            </span>
+
+            <strong>
+              {{proposal.rfpNumber}}
+            </strong>
+
+          </div>
+
+        {{/if}}
+
+
+        <div class="sasha-work-meta-item">
+
+          <span>
+            Status
+          </span>
+
+          <strong class="sasha-pursuit-capitalize">
+            {{proposal.proposalStatus}}
+          </strong>
+
+        </div>
+
+
+        <div class="sasha-work-meta-item">
+
+          <span>
+            Effort
+          </span>
+
+          <strong class="sasha-pursuit-capitalize">
+            {{proposal.effortLevel}}
+          </strong>
+
+        </div>
+
+
+        <div class="sasha-work-meta-item">
+
+          <span>
+            Sections
+          </span>
+
+          <strong>
+            {{contentSections.length}}
+          </strong>
+
+        </div>
+
+      </div>
+
+    </header>
+
+
+    {{!-- =================================================
+         REVIEW MODE
+    ================================================== --}}
+
+    <section
+      class="
+        sasha-review-effort-banner
+        is-{{proposal.effortLevel}}
+      "
+    >
+
+      <div>
+
+        <p class="sasha-work-eyebrow">
+          Review Approach
+        </p>
+
+
+        {{#ifEquals proposal.effortLevel "minimal"}}
+
+          <h2>
+            Focused Final Review
+          </h2>
+
+          <p>
+            Keep review effort controlled. Sasha will concentrate on
+            mandatory requirements, submission readiness, obvious
+            inconsistencies, proofreading, and avoiding disqualification.
+          </p>
+
+        {{/ifEquals}}
+
+
+        {{#ifEquals proposal.effortLevel "usual"}}
+
+          <h2>
+            Focused Competitive Review
+          </h2>
+
+          <p>
+            Sasha will review compliance, proposal responsiveness,
+            strategy alignment, evidence, readability, and final quality.
+            A focused independent review can be added where it provides
+            useful competitive value.
+          </p>
+
+        {{/ifEquals}}
+
+
+        {{#ifEquals proposal.effortLevel "full"}}
+
+          <h2>
+            Structured Competitive Review
+          </h2>
+
+          <p>
+            This pursuit can use formal review checkpoints as well as
+            Sasha's continuous review throughout proposal development.
+          </p>
+
+        {{/ifEquals}}
+
+      </div>
+
+    </section>
+
+
+    {{!-- =================================================
+         REVIEW WORKSPACE
+    ================================================== --}}
+
+    <div class="sasha-review-layout">
+
+
+      {{!-- =================================================
+           CHAT WITH SASHA
+      ================================================== --}}
+
+      <section
+        class="sasha-chat-panel"
+        aria-labelledby="sasha-review-chat-heading"
+      >
+
+        <header class="sasha-chat-header">
+
+          <div>
+
+            <p class="sasha-work-eyebrow">
+              Work with Sasha
+            </p>
+
+            <h2 id="sasha-review-chat-heading">
+              Review the Proposal
+            </h2>
+
+          </div>
+
+          <span class="sasha-chat-status">
+            Review conversation
+          </span>
+
+        </header>
+
+
+        {{!-- ===============================================
+             CHAT THREAD
+        ================================================ --}}
+
+        <div
+          class="sasha-chat-thread sasha-review-chat-thread"
+          id="sasha-review-chat-thread"
+          aria-live="polite"
+        >
+
+
+          <article class="sasha-chat-message is-sasha">
+
+            <div class="sasha-chat-speaker">
+              Sasha
+            </div>
+
+            <div class="sasha-chat-bubble">
+
+
+              {{#ifEquals proposal.effortLevel "minimal"}}
+
+                <p>
+                  I’ll keep the review focused. We should make sure the
+                  proposal is compliant, complete, professionally presented,
+                  and free from avoidable submission problems.
+                </p>
+
+              {{/ifEquals}}
+
+
+              {{#ifEquals proposal.effortLevel "usual"}}
+
+                <p>
+                  I can review the proposal against the RFP, evaluation
+                  criteria, strategy, evidence, and overall evaluator
+                  experience.
+                </p>
+
+                <p>
+                  If there is an area you are especially concerned about,
+                  tell me where you want me to concentrate.
+                </p>
+
+              {{/ifEquals}}
+
+
+              {{#ifEquals proposal.effortLevel "full"}}
+
+                <p>
+                  I can review continuously and also help prepare or support
+                  the formal review checkpoints selected for this pursuit.
+                </p>
+
+                <p>
+                  Each review has a different purpose, so we should assess
+                  the right questions at the right stage rather than asking
+                  every reviewer to critique everything.
+                </p>
+
+              {{/ifEquals}}
+
+
+            </div>
+
+          </article>
+
+
+          {{#each reviewMessages}}
+
+            <article
+              class="
+                sasha-chat-message
+                is-{{this.role}}
+              "
+            >
+
+              <div class="sasha-chat-speaker">
+
+                {{#ifEquals this.role "user"}}
+                  You
+                {{else}}
+                  Sasha
+                {{/ifEquals}}
+
+              </div>
+
+              <div class="sasha-chat-bubble">
+                {{{this.content}}}
+              </div>
+
+            </article>
+
+          {{/each}}
+
+        </div>
+
+
+        {{!-- ===============================================
+             CHAT COMPOSER
+        ================================================ --}}
+
+        <form
+          class="sasha-chat-composer"
+          method="POST"
+          action="/review/chat"
+        >
+
+          {{#if csrfToken}}
+
+            <input
+              type="hidden"
+              name="_csrf"
+              value="{{csrfToken}}"
+            >
+
+          {{/if}}
+
+          <input
+            type="hidden"
+            name="pursuitId"
+            value="{{proposal._id}}"
+          >
+
+
+          <label
+            for="sasha-review-message"
+            class="sasha-chat-label"
+          >
+            Ask Sasha to review
+          </label>
+
+
+          <textarea
+            id="sasha-review-message"
+            name="message"
+            rows="5"
+            placeholder="Ask Sasha to review a section, test compliance, assess competitive strength, check the proposal against the win strategy, or identify weaknesses..."
+            required
+          ></textarea>
+
+
+          <div class="sasha-chat-actions">
+
+            <p>
+              Sasha will use the RFP, pursuit analysis, strategy,
+              proposal sections, and prior review findings as context.
+            </p>
+
+            <button
+              type="submit"
+              class="sasha-chat-submit"
+            >
+              Send to Sasha
+            </button>
+
+          </div>
+
+        </form>
+
+      </section>
+
+
+      {{!-- =================================================
+           REVIEW STATUS
+      ================================================== --}}
+
+      <aside class="sasha-review-sidebar">
+
+
+        <section class="sasha-review-side-card">
+
+          <p class="sasha-work-eyebrow">
+            Proposal Health
+          </p>
+
+          <h2>
+            Current Status
+          </h2>
+
+
+          <div class="sasha-review-health-list">
+
+            <div>
+
+              <span>
+                Compliance
+              </span>
+
+              <strong>
+                {{#if reviewStatus.compliance}}
+                  {{reviewStatus.compliance}}
+                {{else}}
+                  Not reviewed
+                {{/if}}
+              </strong>
+
+            </div>
+
+
+            <div>
+
+              <span>
+                Strategy
+              </span>
+
+              <strong>
+                {{#if reviewStatus.strategy}}
+                  {{reviewStatus.strategy}}
+                {{else}}
+                  Not reviewed
+                {{/if}}
+              </strong>
+
+            </div>
+
+
+            <div>
+
+              <span>
+                Evidence
+              </span>
+
+              <strong>
+                {{#if reviewStatus.evidence}}
+                  {{reviewStatus.evidence}}
+                {{else}}
+                  Not reviewed
+                {{/if}}
+              </strong>
+
+            </div>
+
+
+            <div>
+
+              <span>
+                Readability
+              </span>
+
+              <strong>
+                {{#if reviewStatus.readability}}
+                  {{reviewStatus.readability}}
+                {{else}}
+                  Not reviewed
+                {{/if}}
+              </strong>
+
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <section class="sasha-review-side-card">
+
+          <p class="sasha-work-eyebrow">
+            Open Findings
+          </p>
+
+          <h2>
+            Issues to Resolve
+          </h2>
+
+
+          <strong class="sasha-review-open-count">
+            {{openReviewFindingCount}}
+          </strong>
+
+          <p class="sasha-review-side-copy">
+            Review findings that still require a decision, revision,
+            verification, or other action.
+          </p>
+
+        </section>
+
+
+      </aside>
+
+    </div>
+
+
+    {{!-- =================================================
+         CORE REVIEW TOOLS
+    ================================================== --}}
+
+    <section class="sasha-review-section">
+
+      <header class="sasha-review-section-heading">
+
+        <div>
+
+          <p class="sasha-work-eyebrow">
+            Continuous Review
+          </p>
+
+          <h2>
+            Review the Submission
+          </h2>
+
+        </div>
+
+        <p>
+          These reviews can happen at any point. Sasha does not need
+          to wait for a formal Color Team checkpoint to identify a problem.
+        </p>
+
+      </header>
+
+
+      <div class="sasha-review-tools-grid">
+
+
+        <article class="sasha-review-tool-card">
+
+          <span>
+            01
+          </span>
+
+          <h3>
+            Compliance
+          </h3>
+
+          <p>
+            Check the proposal against mandatory requirements,
+            submission instructions, forms, page limits, and RFP criteria.
+          </p>
+
+          <button
+            type="button"
+            class="sasha-review-tool-action"
+          >
+            Review Compliance
+          </button>
+
+        </article>
+
+
+        <article class="sasha-review-tool-card">
+
+          <span>
+            02
+          </span>
+
+          <h3>
+            Competitive Strength
+          </h3>
+
+          <p>
+            Test whether the proposal presents persuasive reasons
+            for the evaluator to select this team.
+          </p>
+
+          <button
+            type="button"
+            class="sasha-review-tool-action"
+          >
+            Review Win Potential
+          </button>
+
+        </article>
+
+
+        <article class="sasha-review-tool-card">
+
+          <span>
+            03
+          </span>
+
+          <h3>
+            Evidence
+          </h3>
+
+          <p>
+            Identify unsupported claims, weak examples, missing
+            proof, and places where stronger project or personnel
+            evidence is needed.
+          </p>
+
+          <button
+            type="button"
+            class="sasha-review-tool-action"
+          >
+            Review Evidence
+          </button>
+
+        </article>
+
+
+        <article class="sasha-review-tool-card">
+
+          <span>
+            04
+          </span>
+
+          <h3>
+            Readability
+          </h3>
+
+          <p>
+            Assess structure, clarity, skimmability, evaluator
+            experience, consistency, and visual communication.
+          </p>
+
+          <button
+            type="button"
+            class="sasha-review-tool-action"
+          >
+            Review Readability
+          </button>
+
+        </article>
+
+      </div>
+
+    </section>
+
+
+    {{!-- =================================================
+         COLOR TEAM REVIEWS
+         FULL EFFORT ONLY
+    ================================================== --}}
+
+    {{#ifEquals proposal.effortLevel "full"}}
+
+      <section class="sasha-review-section">
+
+        <header class="sasha-review-section-heading">
+
+          <div>
+
+            <p class="sasha-work-eyebrow">
+              Structured Reviews
+            </p>
+
+            <h2>
+              Color Team Reviews
+            </h2>
+
+          </div>
+
+          <p>
+            Review the right work at the right stage. Each review
+            has a distinct purpose.
+          </p>
+
+        </header>
+
+
+        <div class="sasha-color-review-grid">
+
+
+          {{!-- =============================================
+               BLUE TEAM
+          ============================================== --}}
+
+          <article
+            class="
+              sasha-color-review-card
+              is-blue
+            "
+          >
+
+            <div class="sasha-color-review-name">
+              Blue Team
+            </div>
+
+            <h3>
+              Test the Win Strategy
+            </h3>
+
+            <p>
+              An impartial early review of the pursuit strategy before
+              extensive proposal writing begins.
+            </p>
+
+            <div class="sasha-color-review-status">
+
+              <span>
+                Status
+              </span>
+
+              <strong>
+                {{#if reviews.blue.status}}
+                  {{reviews.blue.status}}
+                {{else}}
+                  Not started
+                {{/if}}
+              </strong>
+
+            </div>
+
+            <button
+              type="button"
+              class="sasha-color-review-action"
+            >
+              Open Blue Team Review
+            </button>
+
+          </article>
+
+
+          {{!-- =============================================
+               PINK TEAM
+          ============================================== --}}
+
+          <article
+            class="
+              sasha-color-review-card
+              is-pink
+            "
+          >
+
+            <div class="sasha-color-review-name">
+              Pink Team
+            </div>
+
+            <h3>
+              Test the Storyboard and Work Plan
+            </h3>
+
+            <p>
+              Review whether the planned proposal structure,
+              methodology, and argument will work before extensive
+              drafting is complete.
+            </p>
+
+            <div class="sasha-color-review-status">
+
+              <span>
+                Status
+              </span>
+
+              <strong>
+                {{#if reviews.pink.status}}
+                  {{reviews.pink.status}}
+                {{else}}
+                  Not started
+                {{/if}}
+              </strong>
+
+            </div>
+
+            <button
+              type="button"
+              class="sasha-color-review-action"
+            >
+              Open Pink Team Review
+            </button>
+
+          </article>
+
+
+          {{!-- =============================================
+               GOLD TEAM
+          ============================================== --}}
+
+          <article
+            class="
+              sasha-color-review-card
+              is-gold
+            "
+          >
+
+            <div class="sasha-color-review-name">
+              Gold Team
+            </div>
+
+            <h3>
+              Protect the Firm
+            </h3>
+
+            <p>
+              An executive or decision-maker review for unusual
+              contractual, commercial, scope, fee, insurance, or
+              organizational risk.
+            </p>
+
+            <div class="sasha-color-review-status">
+
+              <span>
+                Status
+              </span>
+
+              <strong>
+                {{#if reviews.gold.status}}
+                  {{reviews.gold.status}}
+                {{else}}
+                  Not required
+                {{/if}}
+              </strong>
+
+            </div>
+
+            <button
+              type="button"
+              class="sasha-color-review-action"
+            >
+              Open Gold Team Review
+            </button>
+
+          </article>
+
+
+          {{!-- =============================================
+               RED TEAM
+          ============================================== --}}
+
+          <article
+            class="
+              sasha-color-review-card
+              is-red
+            "
+          >
+
+            <div class="sasha-color-review-name">
+              Red Team
+            </div>
+
+            <h3>
+              Review as the Evaluator
+            </h3>
+
+            <p>
+              Review the substantially complete proposal and ask
+              whether it would compete effectively if submitted
+              in its current form.
+            </p>
+
+            <div class="sasha-color-review-status">
+
+              <span>
+                Status
+              </span>
+
+              <strong>
+                {{#if reviews.red.status}}
+                  {{reviews.red.status}}
+                {{else}}
+                  Not started
+                {{/if}}
+              </strong>
+
+            </div>
+
+            <button
+              type="button"
+              class="sasha-color-review-action"
+            >
+              Open Red Team Review
+            </button>
+
+          </article>
+
+        </div>
+
+      </section>
+
+    {{/ifEquals}}
+
+
+    {{!-- =================================================
+         USUAL EFFORT REVIEW
+    ================================================== --}}
+
+    {{#ifEquals proposal.effortLevel "usual"}}
+
+      <section class="sasha-review-section">
+
+        <div class="sasha-review-usual-option">
+
+          <div>
+
+            <p class="sasha-work-eyebrow">
+              Optional Independent Review
+            </p>
+
+            <h2>
+              Would a Focused Team Review Help?
+            </h2>
+
+            <p>
+              A Usual-effort proposal does not automatically need a
+              formal Color Team process. If this pursuit is especially
+              competitive, unfamiliar, or strategically important,
+              Sasha can help organize a focused independent review.
+            </p>
+
+          </div>
+
+          <button
+            type="button"
+            class="sasha-review-tool-action"
+          >
+            Plan a Focused Review
+          </button>
+
+        </div>
+
+      </section>
+
+    {{/ifEquals}}
+
+
+    {{!-- =================================================
+         REVIEW FINDINGS
+    ================================================== --}}
+
+    <section class="sasha-review-section">
+
+      <header class="sasha-review-section-heading">
+
+        <div>
+
+          <p class="sasha-work-eyebrow">
+            Findings
+          </p>
+
+          <h2>
+            Review Findings
+          </h2>
+
+        </div>
+
+        <p>
+          Keep findings specific and actionable. Review comments should
+          identify what needs attention and why.
+        </p>
+
+      </header>
+
+
+      {{#if reviewFindings.length}}
+
+        <div class="sasha-review-findings-list">
+
+          {{#each reviewFindings}}
+
+            <article
+              class="
+                sasha-review-finding
+                is-{{this.status}}
+              "
+            >
+
+              <div class="sasha-review-finding-marker">
+
+                {{#ifEquals this.status "resolved"}}
+                  ✓
+                {{else}}
+                  !
+                {{/ifEquals}}
+
+              </div>
+
+
+              <div class="sasha-review-finding-copy">
+
+                <div class="sasha-review-finding-heading">
+
+                  <strong>
+                    {{this.title}}
+                  </strong>
+
+                  {{#if this.category}}
+
+                    <span>
+                      {{this.category}}
+                    </span>
+
+                  {{/if}}
+
+                </div>
+
+
+                {{#if this.description}}
+
+                  <p>
+                    {{this.description}}
+                  </p>
+
+                {{/if}}
+
+
+                {{#if this.section}}
+
+                  <small>
+                    Section: {{this.section}}
+                  </small>
+
+                {{/if}}
+
+              </div>
+
+            </article>
+
+          {{/each}}
+
+        </div>
+
+      {{else}}
+
+        <div class="sasha-review-findings-empty">
+
+          <p>
+            No review findings have been recorded yet. As Sasha and
+            the proposal team review the submission, findings and
+            required actions will appear here.
+          </p>
+
+        </div>
+
+      {{/if}}
+
+    </section>
+
+
+    {{!-- =================================================
+         FINAL QUALITY
+    ================================================== --}}
+
+    <section class="sasha-review-final-quality">
+
+      <header class="sasha-review-section-heading">
+
+        <div>
+
+          <p class="sasha-work-eyebrow">
+            Final Quality
+          </p>
+
+          <h2>
+            Before Submission
+          </h2>
+
+        </div>
+
+      </header>
+
+
+      <div class="sasha-review-final-grid">
+
+
+        <article>
+
+          <span>
+            01
+          </span>
+
+          <h3>
+            Final Compliance
+          </h3>
+
+          <p>
+            Confirm that every mandatory requirement and submission
+            instruction has been satisfied.
+          </p>
+
+        </article>
+
+
+        <article>
+
+          <span>
+            02
+          </span>
+
+          <h3>
+            Proofreading
+          </h3>
+
+          <p>
+            Check spelling, grammar, formatting, labels, numbering,
+            names, dates, and other detailed quality issues.
+          </p>
+
+        </article>
+
+
+        <article>
+
+          <span>
+            03
+          </span>
+
+          <h3>
+            Consistency
+          </h3>
+
+          <p>
+            Confirm that methodology, team, schedule, scope,
+            commitments, and proposal evidence agree with one another.
+          </p>
+
+        </article>
+
+
+        <article>
+
+          <span>
+            04
+          </span>
+
+          <h3>
+            Submission Readiness
+          </h3>
+
+          <p>
+            Verify approvals, signatures, document assembly,
+            file preparation, upload requirements, and final delivery.
+          </p>
+
+        </article>
+
+      </div>
+
+    </section>
+
+
+  </div>
+
+</section>

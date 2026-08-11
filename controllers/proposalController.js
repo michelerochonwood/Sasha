@@ -1327,3 +1327,252 @@ async (
   }
 
 };
+
+
+/* =====================================================
+GET REVIEW
+===================================================== */
+
+exports.getReviewPursuit =
+async (
+  req,
+  res,
+  next
+) => {
+
+  try {
+
+    /* =================================================
+       DETERMINE PURSUIT
+    ================================================== */
+
+    const requestedPursuitId =
+      req.query.pursuit ||
+      null;
+
+
+    const pursuitId =
+      requestedPursuitId ||
+      req.session.activePursuitId ||
+      null;
+
+
+    /* =================================================
+       REQUIRE PURSUIT
+    ================================================== */
+
+    if (
+      !pursuitId
+    ) {
+
+      return res.redirect(
+        '/pursuits'
+      );
+
+    }
+
+
+    /* =================================================
+       FIND PURSUIT
+    ================================================== */
+
+    const proposal =
+      await Proposal.findOne(
+        {
+          _id:
+            pursuitId,
+
+          organization:
+            req.session.organizationId
+        }
+      )
+        .lean();
+
+
+    /* =================================================
+       PURSUIT NOT FOUND
+    ================================================== */
+
+    if (
+      !proposal
+    ) {
+
+      if (
+        req.session.activePursuitId ===
+        pursuitId
+      ) {
+
+        delete req.session.activePursuitId;
+        delete req.session.activePursuitName;
+
+      }
+
+
+      return res.status(404).render(
+        'not_found',
+        {
+          layout:
+            'mainlayout',
+
+          pageTitle:
+            'Pursuit Not Found | Sasha'
+        }
+      );
+
+    }
+
+
+    /* =================================================
+       SET ACTIVE PURSUIT
+    ================================================== */
+
+    req.session.activePursuitId =
+      proposal._id.toString();
+
+    req.session.activePursuitName =
+      proposal.proposalName;
+
+
+    /* =================================================
+       PREPARE CONTENT SECTIONS
+    ================================================== */
+
+    const contentSections =
+      Array.isArray(
+        proposal.contentSections
+      )
+        ? proposal.contentSections
+        : [];
+
+
+    /* =================================================
+       PREPARE REVIEWS
+    ================================================== */
+
+    const reviews =
+      proposal.reviews &&
+      typeof proposal.reviews ===
+        'object'
+        ? proposal.reviews
+        : {};
+
+
+    /* =================================================
+       PREPARE REVIEW FINDINGS
+    ================================================== */
+
+    const reviewFindings =
+      Array.isArray(
+        reviews.findings
+      )
+        ? reviews.findings
+        : [];
+
+
+    const openReviewFindings =
+      reviewFindings.filter(
+        (
+          finding
+        ) =>
+          finding.status !==
+          'resolved'
+      );
+
+
+    /* =================================================
+       PREPARE REVIEW STATUS
+    ================================================== */
+
+    const reviewStatus =
+      reviews.status &&
+      typeof reviews.status ===
+        'object'
+        ? reviews.status
+        : {};
+
+
+    /* =================================================
+       PREPARE EFFORT LEVEL
+    ================================================== */
+
+    const effortLevel =
+      proposal.effortLevel ||
+      'usual';
+
+
+    const isMinimalEffort =
+      effortLevel ===
+      'minimal';
+
+
+    const isUsualEffort =
+      effortLevel ===
+      'usual';
+
+
+    const isFullEffort =
+      effortLevel ===
+      'full';
+
+
+    /* =================================================
+       RENDER
+    ================================================== */
+
+    return res.render(
+      'sasha_review',
+      {
+        layout:
+          'mainlayout',
+
+        pageTitle:
+          `Review ${proposal.proposalName} | Sasha`,
+
+        proposal,
+
+        contentSections,
+
+        reviews,
+
+        reviewFindings,
+
+        openReviewFindingCount:
+          openReviewFindings.length,
+
+        reviewStatus,
+
+        effortLevel,
+
+        isMinimalEffort,
+
+        isUsualEffort,
+
+        isFullEffort,
+
+        /*
+         * Multi-turn review conversation
+         * will be connected later.
+         */
+
+        reviewMessages:
+          []
+      }
+    );
+
+  } catch (
+    error
+  ) {
+
+    console.error(
+      'LOAD PURSUIT REVIEW FAILED:',
+      error
+    );
+
+
+    return next(
+      error
+    );
+
+  }
+
+};
