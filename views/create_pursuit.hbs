@@ -1,0 +1,767 @@
+{{!-- =====================================================
+     CREATE A PURSUIT
+====================================================== --}}
+
+<section class="sasha-form-page">
+
+  <div class="sasha-form-container">
+
+    {{!-- =================================================
+         PAGE INTRODUCTION
+    ================================================== --}}
+
+    <header class="sasha-form-header">
+
+      <p class="sasha-form-eyebrow">
+        create a pursuit
+      </p>
+
+      <h1>
+        Start a New Pursuit
+      </h1>
+
+      <p class="sasha-form-intro">
+        Give Sasha whatever information you have. Upload the RFP,
+        procurement documents, notes, emails, or other pursuit material
+        and Sasha will complete as much of the initial record as possible.
+        Review her draft, make any changes, and save the pursuit when
+        you are ready.
+      </p>
+
+    </header>
+
+
+    {{!-- =====================================================
+         CREATE PURSUIT FORM
+    ====================================================== --}}
+
+    <form
+      class="sasha-pursuit-form"
+      action="/create_pursuit"
+      method="POST"
+      enctype="multipart/form-data"
+    >
+
+      <input
+        type="hidden"
+        name="_csrf"
+        value="{{csrfToken}}"
+      >
+
+
+      <input
+        type="hidden"
+        id="aiSummary"
+        name="aiSummary"
+        value=""
+      >
+
+
+      {{!-- =================================================
+           SASHA AI IMPORT
+      ================================================== --}}
+
+      <section
+        class="sasha-ai-import-block"
+        aria-labelledby="sasha-ai-import-heading"
+      >
+
+        <div class="sasha-ai-import-header">
+
+          <p class="sasha-form-eyebrow">
+            let Sasha get started
+          </p>
+
+          <h2 id="sasha-ai-import-heading">
+            Give Sasha What You Have
+          </h2>
+
+          <p>
+            You do not need to organize everything first. Upload the
+            opportunity documents you already have and tell Sasha anything
+            else she should know. She will review the material and prepare
+            the first draft of the pursuit record.
+          </p>
+
+        </div>
+
+
+        <div class="sasha-ai-import-grid">
+
+          {{!-- =================================================
+               PROMPT
+          ================================================== --}}
+
+          <div class="sasha-form-field">
+
+            <label for="sashaPursuitPrompt">
+              Tell Sasha anything that might help
+            </label>
+
+            <textarea
+              id="sashaPursuitPrompt"
+              name="sashaPursuitPrompt"
+              rows="5"
+              placeholder="For example: We received this RFP yesterday. The client is one of our existing municipal clients and we definitely want to pursue it. Please identify the submission deadline, RFP number, client, and opportunity name."
+            ></textarea>
+
+          </div>
+
+
+          {{!-- =================================================
+               SOURCE DOCUMENTS
+          ================================================== --}}
+
+          <div class="sasha-form-field">
+
+            <label for="sourceDocuments">
+              Upload pursuit documents
+              <span class="sasha-form-optional">
+                optional
+              </span>
+            </label>
+
+            <input
+              type="file"
+              id="sourceDocuments"
+              name="sourceDocuments"
+              multiple
+            >
+
+            <p class="sasha-form-help">
+              Upload the RFP, procurement notice, addenda, client
+              correspondence, opportunity notes, scope documents, or
+              other material related to the pursuit.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        {{!-- =================================================
+             WHAT SASHA WILL DO
+        ================================================== --}}
+
+        <div class="sasha-ai-import-note">
+
+          <strong>
+            What Sasha will do
+          </strong>
+
+          <ul>
+
+            <li>
+              Identify the pursuit name, client, RFP number,
+              submission deadline, and other available information.
+            </li>
+
+            <li>
+              Use your instructions to understand any context that
+              may not appear in the source documents.
+            </li>
+
+            <li>
+              Leave information blank when the source material does
+              not support a reliable answer.
+            </li>
+
+            <li>
+              Keep the uploaded documents with the pursuit so Sasha
+              can use them throughout the proposal process.
+            </li>
+
+          </ul>
+
+        </div>
+
+
+        {{!-- =================================================
+             AI ACTION
+        ================================================== --}}
+
+        <div class="sasha-ai-import-actions">
+
+          <button
+            type="button"
+            id="sashaPursuitImportButton"
+            class="sasha-form-submit-button"
+          >
+            Let Sasha Start the Form
+          </button>
+
+
+          <div
+            class="sasha-ai-import-loading"
+            id="sashaPursuitImportLoading"
+            hidden
+            aria-live="polite"
+          >
+
+            <div
+              class="sasha-ai-import-spinner"
+              aria-hidden="true"
+            ></div>
+
+            <p>
+              Sasha is reviewing the pursuit...
+            </p>
+
+          </div>
+
+
+          <p
+            id="sashaPursuitImportStatus"
+            class="sasha-form-help sasha-ai-import-status"
+            aria-live="polite"
+          ></p>
+
+        </div>
+
+      </section>
+
+
+      {{!-- =====================================================
+           PURSUIT BASICS
+      ====================================================== --}}
+
+      <details
+        class="sasha-form-section"
+        open
+      >
+
+        <summary>
+          Pursuit Basics
+        </summary>
+
+        <div class="sasha-form-section-content">
+
+          <p class="sasha-form-section-intro">
+            Review the basic information Sasha found and make any
+            changes before creating the pursuit.
+          </p>
+
+
+          <div class="sasha-form-grid sasha-form-grid-two">
+
+
+            {{!-- PROPOSAL NAME --}}
+
+            <div class="sasha-form-field sasha-form-field-wide">
+
+              <label for="proposalName">
+                Pursuit name
+
+                <span
+                  class="sasha-form-required"
+                  aria-hidden="true"
+                >
+                  *
+                </span>
+              </label>
+
+              <input
+                type="text"
+                id="proposalName"
+                name="proposalName"
+                required
+                maxlength="250"
+                autocomplete="off"
+              >
+
+            </div>
+
+
+            {{!-- CLIENT --}}
+
+            <div class="sasha-form-field">
+
+              <label for="clientName">
+                Client
+                <span class="sasha-form-optional">
+                  optional
+                </span>
+              </label>
+
+              <input
+                type="text"
+                id="clientName"
+                name="clientName"
+                maxlength="250"
+                autocomplete="organization"
+              >
+
+            </div>
+
+
+            {{!-- RFP NUMBER --}}
+
+            <div class="sasha-form-field">
+
+              <label for="rfpNumber">
+                RFP or procurement number
+                <span class="sasha-form-optional">
+                  optional
+                </span>
+              </label>
+
+              <input
+                type="text"
+                id="rfpNumber"
+                name="rfpNumber"
+                maxlength="150"
+                autocomplete="off"
+              >
+
+            </div>
+
+
+            {{!-- SUBMISSION DEADLINE --}}
+
+            <div class="sasha-form-field">
+
+              <label for="submissionDeadline">
+                Submission deadline
+                <span class="sasha-form-optional">
+                  optional
+                </span>
+              </label>
+
+              <input
+                type="datetime-local"
+                id="submissionDeadline"
+                name="submissionDeadline"
+              >
+
+            </div>
+
+
+            {{!-- STATUS --}}
+
+            <div class="sasha-form-field">
+
+              <label for="proposalStatus">
+                Pursuit status
+              </label>
+
+              <select
+                id="proposalStatus"
+                name="proposalStatus"
+              >
+
+                <option
+                  value="new"
+                  selected
+                >
+                  New
+                </option>
+
+                <option value="planning">
+                  Planning
+                </option>
+
+                <option value="writing">
+                  Writing
+                </option>
+
+                <option value="review">
+                  Review
+                </option>
+
+                <option value="submitted">
+                  Submitted
+                </option>
+
+              </select>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </details>
+
+
+      {{!-- =====================================================
+           SEARCH INFORMATION
+      ====================================================== --}}
+
+      <details class="sasha-form-section">
+
+        <summary>
+          Search Information
+        </summary>
+
+        <div class="sasha-form-section-content">
+
+          <p class="sasha-form-section-intro">
+            Sasha can add useful search terms based on the opportunity.
+            You can change or add to them if you wish.
+          </p>
+
+
+          <div class="sasha-form-grid">
+
+            <div class="sasha-form-field">
+
+              <label for="searchKeywords">
+                Search keywords
+                <span class="sasha-form-optional">
+                  optional
+                </span>
+              </label>
+
+              <input
+                type="text"
+                id="searchKeywords"
+                name="searchKeywords"
+                placeholder="Water treatment, municipal, detailed design, contract administration..."
+              >
+
+              <p class="sasha-form-help">
+                Separate multiple keywords with commas.
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </details>
+
+
+      {{!-- =====================================================
+           FORM ACTIONS
+      ====================================================== --}}
+
+      <div class="sasha-form-actions">
+
+        <a
+          class="sasha-form-cancel-button"
+          href="/pursuits"
+        >
+          Cancel
+        </a>
+
+        <button
+          class="sasha-form-submit-button"
+          type="submit"
+        >
+          Create pursuit
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</section>
+
+
+{{!-- =====================================================
+     SASHA AI IMPORT SCRIPT
+====================================================== --}}
+
+<script>
+
+  document.addEventListener(
+    'DOMContentLoaded',
+    () => {
+
+      const importButton =
+        document.getElementById(
+          'sashaPursuitImportButton'
+        );
+
+      const promptInput =
+        document.getElementById(
+          'sashaPursuitPrompt'
+        );
+
+      const fileInput =
+        document.getElementById(
+          'sourceDocuments'
+        );
+
+      const status =
+        document.getElementById(
+          'sashaPursuitImportStatus'
+        );
+
+      const loading =
+        document.getElementById(
+          'sashaPursuitImportLoading'
+        );
+
+      const csrfInput =
+        document.querySelector(
+          'input[name="_csrf"]'
+        );
+
+
+      if (
+        !importButton ||
+        !promptInput ||
+        !fileInput ||
+        !status ||
+        !loading
+      ) {
+        return;
+      }
+
+
+      /* =====================================================
+         SET ONE FORM FIELD
+      ====================================================== */
+
+      function setFieldValue(
+        fieldId,
+        value
+      ) {
+
+        if (
+          value === null ||
+          value === undefined ||
+          value === ''
+        ) {
+          return;
+        }
+
+
+        const field =
+          document.getElementById(
+            fieldId
+          );
+
+
+        if (!field) {
+          return;
+        }
+
+
+        if (Array.isArray(value)) {
+
+          field.value =
+            value.join(', ');
+
+          return;
+        }
+
+
+        field.value =
+          value;
+      }
+
+
+      /* =====================================================
+         ANALYZE PURSUIT
+      ====================================================== */
+
+      importButton.addEventListener(
+        'click',
+        async () => {
+
+          const files =
+            Array.from(
+              fileInput.files || []
+            );
+
+
+          const prompt =
+            promptInput.value.trim();
+
+
+          if (
+            files.length === 0 &&
+            !prompt
+          ) {
+
+            status.textContent =
+              'Upload a pursuit document or tell Sasha something about the opportunity first.';
+
+            return;
+          }
+
+
+          const formData =
+            new FormData();
+
+
+          formData.append(
+            'sashaPursuitPrompt',
+            prompt
+          );
+
+
+          if (
+            csrfInput &&
+            csrfInput.value
+          ) {
+
+            formData.append(
+              '_csrf',
+              csrfInput.value
+            );
+
+          }
+
+
+          files.forEach(
+            (file) => {
+
+              formData.append(
+                'sourceDocuments',
+                file
+              );
+
+            }
+          );
+
+
+          importButton.disabled =
+            true;
+
+          status.textContent =
+            '';
+
+          loading.hidden =
+            false;
+
+
+          try {
+
+            const response =
+              await fetch(
+                '/create_pursuit/analyze',
+                {
+                  method: 'POST',
+                  body: formData
+                }
+              );
+
+
+            const result =
+              await response.json();
+
+
+            if (
+              !response.ok ||
+              !result.success
+            ) {
+
+              throw new Error(
+                result.errorMessage ||
+                'Sasha could not review the pursuit material.'
+              );
+
+            }
+
+
+            const suggestions =
+              result.suggestions || {};
+
+
+            setFieldValue(
+              'proposalName',
+              suggestions.proposalName
+            );
+
+
+            setFieldValue(
+              'clientName',
+              suggestions.clientName
+            );
+
+
+            setFieldValue(
+              'rfpNumber',
+              suggestions.rfpNumber
+            );
+
+
+            setFieldValue(
+              'submissionDeadline',
+              suggestions.submissionDeadline
+            );
+
+
+            setFieldValue(
+              'proposalStatus',
+              suggestions.proposalStatus
+            );
+
+
+            setFieldValue(
+              'searchKeywords',
+              suggestions.searchKeywords
+            );
+
+
+            setFieldValue(
+              'aiSummary',
+              suggestions.aiSummary
+            );
+
+
+            status.textContent =
+              'Sasha completed the information she could find. Review the draft below and make any changes before creating the pursuit.';
+
+
+            const pursuitBasics =
+              document.querySelector(
+                '.sasha-form-section'
+              );
+
+
+            if (pursuitBasics) {
+              pursuitBasics.open = true;
+            }
+
+
+            const proposalName =
+              document.getElementById(
+                'proposalName'
+              );
+
+
+            if (proposalName) {
+
+              proposalName.scrollIntoView({
+                behavior: 'smooth',
+                block: 'center'
+              });
+
+            }
+
+          } catch (error) {
+
+            console.error(
+              'PURSUIT ANALYSIS REQUEST FAILED:',
+              error
+            );
+
+
+            status.textContent =
+              error.message ||
+              'Sasha could not review the pursuit material.';
+
+          } finally {
+
+            importButton.disabled =
+              false;
+
+            loading.hidden =
+              true;
+
+          }
+
+        }
+      );
+
+    }
+  );
+
+</script>
