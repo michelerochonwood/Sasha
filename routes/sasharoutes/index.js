@@ -115,20 +115,7 @@ PLAN | WIN STRATEGY
 router.get(
   '/plan',
   ensureOrganization,
-  (req, res) => {
-
-    return res.render(
-      'sasha_plan',
-      {
-        layout:
-          'mainlayout',
-
-        pageTitle:
-          'Plan and Win Strategy | Sasha'
-      }
-    );
-
-  }
+  proposalController.getPlanPursuit
 );
 
 

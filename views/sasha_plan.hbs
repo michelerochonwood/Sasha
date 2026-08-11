@@ -1,0 +1,1763 @@
+{{!-- =====================================================
+     SASHA PLAN | WIN STRATEGY
+====================================================== --}}
+
+<section
+  class="sasha-work-page sasha-plan-page"
+  aria-labelledby="sasha-plan-heading"
+>
+
+  <div class="sasha-work-container">
+
+
+    {{!-- =================================================
+         BACK TO PURSUIT
+    ================================================== --}}
+
+    <div class="sasha-work-back">
+
+      <a href="/pursuit/{{proposal._id}}">
+        ← Pursuit Dashboard
+      </a>
+
+    </div>
+
+
+    {{!-- =================================================
+         PAGE HEADER
+    ================================================== --}}
+
+    <header class="sasha-work-header">
+
+      <div class="sasha-work-header-copy">
+
+        <p class="sasha-work-eyebrow">
+          Plan | Win Strategy
+        </p>
+
+        <h1 id="sasha-plan-heading">
+          {{proposal.proposalName}}
+        </h1>
+
+        {{#if proposal.clientName}}
+
+          <p class="sasha-work-client">
+            {{proposal.clientName}}
+          </p>
+
+        {{/if}}
+
+        <p class="sasha-work-introduction">
+          Build the proposal plan, establish responsibilities and milestones,
+          and develop the level of strategy appropriate for this pursuit.
+        </p>
+
+      </div>
+
+
+      <div class="sasha-work-header-meta">
+
+        {{#if proposal.rfpNumber}}
+
+          <div class="sasha-work-meta-item">
+
+            <span>
+              RFP
+            </span>
+
+            <strong>
+              {{proposal.rfpNumber}}
+            </strong>
+
+          </div>
+
+        {{/if}}
+
+
+        <div class="sasha-work-meta-item">
+
+          <span>
+            Status
+          </span>
+
+          <strong class="sasha-pursuit-capitalize">
+            {{proposal.proposalStatus}}
+          </strong>
+
+        </div>
+
+
+        <div class="sasha-work-meta-item">
+
+          <span>
+            Effort
+          </span>
+
+          <strong class="sasha-pursuit-capitalize">
+            {{proposal.effortLevel}}
+          </strong>
+
+        </div>
+
+      </div>
+
+    </header>
+
+
+    {{!-- =================================================
+         EFFORT LEVEL BANNER
+    ================================================== --}}
+
+    <section
+      class="
+        sasha-plan-effort-banner
+        is-{{proposal.effortLevel}}
+      "
+      aria-label="Selected proposal effort level"
+    >
+
+      <div>
+
+        <p class="sasha-work-eyebrow">
+          Current Proposal Process
+        </p>
+
+        <h2 class="sasha-pursuit-capitalize">
+          {{proposal.effortLevel}} Effort
+        </h2>
+
+
+        {{#ifEquals proposal.effortLevel "minimal"}}
+
+          <p>
+            Sasha will keep this pursuit focused on producing a
+            professional, compliant submission with tightly controlled
+            effort.
+          </p>
+
+        {{/ifEquals}}
+
+
+        {{#ifEquals proposal.effortLevel "usual"}}
+
+          <p>
+            Sasha will use a disciplined but efficient proposal process
+            with clear planning, tailored content, relevant evidence,
+            and a concise win strategy.
+          </p>
+
+        {{/ifEquals}}
+
+
+        {{#ifEquals proposal.effortLevel "full"}}
+
+          <p>
+            Sasha will treat this as a significant competitive pursuit
+            with substantial planning, strategy, evidence development,
+            customization, and review.
+          </p>
+
+        {{/ifEquals}}
+
+      </div>
+
+
+      <a
+        href="/analyze"
+        class="sasha-plan-effort-change"
+      >
+        Change effort level
+      </a>
+
+    </section>
+
+
+    {{!-- =================================================
+         MAIN PLANNING LAYOUT
+    ================================================== --}}
+
+    <div class="sasha-plan-layout">
+
+
+      {{!-- =================================================
+           SASHA CONVERSATION
+      ================================================== --}}
+
+      <section
+        class="sasha-chat-panel"
+        aria-labelledby="sasha-plan-chat-heading"
+      >
+
+        <header class="sasha-chat-header">
+
+          <div>
+
+            <p class="sasha-work-eyebrow">
+              Work with Sasha
+            </p>
+
+            <h2 id="sasha-plan-chat-heading">
+              Plan the pursuit
+            </h2>
+
+          </div>
+
+          <span class="sasha-chat-status">
+            Pursuit conversation
+          </span>
+
+        </header>
+
+
+        {{!-- ===============================================
+             CHAT THREAD
+        ================================================ --}}
+
+        <div
+          class="sasha-chat-thread"
+          id="sasha-plan-chat-thread"
+          aria-live="polite"
+        >
+
+
+          {{!-- =============================================
+               INITIAL SASHA MESSAGE
+          ============================================== --}}
+
+          <article class="sasha-chat-message is-sasha">
+
+            <div class="sasha-chat-speaker">
+              Sasha
+            </div>
+
+            <div class="sasha-chat-bubble">
+
+
+              {{#ifEquals proposal.effortLevel "minimal"}}
+
+                <p>
+                  We’re keeping this one lean. I’ll help you identify
+                  the minimum steps needed to produce a compliant,
+                  professional proposal without adding unnecessary
+                  process.
+                </p>
+
+                <p>
+                  We can start with the schedule, responsibilities,
+                  available content, and anything that could prevent
+                  a compliant submission.
+                </p>
+
+              {{/ifEquals}}
+
+
+              {{#ifEquals proposal.effortLevel "usual"}}
+
+                <p>
+                  For this pursuit, I’ll help build a practical proposal
+                  schedule and a concise win strategy without making the
+                  process heavier than it needs to be.
+                </p>
+
+                <p>
+                  We can also identify the strongest available project
+                  evidence, personnel experience, and proposal-specific
+                  messages that will help make the submission competitive.
+                </p>
+
+              {{/ifEquals}}
+
+
+              {{#ifEquals proposal.effortLevel "full"}}
+
+                <p>
+                  This pursuit is using the full process. I can help
+                  develop the detailed proposal plan and work through
+                  the win strategy with the team.
+                </p>
+
+                <p>
+                  I recommend that we use the Ten Steps to a Win Theme
+                  exercise rather than jumping directly to proposal
+                  messaging. We’ll begin with the client, project,
+                  issues, critical success factors, and unknowns before
+                  deciding what TOMA should say about itself.
+                </p>
+
+              {{/ifEquals}}
+
+
+            </div>
+
+          </article>
+
+
+          {{!-- =============================================
+               FUTURE SAVED CHAT MESSAGES
+          ============================================== --}}
+
+          {{#each planMessages}}
+
+            <article
+              class="
+                sasha-chat-message
+                is-{{this.role}}
+              "
+            >
+
+              <div class="sasha-chat-speaker">
+
+                {{#ifEquals this.role "user"}}
+                  You
+                {{else}}
+                  Sasha
+                {{/ifEquals}}
+
+              </div>
+
+              <div class="sasha-chat-bubble">
+                {{{this.content}}}
+              </div>
+
+            </article>
+
+          {{/each}}
+
+        </div>
+
+
+        {{!-- ===============================================
+             CHAT COMPOSER
+        ================================================ --}}
+
+        <form
+          class="sasha-chat-composer"
+          id="sasha-plan-chat-form"
+          method="POST"
+          action="/plan/chat"
+        >
+
+          {{#if csrfToken}}
+
+            <input
+              type="hidden"
+              name="_csrf"
+              value="{{csrfToken}}"
+            >
+
+          {{/if}}
+
+          <input
+            type="hidden"
+            name="pursuitId"
+            value="{{proposal._id}}"
+          >
+
+
+          <label
+            for="sasha-plan-message"
+            class="sasha-chat-label"
+          >
+            Ask Sasha
+          </label>
+
+
+          <textarea
+            id="sasha-plan-message"
+            name="message"
+            rows="5"
+            placeholder="Ask about the proposal schedule, responsibilities, strategy, projects, people, milestones, reviews, or what to do next..."
+            required
+          ></textarea>
+
+
+          <div class="sasha-chat-actions">
+
+            <p>
+              Sasha will use the pursuit record, RFP analysis,
+              selected effort level, and previous conversation as context.
+            </p>
+
+            <button
+              type="submit"
+              class="sasha-chat-submit"
+            >
+              Send to Sasha
+            </button>
+
+          </div>
+
+        </form>
+
+      </section>
+
+
+      {{!-- =================================================
+           PLAN SUMMARY
+      ================================================== --}}
+
+      <aside
+        class="sasha-plan-sidebar"
+        aria-label="Proposal planning summary"
+      >
+
+
+        {{!-- ===============================================
+             PROPOSAL MANAGER
+        ================================================ --}}
+
+        <section class="sasha-plan-side-card">
+
+          <p class="sasha-work-eyebrow">
+            Ownership
+          </p>
+
+          <h2>
+            Proposal Manager
+          </h2>
+
+          {{#if proposal.proposalManager.name}}
+
+            <strong>
+              {{proposal.proposalManager.name}}
+            </strong>
+
+          {{else}}
+
+            <p class="sasha-plan-empty">
+              Not yet assigned.
+            </p>
+
+          {{/if}}
+
+        </section>
+
+
+        {{!-- ===============================================
+             TEAM
+        ================================================ --}}
+
+        <section class="sasha-plan-side-card">
+
+          <p class="sasha-work-eyebrow">
+            Contributors
+          </p>
+
+          <h2>
+            Proposal Team
+          </h2>
+
+          {{#if proposal.proposalTeam.length}}
+
+            <div class="sasha-plan-team-list">
+
+              {{#each proposal.proposalTeam}}
+
+                <div class="sasha-plan-team-member">
+
+                  <strong>
+                    {{this.name}}
+                  </strong>
+
+                  {{#if this.role}}
+
+                    <span>
+                      {{this.role}}
+                    </span>
+
+                  {{/if}}
+
+                </div>
+
+              {{/each}}
+
+            </div>
+
+          {{else}}
+
+            <p class="sasha-plan-empty">
+              No proposal team members have been added yet.
+            </p>
+
+          {{/if}}
+
+        </section>
+
+
+        {{!-- ===============================================
+             DEADLINE
+        ================================================ --}}
+
+        <section class="sasha-plan-side-card">
+
+          <p class="sasha-work-eyebrow">
+            Submission
+          </p>
+
+          <h2>
+            Deadline
+          </h2>
+
+          {{#if proposal.submissionDeadline}}
+
+            <strong>
+              {{proposal.submissionDeadline}}
+            </strong>
+
+          {{else}}
+
+            <p class="sasha-plan-empty">
+              No submission deadline has been recorded.
+            </p>
+
+          {{/if}}
+
+        </section>
+
+      </aside>
+
+    </div>
+
+
+    {{!-- =================================================
+         PROPOSAL PLAN
+    ================================================== --}}
+
+    <section class="sasha-plan-section">
+
+      <header class="sasha-plan-section-heading">
+
+        <div>
+
+          <p class="sasha-work-eyebrow">
+            Proposal management
+          </p>
+
+          <h2>
+            Proposal Plan
+          </h2>
+
+        </div>
+
+        <p>
+          Work backwards from final production and submission,
+          assign responsibilities, and establish the milestones
+          needed for this level of effort.
+        </p>
+
+      </header>
+
+
+      <div class="sasha-plan-output-grid">
+
+
+        {{!-- =============================================
+             SCHEDULE
+        ============================================== --}}
+
+        <article class="sasha-plan-output-card">
+
+          <header>
+
+            <span>
+              01
+            </span>
+
+            <h3>
+              Proposal Schedule
+            </h3>
+
+          </header>
+
+
+          {{#if plan.schedule}}
+
+            <div class="sasha-plan-rich-copy">
+              {{{plan.schedule}}}
+            </div>
+
+          {{else}}
+
+            <p class="sasha-plan-empty">
+              Sasha has not built the proposal schedule yet.
+            </p>
+
+          {{/if}}
+
+
+          <button
+            type="button"
+            class="sasha-plan-card-action"
+          >
+            Work on schedule
+          </button>
+
+        </article>
+
+
+        {{!-- =============================================
+             RESPONSIBILITIES
+        ============================================== --}}
+
+        <article class="sasha-plan-output-card">
+
+          <header>
+
+            <span>
+              02
+            </span>
+
+            <h3>
+              Responsibilities
+            </h3>
+
+          </header>
+
+
+          {{#if plan.responsibilities}}
+
+            <div class="sasha-plan-rich-copy">
+              {{{plan.responsibilities}}}
+            </div>
+
+          {{else}}
+
+            <p class="sasha-plan-empty">
+              Proposal responsibilities have not been assigned yet.
+            </p>
+
+          {{/if}}
+
+
+          <button
+            type="button"
+            class="sasha-plan-card-action"
+          >
+            Define responsibilities
+          </button>
+
+        </article>
+
+
+        {{!-- =============================================
+             MILESTONES
+        ============================================== --}}
+
+        <article class="sasha-plan-output-card">
+
+          <header>
+
+            <span>
+              03
+            </span>
+
+            <h3>
+              Milestones
+            </h3>
+
+          </header>
+
+
+          {{#if plan.milestones}}
+
+            <div class="sasha-plan-rich-copy">
+              {{{plan.milestones}}}
+            </div>
+
+          {{else}}
+
+            <p class="sasha-plan-empty">
+              No internal milestones have been established yet.
+            </p>
+
+          {{/if}}
+
+
+          <button
+            type="button"
+            class="sasha-plan-card-action"
+          >
+            Build milestones
+          </button>
+
+        </article>
+
+
+        {{!-- =============================================
+             PRODUCTION
+        ============================================== --}}
+
+        <article class="sasha-plan-output-card">
+
+          <header>
+
+            <span>
+              04
+            </span>
+
+            <h3>
+              Final Production
+            </h3>
+
+          </header>
+
+
+          {{#if plan.production}}
+
+            <div class="sasha-plan-rich-copy">
+              {{{plan.production}}}
+            </div>
+
+          {{else}}
+
+            <p class="sasha-plan-empty">
+              Final production and submission activities have not
+              been scheduled yet.
+            </p>
+
+          {{/if}}
+
+
+          <button
+            type="button"
+            class="sasha-plan-card-action"
+          >
+            Plan production
+          </button>
+
+        </article>
+
+      </div>
+
+    </section>
+
+
+    {{!-- =================================================
+         WIN STRATEGY
+    ================================================== --}}
+
+    <section class="sasha-plan-section">
+
+      <header class="sasha-plan-section-heading">
+
+        <div>
+
+          <p class="sasha-work-eyebrow">
+            Competitive position
+          </p>
+
+          <h2>
+            Win Strategy
+          </h2>
+
+        </div>
+
+      </header>
+
+
+      {{!-- =================================================
+           MINIMAL EFFORT
+      ================================================== --}}
+
+      {{#ifEquals proposal.effortLevel "minimal"}}
+
+        <div class="sasha-strategy-minimal">
+
+          <div class="sasha-strategy-minimal-copy">
+
+            <p class="sasha-work-eyebrow">
+              Minimal Effort
+            </p>
+
+            <h3>
+              Proposal Focus
+            </h3>
+
+            <p>
+              This pursuit does not need a formal strategy exercise.
+              Sasha will concentrate on the few decisions needed to
+              produce a compliant and professional submission efficiently.
+            </p>
+
+          </div>
+
+
+          <div class="sasha-strategy-focus-grid">
+
+            <article>
+
+              <span>
+                01
+              </span>
+
+              <h4>
+                Stay Compliant
+              </h4>
+
+              <p>
+                Meet every mandatory requirement and avoid
+                disqualification.
+              </p>
+
+            </article>
+
+
+            <article>
+
+              <span>
+                02
+              </span>
+
+              <h4>
+                Reuse Strong Content
+              </h4>
+
+              <p>
+                Use suitable existing material rather than creating
+                unnecessary new content.
+              </p>
+
+            </article>
+
+
+            <article>
+
+              <span>
+                03
+              </span>
+
+              <h4>
+                Use Available Evidence
+              </h4>
+
+              <p>
+                Select readily available project and personnel
+                experience that fits the assignment.
+              </p>
+
+            </article>
+
+
+            <article>
+
+              <span>
+                04
+              </span>
+
+              <h4>
+                Tailor What Matters
+              </h4>
+
+              <p>
+                Customize the most important messages where doing
+                so will materially improve the proposal.
+              </p>
+
+            </article>
+
+          </div>
+
+
+          {{#if winStrategy.summary}}
+
+            <div class="sasha-strategy-summary">
+
+              <h3>
+                Current Proposal Focus
+              </h3>
+
+              <div>
+                {{{winStrategy.summary}}}
+              </div>
+
+            </div>
+
+          {{/if}}
+
+        </div>
+
+      {{/ifEquals}}
+
+
+      {{!-- =================================================
+           USUAL EFFORT
+      ================================================== --}}
+
+      {{#ifEquals proposal.effortLevel "usual"}}
+
+        <div class="sasha-strategy-usual">
+
+          <div class="sasha-strategy-introduction">
+
+            <p>
+              Build a concise strategy around what matters most to the
+              client and the strongest reasons to choose this team.
+            </p>
+
+          </div>
+
+
+          <div class="sasha-strategy-question-grid">
+
+
+            <article class="sasha-strategy-question-card">
+
+              <span>
+                01
+              </span>
+
+              <h3>
+                What matters most to the client?
+              </h3>
+
+              {{#if winStrategy.clientPriorities}}
+
+                <div class="sasha-plan-rich-copy">
+                  {{{winStrategy.clientPriorities}}}
+                </div>
+
+              {{else}}
+
+                <p>
+                  Not yet developed.
+                </p>
+
+              {{/if}}
+
+            </article>
+
+
+            <article class="sasha-strategy-question-card">
+
+              <span>
+                02
+              </span>
+
+              <h3>
+                What do we offer that is especially relevant?
+              </h3>
+
+              {{#if winStrategy.relevantOffer}}
+
+                <div class="sasha-plan-rich-copy">
+                  {{{winStrategy.relevantOffer}}}
+                </div>
+
+              {{else}}
+
+                <p>
+                  Not yet developed.
+                </p>
+
+              {{/if}}
+
+            </article>
+
+
+            <article class="sasha-strategy-question-card">
+
+              <span>
+                03
+              </span>
+
+              <h3>
+                Which projects prove it?
+              </h3>
+
+              {{#if winStrategy.projectEvidence}}
+
+                <div class="sasha-plan-rich-copy">
+                  {{{winStrategy.projectEvidence}}}
+                </div>
+
+              {{else}}
+
+                <p>
+                  Sasha has not selected project evidence yet.
+                </p>
+
+              {{/if}}
+
+            </article>
+
+
+            <article class="sasha-strategy-question-card">
+
+              <span>
+                04
+              </span>
+
+              <h3>
+                Which people strengthen the argument?
+              </h3>
+
+              {{#if winStrategy.personnelEvidence}}
+
+                <div class="sasha-plan-rich-copy">
+                  {{{winStrategy.personnelEvidence}}}
+                </div>
+
+              {{else}}
+
+                <p>
+                  Sasha has not selected personnel evidence yet.
+                </p>
+
+              {{/if}}
+
+            </article>
+
+          </div>
+
+
+          <div class="sasha-strategy-summary">
+
+            <h3>
+              Current Win Strategy
+            </h3>
+
+            {{#if winStrategy.summary}}
+
+              <div class="sasha-plan-rich-copy">
+                {{{winStrategy.summary}}}
+              </div>
+
+            {{else}}
+
+              <p class="sasha-plan-empty">
+                Work with Sasha to develop the concise win strategy.
+              </p>
+
+            {{/if}}
+
+          </div>
+
+        </div>
+
+      {{/ifEquals}}
+
+
+      {{!-- =================================================
+           FULL EFFORT
+      ================================================== --}}
+
+      {{#ifEquals proposal.effortLevel "full"}}
+
+        <div class="sasha-strategy-full">
+
+
+          {{!-- =============================================
+               WIN STRATEGY INTRO
+          ============================================== --}}
+
+          <div class="sasha-full-strategy-introduction">
+
+            <div>
+
+              <p class="sasha-work-eyebrow">
+                Full Effort
+              </p>
+
+              <h3>
+                Ten Steps to a Win Theme
+              </h3>
+
+              <p>
+                Work through the strategy in order. Begin with the
+                client's world and the project's real issues before
+                deciding what the firm should say about itself.
+              </p>
+
+            </div>
+
+
+            <button
+              type="button"
+              class="sasha-full-strategy-start"
+            >
+              Begin / Continue Strategy Exercise
+            </button>
+
+          </div>
+
+
+          {{!-- =============================================
+               TEN STEPS
+          ============================================== --}}
+
+          <div class="sasha-win-steps-grid">
+
+
+            <article class="sasha-win-step-card">
+
+              <span>
+                01
+              </span>
+
+              <h4>
+                Client
+              </h4>
+
+              <p>
+                What do we know about the client, evaluator,
+                organization, and decision environment?
+              </p>
+
+            </article>
+
+
+            <article class="sasha-win-step-card">
+
+              <span>
+                02
+              </span>
+
+              <h4>
+                Project
+              </h4>
+
+              <p>
+                What is the client trying to accomplish through
+                this assignment?
+              </p>
+
+            </article>
+
+
+            <article class="sasha-win-step-card">
+
+              <span>
+                03
+              </span>
+
+              <h4>
+                Issues
+              </h4>
+
+              <p>
+                Which project challenges will most strongly affect
+                successful delivery?
+              </p>
+
+            </article>
+
+
+            <article class="sasha-win-step-card">
+
+              <span>
+                04
+              </span>
+
+              <h4>
+                Critical Success Factors
+              </h4>
+
+              <p>
+                What must be true for the project and client to
+                consider the assignment successful?
+              </p>
+
+            </article>
+
+
+            <article class="sasha-win-step-card">
+
+              <span>
+                05
+              </span>
+
+              <h4>
+                Unknowns
+              </h4>
+
+              <p>
+                Which assumptions or missing facts could materially
+                affect the strategy?
+              </p>
+
+            </article>
+
+
+            <article class="sasha-win-step-card">
+
+              <span>
+                06
+              </span>
+
+              <h4>
+                Relevant Experience
+              </h4>
+
+              <p>
+                Which past projects provide genuinely comparable
+                experience?
+              </p>
+
+            </article>
+
+
+            <article class="sasha-win-step-card">
+
+              <span>
+                07
+              </span>
+
+              <h4>
+                Evidence
+              </h4>
+
+              <p>
+                What documented outcomes, metrics, lessons, or
+                results support the argument?
+              </p>
+
+            </article>
+
+
+            <article class="sasha-win-step-card">
+
+              <span>
+                08
+              </span>
+
+              <h4>
+                Team
+              </h4>
+
+              <p>
+                Which people are best positioned to execute the
+                strategy and why?
+              </p>
+
+            </article>
+
+
+            <article class="sasha-win-step-card">
+
+              <span>
+                09
+              </span>
+
+              <h4>
+                Differentiation
+              </h4>
+
+              <p>
+                Where does TOMA offer a meaningful advantage that
+                matters to this client?
+              </p>
+
+            </article>
+
+
+            <article class="sasha-win-step-card">
+
+              <span>
+                10
+              </span>
+
+              <h4>
+                Win Argument
+              </h4>
+
+              <p>
+                Bring the reasoning and evidence together into a
+                coherent argument for selection.
+              </p>
+
+            </article>
+
+          </div>
+
+
+          {{!-- =============================================
+               STRATEGY OUTPUT
+          ============================================== --}}
+
+          <div class="sasha-strategy-summary">
+
+            <h3>
+              Current Win Strategy
+            </h3>
+
+            {{#if winStrategy.summary}}
+
+              <div class="sasha-plan-rich-copy">
+                {{{winStrategy.summary}}}
+              </div>
+
+            {{else}}
+
+              <p class="sasha-plan-empty">
+                The full win strategy has not been developed yet.
+              </p>
+
+            {{/if}}
+
+          </div>
+
+        </div>
+
+      {{/ifEquals}}
+
+    </section>
+
+
+    {{!-- =================================================
+         EVIDENCE
+    ================================================== --}}
+
+    <section class="sasha-plan-section">
+
+      <header class="sasha-plan-section-heading">
+
+        <div>
+
+          <p class="sasha-work-eyebrow">
+            Supporting evidence
+          </p>
+
+          <h2>
+            Projects and People
+          </h2>
+
+        </div>
+
+        <p>
+          Sasha can use organizational knowledge to identify the
+          experience that best supports the proposal strategy.
+        </p>
+
+      </header>
+
+
+      <div class="sasha-evidence-grid">
+
+
+        {{!-- =============================================
+             PHIL
+        ============================================== --}}
+
+        <article class="sasha-evidence-card">
+
+          <div class="sasha-evidence-card-heading">
+
+            <span>
+              Phil
+            </span>
+
+            <h3>
+              Project Evidence
+            </h3>
+
+          </div>
+
+          <p>
+            Find relevant completed projects, comparable scope,
+            delivery evidence, outcomes, metrics, and lessons learned.
+          </p>
+
+
+          {{#if winStrategy.projectEvidence}}
+
+            <div class="sasha-plan-rich-copy">
+              {{{winStrategy.projectEvidence}}}
+            </div>
+
+          {{else}}
+
+            <p class="sasha-plan-empty">
+              No project evidence has been selected yet.
+            </p>
+
+          {{/if}}
+
+
+          <button
+            type="button"
+            class="sasha-plan-card-action"
+          >
+            Find project evidence
+          </button>
+
+        </article>
+
+
+        {{!-- =============================================
+             ZOE
+        ============================================== --}}
+
+        <article class="sasha-evidence-card">
+
+          <div class="sasha-evidence-card-heading">
+
+            <span>
+              Zoe
+            </span>
+
+            <h3>
+              Personnel Evidence
+            </h3>
+
+          </div>
+
+          <p>
+            Identify the people whose experience, roles, and
+            qualifications best support the pursuit strategy.
+          </p>
+
+
+          {{#if winStrategy.personnelEvidence}}
+
+            <div class="sasha-plan-rich-copy">
+              {{{winStrategy.personnelEvidence}}}
+            </div>
+
+          {{else}}
+
+            <p class="sasha-plan-empty">
+              No personnel evidence has been selected yet.
+            </p>
+
+          {{/if}}
+
+
+          <button
+            type="button"
+            class="sasha-plan-card-action"
+          >
+            Find personnel evidence
+          </button>
+
+        </article>
+
+      </div>
+
+    </section>
+
+
+    {{!-- =================================================
+         FULL EFFORT PRACTICES
+    ================================================== --}}
+
+    {{#ifEquals proposal.effortLevel "full"}}
+
+      <section class="sasha-plan-section">
+
+        <header class="sasha-plan-section-heading">
+
+          <div>
+
+            <p class="sasha-work-eyebrow">
+              Full effort process
+            </p>
+
+            <h2>
+              Recommended Practices
+            </h2>
+
+          </div>
+
+          <p>
+            Sasha can recommend the practices that add value to this
+            competition. The pursuit team decides which ones to use.
+          </p>
+
+        </header>
+
+
+        <div class="sasha-practices-grid">
+
+
+          <label class="sasha-practice-option">
+
+            <input
+              type="checkbox"
+              name="practices"
+              value="kickoff"
+            >
+
+            <span>
+              Proposal Kickoff
+            </span>
+
+          </label>
+
+
+          <label class="sasha-practice-option">
+
+            <input
+              type="checkbox"
+              name="practices"
+              value="detailed_schedule"
+            >
+
+            <span>
+              Detailed Proposal Schedule
+            </span>
+
+          </label>
+
+
+          <label class="sasha-practice-option">
+
+            <input
+              type="checkbox"
+              name="practices"
+              value="win_strategy"
+            >
+
+            <span>
+              Ten Steps to a Win Theme
+            </span>
+
+          </label>
+
+
+          <label class="sasha-practice-option">
+
+            <input
+              type="checkbox"
+              name="practices"
+              value="storyboarding"
+            >
+
+            <span>
+              Methodology Storyboarding
+            </span>
+
+          </label>
+
+
+          <label class="sasha-practice-option">
+
+            <input
+              type="checkbox"
+              name="practices"
+              value="project_evidence"
+            >
+
+            <span>
+              Project Evidence Review
+            </span>
+
+          </label>
+
+
+          <label class="sasha-practice-option">
+
+            <input
+              type="checkbox"
+              name="practices"
+              value="personnel_evidence"
+            >
+
+            <span>
+              Personnel Evidence Review
+            </span>
+
+          </label>
+
+
+          <label class="sasha-practice-option">
+
+            <input
+              type="checkbox"
+              name="practices"
+              value="pricing_review"
+            >
+
+            <span>
+              Pricing Review
+            </span>
+
+          </label>
+
+
+          <label class="sasha-practice-option">
+
+            <input
+              type="checkbox"
+              name="practices"
+              value="graphic_planning"
+            >
+
+            <span>
+              Graphic Planning
+            </span>
+
+          </label>
+
+
+          <label class="sasha-practice-option">
+
+            <input
+              type="checkbox"
+              name="practices"
+              value="blue_team"
+            >
+
+            <span>
+              Blue Team Review
+            </span>
+
+          </label>
+
+
+          <label class="sasha-practice-option">
+
+            <input
+              type="checkbox"
+              name="practices"
+              value="pink_team"
+            >
+
+            <span>
+              Pink Team Review
+            </span>
+
+          </label>
+
+
+          <label class="sasha-practice-option">
+
+            <input
+              type="checkbox"
+              name="practices"
+              value="red_team"
+            >
+
+            <span>
+              Red Team Review
+            </span>
+
+          </label>
+
+
+          <label class="sasha-practice-option">
+
+            <input
+              type="checkbox"
+              name="practices"
+              value="proofreading"
+            >
+
+            <span>
+              Dedicated Proofreading
+            </span>
+
+          </label>
+
+        </div>
+
+      </section>
+
+    {{/ifEquals}}
+
+
+    {{!-- =================================================
+         PLAN TASKS
+    ================================================== --}}
+
+    <section class="sasha-plan-section">
+
+      <header class="sasha-plan-section-heading">
+
+        <div>
+
+          <p class="sasha-work-eyebrow">
+            Pursuit execution
+          </p>
+
+          <h2>
+            Plan Tasks
+          </h2>
+
+        </div>
+
+        <p>
+          Important planning decisions can become assigned pursuit
+          tasks with clear owners and deadlines.
+        </p>
+
+      </header>
+
+
+      {{#if planTasks.length}}
+
+        <div class="sasha-plan-task-list">
+
+          {{#each planTasks}}
+
+            <article
+              class="
+                sasha-plan-task
+                is-{{this.status}}
+              "
+            >
+
+              <span class="sasha-plan-task-marker">
+
+                {{#ifEquals this.status "complete"}}
+                  ✓
+                {{else}}
+                  ○
+                {{/ifEquals}}
+
+              </span>
+
+
+              <div class="sasha-plan-task-copy">
+
+                <strong>
+                  {{this.title}}
+                </strong>
+
+                <div class="sasha-plan-task-meta">
+
+                  {{#if this.assignedTo}}
+
+                    <span>
+                      {{this.assignedTo}}
+                    </span>
+
+                  {{/if}}
+
+                  {{#if this.dueDate}}
+
+                    <span>
+                      {{this.dueDate}}
+                    </span>
+
+                  {{/if}}
+
+                </div>
+
+              </div>
+
+            </article>
+
+          {{/each}}
+
+        </div>
+
+      {{else}}
+
+        <div class="sasha-plan-tasks-empty">
+
+          <p>
+            No planning tasks have been created yet. Sasha can turn
+            schedule milestones, assignments, evidence requests, and
+            strategy actions into pursuit tasks as the plan develops.
+          </p>
+
+        </div>
+
+      {{/if}}
+
+    </section>
+
+
+  </div>
+
+</section>
