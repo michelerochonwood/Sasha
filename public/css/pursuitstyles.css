@@ -1841,3 +1841,1559 @@ input[type="file"]::file-selector-button:hover {
   }
 
 }
+
+
+/* =====================================================
+   SASHA PURSUIT DASHBOARD
+===================================================== */
+
+
+.sasha-pursuit-dashboard {
+  position: relative;
+
+  min-height: 100vh;
+
+  padding:
+    clamp(3.5rem, 7vw, 6rem)
+    0
+    clamp(6rem, 10vw, 9rem);
+
+  color:
+    var(--sasha-white);
+}
+
+
+.sasha-pursuit-dashboard-container {
+  width:
+    min(
+      calc(
+        100% -
+        (var(--sasha-content-padding) * 2)
+      ),
+      var(--sasha-container-width)
+    );
+
+  margin:
+    0 auto;
+}
+
+
+/* =====================================================
+   BACK LINK
+===================================================== */
+
+
+.sasha-pursuit-dashboard-back {
+  margin-bottom:
+    2rem;
+}
+
+
+.sasha-pursuit-dashboard-back a {
+  color:
+    rgba(255, 255, 255, 0.72);
+
+  font-size:
+    0.86rem;
+
+  font-weight:
+    700;
+
+  text-decoration:
+    none;
+}
+
+
+.sasha-pursuit-dashboard-back a:hover {
+  color:
+    var(--sasha-pink);
+}
+
+
+/* =====================================================
+   DASHBOARD HEADER
+===================================================== */
+
+
+.sasha-pursuit-dashboard-header {
+  display:
+    grid;
+
+  grid-template-columns:
+    minmax(0, 1fr)
+    minmax(280px, 360px);
+
+  align-items:
+    stretch;
+
+  gap:
+    clamp(2rem, 5vw, 4rem);
+
+  margin-bottom:
+    2rem;
+}
+
+
+.sasha-pursuit-dashboard-identity {
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  justify-content:
+    center;
+}
+
+
+.sasha-pursuit-dashboard-client {
+  margin:
+    0
+    0
+    0.65rem;
+
+  color:
+    var(--sasha-pink);
+
+  font-size:
+    0.8rem;
+
+  font-weight:
+    800;
+
+  letter-spacing:
+    0.08em;
+
+  text-transform:
+    uppercase;
+}
+
+
+.sasha-pursuit-dashboard-identity h1 {
+  max-width:
+    920px;
+
+  margin:
+    0;
+
+  color:
+    var(--sasha-white);
+
+  font-size:
+    clamp(
+      2.6rem,
+      5.5vw,
+      5rem
+    );
+
+  font-weight:
+    700;
+
+  letter-spacing:
+    -0.05em;
+
+  line-height:
+    0.98;
+}
+
+
+.sasha-pursuit-dashboard-meta {
+  display:
+    flex;
+
+  flex-wrap:
+    wrap;
+
+  align-items:
+    center;
+
+  gap:
+    0.75rem;
+
+  margin-top:
+    1.5rem;
+}
+
+
+.sasha-pursuit-dashboard-meta > span:first-child {
+  color:
+    rgba(255, 255, 255, 0.7);
+
+  font-size:
+    0.86rem;
+
+  font-weight:
+    700;
+}
+
+
+/* =====================================================
+   PURSUIT STATUS
+===================================================== */
+
+
+.sasha-pursuit-dashboard-status {
+  display:
+    inline-flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  padding:
+    0.42rem
+    0.72rem;
+
+  color:
+    var(--sasha-white);
+
+  background:
+    var(--sasha-white-08);
+
+  border:
+    1px solid
+    var(--sasha-white-25);
+
+  border-radius:
+    999px;
+
+  font-size:
+    0.68rem;
+
+  font-weight:
+    800;
+
+  letter-spacing:
+    0.06em;
+
+  text-transform:
+    uppercase;
+}
+
+
+.sasha-pursuit-dashboard-status-new,
+.sasha-pursuit-dashboard-status-planning {
+  border-color:
+    rgba(242, 130, 170, 0.72);
+}
+
+
+.sasha-pursuit-dashboard-status-writing,
+.sasha-pursuit-dashboard-status-review {
+  background:
+    var(--sasha-white-10);
+}
+
+
+.sasha-pursuit-dashboard-status-won {
+  color:
+    var(--sasha-navy);
+
+  background:
+    var(--sasha-pink);
+
+  border-color:
+    var(--sasha-pink);
+}
+
+
+/* =====================================================
+   DEADLINE CARD
+===================================================== */
+
+
+.sasha-pursuit-dashboard-deadline {
+  display:
+    flex;
+
+  min-height:
+    190px;
+
+  flex-direction:
+    column;
+
+  align-items:
+    flex-start;
+
+  justify-content:
+    center;
+
+  padding:
+    clamp(
+      1.6rem,
+      4vw,
+      2.4rem
+    );
+
+  background:
+    var(--sasha-white-10);
+
+  border:
+    1px solid
+    var(--sasha-white-25);
+
+  border-radius:
+    var(--sasha-radius-medium);
+
+  box-shadow:
+    inset
+    0
+    1px
+    0
+    rgba(255, 255, 255, 0.06),
+    0
+    20px
+    48px
+    rgba(20, 16, 72, 0.18);
+}
+
+
+.sasha-pursuit-dashboard-deadline-label {
+  margin-bottom:
+    0.75rem;
+
+  color:
+    var(--sasha-pink);
+
+  font-size:
+    0.72rem;
+
+  font-weight:
+    800;
+
+  letter-spacing:
+    0.07em;
+
+  text-transform:
+    uppercase;
+}
+
+
+.sasha-pursuit-dashboard-deadline strong {
+  color:
+    var(--sasha-white);
+
+  font-size:
+    clamp(
+      1.8rem,
+      3vw,
+      2.75rem
+    );
+
+  font-weight:
+    700;
+
+  line-height:
+    1.05;
+}
+
+
+.sasha-pursuit-dashboard-deadline-caption {
+  margin-top:
+    0.5rem;
+
+  color:
+    rgba(255, 255, 255, 0.62);
+
+  font-size:
+    0.82rem;
+
+  font-weight:
+    600;
+}
+
+
+.sasha-pursuit-dashboard-deadline.is-overdue {
+  border-color:
+    rgba(242, 130, 170, 0.7);
+}
+
+
+/* =====================================================
+   SUMMARY CARDS
+===================================================== */
+
+
+.sasha-pursuit-dashboard-summary {
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(
+      5,
+      minmax(0, 1fr)
+    );
+
+  gap:
+    1rem;
+
+  margin-bottom:
+    clamp(3rem, 6vw, 5rem);
+}
+
+
+.sasha-pursuit-summary-card {
+  min-width:
+    0;
+
+  padding:
+    1.3rem
+    1.4rem;
+
+  background:
+    var(--sasha-white-06);
+
+  border:
+    1px solid
+    var(--sasha-white-18);
+
+  border-radius:
+    16px;
+}
+
+
+.sasha-pursuit-summary-label {
+  display:
+    block;
+
+  margin-bottom:
+    0.45rem;
+
+  color:
+    rgba(255, 255, 255, 0.54);
+
+  font-size:
+    0.68rem;
+
+  font-weight:
+    800;
+
+  letter-spacing:
+    0.06em;
+
+  text-transform:
+    uppercase;
+}
+
+
+.sasha-pursuit-summary-card strong {
+  display:
+    block;
+
+  color:
+    var(--sasha-white);
+
+  font-size:
+    1rem;
+
+  font-weight:
+    700;
+
+  line-height:
+    1.3;
+}
+
+
+.sasha-pursuit-summary-card strong.is-empty {
+  color:
+    rgba(255, 255, 255, 0.55);
+}
+
+
+.sasha-pursuit-capitalize {
+  text-transform:
+    capitalize;
+}
+
+
+/* =====================================================
+   GENERAL DASHBOARD SECTION
+===================================================== */
+
+
+.sasha-pursuit-dashboard-section {
+  margin-bottom:
+    clamp(3.5rem, 7vw, 5.5rem);
+}
+
+
+.sasha-pursuit-dashboard-section-heading {
+  display:
+    flex;
+
+  align-items:
+    flex-end;
+
+  justify-content:
+    space-between;
+
+  gap:
+    2rem;
+
+  margin-bottom:
+    1.75rem;
+}
+
+
+.sasha-pursuit-dashboard-section-heading > div {
+  max-width:
+    620px;
+}
+
+
+.sasha-pursuit-dashboard-eyebrow {
+  margin:
+    0
+    0
+    0.45rem;
+
+  color:
+    var(--sasha-pink);
+
+  font-size:
+    0.72rem;
+
+  font-weight:
+    800;
+
+  letter-spacing:
+    0.07em;
+
+  text-transform:
+    uppercase;
+}
+
+
+.sasha-pursuit-dashboard-section-heading h2,
+.sasha-pursuit-dashboard-panel-heading h2 {
+  margin:
+    0;
+
+  color:
+    var(--sasha-white);
+
+  font-size:
+    clamp(
+      1.8rem,
+      3.5vw,
+      2.75rem
+    );
+
+  font-weight:
+    700;
+
+  letter-spacing:
+    -0.035em;
+
+  line-height:
+    1.05;
+}
+
+
+.sasha-pursuit-dashboard-section-heading > p {
+  max-width:
+    520px;
+
+  margin:
+    0;
+
+  color:
+    rgba(255, 255, 255, 0.64);
+
+  font-size:
+    0.9rem;
+
+  line-height:
+    1.5;
+}
+
+
+/* =====================================================
+   WORKFLOW
+===================================================== */
+
+
+.sasha-pursuit-workflow {
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(
+      5,
+      minmax(0, 1fr)
+    );
+
+  gap:
+    1rem;
+}
+
+
+.sasha-pursuit-workflow-stage {
+  display:
+    flex;
+
+  min-height:
+    92px;
+
+  align-items:
+    center;
+
+  gap:
+    0.9rem;
+
+  padding:
+    1rem
+    1.15rem;
+
+  background:
+    var(--sasha-white-04);
+
+  border:
+    1px solid
+    var(--sasha-white-18);
+
+  border-radius:
+    14px;
+}
+
+
+.sasha-pursuit-workflow-marker {
+  display:
+    inline-flex;
+
+  width:
+    34px;
+
+  height:
+    34px;
+
+  flex:
+    0 0 34px;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  color:
+    var(--sasha-white);
+
+  background:
+    var(--sasha-white-08);
+
+  border:
+    1px solid
+    var(--sasha-white-25);
+
+  border-radius:
+    50%;
+
+  font-size:
+    1rem;
+
+  font-weight:
+    800;
+}
+
+
+.sasha-pursuit-workflow-stage strong {
+  display:
+    block;
+
+  color:
+    var(--sasha-white);
+
+  font-size:
+    0.88rem;
+
+  font-weight:
+    700;
+
+  text-transform:
+    capitalize;
+}
+
+
+.sasha-pursuit-workflow-stage > div > span {
+  display:
+    block;
+
+  margin-top:
+    0.25rem;
+
+  color:
+    rgba(255, 255, 255, 0.52);
+
+  font-size:
+    0.68rem;
+
+  font-weight:
+    700;
+
+  text-transform:
+    capitalize;
+}
+
+
+.sasha-pursuit-workflow-stage.is-complete {
+  background:
+    var(--sasha-white-08);
+
+  border-color:
+    rgba(242, 130, 170, 0.5);
+}
+
+
+.sasha-pursuit-workflow-stage.is-complete
+.sasha-pursuit-workflow-marker {
+  color:
+    var(--sasha-navy);
+
+  background:
+    var(--sasha-pink);
+
+  border-color:
+    var(--sasha-pink);
+}
+
+
+.sasha-pursuit-workflow-stage.is-in_progress {
+  border-color:
+    var(--sasha-pink);
+}
+
+
+.sasha-pursuit-workflow-empty {
+  padding:
+    1.5rem
+    1.75rem;
+
+  background:
+    var(--sasha-white-04);
+
+  border:
+    1px solid
+    var(--sasha-white-18);
+
+  border-radius:
+    14px;
+}
+
+
+.sasha-pursuit-workflow-empty p {
+  margin:
+    0;
+
+  color:
+    rgba(255, 255, 255, 0.64);
+
+  line-height:
+    1.5;
+}
+
+
+/* =====================================================
+   PURSUIT WORKSPACE
+===================================================== */
+
+
+.sasha-pursuit-workspace-grid {
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(
+      4,
+      minmax(0, 1fr)
+    );
+
+  gap:
+    clamp(
+      1rem,
+      2vw,
+      1.5rem
+    );
+}
+
+
+.sasha-pursuit-workspace-card {
+  position:
+    relative;
+
+  display:
+    flex;
+
+  min-height:
+    290px;
+
+  flex-direction:
+    column;
+
+  padding:
+    clamp(
+      1.5rem,
+      3vw,
+      2rem
+    );
+
+  color:
+    var(--sasha-white);
+
+  background:
+    var(--sasha-white-06);
+
+  border:
+    1px solid
+    var(--sasha-white-25);
+
+  border-radius:
+    var(--sasha-radius-medium);
+
+  text-decoration:
+    none;
+
+  transition:
+    transform 180ms ease,
+    background-color 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+
+.sasha-pursuit-workspace-card:hover {
+  transform:
+    translateY(-5px);
+
+  background:
+    var(--sasha-white-10);
+
+  border-color:
+    var(--sasha-pink);
+
+  box-shadow:
+    0
+    22px
+    50px
+    rgba(20, 16, 72, 0.2);
+}
+
+
+.sasha-pursuit-workspace-number {
+  display:
+    block;
+
+  margin-bottom:
+    1.25rem;
+
+  color:
+    var(--sasha-pink);
+
+  font-size:
+    0.76rem;
+
+  font-weight:
+    800;
+
+  letter-spacing:
+    0.08em;
+}
+
+
+.sasha-pursuit-workspace-card h3 {
+  margin:
+    0;
+
+  color:
+    var(--sasha-white);
+
+  font-size:
+    clamp(
+      1.25rem,
+      2vw,
+      1.6rem
+    );
+
+  font-weight:
+    700;
+
+  line-height:
+    1.15;
+}
+
+
+.sasha-pursuit-workspace-card p {
+  margin:
+    1rem
+    0
+    1.5rem;
+
+  color:
+    rgba(255, 255, 255, 0.68);
+
+  font-size:
+    0.9rem;
+
+  line-height:
+    1.55;
+}
+
+
+.sasha-pursuit-workspace-action {
+  margin-top:
+    auto;
+
+  color:
+    var(--sasha-pink);
+
+  font-size:
+    0.82rem;
+
+  font-weight:
+    800;
+}
+
+
+/* =====================================================
+   TASKS AND TEAM
+===================================================== */
+
+
+.sasha-pursuit-dashboard-two-column {
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(
+      2,
+      minmax(0, 1fr)
+    );
+
+  gap:
+    clamp(
+      1.25rem,
+      3vw,
+      2rem
+    );
+
+  margin-bottom:
+    clamp(3.5rem, 7vw, 5.5rem);
+}
+
+
+.sasha-pursuit-dashboard-panel {
+  min-width:
+    0;
+
+  padding:
+    clamp(
+      1.5rem,
+      3vw,
+      2rem
+    );
+
+  background:
+    var(--sasha-white-06);
+
+  border:
+    1px solid
+    var(--sasha-white-25);
+
+  border-radius:
+    var(--sasha-radius-medium);
+}
+
+
+.sasha-pursuit-dashboard-panel-heading {
+  display:
+    flex;
+
+  align-items:
+    flex-start;
+
+  justify-content:
+    space-between;
+
+  gap:
+    1rem;
+
+  margin-bottom:
+    1.5rem;
+}
+
+
+.sasha-pursuit-dashboard-panel-heading > span {
+  display:
+    inline-flex;
+
+  min-width:
+    42px;
+
+  min-height:
+    42px;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  padding:
+    0.5rem;
+
+  color:
+    var(--sasha-white);
+
+  background:
+    var(--sasha-white-08);
+
+  border:
+    1px solid
+    var(--sasha-white-18);
+
+  border-radius:
+    999px;
+
+  font-size:
+    0.78rem;
+
+  font-weight:
+    800;
+}
+
+
+/* =====================================================
+   TASK LIST
+===================================================== */
+
+
+.sasha-pursuit-task-list {
+  display:
+    grid;
+
+  gap:
+    0.75rem;
+}
+
+
+.sasha-pursuit-task {
+  display:
+    flex;
+
+  align-items:
+    flex-start;
+
+  gap:
+    0.85rem;
+
+  padding:
+    0.9rem
+    1rem;
+
+  background:
+    var(--sasha-white-04);
+
+  border:
+    1px solid
+    var(--sasha-white-18);
+
+  border-radius:
+    12px;
+}
+
+
+.sasha-pursuit-task-marker {
+  display:
+    inline-flex;
+
+  width:
+    28px;
+
+  height:
+    28px;
+
+  flex:
+    0 0 28px;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  color:
+    var(--sasha-white);
+
+  border:
+    1px solid
+    var(--sasha-white-25);
+
+  border-radius:
+    50%;
+}
+
+
+.sasha-pursuit-task strong {
+  display:
+    block;
+
+  color:
+    var(--sasha-white);
+
+  font-size:
+    0.88rem;
+}
+
+
+.sasha-pursuit-task div span {
+  display:
+    block;
+
+  margin-top:
+    0.2rem;
+
+  color:
+    rgba(255, 255, 255, 0.52);
+
+  font-size:
+    0.76rem;
+}
+
+
+.sasha-pursuit-task.is-complete
+.sasha-pursuit-task-marker {
+  color:
+    var(--sasha-navy);
+
+  background:
+    var(--sasha-pink);
+
+  border-color:
+    var(--sasha-pink);
+}
+
+
+/* =====================================================
+   TEAM
+===================================================== */
+
+
+.sasha-pursuit-team-manager {
+  margin-bottom:
+    1rem;
+
+  padding:
+    1rem
+    1.1rem;
+
+  background:
+    var(--sasha-white-04);
+
+  border:
+    1px solid
+    var(--sasha-white-18);
+
+  border-radius:
+    12px;
+}
+
+
+.sasha-pursuit-team-manager span {
+  display:
+    block;
+
+  margin-bottom:
+    0.3rem;
+
+  color:
+    var(--sasha-pink);
+
+  font-size:
+    0.7rem;
+
+  font-weight:
+    800;
+
+  letter-spacing:
+    0.05em;
+
+  text-transform:
+    uppercase;
+}
+
+
+.sasha-pursuit-team-manager strong {
+  color:
+    var(--sasha-white);
+
+  font-size:
+    1rem;
+}
+
+
+.sasha-pursuit-team-list {
+  display:
+    grid;
+
+  gap:
+    0.75rem;
+}
+
+
+.sasha-pursuit-team-member {
+  padding:
+    0.9rem
+    1rem;
+
+  background:
+    var(--sasha-white-04);
+
+  border:
+    1px solid
+    var(--sasha-white-18);
+
+  border-radius:
+    12px;
+}
+
+
+.sasha-pursuit-team-member strong {
+  display:
+    block;
+
+  color:
+    var(--sasha-white);
+
+  font-size:
+    0.9rem;
+}
+
+
+.sasha-pursuit-team-member span {
+  display:
+    block;
+
+  margin-top:
+    0.2rem;
+
+  color:
+    rgba(255, 255, 255, 0.52);
+
+  font-size:
+    0.76rem;
+}
+
+
+/* =====================================================
+   EMPTY COPY
+===================================================== */
+
+
+.sasha-pursuit-dashboard-empty-copy {
+  margin:
+    0;
+
+  padding:
+    1.25rem;
+
+  color:
+    rgba(255, 255, 255, 0.58);
+
+  background:
+    var(--sasha-white-04);
+
+  border:
+    1px solid
+    var(--sasha-white-18);
+
+  border-radius:
+    12px;
+
+  line-height:
+    1.5;
+}
+
+
+/* =====================================================
+   DOCUMENTS
+===================================================== */
+
+
+.sasha-pursuit-document-grid {
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(
+      2,
+      minmax(0, 1fr)
+    );
+
+  gap:
+    1.25rem;
+}
+
+
+.sasha-pursuit-document-card {
+  position:
+    relative;
+
+  min-height:
+    190px;
+
+  padding:
+    1.6rem
+    1.75rem;
+
+  background:
+    var(--sasha-white-06);
+
+  border:
+    1px solid
+    var(--sasha-white-25);
+
+  border-radius:
+    var(--sasha-radius-medium);
+}
+
+
+.sasha-pursuit-document-count {
+  display:
+    inline-flex;
+
+  min-width:
+    38px;
+
+  min-height:
+    38px;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  margin-bottom:
+    1rem;
+
+  padding:
+    0.4rem;
+
+  color:
+    var(--sasha-navy);
+
+  background:
+    var(--sasha-pink);
+
+  border-radius:
+    999px;
+
+  font-size:
+    0.78rem;
+
+  font-weight:
+    800;
+}
+
+
+.sasha-pursuit-document-card h3 {
+  margin:
+    0;
+
+  color:
+    var(--sasha-white);
+
+  font-size:
+    1.2rem;
+
+  font-weight:
+    700;
+}
+
+
+.sasha-pursuit-document-card p {
+  margin:
+    0.8rem
+    0
+    0;
+
+  color:
+    rgba(255, 255, 255, 0.64);
+
+  font-size:
+    0.88rem;
+
+  line-height:
+    1.55;
+}
+
+
+/* =====================================================
+   TABLET
+===================================================== */
+
+
+@media screen and (max-width: 1100px) {
+
+  .sasha-pursuit-dashboard-summary {
+    grid-template-columns:
+      repeat(
+        3,
+        minmax(0, 1fr)
+      );
+  }
+
+
+  .sasha-pursuit-workflow {
+    grid-template-columns:
+      repeat(
+        3,
+        minmax(0, 1fr)
+      );
+  }
+
+
+  .sasha-pursuit-workspace-grid {
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(0, 1fr)
+      );
+  }
+
+}
+
+
+@media screen and (max-width: 900px) {
+
+  .sasha-pursuit-dashboard-header {
+    grid-template-columns:
+      1fr;
+  }
+
+
+  .sasha-pursuit-dashboard-deadline {
+    max-width:
+      520px;
+  }
+
+
+  .sasha-pursuit-dashboard-two-column {
+    grid-template-columns:
+      1fr;
+  }
+
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+
+@media screen and (max-width: 680px) {
+
+  .sasha-pursuit-dashboard {
+    padding-top:
+      2.75rem;
+  }
+
+
+  .sasha-pursuit-dashboard-container {
+    width:
+      calc(
+        100% -
+        2rem
+      );
+  }
+
+
+  .sasha-pursuit-dashboard-summary {
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(0, 1fr)
+      );
+  }
+
+
+  .sasha-pursuit-dashboard-section-heading {
+    align-items:
+      flex-start;
+
+    flex-direction:
+      column;
+  }
+
+
+  .sasha-pursuit-workflow {
+    grid-template-columns:
+      1fr;
+  }
+
+
+  .sasha-pursuit-workspace-grid {
+    grid-template-columns:
+      1fr;
+  }
+
+
+  .sasha-pursuit-document-grid {
+    grid-template-columns:
+      1fr;
+  }
+
+}
+
+
+/* =====================================================
+   SMALL MOBILE
+===================================================== */
+
+
+@media screen and (max-width: 460px) {
+
+  .sasha-pursuit-dashboard-container {
+    width:
+      calc(
+        100% -
+        1.5rem
+      );
+  }
+
+
+  .sasha-pursuit-dashboard-summary {
+    grid-template-columns:
+      1fr;
+  }
+
+
+  .sasha-pursuit-dashboard-header {
+    gap:
+      1.5rem;
+  }
+
+
+  .sasha-pursuit-dashboard-identity h1 {
+    font-size:
+      2.5rem;
+  }
+
+}
+
+
+/* =====================================================
+   REDUCED MOTION
+===================================================== */
+
+
+@media (prefers-reduced-motion: reduce) {
+
+  .sasha-pursuit-workspace-card {
+    transition:
+      none;
+  }
+
+}
