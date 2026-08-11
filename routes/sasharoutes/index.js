@@ -6,6 +6,12 @@ const ensureOrganization = require(
   '../../middleware/ensureOrganization'
 );
 
+const {
+  verifyCsrfToken
+} = require(
+  '../../middleware/csrfProtection'
+);
+
 const organizationController = require(
   '../../controllers/organizationController'
 );
@@ -52,10 +58,20 @@ router.get(
 
 
 router.post(
+  '/create_pursuit/analyze',
+  ensureOrganization,
+  verifyCsrfToken,
+  proposalController.analyzePursuit
+);
+
+
+router.post(
   '/create_pursuit',
   ensureOrganization,
+  verifyCsrfToken,
   proposalController.postCreatePursuit
 );
+
 
 /* =====================================================
 PURSUITS
@@ -187,12 +203,14 @@ router.get(
 
 router.post(
   '/login',
+  verifyCsrfToken,
   organizationController.login
 );
 
 
 router.post(
   '/logout',
+  verifyCsrfToken,
   organizationController.logout
 );
 
@@ -209,6 +227,7 @@ router.get(
 
 router.post(
   '/setup-organization',
+  verifyCsrfToken,
   organizationController.createOrganization
 );
 
