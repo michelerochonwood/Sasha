@@ -537,3 +537,163 @@ async (
 
 };
 
+/* =====================================================
+GET ANALYZE | GO NO GO
+===================================================== */
+
+exports.getAnalyzePursuit =
+async (
+  req,
+  res,
+  next
+) => {
+
+  try {
+
+    const pursuitId =
+      req.query.pursuit;
+
+
+    /* =================================================
+       REQUIRE PURSUIT
+    ================================================== */
+
+    if (
+      !pursuitId
+    ) {
+
+      return res.redirect(
+        '/pursuits'
+      );
+
+    }
+
+
+    /* =================================================
+       FIND PURSUIT
+    ================================================== */
+
+    const proposal =
+      await Proposal.findOne(
+        {
+          _id:
+            pursuitId,
+
+          organization:
+            req.session.organizationId
+        }
+      )
+        .lean();
+
+
+    /* =================================================
+       PURSUIT NOT FOUND
+    ================================================== */
+
+    if (
+      !proposal
+    ) {
+
+      return res.status(404).render(
+        'not_found',
+        {
+          layout:
+            'mainlayout',
+
+          pageTitle:
+            'Pursuit Not Found | Sasha'
+        }
+      );
+
+    }
+
+
+    /* =================================================
+       PREPARE ANALYSIS
+    ================================================== */
+
+    const rfpAnalysis =
+      proposal.rfpAnalysis &&
+      typeof proposal.rfpAnalysis ===
+        'object'
+        ? proposal.rfpAnalysis
+        : {};
+
+
+    const mandatoryRequirements =
+      Array.isArray(
+        rfpAnalysis.mandatoryRequirements
+      )
+        ? rfpAnalysis.mandatoryRequirements
+        : [];
+
+
+    const evaluationCriteria =
+      Array.isArray(
+        rfpAnalysis.evaluationCriteria
+      )
+        ? rfpAnalysis.evaluationCriteria
+        : [];
+
+
+    const risks =
+      Array.isArray(
+        rfpAnalysis.risks
+      )
+        ? rfpAnalysis.risks
+        : [];
+
+
+    const unknowns =
+      Array.isArray(
+        rfpAnalysis.unknowns
+      )
+        ? rfpAnalysis.unknowns
+        : [];
+
+
+    /* =================================================
+       RENDER
+    ================================================== */
+
+    return res.render(
+      'sasha_analyze',
+      {
+        layout:
+          'mainlayout',
+
+        pageTitle:
+          `Analyze ${proposal.proposalName} | Sasha`,
+
+        proposal,
+
+        rfpAnalysis,
+
+        mandatoryRequirements,
+
+        evaluationCriteria,
+
+        risks,
+
+        unknowns
+      }
+    );
+
+  } catch (
+    error
+  ) {
+
+    console.error(
+      'LOAD PURSUIT ANALYSIS FAILED:',
+      error
+    );
+
+
+    return next(
+      error
+    );
+
+  }
+
+};
+

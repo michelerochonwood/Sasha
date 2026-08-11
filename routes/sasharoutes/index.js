@@ -95,6 +95,8 @@ router.get(
 );
 
 
+
+
 /* =====================================================
 ANALYZE | GO NO GO
 ===================================================== */
@@ -102,20 +104,7 @@ ANALYZE | GO NO GO
 router.get(
   '/analyze',
   ensureOrganization,
-  (req, res) => {
-
-    return res.render(
-      'sasha_analyze',
-      {
-        layout:
-          'mainlayout',
-
-        pageTitle:
-          'Analyze | Sasha'
-      }
-    );
-
-  }
+  proposalController.getAnalyzePursuit
 );
 
 

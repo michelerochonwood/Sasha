@@ -1,0 +1,1040 @@
+{{!-- =====================================================
+     SASHA ANALYZE | GO NO GO
+====================================================== --}}
+
+<section
+  class="sasha-work-page sasha-analysis-page"
+  aria-labelledby="sasha-analysis-heading"
+>
+
+  <div class="sasha-work-container">
+
+
+    {{!-- =================================================
+         BACK TO PURSUIT
+    ================================================== --}}
+
+    <div class="sasha-work-back">
+
+      <a href="/pursuit/{{proposal._id}}">
+        ← Pursuit Dashboard
+      </a>
+
+    </div>
+
+
+    {{!-- =================================================
+         PAGE HEADER
+    ================================================== --}}
+
+    <header class="sasha-work-header">
+
+      <div class="sasha-work-header-copy">
+
+        <p class="sasha-work-eyebrow">
+          Analyze | Go No Go
+        </p>
+
+        <h1 id="sasha-analysis-heading">
+          {{proposal.proposalName}}
+        </h1>
+
+        {{#if proposal.clientName}}
+
+          <p class="sasha-work-client">
+            {{proposal.clientName}}
+          </p>
+
+        {{/if}}
+
+        <p class="sasha-work-introduction">
+          Work through the RFP with Sasha, identify compliance and risk
+          issues, assess the opportunity, and decide how much effort this
+          pursuit deserves.
+        </p>
+
+      </div>
+
+
+      <div class="sasha-work-header-meta">
+
+        {{#if proposal.rfpNumber}}
+
+          <div class="sasha-work-meta-item">
+
+            <span>
+              RFP
+            </span>
+
+            <strong>
+              {{proposal.rfpNumber}}
+            </strong>
+
+          </div>
+
+        {{/if}}
+
+
+        <div class="sasha-work-meta-item">
+
+          <span>
+            Status
+          </span>
+
+          <strong class="sasha-pursuit-capitalize">
+            {{proposal.proposalStatus}}
+          </strong>
+
+        </div>
+
+
+        <div class="sasha-work-meta-item">
+
+          <span>
+            Effort
+          </span>
+
+          <strong class="sasha-pursuit-capitalize">
+
+            {{#if proposal.effortLevel}}
+
+              {{proposal.effortLevel}}
+
+            {{else}}
+
+              Not selected
+
+            {{/if}}
+
+          </strong>
+
+        </div>
+
+      </div>
+
+    </header>
+
+
+    {{!-- =================================================
+         MAIN WORKSPACE
+    ================================================== --}}
+
+    <div class="sasha-analysis-layout">
+
+
+      {{!-- =================================================
+           SASHA CONVERSATION
+      ================================================== --}}
+
+      <section
+        class="sasha-chat-panel"
+        aria-labelledby="sasha-analysis-chat-heading"
+      >
+
+        <header class="sasha-chat-header">
+
+          <div>
+
+            <p class="sasha-work-eyebrow">
+              Work with Sasha
+            </p>
+
+            <h2 id="sasha-analysis-chat-heading">
+              Analyze the opportunity
+            </h2>
+
+          </div>
+
+          <span class="sasha-chat-status">
+            Pursuit conversation
+          </span>
+
+        </header>
+
+
+        {{!-- ===============================================
+             CHAT THREAD
+        ================================================ --}}
+
+        <div
+          class="sasha-chat-thread"
+          id="sasha-analysis-chat-thread"
+          aria-live="polite"
+        >
+
+
+          {{!-- =============================================
+               INITIAL SASHA MESSAGE
+          ============================================== --}}
+
+          <article class="sasha-chat-message is-sasha">
+
+            <div class="sasha-chat-speaker">
+              Sasha
+            </div>
+
+            <div class="sasha-chat-bubble">
+
+              <p>
+                I can help turn this RFP into a working pursuit plan.
+                We can review contractual and delivery risks, build the
+                mandatory requirements checklist, examine the evaluation
+                criteria, assess your Go and Get position, and establish
+                the right level of proposal effort.
+              </p>
+
+              <p>
+                Ask me about any part of the opportunity, or tell me what
+                you want to examine first.
+              </p>
+
+            </div>
+
+          </article>
+
+
+          {{!-- =============================================
+               FUTURE SAVED CHAT MESSAGES
+
+               Once AI conversation storage is wired up,
+               messages can be rendered here.
+          ============================================== --}}
+
+          {{#each analysisMessages}}
+
+            <article
+              class="
+                sasha-chat-message
+                is-{{this.role}}
+              "
+            >
+
+              <div class="sasha-chat-speaker">
+
+                {{#ifEquals this.role "user"}}
+                  You
+                {{else}}
+                  Sasha
+                {{/ifEquals}}
+
+              </div>
+
+              <div class="sasha-chat-bubble">
+                {{{this.content}}}
+              </div>
+
+            </article>
+
+          {{/each}}
+
+        </div>
+
+
+        {{!-- ===============================================
+             CHAT COMPOSER
+        ================================================ --}}
+
+        <form
+          class="sasha-chat-composer"
+          id="sasha-analysis-chat-form"
+          method="POST"
+          action="/analyze/chat"
+        >
+
+          {{#if csrfToken}}
+
+            <input
+              type="hidden"
+              name="_csrf"
+              value="{{csrfToken}}"
+            >
+
+          {{/if}}
+
+          <input
+            type="hidden"
+            name="pursuitId"
+            value="{{proposal._id}}"
+          >
+
+
+          <label
+            for="sasha-analysis-message"
+            class="sasha-chat-label"
+          >
+            Ask Sasha
+          </label>
+
+
+          <textarea
+            id="sasha-analysis-message"
+            name="message"
+            rows="5"
+            placeholder="Ask about the RFP, a requirement, contractual risk, evaluation criteria, your Go/Get position, or what to do next..."
+            required
+          ></textarea>
+
+
+          <div class="sasha-chat-actions">
+
+            <p>
+              Sasha will use this pursuit and its source documents as context.
+            </p>
+
+            <button
+              type="submit"
+              class="sasha-chat-submit"
+            >
+              Send to Sasha
+            </button>
+
+          </div>
+
+        </form>
+
+      </section>
+
+
+      {{!-- =================================================
+           ANALYSIS WORKSPACE
+      ================================================== --}}
+
+      <aside
+        class="sasha-analysis-workspace"
+        aria-label="Pursuit analysis"
+      >
+
+
+        {{!-- ===============================================
+             CURRENT POSITION
+        ================================================ --}}
+
+        <section class="sasha-analysis-card">
+
+          <header class="sasha-analysis-card-heading">
+
+            <div>
+
+              <p class="sasha-work-eyebrow">
+                Current position
+              </p>
+
+              <h2>
+                Go | Get
+              </h2>
+
+            </div>
+
+          </header>
+
+
+          <div class="sasha-go-get-grid">
+
+
+            <div class="sasha-go-get-item">
+
+              <span>
+                GO
+              </span>
+
+              <strong>
+
+                {{#if rfpAnalysis.goPosition}}
+
+                  {{rfpAnalysis.goPosition}}
+
+                {{else}}
+
+                  Unresolved
+
+                {{/if}}
+
+              </strong>
+
+              <p>
+                Is this work worth pursuing?
+              </p>
+
+            </div>
+
+
+            <div class="sasha-go-get-item">
+
+              <span>
+                GET
+              </span>
+
+              <strong>
+
+                {{#if rfpAnalysis.getPosition}}
+
+                  {{rfpAnalysis.getPosition}}
+
+                {{else}}
+
+                  Unresolved
+
+                {{/if}}
+
+              </strong>
+
+              <p>
+                Are we credibly positioned to win it?
+              </p>
+
+            </div>
+
+
+          </div>
+
+        </section>
+
+
+        {{!-- ===============================================
+             LEVEL OF EFFORT
+        ================================================ --}}
+
+        <section class="sasha-analysis-card">
+
+          <header class="sasha-analysis-card-heading">
+
+            <div>
+
+              <p class="sasha-work-eyebrow">
+                Proposal process
+              </p>
+
+              <h2>
+                Level of Effort
+              </h2>
+
+            </div>
+
+          </header>
+
+
+          <p class="sasha-analysis-card-intro">
+            Choose the investment that makes sense for this opportunity.
+            Sasha will use this choice to shape the rest of the pursuit.
+          </p>
+
+
+          <form
+            class="sasha-effort-form"
+            action="/analyze/effort"
+            method="POST"
+          >
+
+            {{#if csrfToken}}
+
+              <input
+                type="hidden"
+                name="_csrf"
+                value="{{csrfToken}}"
+              >
+
+            {{/if}}
+
+            <input
+              type="hidden"
+              name="pursuitId"
+              value="{{proposal._id}}"
+            >
+
+
+            <label class="sasha-effort-option">
+
+              <input
+                type="radio"
+                name="effortLevel"
+                value="minimal"
+              >
+
+              <span>
+
+                <strong>
+                  Minimal
+                </strong>
+
+                <small>
+                  Professional, compliant, tightly controlled effort.
+                </small>
+
+              </span>
+
+            </label>
+
+
+            <label class="sasha-effort-option">
+
+              <input
+                type="radio"
+                name="effortLevel"
+                value="usual"
+              >
+
+              <span>
+
+                <strong>
+                  Usual
+                </strong>
+
+                <small>
+                  Tailored and competitive with an efficient,
+                  disciplined process.
+                </small>
+
+              </span>
+
+            </label>
+
+
+            <label class="sasha-effort-option">
+
+              <input
+                type="radio"
+                name="effortLevel"
+                value="full"
+              >
+
+              <span>
+
+                <strong>
+                  Full
+                </strong>
+
+                <small>
+                  Significant strategy, customization, evidence,
+                  review, and proposal-management effort.
+                </small>
+
+              </span>
+
+            </label>
+
+
+            <button
+              type="submit"
+              class="sasha-analysis-save-button"
+            >
+              Save Effort Level
+            </button>
+
+          </form>
+
+        </section>
+
+      </aside>
+
+    </div>
+
+
+    {{!-- =================================================
+         RFP ANALYSIS
+    ================================================== --}}
+
+    <section class="sasha-analysis-section">
+
+      <header class="sasha-analysis-section-heading">
+
+        <div>
+
+          <p class="sasha-work-eyebrow">
+            RFP analysis
+          </p>
+
+          <h2>
+            What Sasha Has Found
+          </h2>
+
+        </div>
+
+        <p>
+          These work products will develop as Sasha reviews the RFP
+          and talks through the pursuit with your team.
+        </p>
+
+      </header>
+
+
+      <div class="sasha-analysis-output-grid">
+
+
+        {{!-- =============================================
+             RISK
+        ============================================== --}}
+
+        <article class="sasha-analysis-output-card is-risk">
+
+          <header>
+
+            <span>
+              01
+            </span>
+
+            <h3>
+              Risk and Contract Concerns
+            </h3>
+
+          </header>
+
+
+          {{#if risks.length}}
+
+            <div class="sasha-analysis-item-list">
+
+              {{#each risks}}
+
+                <div class="sasha-analysis-item">
+
+                  <strong>
+                    {{this.title}}
+                  </strong>
+
+                  {{#if this.description}}
+
+                    <p>
+                      {{this.description}}
+                    </p>
+
+                  {{/if}}
+
+                </div>
+
+              {{/each}}
+
+            </div>
+
+          {{else}}
+
+            <p class="sasha-analysis-empty">
+              Sasha has not recorded any risk findings yet.
+            </p>
+
+          {{/if}}
+
+        </article>
+
+
+        {{!-- =============================================
+             MANDATORY REQUIREMENTS
+        ============================================== --}}
+
+        <article class="sasha-analysis-output-card">
+
+          <header>
+
+            <span>
+              02
+            </span>
+
+            <h3>
+              Mandatory Requirements
+            </h3>
+
+          </header>
+
+
+          {{#if mandatoryRequirements.length}}
+
+            <div class="sasha-compliance-list">
+
+              {{#each mandatoryRequirements}}
+
+                <div class="sasha-compliance-item">
+
+                  <span class="sasha-compliance-marker">
+                    {{#if this.complete}}
+                      ✓
+                    {{else}}
+                      ○
+                    {{/if}}
+                  </span>
+
+                  <div>
+
+                    <strong>
+                      {{this.requirement}}
+                    </strong>
+
+                    {{#if this.notes}}
+
+                      <p>
+                        {{this.notes}}
+                      </p>
+
+                    {{/if}}
+
+                  </div>
+
+                </div>
+
+              {{/each}}
+
+            </div>
+
+          {{else}}
+
+            <p class="sasha-analysis-empty">
+              The mandatory requirements checklist has not been built yet.
+            </p>
+
+          {{/if}}
+
+        </article>
+
+
+        {{!-- =============================================
+             EVALUATION CRITERIA
+        ============================================== --}}
+
+        <article class="sasha-analysis-output-card">
+
+          <header>
+
+            <span>
+              03
+            </span>
+
+            <h3>
+              Evaluation Criteria
+            </h3>
+
+          </header>
+
+
+          {{#if evaluationCriteria.length}}
+
+            <div class="sasha-analysis-item-list">
+
+              {{#each evaluationCriteria}}
+
+                <div class="sasha-analysis-item">
+
+                  <strong>
+                    {{this.criterion}}
+                  </strong>
+
+                  {{#if this.weight}}
+
+                    <span>
+                      {{this.weight}}
+                    </span>
+
+                  {{/if}}
+
+                </div>
+
+              {{/each}}
+
+            </div>
+
+          {{else}}
+
+            <p class="sasha-analysis-empty">
+              No evaluation criteria have been recorded yet.
+            </p>
+
+          {{/if}}
+
+        </article>
+
+
+        {{!-- =============================================
+             SCOPE
+        ============================================== --}}
+
+        <article class="sasha-analysis-output-card">
+
+          <header>
+
+            <span>
+              04
+            </span>
+
+            <h3>
+              Scope of Work
+            </h3>
+
+          </header>
+
+
+          {{#if rfpAnalysis.scopeSummary}}
+
+            <div class="sasha-analysis-rich-copy">
+              {{{rfpAnalysis.scopeSummary}}}
+            </div>
+
+          {{else}}
+
+            <p class="sasha-analysis-empty">
+              Sasha has not prepared the scope analysis yet.
+            </p>
+
+          {{/if}}
+
+        </article>
+
+
+        {{!-- =============================================
+             SUBMISSION
+        ============================================== --}}
+
+        <article class="sasha-analysis-output-card">
+
+          <header>
+
+            <span>
+              05
+            </span>
+
+            <h3>
+              Submission Requirements
+            </h3>
+
+          </header>
+
+
+          {{#if rfpAnalysis.submissionRequirements}}
+
+            <div class="sasha-analysis-rich-copy">
+              {{{rfpAnalysis.submissionRequirements}}}
+            </div>
+
+          {{else}}
+
+            <p class="sasha-analysis-empty">
+              Submission requirements have not been recorded yet.
+            </p>
+
+          {{/if}}
+
+        </article>
+
+
+        {{!-- =============================================
+             UNKNOWNS
+        ============================================== --}}
+
+        <article class="sasha-analysis-output-card">
+
+          <header>
+
+            <span>
+              06
+            </span>
+
+            <h3>
+              Clarifications and Unknowns
+            </h3>
+
+          </header>
+
+
+          {{#if unknowns.length}}
+
+            <div class="sasha-analysis-item-list">
+
+              {{#each unknowns}}
+
+                <div class="sasha-analysis-item">
+
+                  <strong>
+                    {{this.question}}
+                  </strong>
+
+                  {{#if this.notes}}
+
+                    <p>
+                      {{this.notes}}
+                    </p>
+
+                  {{/if}}
+
+                </div>
+
+              {{/each}}
+
+            </div>
+
+          {{else}}
+
+            <p class="sasha-analysis-empty">
+              No material clarifications or unknowns have been recorded yet.
+            </p>
+
+          {{/if}}
+
+        </article>
+
+      </div>
+
+    </section>
+
+
+    {{!-- =================================================
+         GO / NO GO DECISION
+    ================================================== --}}
+
+    <section class="sasha-analysis-decision">
+
+      <header class="sasha-analysis-section-heading">
+
+        <div>
+
+          <p class="sasha-work-eyebrow">
+            Decision
+          </p>
+
+          <h2>
+            Record the Go / No Go
+          </h2>
+
+        </div>
+
+        <p>
+          Sasha supports the analysis. The pursuit team makes the decision.
+        </p>
+
+      </header>
+
+
+      <form
+        class="sasha-decision-form"
+        action="/analyze/decision"
+        method="POST"
+      >
+
+        {{#if csrfToken}}
+
+          <input
+            type="hidden"
+            name="_csrf"
+            value="{{csrfToken}}"
+          >
+
+        {{/if}}
+
+        <input
+          type="hidden"
+          name="pursuitId"
+          value="{{proposal._id}}"
+        >
+
+
+        <div class="sasha-decision-options">
+
+
+          <label class="sasha-decision-option">
+
+            <input
+              type="radio"
+              name="decision"
+              value="go"
+            >
+
+            <span>
+
+              <strong>
+                GO
+              </strong>
+
+              <small>
+                Proceed with the pursuit.
+              </small>
+
+            </span>
+
+          </label>
+
+
+          <label class="sasha-decision-option">
+
+            <input
+              type="radio"
+              name="decision"
+              value="no_go"
+            >
+
+            <span>
+
+              <strong>
+                NO GO
+              </strong>
+
+              <small>
+                Record the opportunity and stop proposal development.
+              </small>
+
+            </span>
+
+          </label>
+
+
+          <label class="sasha-decision-option">
+
+            <input
+              type="radio"
+              name="decision"
+              value="pending"
+            >
+
+            <span>
+
+              <strong>
+                NOT YET
+              </strong>
+
+              <small>
+                More information is needed before deciding.
+              </small>
+
+            </span>
+
+          </label>
+
+        </div>
+
+
+        <div class="sasha-decision-notes">
+
+          <label for="decisionNotes">
+            Decision rationale
+          </label>
+
+          <textarea
+            id="decisionNotes"
+            name="decisionNotes"
+            rows="5"
+            placeholder="Record the principal reasons, risks, strengths, unknowns, or actions that influenced the decision."
+          >{{rfpAnalysis.decisionNotes}}</textarea>
+
+        </div>
+
+
+        <div class="sasha-decision-actions">
+
+          <a
+            href="/pursuit/{{proposal._id}}"
+            class="sasha-form-cancel-button"
+          >
+            Return to Dashboard
+          </a>
+
+          <button
+            type="submit"
+            class="sasha-form-submit-button"
+          >
+            Save Decision
+          </button>
+
+        </div>
+
+      </form>
+
+    </section>
+
+
+  </div>
+
+</section>
