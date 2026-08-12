@@ -171,7 +171,7 @@ function verifyCsrfToken(
       error
     );
 
-  }
+  }  
 
 
   return next();
