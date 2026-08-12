@@ -42,27 +42,19 @@
   enctype="multipart/form-data"
 >
 
-<input
-  type="hidden"
-  name="_csrf"
-  value="{{csrfToken}}"
->
-
-<input
-  type="file"
-  id="sourceDocuments"
-  name="sourceDocuments"
-  accept=".pdf,.docx,.txt"
-  multiple
->
+  <input
+    type="hidden"
+    name="_csrf"
+    value="{{csrfToken}}"
+  >
 
 
-      <input
-        type="hidden"
-        id="aiSummary"
-        name="aiSummary"
-        value=""
-      >
+  <input
+    type="hidden"
+    id="aiSummary"
+    name="aiSummary"
+    value=""
+  >
 
 
       {{!-- =================================================
