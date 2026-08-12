@@ -1,5 +1,5 @@
 const sashaAiService = require(
-  '../../services/sashaAiService'
+  '../services/sashaAiService'
 );
 
 
