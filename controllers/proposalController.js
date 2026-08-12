@@ -324,9 +324,8 @@ req.session.activePursuitName =
 };
 
 
-
 /* =====================================================
-POST CREATE PURSUIT
+   POST CREATE PURSUIT
 ===================================================== */
 
 exports.postCreatePursuit =
@@ -396,6 +395,109 @@ async (
 
 
     /* =================================================
+       PREPARE SOURCE DOCUMENTS
+    ================================================== */
+
+    const uploadedFiles =
+      Array.isArray(req.files)
+        ? req.files
+        : [];
+
+
+    const sourceDocuments =
+      [];
+
+
+    /* =================================================
+       UPLOAD SOURCE DOCUMENTS
+    ================================================== */
+
+    for (
+      const file of uploadedFiles
+    ) {
+
+      const uploadResult =
+        await new Promise(
+          (
+            resolve,
+            reject
+          ) => {
+
+            const uploadStream =
+              cloudinary.uploader.upload_stream(
+                {
+                  resource_type:
+                    'raw',
+
+                  folder:
+                    `sasha/${req.session.organizationId}/pursuit-documents`,
+
+                  public_id:
+                    `${Date.now()}-${file.originalname}`,
+
+                  use_filename:
+                    true,
+
+                  unique_filename:
+                    true
+                },
+
+                (
+                  error,
+                  result
+                ) => {
+
+                  if (error) {
+
+                    return reject(
+                      error
+                    );
+
+                  }
+
+
+                  return resolve(
+                    result
+                  );
+
+                }
+              );
+
+
+            uploadStream.end(
+              file.buffer
+            );
+
+          }
+        );
+
+
+      sourceDocuments.push({
+        title:
+          file.originalname,
+
+        documentType:
+          file.mimetype,
+
+        fileName:
+          file.originalname,
+
+        fileUrl:
+          uploadResult.secure_url,
+
+        uploadedAt:
+          new Date(),
+
+        processedBySasha:
+          Boolean(
+            aiSummary
+          )
+      });
+
+    }
+
+
+    /* =================================================
        CREATE PURSUIT
     ================================================== */
 
@@ -431,9 +533,22 @@ async (
 
           aiSummary:
             aiSummary ||
-            ''
+            '',
+
+          sourceDocuments
         }
       );
+
+
+    /* =================================================
+       SET ACTIVE PURSUIT
+    ================================================== */
+
+    req.session.activePursuitId =
+      proposal._id.toString();
+
+    req.session.activePursuitName =
+      proposal.proposalName;
 
 
     /* =================================================
@@ -443,6 +558,7 @@ async (
     return res.redirect(
       `/pursuit/${proposal._id}`
     );
+
 
   } catch (
     error
@@ -461,7 +577,6 @@ async (
   }
 
 };
-
 
 /* =====================================================
 GET PURSUITS

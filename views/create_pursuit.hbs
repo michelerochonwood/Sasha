@@ -39,12 +39,21 @@
   class="sasha-pursuit-form"
   action="/create_pursuit"
   method="POST"
+  enctype="multipart/form-data"
 >
 
 <input
   type="hidden"
   name="_csrf"
   value="{{csrfToken}}"
+>
+
+<input
+  type="file"
+  id="sourceDocuments"
+  name="sourceDocuments"
+  accept=".pdf,.docx,.txt"
+  multiple
 >
 
 

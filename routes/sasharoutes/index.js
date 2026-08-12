@@ -24,6 +24,14 @@ const instructionController = require(
   '../../controllers/instructionController'
 );
 
+const pursuitDocumentUpload = require(
+  '../../middleware/pursuitDocumentUpload'
+);
+
+const openaiController = require(
+  '../../controllers/openaiController'
+);
+
 const router = express.Router();
 
 
@@ -51,7 +59,7 @@ router.get(
 
 
 /* =====================================================
-CREATE A PURSUIT
+   CREATE A PURSUIT
 ===================================================== */
 
 router.get(
@@ -61,17 +69,27 @@ router.get(
 );
 
 
+/* =====================================================
+   ANALYZE PURSUIT MATERIAL
+===================================================== */
+
 router.post(
   '/create_pursuit/analyze',
   ensureOrganization,
+  pursuitDocumentUpload,
   verifyCsrfToken,
-  proposalController.analyzePursuit
+  openaiController.analyzePursuit
 );
 
+
+/* =====================================================
+   SAVE PURSUIT
+===================================================== */
 
 router.post(
   '/create_pursuit',
   ensureOrganization,
+  pursuitDocumentUpload,
   verifyCsrfToken,
   proposalController.postCreatePursuit
 );
