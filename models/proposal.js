@@ -1,4 +1,8 @@
 const mongoose = require("mongoose");
+const analysisConversationSchema =
+  require(
+    './analysisconversation'
+  );
 
 const proposalSchema = new mongoose.Schema(
   {
@@ -358,13 +362,18 @@ tasks: [
 ],
 
 
+/* =====================================================
+   ANALYSIS CONVERSATION
+===================================================== */
+
 analysisMessages: {
   type: [
-    analysisconversation
+    analysisConversationSchema
   ],
 
   default: []
 },
+
 
     /* =====================================================
        FINAL PROPOSAL

@@ -1,8 +1,14 @@
+const mongoose =
+  require(
+    'mongoose'
+  );
+
+
 /* =====================================================
    ANALYSIS CONVERSATION MESSAGE
 ===================================================== */
 
-const analysisMessageSchema =
+const analysisConversationSchema =
   new mongoose.Schema(
     {
       role: {
@@ -36,3 +42,11 @@ const analysisMessageSchema =
         true
     }
   );
+
+
+/* =====================================================
+   EXPORT SCHEMA
+===================================================== */
+
+module.exports =
+  analysisConversationSchema;
