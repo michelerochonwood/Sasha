@@ -2445,7 +2445,8 @@ const analysisMessages =
 
         winStrategy,
 
-        outline,
+outline:
+  preparedOutline,
 
         /*
          * Saved multi-turn writing conversations
