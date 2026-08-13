@@ -2,6 +2,9 @@ const Proposal = require(
   '../models/proposal'
 );
 
+const cloudinary =
+  require('../config/cloudinary');
+
 
 /* =====================================================
 GET CREATE PURSUIT
