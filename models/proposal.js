@@ -360,7 +360,7 @@ tasks: [
 
 analysisMessages: {
   type: [
-    analysisMessageSchema
+    analysisconversation
   ],
 
   default: []
