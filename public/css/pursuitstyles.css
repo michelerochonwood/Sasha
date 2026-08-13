@@ -12160,3 +12160,57 @@ select.is-sasha-suggested option {
   margin-bottom: 0;
 }
 
+
+
+/* =====================================================
+   WRITE — CLICKABLE OUTLINE SECTIONS
+===================================================== */
+
+.sasha-write-outline-section-link {
+  display: block;
+
+  color: inherit;
+
+  text-decoration: none;
+}
+
+
+.sasha-write-outline-reference-item.is-writable {
+  transition:
+    background-color 160ms ease,
+    transform 160ms ease;
+}
+
+
+.sasha-write-outline-reference-item.is-writable:hover {
+  background:
+    rgba(255, 255, 255, 0.05);
+}
+
+
+.sasha-write-outline-reference-item.is-writable
+.sasha-write-outline-reference-heading strong {
+  color:
+    var(--sasha-white);
+}
+
+
+.sasha-write-outline-reference-item.is-writable
+.sasha-write-outline-number {
+  border-color:
+    var(--sasha-pink);
+}
+
+
+.sasha-write-outline-section-link:focus-visible {
+  outline:
+    3px solid
+    var(--sasha-pink);
+
+  outline-offset:
+    4px;
+
+  border-radius:
+    0.5rem;
+}
+

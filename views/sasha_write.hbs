@@ -125,121 +125,79 @@
     <div class="sasha-write-layout">
 
 
-{{!-- =================================================
-     PROPOSAL OUTLINE
-================================================== --}}
-
-<aside
-  class="sasha-write-outline"
-  aria-labelledby="sasha-write-outline-heading"
+<div
+  class="
+    sasha-write-outline-reference-item
+    {{#if this.isWritable}}
+      is-writable
+    {{/if}}
+  "
 >
 
-  <header class="sasha-write-outline-header">
+  {{#if this.isWritable}}
 
-    <div>
+    <a
+      href="/write?pursuit={{../proposal._id}}&section={{this.sectionId}}"
+      class="sasha-write-outline-section-link"
+    >
 
-      <p class="sasha-work-eyebrow">
-        Proposal Structure
-      </p>
+      <div class="sasha-write-outline-reference-heading">
 
-      <h2 id="sasha-write-outline-heading">
-        Outline
-      </h2>
+        <span class="sasha-write-outline-number">
+          {{this.order}}
+        </span>
 
-    </div>
-
-  </header>
-
-
-  {{!-- =================================================
-       SAVED PURSUIT OUTLINE
-  ================================================== --}}
-
-  {{#if outline.sections.length}}
-
-    <div class="sasha-write-outline-reference">
-
-      {{#if outline.notes}}
-
-        <p class="sasha-write-outline-notes">
-          {{outline.notes}}
-        </p>
-
-      {{/if}}
-
-
-      <div class="sasha-write-outline-list">
-
-        {{#each outline.sections}}
-
-          <div class="sasha-write-outline-reference-item">
-
-            <div class="sasha-write-outline-reference-heading">
-
-              <span class="sasha-write-outline-number">
-                {{this.order}}
-              </span>
-
-              <strong>
-                {{this.title}}
-              </strong>
-
-            </div>
-
-
-            {{#if this.description}}
-
-              <p class="sasha-write-outline-description">
-                {{this.description}}
-              </p>
-
-            {{/if}}
-
-
-            {{#if this.subsections.length}}
-
-              <ul class="sasha-write-outline-subsections">
-
-                {{#each this.subsections}}
-
-                  <li>
-                    {{this}}
-                  </li>
-
-                {{/each}}
-
-              </ul>
-
-            {{/if}}
-
-          </div>
-
-        {{/each}}
+        <strong>
+          {{this.title}}
+        </strong>
 
       </div>
 
-    </div>
-
+    </a>
 
   {{else}}
 
-    <div class="sasha-write-outline-empty">
+    <div class="sasha-write-outline-reference-heading">
 
-      <p>
-        Sasha has not created the proposal outline yet.
-      </p>
+      <span class="sasha-write-outline-number">
+        {{this.order}}
+      </span>
 
-      <p>
-        Ask Sasha to prepare an outline based on the RFP structure,
-        evaluation criteria, mandatory requirements, and the way the
-        client expects the proposal to be organized.
-      </p>
+      <strong>
+        {{this.title}}
+      </strong>
 
     </div>
 
   {{/if}}
 
-</aside>
+
+  {{#if this.description}}
+
+    <p class="sasha-write-outline-description">
+      {{this.description}}
+    </p>
+
+  {{/if}}
+
+
+  {{#if this.subsections.length}}
+
+    <ul class="sasha-write-outline-subsections">
+
+      {{#each this.subsections}}
+
+        <li>
+          {{this}}
+        </li>
+
+      {{/each}}
+
+    </ul>
+
+  {{/if}}
+
+</div>
 
 
       {{!-- =================================================

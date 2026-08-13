@@ -729,6 +729,133 @@ if (
       `/write?pursuit=${proposal._id}`
   };
 
+  /* =================================================
+   BUILD WRITABLE PROPOSAL SECTIONS
+================================================== */
+
+const writableSectionDefinitions = [
+  {
+    prefix:
+      'A.',
+
+    sectionId:
+      'experience-and-qualifications'
+  },
+
+  {
+    prefix:
+      'B.',
+
+    sectionId:
+      'corporate-qualifications'
+  },
+
+  {
+    prefix:
+      'C.',
+
+    sectionId:
+      'methodology-work-plan-schedule'
+  },
+
+  {
+    prefix:
+      'D.',
+
+    sectionId:
+      'proposal-quality'
+  }
+];
+
+
+const existingContentSections =
+  Array.isArray(
+    proposal.contentSections
+  )
+    ? proposal.contentSections
+    : [];
+
+
+const writableSections =
+  writableSectionDefinitions
+    .map(
+      (
+        definition,
+        index
+      ) => {
+
+        const outlineSection =
+          proposal.outline.sections.find(
+            (
+              section
+            ) =>
+              typeof section.title ===
+                'string' &&
+              section.title
+                .trim()
+                .startsWith(
+                  definition.prefix
+                )
+          );
+
+
+        if (
+          !outlineSection
+        ) {
+          return null;
+        }
+
+
+        const existingSection =
+          existingContentSections.find(
+            (
+              section
+            ) =>
+              section.sectionId ===
+                definition.sectionId
+          );
+
+
+        return {
+          sectionId:
+            definition.sectionId,
+
+          title:
+            outlineSection.title,
+
+          order:
+            index + 1,
+
+          status:
+            existingSection
+              ? existingSection.status
+              : 'not_started',
+
+          content:
+            existingSection
+              ? existingSection.content
+              : '',
+
+          notes:
+            existingSection
+              ? existingSection.notes
+              : '',
+
+          updatedAt:
+            existingSection &&
+            existingSection.updatedAt
+              ? existingSection.updatedAt
+              : new Date()
+        };
+
+      }
+    )
+    .filter(Boolean);
+
+
+proposal.contentSections =
+  writableSections;
+
 
   console.log(
     'SASHA UPDATED PROPOSAL OUTLINE:',
@@ -2220,6 +2347,64 @@ async (
         'object'
         ? proposal.outline
         : {};
+
+        /* =================================================
+   PREPARE CLICKABLE OUTLINE
+================================================== */
+
+const outlineSections =
+  Array.isArray(
+    outline.sections
+  )
+    ? outline.sections
+    : [];
+
+
+const preparedOutlineSections =
+  outlineSections.map(
+    (
+      outlineSection
+    ) => {
+
+      const matchingContentSection =
+        contentSections.find(
+          (
+            contentSection
+          ) =>
+            contentSection.title ===
+              outlineSection.title
+        );
+
+
+      return {
+        ...outlineSection,
+
+        isWritable:
+          Boolean(
+            matchingContentSection
+          ),
+
+        sectionId:
+          matchingContentSection
+            ? matchingContentSection.sectionId
+            : '',
+
+        status:
+          matchingContentSection
+            ? matchingContentSection.status
+            : ''
+      };
+
+    }
+  );
+
+
+const preparedOutline = {
+  ...outline,
+
+  sections:
+    preparedOutlineSections
+};
 
         /* =================================================
    PREPARE ANALYSIS CONVERSATION
