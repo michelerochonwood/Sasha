@@ -130,6 +130,17 @@ router.get(
 );
 
 /* =====================================================
+   RECORD GO / NO GO DECISION
+===================================================== */
+
+router.post(
+  '/pursuit/:id/go-no-go',
+  ensureOrganization,
+  verifyCsrfToken,
+  proposalController.postGoNoGoDecision
+);
+
+/* =====================================================
 ANALYZE PURSUIT CHAT
 ===================================================== */
 

@@ -347,33 +347,84 @@
       <div class="sasha-pursuit-workspace-grid">
 
 
-        {{!-- =============================================
-             ANALYZE
-        ============================================== --}}
+{{!-- =============================================
+     ANALYZE | GO NO GO
+============================================== --}}
 
-        <a
-          href="/analyze?pursuit={{proposal._id}}"
-          class="sasha-pursuit-workspace-card"
-        >
+<a
+  href="/analyze?pursuit={{proposal._id}}"
+  class="
+    sasha-pursuit-workspace-card
+    {{#if proposal.goNoGo.decision}}
+      sasha-pursuit-workspace-card-decision
+      is-{{proposal.goNoGo.decision}}
+    {{/if}}
+  "
+>
 
-          <span class="sasha-pursuit-workspace-number">
-            01
-          </span>
+  <span class="sasha-pursuit-workspace-number">
+    01
+  </span>
 
-          <h3>
-            Analyze | Go No Go
-          </h3>
+  <h3>
+    Analyze | Go No Go
+  </h3>
 
-          <p>
-            Understand the opportunity, requirements, evaluation
-            criteria, risks, and whether the pursuit is worth pursuing.
-          </p>
 
-          <span class="sasha-pursuit-workspace-action">
-            Open analysis →
-          </span>
+  {{#if proposal.goNoGo.decision}}
 
-        </a>
+    <div class="sasha-pursuit-go-no-go-result">
+
+      <span class="sasha-pursuit-go-no-go-label">
+        Decision
+      </span>
+
+      <strong
+        class="
+          sasha-pursuit-go-no-go-decision
+          is-{{proposal.goNoGo.decision}}
+        "
+      >
+        {{proposal.goNoGo.decision}}
+      </strong>
+
+    </div>
+
+
+    {{#if proposal.goNoGo.decisionNotes}}
+
+      <p class="sasha-pursuit-go-no-go-notes">
+        {{proposal.goNoGo.decisionNotes}}
+      </p>
+
+    {{else}}
+
+      <p>
+        The go / no go decision has been recorded for this pursuit.
+      </p>
+
+    {{/if}}
+
+
+    <span class="sasha-pursuit-workspace-action">
+      Review analysis →
+    </span>
+
+
+  {{else}}
+
+    <p>
+      Understand the opportunity, requirements, evaluation
+      criteria, risks, and whether the pursuit is worth pursuing.
+    </p>
+
+    <span class="sasha-pursuit-workspace-action">
+      Complete analysis →
+    </span>
+
+  {{/if}}
+
+</a>
 
 
         {{!-- =============================================

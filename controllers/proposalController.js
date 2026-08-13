@@ -237,6 +237,215 @@ ${JSON.stringify(
 )}
 `;
 
+/* =====================================================
+   RECORD GO / NO GO DECISION
+===================================================== */
+
+exports.postGoNoGoDecision =
+async (
+  req,
+  res,
+  next
+) => {
+
+  try {
+
+    /* =================================================
+       REQUEST INFORMATION
+    ================================================== */
+
+    const pursuitId =
+      req.params.id;
+
+
+    const decision =
+      typeof req.body.decision ===
+        'string'
+        ? req.body.decision.trim()
+        : '';
+
+
+    const decisionNotes =
+      typeof req.body.decisionNotes ===
+        'string'
+        ? req.body.decisionNotes.trim()
+        : '';
+
+
+    const decidedBy =
+      typeof req.body.decidedBy ===
+        'string'
+        ? req.body.decidedBy.trim()
+        : '';
+
+
+    /* =================================================
+       VALIDATE DECISION
+    ================================================== */
+
+    const allowedDecisions =
+      [
+        'go',
+        'no_go',
+        'go_and_get'
+      ];
+
+
+    if (
+      !allowedDecisions.includes(
+        decision
+      )
+    ) {
+
+      return res.status(400).send(
+        'Select a valid Go / No Go decision.'
+      );
+
+    }
+
+
+    /* =================================================
+       FIND PURSUIT
+    ================================================== */
+
+    const proposal =
+      await Proposal.findOne({
+        _id:
+          pursuitId,
+
+        organization:
+          req.session.organizationId
+      });
+
+
+    if (
+      !proposal
+    ) {
+
+      return res.status(404).render(
+        'not_found',
+        {
+          layout:
+            'mainlayout',
+
+          pageTitle:
+            'Pursuit Not Found | Sasha'
+        }
+      );
+
+    }
+
+
+    /* =================================================
+       RECORD DECISION
+    ================================================== */
+
+    proposal.goNoGo.decision =
+      decision;
+
+    proposal.goNoGo.decisionNotes =
+      decisionNotes;
+
+    proposal.goNoGo.decidedBy =
+      decidedBy;
+
+    proposal.goNoGo.decidedAt =
+      new Date();
+
+
+    /* =================================================
+       UPDATE GO / NO GO WORKFLOW STAGE
+    ================================================== */
+
+    const workflowStages =
+      Array.isArray(
+        proposal.workflowStages
+      )
+        ? proposal.workflowStages
+        : [];
+
+
+    const goNoGoStage =
+      workflowStages.find(
+        (
+          stage
+        ) =>
+          stage.stage ===
+          'go_no_go'
+      );
+
+
+    if (
+      goNoGoStage
+    ) {
+
+      goNoGoStage.status =
+        'complete';
+
+      goNoGoStage.completedAt =
+        new Date();
+
+    }
+
+
+    /* =================================================
+       SAVE PURSUIT
+    ================================================== */
+
+    await proposal.save();
+
+
+    /* =================================================
+       KEEP PURSUIT ACTIVE
+    ================================================== */
+
+    req.session.activePursuitId =
+      proposal._id.toString();
+
+    req.session.activePursuitName =
+      proposal.proposalName;
+
+
+    console.log(
+      'GO / NO GO DECISION RECORDED:',
+      {
+        pursuitId:
+          proposal._id.toString(),
+
+        decision,
+
+        decidedBy
+      }
+    );
+
+
+    /* =================================================
+       RETURN TO PURSUIT DASHBOARD
+    ================================================== */
+
+    return res.redirect(
+      `/pursuit/${proposal._id}`
+    );
+
+
+  } catch (
+    error
+  ) {
+
+    console.error(
+      'RECORD GO / NO GO DECISION FAILED:',
+      error
+    );
+
+
+    return next(
+      error
+    );
+
+  }
+
+};
+
 
     /* =================================================
        CONVERSATION HISTORY
@@ -1192,7 +1401,53 @@ req.session.activePursuitName =
         ? proposal.proposalTeam
         : [];
 
+/* =================================================
+   GO / NO GO
+================================================== */
 
+const goNoGo =
+  proposal.goNoGo &&
+  typeof proposal.goNoGo ===
+    'object'
+    ? proposal.goNoGo
+    : {};
+
+
+let goNoGoDecisionLabel =
+  'Not decided';
+
+
+if (
+  goNoGo.decision ===
+  'go'
+) {
+
+  goNoGoDecisionLabel =
+    'Go';
+
+}
+
+
+if (
+  goNoGo.decision ===
+  'no_go'
+) {
+
+  goNoGoDecisionLabel =
+    'No Go';
+
+}
+
+
+if (
+  goNoGo.decision ===
+  'go_and_get'
+) {
+
+  goNoGoDecisionLabel =
+    'Go and Get';
+
+}
     /* =================================================
        DASHBOARD DATA
     ================================================== */
@@ -1233,9 +1488,17 @@ req.session.activePursuitName =
       proposalTeamCount:
         proposalTeam.length,
 
-      effortLevel:
-        proposal.effortLevel ||
-        'usual'
+effortLevel:
+  proposal.effortLevel ||
+  'usual',
+
+goNoGo,
+
+goNoGoDecision:
+  goNoGo.decision ||
+  '',
+
+goNoGoDecisionLabel
 
     };
 
