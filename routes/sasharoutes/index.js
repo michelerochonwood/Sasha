@@ -129,6 +129,17 @@ router.get(
   proposalController.getAnalyzePursuit
 );
 
+/* =====================================================
+ANALYZE PURSUIT CHAT
+===================================================== */
+
+router.post(
+  '/analyze/chat',
+  ensureOrganization,
+  verifyCsrfToken,
+  proposalController.postAnalyzeChat
+);
+
 
 /* =====================================================
 PLAN | WIN STRATEGY

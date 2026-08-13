@@ -6,6 +6,47 @@ const cloudinary =
   require('../config/cloudinary');
 
 
+
+
+
+exports.postAnalyzeChat = async (
+  req,
+  res,
+  next
+) => {
+
+  try {
+
+    console.log(
+      'SASHA ANALYZE CHAT RECEIVED'
+    );
+
+    console.log(
+      'PURSUIT ID:',
+      req.body.pursuitId
+    );
+
+    console.log(
+      'MESSAGE:',
+      req.body.message
+    );
+
+    return res.redirect(
+      `/analyze?pursuitId=${req.body.pursuitId}`
+    );
+
+  } catch (error) {
+
+    console.error(
+      'SASHA ANALYZE CHAT FAILED:',
+      error
+    );
+
+    return next(error);
+
+  }
+
+};
 /* =====================================================
 GET CREATE PURSUIT
 ===================================================== */
