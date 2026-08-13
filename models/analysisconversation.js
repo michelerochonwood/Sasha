@@ -30,6 +30,49 @@ const analysisConversationSchema =
         trim: true
       },
 
+
+      /* =================================================
+         WORK PRODUCT UPDATE
+      ================================================== */
+
+      workProduct: {
+
+        type: {
+          type: String,
+
+          trim: true,
+
+          default: ''
+        },
+
+        updated: {
+          type: Boolean,
+
+          default: false
+        },
+
+        label: {
+          type: String,
+
+          trim: true,
+
+          default: ''
+        },
+
+        href: {
+          type: String,
+
+          trim: true,
+
+          default: ''
+        }
+      },
+
+
+      /* =================================================
+         CREATED
+      ================================================== */
+
       createdAt: {
         type: Date,
 

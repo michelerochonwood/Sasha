@@ -223,6 +223,20 @@
   {{this.content}}
 </div>
 
+{{#if this.workProduct.updated}}
+
+  <a
+    href="{{this.workProduct.href}}"
+    class="sasha-chat-work-product-link"
+  >
+    {{this.workProduct.label}} updated
+    <span aria-hidden="true">
+      →
+    </span>
+  </a>
+
+{{/if}}
+
             </article>
 
           {{/each}}

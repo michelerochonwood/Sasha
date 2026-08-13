@@ -371,14 +371,165 @@ const response =
         'minimal'
     },
 
-    instructions:
-      analysisInstructions,
+    instructions: `
+${analysisInstructions}
+
+IMPORTANT ACTION RULES
+
+You may return one controlled pursuit-record action.
+
+Allowed actions:
+
+- "none"
+- "update_outline"
+
+Use "update_outline" only when the user explicitly asks you
+to create, prepare, draft, revise, or update the proposal
+outline or Table of Contents.
+
+Do not update the proposal record merely because you discussed
+what an outline could contain.
+
+When action is "update_outline", return a structured outline
+that reflects the user's request and the available RFP evidence.
+
+Your reply must also explain that the pursuit outline was
+updated and tell the user that they can review it in the
+proposal writing workspace.
+
+Return only the requested structured JSON.
+`,
 
     input:
       conversationInput,
 
+    text: {
+      format: {
+        type:
+          'json_schema',
+
+        name:
+          'sasha_analyze_chat_response',
+
+        strict:
+          true,
+
+        schema: {
+          type:
+            'object',
+
+          additionalProperties:
+            false,
+
+          properties: {
+            reply: {
+              type:
+                'string'
+            },
+
+            action: {
+              type:
+                'string',
+
+              enum: [
+                'none',
+                'update_outline'
+              ]
+            },
+
+            outline: {
+              anyOf: [
+                {
+                  type:
+                    'null'
+                },
+                {
+                  type:
+                    'object',
+
+                  additionalProperties:
+                    false,
+
+                  properties: {
+                    title: {
+                      type:
+                        'string'
+                    },
+
+                    notes: {
+                      type:
+                        'string'
+                    },
+
+                    sections: {
+                      type:
+                        'array',
+
+                      items: {
+                        type:
+                          'object',
+
+                        additionalProperties:
+                          false,
+
+                        properties: {
+                          order: {
+                            type:
+                              'number'
+                          },
+
+                          title: {
+                            type:
+                              'string'
+                          },
+
+                          description: {
+                            type:
+                              'string'
+                          },
+
+                          subsections: {
+                            type:
+                              'array',
+
+                            items: {
+                              type:
+                                'string'
+                            }
+                          }
+                        },
+
+                        required: [
+                          'order',
+                          'title',
+                          'description',
+                          'subsections'
+                        ]
+                      }
+                    }
+                  },
+
+                  required: [
+                    'title',
+                    'notes',
+                    'sections'
+                  ]
+                }
+              ]
+            }
+          },
+
+          required: [
+            'reply',
+            'action',
+            'outline'
+          ]
+        }
+      }
+    },
+
     max_output_tokens:
-      1800
+      2400
   });
 
 
@@ -388,23 +539,17 @@ console.log(
 
 
 /* =================================================
-   READ SASHA RESPONSE
+   PARSE SASHA RESPONSE
 ================================================== */
 
-const sashaResponse =
+const outputText =
   response.output_text
     ? response.output_text.trim()
     : '';
 
 
-console.log(
-  'SASHA ANALYZE CHAT RESPONSE LENGTH:',
-  sashaResponse.length
-);
-
-
 if (
-  !sashaResponse
+  !outputText
 ) {
 
   throw new Error(
@@ -414,32 +559,231 @@ if (
 }
 
 
+let sashaResult;
+
+
+try {
+
+  sashaResult =
+    JSON.parse(
+      outputText
+    );
+
+} catch (
+  parseError
+) {
+
+  console.error(
+    'SASHA ANALYZE CHAT JSON PARSE FAILED:',
+    outputText
+  );
+
+  throw new Error(
+    'OpenAI returned invalid Sasha analysis JSON.'
+  );
+
+}
+
+
+const sashaResponse =
+  typeof sashaResult.reply ===
+    'string'
+    ? sashaResult.reply.trim()
+    : '';
+
+
+if (
+  !sashaResponse
+) {
+
+  throw new Error(
+    'Sasha returned an empty chat reply.'
+  );
+
+}
+
+
+console.log(
+  'SASHA ANALYZE CHAT RESPONSE LENGTH:',
+  sashaResponse.length
+);
+
+console.log(
+  'SASHA ANALYZE CHAT ACTION:',
+  sashaResult.action
+);
+
+/* =================================================
+   APPLY CONTROLLED PURSUIT UPDATE
+================================================== */
+
+let workProduct =
+  null;
+
+
+if (
+  sashaResult.action ===
+    'update_outline'
+) {
+
+  if (
+    !sashaResult.outline ||
+    typeof sashaResult.outline !==
+      'object' ||
+    !Array.isArray(
+      sashaResult.outline.sections
+    )
+  ) {
+
+    throw new Error(
+      'Sasha requested an outline update without a valid outline.'
+    );
+
+  }
+
+
+  proposal.outline = {
+    title:
+      sashaResult.outline.title ||
+      'Proposal Outline',
+
+    notes:
+      sashaResult.outline.notes ||
+      '',
+
+    sections:
+      sashaResult.outline.sections
+        .map(
+          (
+            section,
+            index
+          ) => {
+
+            return {
+              order:
+                Number.isFinite(
+                  section.order
+                )
+                  ? section.order
+                  : index + 1,
+
+              title:
+                typeof section.title ===
+                  'string'
+                  ? section.title.trim()
+                  : '',
+
+              description:
+                typeof section.description ===
+                  'string'
+                  ? section.description.trim()
+                  : '',
+
+              subsections:
+                Array.isArray(
+                  section.subsections
+                )
+                  ? section.subsections
+                      .filter(
+                        (
+                          item
+                        ) =>
+                          typeof item ===
+                            'string' &&
+                          item.trim()
+                      )
+                      .map(
+                        (
+                          item
+                        ) =>
+                          item.trim()
+                      )
+                  : []
+            };
+
+          }
+        )
+        .filter(
+          (
+            section
+          ) =>
+            section.title
+        ),
+
+    updatedAt:
+      new Date()
+  };
+
+
+  workProduct = {
+    type:
+      'outline',
+
+    updated:
+      true,
+
+    label:
+      'Proposal Outline',
+
+    href:
+      `/write?pursuit=${proposal._id}`
+  };
+
+
+  console.log(
+    'SASHA UPDATED PROPOSAL OUTLINE:',
+    {
+      pursuitId:
+        proposal._id.toString(),
+
+      sectionCount:
+        proposal.outline.sections.length
+    }
+  );
+
+}
     /* =================================================
        SAVE CONVERSATION
     ================================================== */
 
-    proposal.analysisMessages.push(
-      {
-        role:
-          'user',
+proposal.analysisMessages.push(
+  {
+    role:
+      'user',
 
-        content:
-          message,
+    content:
+      message,
 
-        createdAt:
-          new Date()
+    createdAt:
+      new Date()
+  },
+
+  {
+    role:
+      'assistant',
+
+    content:
+      sashaResponse,
+
+    workProduct:
+      workProduct || {
+        type:
+          '',
+
+        updated:
+          false,
+
+        label:
+          '',
+
+        href:
+          ''
       },
-      {
-        role:
-          'assistant',
 
-        content:
-          sashaResponse,
-
-        createdAt:
-          new Date()
-      }
-    );
+    createdAt:
+      new Date()
+  }
+);
 
 
     await proposal.save();
