@@ -31,6 +31,9 @@ const pursuitDocumentUpload = require(
 const openaiController = require(
   '../../controllers/openaiController'
 );
+const analyzeController = require(
+  '../../controllers/analyzeController'
+);
 
 const router = express.Router();
 
@@ -126,7 +129,7 @@ ANALYZE | GO NO GO
 router.get(
   '/analyze',
   ensureOrganization,
-  proposalController.getAnalyzePursuit
+  analyzeController.getAnalyzePursuit
 );
 
 /* =====================================================
@@ -137,7 +140,7 @@ router.post(
   '/pursuit/:id/go-no-go',
   ensureOrganization,
   verifyCsrfToken,
-  proposalController.postGoNoGoDecision
+  analyzeController.postGoNoGoDecision
 );
 
 /* =====================================================
@@ -148,9 +151,8 @@ router.post(
   '/analyze/chat',
   ensureOrganization,
   verifyCsrfToken,
-  proposalController.postAnalyzeChat
+  analyzeController.postAnalyzeChat
 );
-
 
 /* =====================================================
 PLAN | WIN STRATEGY
