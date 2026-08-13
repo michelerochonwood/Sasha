@@ -352,42 +352,66 @@ sourceDocuments.forEach(
     );
 
 
-    const response =
-      await openai.responses.create({
-        model:
-          'gpt-5-mini',
+/* =================================================
+   SEND REQUEST TO OPENAI
+================================================== */
 
-        reasoning: {
-          effort:
-            'minimal'
-        },
-
-        instructions:
-          analysisInstructions,
-
-        input:
-          conversationInput,
-
-        max_output_tokens:
-          1800
-      });
+console.log(
+  'SASHA ANALYZE CHAT SENDING TO OPENAI'
+);
 
 
-    const sashaResponse =
-      response.output_text
-        ? response.output_text.trim()
-        : '';
+const response =
+  await openai.responses.create({
+    model:
+      'gpt-5-mini',
+
+    reasoning: {
+      effort:
+        'minimal'
+    },
+
+    instructions:
+      analysisInstructions,
+
+    input:
+      conversationInput,
+
+    max_output_tokens:
+      1800
+  });
 
 
-    if (
-      !sashaResponse
-    ) {
+console.log(
+  'SASHA ANALYZE CHAT OPENAI RESPONSE RECEIVED'
+);
 
-      throw new Error(
-        'OpenAI returned an empty Sasha analysis response.'
-      );
 
-    }
+/* =================================================
+   READ SASHA RESPONSE
+================================================== */
+
+const sashaResponse =
+  response.output_text
+    ? response.output_text.trim()
+    : '';
+
+
+console.log(
+  'SASHA ANALYZE CHAT RESPONSE LENGTH:',
+  sashaResponse.length
+);
+
+
+if (
+  !sashaResponse
+) {
+
+  throw new Error(
+    'OpenAI returned an empty Sasha analysis response.'
+  );
+
+}
 
 
     /* =================================================
