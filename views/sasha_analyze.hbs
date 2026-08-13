@@ -941,11 +941,14 @@
 
           <label class="sasha-decision-option">
 
-            <input
-              type="radio"
-              name="decision"
-              value="go"
-            >
+<input
+  type="radio"
+  name="decision"
+  value="go"
+  {{#ifEquals proposal.goNoGo.decision "go"}}
+    checked
+  {{/ifEquals}}
+>
 
             <span>
 
@@ -964,11 +967,14 @@
 
           <label class="sasha-decision-option">
 
-            <input
-              type="radio"
-              name="decision"
-              value="no_go"
-            >
+<input
+  type="radio"
+  name="decision"
+  value="no_go"
+  {{#ifEquals proposal.goNoGo.decision "no_go"}}
+    checked
+  {{/ifEquals}}
+>
 
             <span>
 
@@ -987,16 +993,19 @@
 
           <label class="sasha-decision-option">
 
-            <input
-              type="radio"
-              name="decision"
-              value="pending"
-            >
+<input
+  type="radio"
+  name="decision"
+  value="pending"
+  {{#ifEquals proposal.goNoGo.decision "pending"}}
+    checked
+  {{/ifEquals}}
+>
 
             <span>
 
               <strong>
-                NOT YET
+                PENDING
               </strong>
 
               <small>
@@ -1021,7 +1030,7 @@
             name="decisionNotes"
             rows="5"
             placeholder="Record the principal reasons, risks, strengths, unknowns, or actions that influenced the decision."
-          >{{rfpAnalysis.decisionNotes}}</textarea>
+          >{{proposal.goNoGo.decisionNotes}}</textarea>
 
         </div>
 

@@ -36,10 +36,10 @@ async (
       null;
 
 
-    const pursuitId =
-      requestedPursuitId ||
-      req.session.activePursuitId ||
-      null;
+const pursuitId =
+  requestedPursuitId ||
+  req.session.activePursuitId ||
+  null;
 
 
     /* =================================================
@@ -1232,8 +1232,11 @@ async (
        REQUEST INFORMATION
     ================================================== */
 
-    const pursuitId =
-      req.params.id;
+const pursuitId =
+  typeof req.body.pursuitId ===
+    'string'
+    ? req.body.pursuitId.trim()
+    : '';
 
 
     const decision =
@@ -1261,12 +1264,12 @@ async (
        VALIDATE DECISION
     ================================================== */
 
-    const allowedDecisions =
-      [
-        'go',
-        'no_go',
-        'go_and_get'
-      ];
+const allowedDecisions =
+  [
+    'go',
+    'no_go',
+    'pending'
+  ];
 
 
     if (
@@ -1353,17 +1356,32 @@ async (
       );
 
 
-    if (
-      goNoGoStage
-    ) {
+if (
+  goNoGoStage
+) {
 
-      goNoGoStage.status =
-        'complete';
+  if (
+    decision ===
+    'pending'
+  ) {
 
-      goNoGoStage.completedAt =
-        new Date();
+    goNoGoStage.status =
+      'in_progress';
 
-    }
+    goNoGoStage.completedAt =
+      null;
+
+  } else {
+
+    goNoGoStage.status =
+      'complete';
+
+    goNoGoStage.completedAt =
+      new Date();
+
+  }
+
+}
 
 
     /* =================================================
