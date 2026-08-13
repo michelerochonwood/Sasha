@@ -136,8 +136,9 @@ router.get(
    RECORD GO / NO GO DECISION
 ===================================================== */
 
+
 router.post(
-  '/pursuit/:id/go-no-go',
+  '/analyze/decision',
   ensureOrganization,
   verifyCsrfToken,
   analyzeController.postGoNoGoDecision
