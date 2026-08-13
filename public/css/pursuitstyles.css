@@ -11286,3 +11286,112 @@ select.is-sasha-suggested option {
   }
 
 }
+
+
+/* =====================================================
+   AI PURSUIT IMPORT — SASHA WORKING
+===================================================== */
+
+.sasha-ai-import-loading {
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+
+  margin:
+    2rem
+    auto
+    0;
+
+  padding:
+    0.5rem
+    1rem
+    0;
+
+  text-align: center;
+}
+
+
+.sasha-ai-import-loading[hidden] {
+  display: none;
+}
+
+
+/* =====================================================
+   AI PURSUIT IMPORT — WORKING VIDEO
+===================================================== */
+
+.sasha-ai-import-loading-video {
+  display: block;
+
+  width: 400px;
+  max-width: 100%;
+
+  height: auto;
+
+  margin:
+    0
+    auto;
+
+  border-radius: 0.75rem;
+
+  object-fit: contain;
+}
+
+
+/* =====================================================
+   AI PURSUIT IMPORT — WORKING MESSAGE
+===================================================== */
+
+.sasha-ai-import-loading p {
+  margin:
+    0.75rem
+    0
+    0;
+
+  color:
+    rgba(255, 255, 255, 0.82);
+
+  font-size: 0.9rem;
+  font-weight: 600;
+
+  line-height: 1.4;
+
+  text-align: center;
+}
+
+
+/* =====================================================
+   AI PURSUIT IMPORT — STATUS
+===================================================== */
+
+.sasha-ai-import-status {
+  margin-top: 1rem;
+
+  text-align: center;
+}
+
+
+/* =====================================================
+   AI PURSUIT IMPORT — MOBILE
+===================================================== */
+
+@media screen and (max-width: 680px) {
+
+  .sasha-ai-import-loading {
+    padding:
+      0.5rem
+      0
+      0;
+  }
+
+
+  .sasha-ai-import-loading-video {
+    width: min(400px, 100%);
+  }
+
+}
