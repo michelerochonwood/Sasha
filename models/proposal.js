@@ -286,10 +286,115 @@ tasks: [
        SASHA WORK PRODUCTS
     ===================================================== */
 
-    rfpAnalysis: {
-      type: mongoose.Schema.Types.Mixed,
-      default: {}
-    },
+rfpAnalysis: {
+  type: mongoose.Schema.Types.Mixed,
+  default: {}
+},
+
+
+/* =====================================================
+   GO / NO GO
+===================================================== */
+
+goNoGo: {
+
+  recommendation: {
+    type: String,
+
+    enum: [
+      '',
+      'go',
+      'no_go',
+      'go_and_get'
+    ],
+
+    default: ''
+  },
+
+  confidence: {
+    type: String,
+
+    enum: [
+      '',
+      'low',
+      'medium',
+      'high'
+    ],
+
+    default: ''
+  },
+
+  rationale: {
+    type: String,
+    trim: true,
+    default: ''
+  },
+
+  strengths: [
+    {
+      type: String,
+      trim: true
+    }
+  ],
+
+  concerns: [
+    {
+      type: String,
+      trim: true
+    }
+  ],
+
+  conditions: [
+    {
+      type: String,
+      trim: true
+    }
+  ],
+
+  recommendedAt: {
+    type: Date,
+    default: null
+  },
+
+
+  /* =================================================
+     PURSUIT TEAM DECISION
+  ================================================== */
+
+  decision: {
+    type: String,
+
+    enum: [
+      '',
+      'go',
+      'no_go',
+      'go_and_get'
+    ],
+
+    default: ''
+  },
+
+  decisionNotes: {
+    type: String,
+    trim: true,
+    default: ''
+  },
+
+  decidedBy: {
+    type: String,
+    trim: true,
+    default: ''
+  },
+
+  decidedAt: {
+    type: Date,
+    default: null
+  }
+
+},
+
+
+
 
     outline: {
       type: mongoose.Schema.Types.Mixed,
