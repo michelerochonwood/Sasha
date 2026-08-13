@@ -11969,3 +11969,194 @@ select.is-sasha-suggested option {
     rgba(255, 255, 255, 0.16);
 }
 
+
+/* =====================================================
+   WRITE — OUTLINE REFERENCE
+===================================================== */
+
+.sasha-write-outline-reference {
+  padding:
+    1.4rem
+    1.35rem
+    1.75rem;
+}
+
+
+.sasha-write-outline-notes {
+  margin:
+    0
+    0
+    1.5rem;
+
+  color:
+    rgba(255, 255, 255, 0.72);
+
+  font-size:
+    0.85rem;
+
+  line-height:
+    1.55;
+}
+
+
+/* =====================================================
+   OUTLINE LIST
+===================================================== */
+
+.sasha-write-outline-list {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 0;
+}
+
+
+/* =====================================================
+   OUTLINE ITEM
+===================================================== */
+
+.sasha-write-outline-reference-item {
+  padding:
+    1rem
+    0;
+
+  border-bottom:
+    1px solid
+    rgba(255, 255, 255, 0.12);
+}
+
+
+.sasha-write-outline-reference-item:first-child {
+  padding-top: 0;
+}
+
+
+.sasha-write-outline-reference-item:last-child {
+  padding-bottom: 0;
+
+  border-bottom: 0;
+}
+
+
+/* =====================================================
+   OUTLINE ITEM HEADING
+===================================================== */
+
+.sasha-write-outline-reference-heading {
+  display: grid;
+
+  grid-template-columns:
+    2rem
+    minmax(0, 1fr);
+
+  gap:
+    0.65rem;
+
+  align-items: start;
+}
+
+
+.sasha-write-outline-reference-heading
+.sasha-write-outline-number {
+  display: flex;
+
+  width: 1.8rem;
+  height: 1.8rem;
+
+  align-items: center;
+  justify-content: center;
+
+  color:
+    var(--sasha-pink);
+
+  background:
+    rgba(255, 255, 255, 0.08);
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.16);
+
+  border-radius:
+    50%;
+
+  font-size:
+    0.72rem;
+
+  font-weight:
+    800;
+}
+
+
+.sasha-write-outline-reference-heading strong {
+  padding-top:
+    0.15rem;
+
+  color:
+    var(--sasha-white);
+
+  font-size:
+    0.9rem;
+
+  line-height:
+    1.35;
+}
+
+
+/* =====================================================
+   OUTLINE DESCRIPTION
+===================================================== */
+
+.sasha-write-outline-description {
+  margin:
+    0.5rem
+    0
+    0
+    2.65rem;
+
+  color:
+    rgba(255, 255, 255, 0.66);
+
+  font-size:
+    0.78rem;
+
+  line-height:
+    1.5;
+}
+
+
+/* =====================================================
+   OUTLINE SUBSECTIONS
+===================================================== */
+
+.sasha-write-outline-subsections {
+  margin:
+    0.65rem
+    0
+    0
+    2.65rem;
+
+  padding-left:
+    1rem;
+}
+
+
+.sasha-write-outline-subsections li {
+  margin-bottom:
+    0.4rem;
+
+  color:
+    rgba(255, 255, 255, 0.78);
+
+  font-size:
+    0.78rem;
+
+  line-height:
+    1.45;
+}
+
+
+.sasha-write-outline-subsections li:last-child {
+  margin-bottom: 0;
+}
+
