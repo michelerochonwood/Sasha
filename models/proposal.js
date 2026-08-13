@@ -76,9 +76,13 @@ const proposalSchema = new mongoose.Schema(
       default: "new"
     },
 
+
+
     /* =====================================================
    PURSUIT MANAGEMENT
 ===================================================== */
+
+
 
 proposalManager: {
   name: {
@@ -353,6 +357,14 @@ tasks: [
   }
 ],
 
+
+analysisMessages: {
+  type: [
+    analysisMessageSchema
+  ],
+
+  default: []
+},
 
     /* =====================================================
        FINAL PROPOSAL

@@ -11364,6 +11364,10 @@ select.is-sasha-suggested option {
   text-align: center;
 }
 
+.sasha-chat-bubble {
+  white-space: pre-wrap;
+}
+
 
 /* =====================================================
    AI PURSUIT IMPORT — STATUS
@@ -11395,3 +11399,4 @@ select.is-sasha-suggested option {
   }
 
 }
+
