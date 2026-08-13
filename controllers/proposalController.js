@@ -1341,35 +1341,47 @@ async (
         ? rfpAnalysis.unknowns
         : [];
 
+/* =================================================
+   PREPARE ANALYSIS CONVERSATION
+================================================== */
+
+const analysisMessages =
+  Array.isArray(
+    proposal.analysisMessages
+  )
+    ? proposal.analysisMessages
+    : [];
 
     /* =================================================
        RENDER
     ================================================== */
 
-    return res.render(
-      'sasha_analyze',
-      {
-        layout:
-          'mainlayout',
+return res.render(
+  'sasha_analyze',
+  {
+    layout:
+      'mainlayout',
 
-        pageTitle:
-          `Analyze ${proposal.proposalName} | Sasha`,
+    pageTitle:
+      `Analyze ${proposal.proposalName} | Sasha`,
 
-        proposal,
+    proposal,
 
-        rfpAnalysis,
+    rfpAnalysis,
 
-        mandatoryRequirements,
+    mandatoryRequirements,
 
-        evaluationCriteria,
+    evaluationCriteria,
 
-        risks,
+    risks,
 
-        unknowns,
+    unknowns,
 
-        pursuitNotification
-      }
-    );
+    analysisMessages,
+
+    pursuitNotification
+  }
+);
 
   } catch (
     error
