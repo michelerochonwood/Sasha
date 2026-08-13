@@ -289,34 +289,33 @@ ${JSON.stringify(
         : [];
 
 
-    sourceDocuments.forEach(
-      (
-        document
-      ) => {
+/* =================================================
+   ATTACH PURSUIT SOURCE DOCUMENTS
+================================================== */
 
-        if (
-          !document ||
-          !document.fileUrl
-        ) {
-          return;
-        }
+sourceDocuments.forEach(
+  (
+    document
+  ) => {
+
+    if (
+      !document ||
+      !document.fileUrl
+    ) {
+      return;
+    }
 
 
-        currentContent.push({
-          type:
-            'input_file',
+    currentContent.push({
+      type:
+        'input_file',
 
-          file_url:
-            document.fileUrl,
+      file_url:
+        document.fileUrl
+    });
 
-          filename:
-            document.fileName ||
-            document.title ||
-            'pursuit-document'
-        });
-
-      }
-    );
+  }
+);
 
 
     conversationInput.push({
