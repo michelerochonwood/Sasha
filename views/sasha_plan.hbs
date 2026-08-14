@@ -1302,7 +1302,115 @@
 
     </section>
 
+{{!-- =================================================
+     PROPOSAL OUTLINE
+================================================== --}}
 
+<section class="sasha-plan-section">
+
+  <header class="sasha-plan-section-heading">
+
+    <div>
+
+      <p class="sasha-work-eyebrow">
+        Proposal structure
+      </p>
+
+      <h2>
+        Proposal Outline
+      </h2>
+
+    </div>
+
+    <p>
+      Build the proposal structure from the RFP requirements,
+      evaluation criteria, submission instructions, and pursuit strategy.
+      This outline will carry forward into the Write workspace.
+    </p>
+
+  </header>
+
+
+  {{#if outline.sections.length}}
+
+    <div class="sasha-write-outline-reference">
+
+      {{#if outline.notes}}
+
+        <p class="sasha-write-outline-notes">
+          {{outline.notes}}
+        </p>
+
+      {{/if}}
+
+
+      <div class="sasha-write-outline-list">
+
+        {{#each outline.sections}}
+
+          <div class="sasha-write-outline-reference-item">
+
+            <div class="sasha-write-outline-reference-heading">
+
+              <span class="sasha-write-outline-number">
+                {{this.order}}
+              </span>
+
+              <strong>
+                {{this.title}}
+              </strong>
+
+            </div>
+
+
+            {{#if this.description}}
+
+              <p class="sasha-write-outline-description">
+                {{this.description}}
+              </p>
+
+            {{/if}}
+
+
+            {{#if this.subsections.length}}
+
+              <ul class="sasha-write-outline-subsections">
+
+                {{#each this.subsections}}
+
+                  <li>
+                    {{this}}
+                  </li>
+
+                {{/each}}
+
+              </ul>
+
+            {{/if}}
+
+          </div>
+
+        {{/each}}
+
+      </div>
+
+    </div>
+
+  {{else}}
+
+    <div class="sasha-plan-tasks-empty">
+
+      <p>
+        Sasha has not created the proposal outline yet.
+        Work with Sasha in the planning conversation to build
+        the proposal structure before drafting begins.
+      </p>
+
+    </div>
+
+  {{/if}}
+
+</section>
     {{!-- =================================================
          EVIDENCE
     ================================================== --}}

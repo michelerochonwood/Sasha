@@ -6,6 +6,10 @@ const ensureOrganization = require(
   '../../middleware/ensureOrganization'
 );
 
+const planController = require(
+  '../../controllers/planController'
+);
+
 const {
   verifyCsrfToken
 } = require(
@@ -173,7 +177,7 @@ PLAN | WIN STRATEGY
 router.get(
   '/plan',
   ensureOrganization,
-  proposalController.getPlanPursuit
+  planController.getPlanPursuit
 );
 
 
