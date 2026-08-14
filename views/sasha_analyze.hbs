@@ -254,11 +254,10 @@
 
   <video
     class="sasha-analysis-working-video"
-    autoplay
+    id="sasha-analysis-working-video"
     muted
-    loop
     playsinline
-    preload="metadata"
+    preload="auto"
   >
     <source
       src="/images/sasha-working.mp4"
@@ -1124,3 +1123,99 @@
   </div>
 
 </section>
+
+
+<script>
+  document.addEventListener(
+    'DOMContentLoaded',
+    function () {
+
+      const form =
+        document.getElementById(
+          'sasha-analysis-chat-form'
+        );
+
+      const video =
+        document.getElementById(
+          'sasha-analysis-working-video'
+        );
+
+
+      if (
+        !form ||
+        !video
+      ) {
+        return;
+      }
+
+
+      /*
+       * Show Sasha's first frame while she is idle.
+       */
+
+      video.addEventListener(
+        'loadedmetadata',
+        function () {
+
+          video.currentTime = 0;
+
+          video.pause();
+
+        }
+      );
+
+
+      /*
+       * When the user sends a message, start Sasha
+       * working and then allow the form submission.
+       */
+
+      form.addEventListener(
+        'submit',
+        function () {
+
+          video.currentTime = 0;
+
+          const playPromise =
+            video.play();
+
+
+          if (
+            playPromise &&
+            typeof playPromise.catch ===
+              'function'
+          ) {
+
+            playPromise.catch(
+              function () {
+                /*
+                 * If playback is blocked for any
+                 * reason, do not interfere with
+                 * the form submission.
+                 */
+              }
+            );
+
+          }
+
+        }
+      );
+
+
+      /*
+       * Do not loop. Stop on the final frame if
+       * the request is still processing.
+       */
+
+      video.addEventListener(
+        'ended',
+        function () {
+
+          video.pause();
+
+        }
+      );
+
+    }
+  );
+</script>
