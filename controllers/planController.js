@@ -268,3 +268,55 @@ async (
   }
 
 };
+
+
+/* =====================================================
+   PLAN | WIN STRATEGY CHAT
+===================================================== */
+
+exports.postPlanChat =
+async (
+  req,
+  res,
+  next
+) => {
+
+  try {
+
+    console.log(
+      'SASHA PLAN CHAT RECEIVED'
+    );
+
+    console.log(
+      'PURSUIT ID:',
+      req.body.pursuitId
+    );
+
+    console.log(
+      'MESSAGE:',
+      req.body.message
+    );
+
+
+    return res.redirect(
+      `/plan?pursuit=${req.body.pursuitId}`
+    );
+
+
+  } catch (
+    error
+  ) {
+
+    console.error(
+      'SASHA PLAN CHAT FAILED:',
+      error
+    );
+
+
+    return next(
+      error
+    );
+
+  }
+
+};
