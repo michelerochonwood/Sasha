@@ -270,7 +270,6 @@ const pursuitId =
 
 };
 
-
 /* =====================================================
    ANALYZE PURSUIT CHAT
 ===================================================== */
@@ -407,7 +406,11 @@ exports.postAnalyzeChat = async (
 
       effortLevel:
         proposal.effortLevel ||
-        '',
+        'usual',
+
+      goNoGo:
+        proposal.goNoGo ||
+        {},
 
       aiSummary:
         proposal.aiSummary ||
@@ -481,6 +484,121 @@ the proposal team or insist that every best practice be used.
 If the user asks a direct question, answer it directly before
 suggesting additional work.
 
+
+EFFORT LEVEL
+
+The pursuit has an effort level that helps determine how much
+proposal process you should encourage.
+
+MINIMAL:
+Keep the process lean. Focus on compliance, material risks,
+essential strategy, and the minimum work necessary to produce
+a credible proposal.
+
+USUAL:
+Use a practical, disciplined proposal process without
+overloading the team. This is the normal default.
+
+FULL:
+Encourage a more rigorous pursuit and proposal process,
+including deeper strategy, evidence development, review,
+planning, and differentiation where useful.
+
+The effort level guides how much process you recommend.
+It does not change the requirement to identify material
+risks, mandatory requirements, submission requirements,
+or other important RFP information.
+
+
+RFP ANALYSIS WORK PRODUCT
+
+As you analyze the pursuit, maintain a concise working RFP
+analysis for the pursuit record.
+
+The RFP analysis is NOT a complete extraction of the RFP.
+
+Do not fill these work products with everything you find.
+
+Their purpose is to give the pursuit team a fast, useful
+summary of the information that matters most for deciding
+whether and how to pursue the opportunity.
+
+Maintain these six areas:
+
+1. Risk and Contract Concerns
+2. Mandatory Requirements
+3. Evaluation Criteria
+4. Scope of Work
+5. Submission Requirements
+6. Clarifications and Unknowns
+
+Keep EACH AREA to approximately 200 words or fewer in total.
+
+Prefer materially important information.
+
+Combine closely related findings where useful.
+
+Do not reproduce long RFP passages.
+
+Do not add routine or low-value information merely because
+it appears in the RFP.
+
+If the available evidence does not support a finding, leave
+that area empty rather than guessing.
+
+RISK AND CONTRACT CONCERNS:
+Record the most material contractual, commercial, technical,
+schedule, delivery, insurance, liability, or pursuit risks.
+Use short titles and concise explanations.
+
+MANDATORY REQUIREMENTS:
+Record requirements that could make the submission
+non-compliant or ineligible if missed.
+Do not treat every proposal instruction as mandatory.
+Set complete to true only when the pursuit record supports
+that the requirement has actually been satisfied.
+
+EVALUATION CRITERIA:
+Record the stated evaluation criteria and weights where the
+RFP provides them.
+Do not invent or estimate weights.
+
+SCOPE OF WORK:
+Provide a concise summary of what the client is actually
+procuring and the principal services or deliverables.
+Do not reproduce the full scope.
+
+SUBMISSION REQUIREMENTS:
+Summarize the most important submission mechanics, limits,
+formats, deadlines, required forms, and delivery instructions
+that the proposal team must know.
+Do not duplicate the entire mandatory-requirements list.
+
+CLARIFICATIONS AND UNKNOWNS:
+Record material unanswered questions, ambiguities, missing
+information, or issues requiring clarification.
+Do not create questions merely to populate this section.
+
+
+WHEN TO UPDATE THE ANALYSIS
+
+You do not need the user to explicitly ask you to update the
+RFP analysis.
+
+When the source material or conversation provides materially
+useful information for one or more of the six analysis areas,
+you may update the analysis automatically.
+
+If the conversation does not add or reveal materially useful
+analysis information, do not update it.
+
+When updating the analysis, preserve useful existing findings
+unless new evidence supersedes them.
+
+Do not erase supported existing findings merely because the
+current conversation concerns another subject.
+
+
 The pursuit record currently contains:
 
 ${JSON.stringify(
@@ -551,7 +669,9 @@ ${JSON.stringify(
           !document ||
           !document.fileUrl
         ) {
+
           return;
+
         }
 
 
@@ -577,7 +697,7 @@ ${JSON.stringify(
 
 
     /* =================================================
-       ASK SASHA
+       LOG REQUEST
     ================================================== */
 
     console.log(
@@ -588,6 +708,9 @@ ${JSON.stringify(
 
         pursuitName:
           proposal.proposalName,
+
+        effortLevel:
+          proposal.effortLevel,
 
         messageLength:
           message.length,
@@ -630,21 +753,50 @@ You may return one controlled pursuit-record action.
 Allowed actions:
 
 - "none"
+- "update_analysis"
 - "update_outline"
+
+
+UPDATE ANALYSIS
+
+Use "update_analysis" when materially useful information is
+available to improve the pursuit's RFP analysis.
+
+The analysis object must contain the COMPLETE current working
+analysis after your update, not merely the changed field.
+
+Preserve useful supported existing findings.
+
+Keep each of the six analysis areas concise, approximately
+200 words or fewer in total.
+
+If an analysis area has no supported findings, use an empty
+array or empty string as appropriate.
+
+
+UPDATE OUTLINE
 
 Use "update_outline" only when the user explicitly asks you
 to create, prepare, draft, revise, or update the proposal
 outline or Table of Contents.
 
-Do not update the proposal record merely because you discussed
-what an outline could contain.
+Do not update the proposal outline merely because you
+discussed what an outline could contain.
 
 When action is "update_outline", return a structured outline
-that reflects the user's request and the available RFP evidence.
+that reflects the user's request and the available RFP
+evidence.
 
 Your reply must also explain that the pursuit outline was
 updated and tell the user that they can review it in the
 proposal writing workspace.
+
+
+ACTION PRIORITY
+
+If both an analysis update and an outline update could be
+appropriate in the same turn, prefer the action that most
+directly responds to the user's request.
 
 Return only the requested structured JSON.
 `,
@@ -683,7 +835,181 @@ Return only the requested structured JSON.
 
                   enum: [
                     'none',
+                    'update_analysis',
                     'update_outline'
+                  ]
+                },
+
+                analysis: {
+                  anyOf: [
+                    {
+                      type:
+                        'null'
+                    },
+                    {
+                      type:
+                        'object',
+
+                      additionalProperties:
+                        false,
+
+                      properties: {
+
+                        risks: {
+                          type:
+                            'array',
+
+                          items: {
+                            type:
+                              'object',
+
+                            additionalProperties:
+                              false,
+
+                            properties: {
+
+                              title: {
+                                type:
+                                  'string'
+                              },
+
+                              description: {
+                                type:
+                                  'string'
+                              }
+
+                            },
+
+                            required: [
+                              'title',
+                              'description'
+                            ]
+                          }
+                        },
+
+                        mandatoryRequirements: {
+                          type:
+                            'array',
+
+                          items: {
+                            type:
+                              'object',
+
+                            additionalProperties:
+                              false,
+
+                            properties: {
+
+                              requirement: {
+                                type:
+                                  'string'
+                              },
+
+                              complete: {
+                                type:
+                                  'boolean'
+                              },
+
+                              notes: {
+                                type:
+                                  'string'
+                              }
+
+                            },
+
+                            required: [
+                              'requirement',
+                              'complete',
+                              'notes'
+                            ]
+                          }
+                        },
+
+                        evaluationCriteria: {
+                          type:
+                            'array',
+
+                          items: {
+                            type:
+                              'object',
+
+                            additionalProperties:
+                              false,
+
+                            properties: {
+
+                              criterion: {
+                                type:
+                                  'string'
+                              },
+
+                              weight: {
+                                type:
+                                  'string'
+                              }
+
+                            },
+
+                            required: [
+                              'criterion',
+                              'weight'
+                            ]
+                          }
+                        },
+
+                        scopeSummary: {
+                          type:
+                            'string'
+                        },
+
+                        submissionRequirements: {
+                          type:
+                            'string'
+                        },
+
+                        unknowns: {
+                          type:
+                            'array',
+
+                          items: {
+                            type:
+                              'object',
+
+                            additionalProperties:
+                              false,
+
+                            properties: {
+
+                              question: {
+                                type:
+                                  'string'
+                              },
+
+                              notes: {
+                                type:
+                                  'string'
+                              }
+
+                            },
+
+                            required: [
+                              'question',
+                              'notes'
+                            ]
+                          }
+                        }
+
+                      },
+
+                      required: [
+                        'risks',
+                        'mandatoryRequirements',
+                        'evaluationCriteria',
+                        'scopeSummary',
+                        'submissionRequirements',
+                        'unknowns'
+                      ]
+                    }
                   ]
                 },
 
@@ -777,6 +1103,7 @@ Return only the requested structured JSON.
               required: [
                 'reply',
                 'action',
+                'analysis',
                 'outline'
               ]
             }
@@ -784,7 +1111,7 @@ Return only the requested structured JSON.
         },
 
         max_output_tokens:
-          2400
+          3000
       });
 
 
@@ -833,6 +1160,7 @@ Return only the requested structured JSON.
         outputText
       );
 
+
       throw new Error(
         'OpenAI returned invalid Sasha analysis JSON.'
       );
@@ -859,24 +1187,305 @@ Return only the requested structured JSON.
 
 
     console.log(
-      'SASHA ANALYZE CHAT RESPONSE LENGTH:',
-      sashaResponse.length
-    );
-
-
-    console.log(
       'SASHA ANALYZE CHAT ACTION:',
       sashaResult.action
     );
 
 
     /* =================================================
-       APPLY CONTROLLED PURSUIT UPDATE
+       WORK PRODUCT
     ================================================== */
 
     let workProduct =
       null;
 
+
+    /* =================================================
+       APPLY RFP ANALYSIS UPDATE
+    ================================================== */
+
+    if (
+      sashaResult.action ===
+      'update_analysis'
+    ) {
+
+      if (
+        !sashaResult.analysis ||
+        typeof sashaResult.analysis !==
+          'object'
+      ) {
+
+        throw new Error(
+          'Sasha requested an analysis update without valid analysis.'
+        );
+
+      }
+
+
+      const analysis =
+        sashaResult.analysis;
+
+
+      /* ===============================================
+         NORMALIZE RISKS
+      =============================================== */
+
+      const risks =
+        Array.isArray(
+          analysis.risks
+        )
+          ? analysis.risks
+              .map(
+                (
+                  risk
+                ) => {
+
+                  return {
+                    title:
+                      typeof risk.title ===
+                        'string'
+                        ? risk.title.trim()
+                        : '',
+
+                    description:
+                      typeof risk.description ===
+                        'string'
+                        ? risk.description.trim()
+                        : ''
+                  };
+
+                }
+              )
+              .filter(
+                (
+                  risk
+                ) =>
+                  risk.title
+              )
+          : [];
+
+
+      /* ===============================================
+         NORMALIZE MANDATORY REQUIREMENTS
+      =============================================== */
+
+      const mandatoryRequirements =
+        Array.isArray(
+          analysis.mandatoryRequirements
+        )
+          ? analysis.mandatoryRequirements
+              .map(
+                (
+                  item
+                ) => {
+
+                  return {
+                    requirement:
+                      typeof item.requirement ===
+                        'string'
+                        ? item.requirement.trim()
+                        : '',
+
+                    complete:
+                      item.complete ===
+                      true,
+
+                    notes:
+                      typeof item.notes ===
+                        'string'
+                        ? item.notes.trim()
+                        : ''
+                  };
+
+                }
+              )
+              .filter(
+                (
+                  item
+                ) =>
+                  item.requirement
+              )
+          : [];
+
+
+      /* ===============================================
+         NORMALIZE EVALUATION CRITERIA
+      =============================================== */
+
+      const evaluationCriteria =
+        Array.isArray(
+          analysis.evaluationCriteria
+        )
+          ? analysis.evaluationCriteria
+              .map(
+                (
+                  item
+                ) => {
+
+                  return {
+                    criterion:
+                      typeof item.criterion ===
+                        'string'
+                        ? item.criterion.trim()
+                        : '',
+
+                    weight:
+                      typeof item.weight ===
+                        'string'
+                        ? item.weight.trim()
+                        : ''
+                  };
+
+                }
+              )
+              .filter(
+                (
+                  item
+                ) =>
+                  item.criterion
+              )
+          : [];
+
+
+      /* ===============================================
+         NORMALIZE UNKNOWNS
+      =============================================== */
+
+      const unknowns =
+        Array.isArray(
+          analysis.unknowns
+        )
+          ? analysis.unknowns
+              .map(
+                (
+                  item
+                ) => {
+
+                  return {
+                    question:
+                                          typeof item.question ===
+                        'string'
+                        ? item.question.trim()
+                        : '',
+
+                    notes:
+                      typeof item.notes ===
+                        'string'
+                        ? item.notes.trim()
+                        : ''
+                  };
+
+                }
+              )
+              .filter(
+                (
+                  item
+                ) =>
+                  item.question
+              )
+          : [];
+
+
+      /* ===============================================
+         NORMALIZE SUMMARY FIELDS
+      =============================================== */
+
+      const scopeSummary =
+        typeof analysis.scopeSummary ===
+          'string'
+          ? analysis.scopeSummary.trim()
+          : '';
+
+
+      const submissionRequirements =
+        typeof analysis.submissionRequirements ===
+          'string'
+          ? analysis.submissionRequirements.trim()
+          : '';
+
+
+      /* ===============================================
+         RECORD RFP ANALYSIS
+      =============================================== */
+
+      proposal.rfpAnalysis = {
+        ...(
+          proposal.rfpAnalysis &&
+          typeof proposal.rfpAnalysis ===
+            'object'
+            ? proposal.rfpAnalysis
+            : {}
+        ),
+
+        risks,
+
+        mandatoryRequirements,
+
+        evaluationCriteria,
+
+        scopeSummary,
+
+        submissionRequirements,
+
+        unknowns,
+
+        updatedAt:
+          new Date()
+      };
+
+
+      /*
+       * rfpAnalysis is a Mixed field in the Proposal
+       * schema, so explicitly tell Mongoose that it
+       * has changed.
+       */
+
+      proposal.markModified(
+        'rfpAnalysis'
+      );
+
+
+      workProduct = {
+        type:
+          'analysis',
+
+        updated:
+          true,
+
+        label:
+          'RFP Analysis',
+
+        href:
+          `/analyze?pursuit=${proposal._id}`
+      };
+
+
+      console.log(
+        'SASHA UPDATED RFP ANALYSIS:',
+        {
+          pursuitId:
+            proposal._id.toString(),
+
+          riskCount:
+            risks.length,
+
+          mandatoryRequirementCount:
+            mandatoryRequirements.length,
+
+          evaluationCriterionCount:
+            evaluationCriteria.length,
+
+          unknownCount:
+            unknowns.length
+        }
+      );
+
+    }
+
+
+    /* =================================================
+       APPLY OUTLINE UPDATE
+    ================================================== */
 
     if (
       sashaResult.action ===
@@ -1060,7 +1669,9 @@ Return only the requested structured JSON.
               if (
                 !outlineSection
               ) {
+
                 return null;
+
               }
 
 
@@ -1173,12 +1784,17 @@ Return only the requested structured JSON.
     );
 
 
+    /* =================================================
+       SAVE PURSUIT
+    ================================================== */
+
     await proposal.save();
 
 
     /* =================================================
        KEEP PURSUIT ACTIVE
     ================================================== */
+
     req.session.activePursuitId =
       proposal._id.toString();
 
@@ -1200,7 +1816,7 @@ Return only the requested structured JSON.
   ) {
 
     console.error(
-      'RECORD GO / NO GO DECISION FAILED:',
+      'SASHA ANALYZE CHAT FAILED:',
       error
     );
 
@@ -1212,7 +1828,6 @@ Return only the requested structured JSON.
   }
 
 };
-
 /* =====================================================
    RECORD EFFORT LEVEL
 ===================================================== */
