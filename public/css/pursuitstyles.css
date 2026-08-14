@@ -5783,12 +5783,16 @@ input[type="file"]::file-selector-button:hover {
     block;
 
   width:
-    100%;
-
-  max-width:
     400px;
 
+  max-width:
+    100%;
+
   height:
+    auto;
+
+  margin:
+    0
     auto;
 
   border-radius:
