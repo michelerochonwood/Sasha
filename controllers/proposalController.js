@@ -226,12 +226,197 @@ const pursuitDocuments =
        WORKFLOW
     ================================================== */
 
-    const workflowStages =
-      Array.isArray(
-        proposal.workflowStages
-      )
-        ? proposal.workflowStages
-        : [];
+const rawWorkflowStages =
+  Array.isArray(
+    proposal.workflowStages
+  )
+    ? proposal.workflowStages
+    : [];
+
+
+const workflowStageMeta = {
+
+  create: {
+    label:
+      'Create',
+
+    group:
+      'CREATE',
+
+    href:
+      `/pursuit/${proposal._id}`
+  },
+
+  analyze: {
+    label:
+      'Analyze',
+
+    group:
+      'ANALYZE | GO / NO GO',
+
+    href:
+      `/analyze?pursuit=${proposal._id}`
+  },
+
+  go_no_go: {
+    label:
+      'Go / No Go',
+
+    group:
+      'ANALYZE | GO / NO GO',
+
+    href:
+      `/analyze?pursuit=${proposal._id}`
+  },
+
+  plan: {
+    label:
+      'Plan',
+
+    group:
+      'PLAN | WIN STRATEGY',
+
+    href:
+      `/plan?pursuit=${proposal._id}`
+  },
+
+  win_strategy: {
+    label:
+      'Win Strategy',
+
+    group:
+      'PLAN | WIN STRATEGY',
+
+    href:
+      `/plan?pursuit=${proposal._id}`
+  },
+
+  outline: {
+    label:
+      'Outline',
+
+    group:
+      'PLAN | WIN STRATEGY',
+
+    href:
+      `/plan?pursuit=${proposal._id}`
+  },
+
+  write: {
+    label:
+      'Write',
+
+    group:
+      'WRITE',
+
+    href:
+      `/write?pursuit=${proposal._id}`
+  },
+
+  review: {
+    label:
+      'Review',
+
+    group:
+      'REVIEW',
+
+    href:
+      `/review?pursuit=${proposal._id}`
+  },
+
+  submission: {
+    label:
+      'Submission',
+
+    group:
+      'FINALIZE',
+
+    href:
+      ''
+  },
+
+  outcome: {
+    label:
+      'Outcome',
+
+    group:
+      'OUTCOME',
+
+    href:
+      ''
+  }
+
+};
+
+
+const workflowStages =
+  rawWorkflowStages.map(
+    (
+      stage
+    ) => {
+
+      const meta =
+        workflowStageMeta[
+          stage.stage
+        ] || {};
+
+      let statusLabel =
+        'Not Started';
+
+
+      if (
+        stage.status ===
+        'in_progress'
+      ) {
+
+        statusLabel =
+          'In Progress';
+
+      }
+
+
+      if (
+        stage.status ===
+        'complete'
+      ) {
+
+        statusLabel =
+          'Complete';
+
+      }
+
+
+      if (
+        stage.status ===
+        'skipped'
+      ) {
+
+        statusLabel =
+          'Skipped';
+
+      }
+
+
+      return {
+        ...stage,
+
+        label:
+          meta.label ||
+          stage.stage,
+
+        group:
+          meta.group ||
+          '',
+
+        href:
+          meta.href ||
+          '',
+
+        statusLabel
+      };
+
+    }
+  );
 
 
     const completedStages =

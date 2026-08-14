@@ -271,66 +271,121 @@
       </header>
 
 
-      {{#if dashboard.workflowStages.length}}
+{{#if dashboard.workflowStages.length}}
 
-        <div class="sasha-pursuit-workflow">
+  <div class="sasha-pursuit-workflow">
 
-          {{#each dashboard.workflowStages}}
+    {{#each dashboard.workflowStages}}
 
-            <div
-              class="
-                sasha-pursuit-workflow-stage
-                is-{{this.status}}
-              "
-            >
+      {{#if this.href}}
 
-              <span class="sasha-pursuit-workflow-marker">
+        <a
+          href="{{this.href}}"
+          class="
+            sasha-pursuit-workflow-stage
+            is-{{this.status}}
+            is-link
+          "
+        >
 
-                {{#ifEquals this.status "complete"}}
-                  ✓
+          <span class="sasha-pursuit-workflow-marker">
+
+            {{#ifEquals this.status "complete"}}
+              ✓
+            {{else}}
+              {{#ifEquals this.status "in_progress"}}
+                •
+              {{else}}
+                {{#ifEquals this.status "skipped"}}
+                  —
                 {{else}}
-                  {{#ifEquals this.status "in_progress"}}
-                    •
-                  {{else}}
-                    ○
-                  {{/ifEquals}}
+                  ○
                 {{/ifEquals}}
+              {{/ifEquals}}
+            {{/ifEquals}}
 
-              </span>
+          </span>
 
+          <div>
 
-              <div>
+            <strong>
+              {{this.label}}
+            </strong>
 
-                <strong>
-                  {{this.stage}}
-                </strong>
+            <span>
+              {{this.statusLabel}}
+            </span>
 
-                <span>
-                  {{this.status}}
-                </span>
+          </div>
 
-              </div>
+          <span
+            class="sasha-pursuit-workflow-link-arrow"
+            aria-hidden="true"
+          >
+            →
+          </span>
 
-            </div>
-
-          {{/each}}
-
-        </div>
+        </a>
 
       {{else}}
 
-        <div class="sasha-pursuit-workflow-empty">
+        <div
+          class="
+            sasha-pursuit-workflow-stage
+            is-{{this.status}}
+          "
+        >
 
-          <p>
-            Sasha has not established the pursuit workflow yet.
-            The stages will appear here as the pursuit develops.
-          </p>
+          <span class="sasha-pursuit-workflow-marker">
+
+            {{#ifEquals this.status "complete"}}
+              ✓
+            {{else}}
+              {{#ifEquals this.status "in_progress"}}
+                •
+              {{else}}
+                {{#ifEquals this.status "skipped"}}
+                  —
+                {{else}}
+                  ○
+                {{/ifEquals}}
+              {{/ifEquals}}
+            {{/ifEquals}}
+
+          </span>
+
+          <div>
+
+            <strong>
+              {{this.label}}
+            </strong>
+
+            <span>
+              {{this.statusLabel}}
+            </span>
+
+          </div>
 
         </div>
 
       {{/if}}
 
-    </section>
+    {{/each}}
+
+  </div>
+
+{{else}}
+
+  <div class="sasha-pursuit-workflow-empty">
+
+    <p>
+      Sasha has not established the pursuit workflow yet.
+      The stages will appear here as the pursuit develops.
+    </p>
+
+  </div>
+
+{{/if}}
 
 
     {{!-- =================================================
