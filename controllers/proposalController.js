@@ -557,11 +557,96 @@ const proposal =
       aiSummary ||
       '',
 
-    sourceDocuments:
-      [],
+sourceDocuments:
+  [],
 
-    pursuitDocuments:
-      []
+pursuitDocuments:
+  [],
+
+workflowStages: [
+  {
+    stage:
+      'create',
+
+    status:
+      'complete',
+
+    completedAt:
+      new Date()
+  },
+
+  {
+    stage:
+      'analyze',
+
+    status:
+      'not_started'
+  },
+
+  {
+    stage:
+      'go_no_go',
+
+    status:
+      'not_started'
+  },
+
+  {
+    stage:
+      'plan',
+
+    status:
+      'not_started'
+  },
+
+  {
+    stage:
+      'win_strategy',
+
+    status:
+      'not_started'
+  },
+
+  {
+    stage:
+      'outline',
+
+    status:
+      'not_started'
+  },
+
+  {
+    stage:
+      'write',
+
+    status:
+      'not_started'
+  },
+
+  {
+    stage:
+      'review',
+
+    status:
+      'not_started'
+  },
+
+  {
+    stage:
+      'submission',
+
+    status:
+      'not_started'
+  },
+
+  {
+    stage:
+      'outcome',
+
+    status:
+      'not_started'
+  }
+]
   });
 
 
