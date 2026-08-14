@@ -419,8 +419,95 @@ const workflowStages =
   );
 
 
-    const completedStages =
+const workflowGroups = [
+  {
+    label:
+      'CREATE',
+
+    stages:
       workflowStages.filter(
+        stage =>
+          stage.group ===
+          'CREATE'
+      )
+  },
+
+  {
+    label:
+      'ANALYZE | GO / NO GO',
+
+    stages:
+      workflowStages.filter(
+        stage =>
+          stage.group ===
+          'ANALYZE | GO / NO GO'
+      )
+  },
+
+  {
+    label:
+      'PLAN | WIN STRATEGY',
+
+    stages:
+      workflowStages.filter(
+        stage =>
+          stage.group ===
+          'PLAN | WIN STRATEGY'
+      )
+  },
+
+  {
+    label:
+      'WRITE',
+
+    stages:
+      workflowStages.filter(
+        stage =>
+          stage.group ===
+          'WRITE'
+      )
+  },
+
+  {
+    label:
+      'REVIEW',
+
+    stages:
+      workflowStages.filter(
+        stage =>
+          stage.group ===
+          'REVIEW'
+      )
+  },
+
+  {
+    label:
+      'FINALIZE',
+
+    stages:
+      workflowStages.filter(
+        stage =>
+          stage.group ===
+          'FINALIZE'
+      )
+  },
+
+  {
+    label:
+      'OUTCOME',
+
+    stages:
+      workflowStages.filter(
+        stage =>
+          stage.group ===
+          'OUTCOME'
+      )
+  }
+];
+
+
+const completedStages =
+  workflowStages.filter(
         (
           stage
         ) =>
@@ -531,7 +618,9 @@ if (
 
       isOverdue,
 
-      workflowStages,
+workflowStages,
+
+workflowGroups,
 
       completedStageCount:
         completedStages.length,

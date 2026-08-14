@@ -2487,6 +2487,9 @@ input[type="file"]::file-selector-button:hover {
 
   gap:
     1rem;
+
+        text-decoration:
+  none;
 }
 
 
@@ -2566,6 +2569,8 @@ input[type="file"]::file-selector-button:hover {
   display:
     block;
 
+        text-decoration:
+  none;
   color:
     var(--sasha-white);
 
@@ -2604,7 +2609,8 @@ input[type="file"]::file-selector-button:hover {
 .sasha-pursuit-workflow-stage.is-complete {
   background:
     var(--sasha-white-08);
-
+    text-decoration:
+  none;
   border-color:
     rgba(242, 130, 170, 0.5);
 }
@@ -2620,12 +2626,16 @@ input[type="file"]::file-selector-button:hover {
 
   border-color:
     var(--sasha-pink);
+        text-decoration:
+  none;
 }
 
 
 .sasha-pursuit-workflow-stage.is-in_progress {
   border-color:
     var(--sasha-pink);
+        text-decoration:
+  none;
 }
 
 

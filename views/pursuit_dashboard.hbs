@@ -271,11 +271,21 @@
       </header>
 
 
-{{#if dashboard.workflowStages.length}}
+{{#if dashboard.workflowGroups.length}}
 
-  <div class="sasha-pursuit-workflow">
+  <div class="sasha-pursuit-workflow-groups">
 
-    {{#each dashboard.workflowStages}}
+    {{#each dashboard.workflowGroups}}
+
+      <section class="sasha-pursuit-workflow-group">
+
+        <h3 class="sasha-pursuit-workflow-group-title">
+          {{this.label}}
+        </h3>
+
+        <div class="sasha-pursuit-workflow">
+
+          {{#each this.stages}}
 
       {{#if this.href}}
 
@@ -369,6 +379,12 @@
         </div>
 
       {{/if}}
+
+          {{/each}}
+
+        </div>
+
+      </section>
 
     {{/each}}
 
