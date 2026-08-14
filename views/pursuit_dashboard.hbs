@@ -744,15 +744,15 @@
   {{sourceDocuments.length}}
 </span>
 
-          <h3>
-            Source Documents
-          </h3>
+<h3>
+  Source Documents
+</h3>
 
-{{#each sourceDocuments}}
+{{#if sourceDocuments.length}}
 
   <div class="sasha-pursuit-document-list">
 
-    {{#each pursuitDocuments}}
+    {{#each sourceDocuments}}
 
       <div class="sasha-pursuit-document-item">
 
@@ -775,6 +775,16 @@
       </div>
 
     {{/each}}
+
+  </div>
+
+{{else}}
+
+  <p>
+    No source documents have been added yet.
+  </p>
+
+{{/if}}
 
   </div>
 
