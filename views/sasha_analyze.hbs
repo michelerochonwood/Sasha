@@ -472,75 +472,99 @@
             >
 
 
-            <label class="sasha-effort-option">
+<div class="sasha-effort-options">
 
-              <input
-                type="radio"
-                name="effortLevel"
-                value="minimal"
-              >
+  <label class="sasha-effort-option">
 
-              <span>
+    <input
+      type="radio"
+      name="effortLevel"
+      value="minimal"
+      {{#ifEquals proposal.effortLevel "minimal"}}
+        checked
+      {{/ifEquals}}
+    >
 
-                <strong>
-                  Minimal
-                </strong>
+    <span class="sasha-effort-radio"></span>
 
-                <small>
-                  Professional, compliant, tightly controlled effort.
-                </small>
+    <span class="sasha-effort-copy">
 
-              </span>
+      <strong>
+        Minimal
+      </strong>
 
-            </label>
+      <small>
+        Professional, compliant, tightly controlled effort.
+      </small>
 
+    </span>
 
-            <label class="sasha-effort-option">
-
-              <input
-                type="radio"
-                name="effortLevel"
-                value="usual"
-              >
-
-              <span>
-
-                <strong>
-                  Usual
-                </strong>
-
-                <small>
-                  Tailored and competitive with an efficient,
-                  disciplined process.
-                </small>
-
-              </span>
-
-            </label>
+  </label>
 
 
-            <label class="sasha-effort-option">
+  <label class="sasha-effort-option">
 
-              <input
-                type="radio"
-                name="effortLevel"
-                value="full"
-              >
+    <input
+      type="radio"
+      name="effortLevel"
+      value="usual"
 
-              <span>
+      {{#ifEquals proposal.effortLevel "usual"}}
+        checked
+      {{else}}
+        {{#unless proposal.effortLevel}}
+          checked
+        {{/unless}}
+      {{/ifEquals}}
+    >
 
-                <strong>
-                  Full
-                </strong>
+    <span class="sasha-effort-radio"></span>
 
-                <small>
-                  Significant strategy, customization, evidence,
-                  review, and proposal-management effort.
-                </small>
+    <span class="sasha-effort-copy">
 
-              </span>
+      <strong>
+        Usual
+      </strong>
 
-            </label>
+      <small>
+        Tailored and competitive with an efficient,
+        disciplined process.
+      </small>
+
+    </span>
+
+  </label>
+
+
+  <label class="sasha-effort-option">
+
+    <input
+      type="radio"
+      name="effortLevel"
+      value="full"
+      {{#ifEquals proposal.effortLevel "full"}}
+        checked
+      {{/ifEquals}}
+    >
+
+    <span class="sasha-effort-radio"></span>
+
+    <span class="sasha-effort-copy">
+
+      <strong>
+        Full
+      </strong>
+
+      <small>
+        Significant strategy, customization, evidence,
+        review, and proposal-management effort.
+      </small>
+
+    </span>
+
+  </label>
+
+</div>
 
 
             <button
