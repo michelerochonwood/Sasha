@@ -486,6 +486,14 @@ analysisMessages: {
   default: []
 },
 
+/* =====================================================
+   PLAN CONVERSATION
+===================================================== */
+
+planMessages: [
+  analysisConversationSchema
+],
+
 
     /* =====================================================
        FINAL PROPOSAL
