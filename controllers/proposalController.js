@@ -280,6 +280,17 @@ const workflowStageMeta = {
       `/plan?pursuit=${proposal._id}`
   },
 
+    outline: {
+    label:
+      'Outline',
+
+    group:
+      'PLAN | WIN STRATEGY',
+
+    href:
+      `/plan?pursuit=${proposal._id}`
+  },
+
   win_strategy: {
     label:
       'Win Strategy',
@@ -291,16 +302,7 @@ const workflowStageMeta = {
       `/plan?pursuit=${proposal._id}`
   },
 
-  outline: {
-    label:
-      'Outline',
 
-    group:
-      'PLAN | WIN STRATEGY',
-
-    href:
-      `/plan?pursuit=${proposal._id}`
-  },
 
   write: {
     label:
