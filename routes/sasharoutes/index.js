@@ -180,7 +180,12 @@ router.get(
   planController.getPlanPursuit
 );
 
-
+router.post(
+  '/plan/chat',
+  ensureOrganization,
+  verifyCsrfToken,
+  planController.postPlanChat
+);
 /* =====================================================
 WRITE
 ===================================================== */
