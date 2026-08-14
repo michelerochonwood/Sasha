@@ -1213,7 +1213,155 @@ Return only the requested structured JSON.
 
 };
 
+/* =====================================================
+   RECORD EFFORT LEVEL
+===================================================== */
 
+exports.postEffortLevel = async (
+  req,
+  res,
+  next
+) => {
+
+  try {
+
+    /* =================================================
+       REQUEST INFORMATION
+    ================================================== */
+
+    const pursuitId =
+      typeof req.body.pursuitId ===
+        'string'
+        ? req.body.pursuitId.trim()
+        : '';
+
+
+    const effortLevel =
+      typeof req.body.effortLevel ===
+        'string'
+        ? req.body.effortLevel.trim()
+        : '';
+
+
+    /* =================================================
+       VALIDATE EFFORT LEVEL
+    ================================================== */
+
+    const allowedEffortLevels = [
+      'minimal',
+      'usual',
+      'full'
+    ];
+
+
+    if (
+      !allowedEffortLevels.includes(
+        effortLevel
+      )
+    ) {
+
+      return res.status(400).send(
+        'Select a valid effort level.'
+      );
+
+    }
+
+
+    /* =================================================
+       FIND PURSUIT
+    ================================================== */
+
+    const proposal =
+      await Proposal.findOne({
+        _id:
+          pursuitId,
+
+        organization:
+          req.session.organizationId
+      });
+
+
+    if (
+      !proposal
+    ) {
+
+      return res.status(404).render(
+        'not_found',
+        {
+          layout:
+            'mainlayout',
+
+          pageTitle:
+            'Pursuit Not Found | Sasha'
+        }
+      );
+
+    }
+
+
+    /* =================================================
+       RECORD EFFORT LEVEL
+    ================================================== */
+
+    proposal.effortLevel =
+      effortLevel;
+
+
+    /* =================================================
+       SAVE PURSUIT
+    ================================================== */
+
+    await proposal.save();
+
+
+    /* =================================================
+       KEEP PURSUIT ACTIVE
+    ================================================== */
+
+    req.session.activePursuitId =
+      proposal._id.toString();
+
+    req.session.activePursuitName =
+      proposal.proposalName;
+
+
+    console.log(
+      'EFFORT LEVEL RECORDED:',
+      {
+        pursuitId:
+          proposal._id.toString(),
+
+        effortLevel
+      }
+    );
+
+
+    /* =================================================
+       RETURN TO ANALYZE
+    ================================================== */
+
+    return res.redirect(
+      `/analyze?pursuit=${proposal._id}`
+    );
+
+
+  } catch (
+    error
+  ) {
+
+    console.error(
+      'RECORD EFFORT LEVEL FAILED:',
+      error
+    );
+
+
+    return next(
+      error
+    );
+
+  }
+
+};
 
 /* =====================================================
    RECORD GO / NO GO DECISION

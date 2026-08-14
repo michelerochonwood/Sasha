@@ -144,6 +144,17 @@ router.post(
   analyzeController.postGoNoGoDecision
 );
 
+
+/* =====================================================
+   RECORD EFFORT LEVEL
+===================================================== */
+
+router.post(
+  '/analyze/effort',
+  ensureOrganization,
+  verifyCsrfToken,
+  analyzeController.postEffortLevel
+);
 /* =====================================================
 ANALYZE PURSUIT CHAT
 ===================================================== */
