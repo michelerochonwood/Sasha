@@ -1200,7 +1200,7 @@ Return only the requested structured JSON.
   ) {
 
     console.error(
-      'SASHA ANALYZE CHAT FAILED:',
+      'RECORD GO / NO GO DECISION FAILED:',
       error
     );
 
