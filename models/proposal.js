@@ -57,6 +57,13 @@ const proposalSchema = new mongoose.Schema(
       default: null
     },
 
+    pursuitDocuments: [
+  {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'PursuitDocument'
+  }
+],
+
 
     /* =====================================================
        STATUS

@@ -2,6 +2,10 @@ const Proposal = require(
   '../models/proposal'
 );
 
+const PursuitDocument = require(
+  '../models/pursuitDocument'
+);
+
 const cloudinary =
   require('../config/cloudinary');
 
@@ -454,151 +458,149 @@ async (
         : [];
 
 
-    /* =================================================
-       PREPARE SOURCE DOCUMENTS
-    ================================================== */
+/* =================================================
+   PREPARE SOURCE DOCUMENTS
+================================================== */
 
-    const uploadedFiles =
-      Array.isArray(req.files)
-        ? req.files
-        : [];
-
-
-    const sourceDocuments =
-      [];
+const uploadedFiles =
+  Array.isArray(req.files)
+    ? req.files
+    : [];
 
 
-    /* =================================================
-       UPLOAD SOURCE DOCUMENTS
-    ================================================== */
-
-    for (
-      const file of uploadedFiles
-    ) {
-
-      const uploadResult =
-        await new Promise(
-          (
-            resolve,
-            reject
-          ) => {
-
-            const uploadStream =
-              cloudinary.uploader.upload_stream(
-                {
-                  resource_type:
-                    'raw',
-
-                  folder:
-                    `sasha/${req.session.organizationId}/pursuit-documents`,
-
-                  public_id:
-                    `${Date.now()}-${file.originalname}`,
-
-                  use_filename:
-                    true,
-
-                  unique_filename:
-                    true
-                },
-
-                (
-                  error,
-                  result
-                ) => {
-
-                  if (error) {
-
-                    return reject(
-                      error
-                    );
-
-                  }
+const sourceDocuments =
+  [];
 
 
-                  return resolve(
-                    result
-                  );
+/* =================================================
+   UPLOAD SOURCE DOCUMENTS
+================================================== */
 
-                }
+for (
+  const file of uploadedFiles
+) {
+
+  const uploadResult =
+    await new Promise(
+      (
+        resolve,
+        reject
+      ) => {
+
+        const uploadStream =
+          cloudinary.uploader.upload_stream(
+            {
+              resource_type:
+                'raw',
+
+              folder:
+                `sasha/${req.session.organizationId}/pursuit-documents`,
+
+              public_id:
+                `${Date.now()}-${file.originalname}`,
+
+              use_filename:
+                true,
+
+              unique_filename:
+                true
+            },
+            (
+              error,
+              result
+            ) => {
+
+              if (error) {
+
+                return reject(
+                  error
+                );
+
+              }
+
+
+              return resolve(
+                result
               );
 
+            }
+          );
 
-            uploadStream.end(
-              file.buffer
-            );
 
-          }
+        uploadStream.end(
+          file.buffer
         );
 
+      }
+    );
 
-      sourceDocuments.push({
-        title:
-          file.originalname,
 
-        documentType:
-          file.mimetype,
+  sourceDocuments.push({
+    title:
+      file.originalname,
 
-        fileName:
-          file.originalname,
+    documentType:
+      file.mimetype,
 
-        fileUrl:
-          uploadResult.secure_url,
+    fileName:
+      file.originalname,
 
-        uploadedAt:
-          new Date(),
+    fileUrl:
+      uploadResult.secure_url,
 
-        processedBySasha:
-          Boolean(
-            aiSummary
-          )
-      });
+    uploadedAt:
+      new Date(),
 
+    processedBySasha:
+      Boolean(
+        aiSummary
+      )
+  });
+
+}
+
+
+/* =================================================
+   CREATE PURSUIT
+================================================== */
+
+const proposal =
+  await Proposal.create(
+    {
+      organization:
+        req.session.organizationId,
+
+      proposalName:
+        proposalName.trim(),
+
+      clientName:
+        clientName
+          ? clientName.trim()
+          : '',
+
+      rfpNumber:
+        rfpNumber
+          ? rfpNumber.trim()
+          : '',
+
+      submissionDeadline:
+        submissionDeadline ||
+        null,
+
+      proposalStatus:
+        proposalStatus ||
+        'new',
+
+      searchKeywords:
+        keywords,
+
+      aiSummary:
+        aiSummary ||
+        '',
+
+      sourceDocuments
     }
-
-
-    /* =================================================
-       CREATE PURSUIT
-    ================================================== */
-
-    const proposal =
-      await Proposal.create(
-        {
-          organization:
-            req.session.organizationId,
-
-          proposalName:
-            proposalName.trim(),
-
-          clientName:
-            clientName
-              ? clientName.trim()
-              : '',
-
-          rfpNumber:
-            rfpNumber
-              ? rfpNumber.trim()
-              : '',
-
-          submissionDeadline:
-            submissionDeadline ||
-            null,
-
-          proposalStatus:
-            proposalStatus ||
-            'new',
-
-          searchKeywords:
-            keywords,
-
-          aiSummary:
-            aiSummary ||
-            '',
-
-          sourceDocuments
-        }
-      );
-
+  );
 
     /* =================================================
        SET ACTIVE PURSUIT
