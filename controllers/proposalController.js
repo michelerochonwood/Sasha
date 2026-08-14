@@ -459,26 +459,82 @@ async (
 
 
 /* =================================================
-   PREPARE SOURCE DOCUMENTS
+   PREPARE UPLOADED FILES
 ================================================== */
 
 const uploadedFiles =
-  Array.isArray(req.files)
+  Array.isArray(
+    req.files
+  )
     ? req.files
     : [];
 
 
-const sourceDocuments =
-  [];
+/* =================================================
+   CREATE PURSUIT INSTANCE
+================================================== */
+
+/*
+ * Create the Proposal instance now so it already
+ * has an _id that can be referenced by each
+ * PursuitDocument.
+ *
+ * We will save the Proposal after its documents
+ * have been created and linked.
+ */
+
+const proposal =
+  new Proposal({
+    organization:
+      req.session.organizationId,
+
+    proposalName:
+      proposalName.trim(),
+
+    clientName:
+      clientName
+        ? clientName.trim()
+        : '',
+
+    rfpNumber:
+      rfpNumber
+        ? rfpNumber.trim()
+        : '',
+
+    submissionDeadline:
+      submissionDeadline ||
+      null,
+
+    proposalStatus:
+      proposalStatus ||
+      'new',
+
+    searchKeywords:
+      keywords,
+
+    aiSummary:
+      aiSummary ||
+      '',
+
+    sourceDocuments:
+      [],
+
+    pursuitDocuments:
+      []
+  });
 
 
 /* =================================================
-   UPLOAD SOURCE DOCUMENTS
+   UPLOAD PURSUIT DOCUMENTS
 ================================================== */
 
 for (
   const file of uploadedFiles
 ) {
+
+  /* ===============================================
+     UPLOAD FILE TO CLOUDINARY
+  =============================================== */
 
   const uploadResult =
     await new Promise(
@@ -505,12 +561,15 @@ for (
               unique_filename:
                 true
             },
+
             (
               error,
               result
             ) => {
 
-              if (error) {
+              if (
+                error
+              ) {
 
                 return reject(
                   error
@@ -535,7 +594,180 @@ for (
     );
 
 
-  sourceDocuments.push({
+  /* ===============================================
+     FILE EXTENSION
+  =============================================== */
+
+  const fileNameParts =
+    file.originalname
+      .split('.');
+
+
+  const fileExtension =
+    fileNameParts.length > 1
+      ? fileNameParts
+          .pop()
+          .toLowerCase()
+      : '';
+
+
+  /* ===============================================
+     DOCUMENT TYPE
+  =============================================== */
+
+  /*
+   * On Create Pursuit, the first uploaded
+   * document is treated as the RFP.
+   *
+   * Additional documents can later be classified
+   * more specifically.
+   */
+
+  const documentType =
+    proposal.pursuitDocuments.length === 0
+      ? 'rfp'
+      : 'other';
+
+
+  /* ===============================================
+     CREATE PURSUIT DOCUMENT
+  =============================================== */
+
+  console.log(
+    'CREATING PURSUIT DOCUMENT:',
+    {
+      proposalId:
+        proposal._id.toString(),
+
+      fileName:
+        file.originalname
+    }
+  );
+
+
+  const pursuitDocument =
+    await PursuitDocument.create({
+      organization:
+        req.session.organizationId,
+
+      proposal:
+        proposal._id,
+
+      title:
+        file.originalname,
+
+      documentType,
+
+      sourceType:
+        'client',
+
+      originalFileName:
+        file.originalname,
+
+      storedFileName:
+        uploadResult.public_id ||
+        '',
+
+      mimeType:
+        file.mimetype ||
+        '',
+
+      fileExtension,
+
+      fileSize:
+        Number.isFinite(
+          file.size
+        )
+          ? file.size
+          : 0,
+
+      cloudinaryPublicId:
+        uploadResult.public_id ||
+        '',
+
+      cloudinaryResourceType:
+        uploadResult.resource_type ||
+        'raw',
+
+      cloudinaryUrl:
+        uploadResult.url ||
+        '',
+
+      cloudinarySecureUrl:
+        uploadResult.secure_url ||
+        '',
+
+      uploadedAt:
+        new Date(),
+
+      processingStatus:
+        aiSummary
+          ? 'complete'
+          : 'not_started',
+
+      processedBySasha:
+        Boolean(
+          aiSummary
+        ),
+
+      processedAt:
+        aiSummary
+          ? new Date()
+          : null,
+
+      documentSummary:
+        aiSummary ||
+        '',
+
+      aiMetadata: {
+        lastAnalyzedAt:
+          aiSummary
+            ? new Date()
+            : null,
+
+        model:
+          '',
+
+        analysisVersion:
+          1,
+
+        openaiFileId:
+          ''
+      }
+    });
+
+
+  console.log(
+    'PURSUIT DOCUMENT CREATED:',
+    {
+      documentId:
+        pursuitDocument._id.toString(),
+
+      proposalId:
+        proposal._id.toString()
+    }
+  );
+
+
+  /* ===============================================
+     LINK DOCUMENT TO PURSUIT
+  =============================================== */
+
+  proposal.pursuitDocuments.push(
+    pursuitDocument._id
+  );
+
+
+  /* ===============================================
+     LEGACY SOURCE DOCUMENT RECORD
+  =============================================== */
+
+  /*
+   * Keep this temporarily because the Analyze
+   * controller still reads sourceDocuments.
+   */
+
+  proposal.sourceDocuments.push({
     title:
       file.originalname,
 
@@ -561,47 +793,10 @@ for (
 
 
 /* =================================================
-   CREATE PURSUIT
+   SAVE PURSUIT
 ================================================== */
 
-const proposal =
-  await Proposal.create(
-    {
-      organization:
-        req.session.organizationId,
-
-      proposalName:
-        proposalName.trim(),
-
-      clientName:
-        clientName
-          ? clientName.trim()
-          : '',
-
-      rfpNumber:
-        rfpNumber
-          ? rfpNumber.trim()
-          : '',
-
-      submissionDeadline:
-        submissionDeadline ||
-        null,
-
-      proposalStatus:
-        proposalStatus ||
-        'new',
-
-      searchKeywords:
-        keywords,
-
-      aiSummary:
-        aiSummary ||
-        '',
-
-      sourceDocuments
-    }
-  );
-
+await proposal.save();
     /* =================================================
        SET ACTIVE PURSUIT
     ================================================== */
