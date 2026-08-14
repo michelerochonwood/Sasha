@@ -2494,6 +2494,9 @@ input[type="file"]::file-selector-button:hover {
   display:
     flex;
 
+    text-decoration:
+  none;
+
   min-height:
     92px;
 
