@@ -5294,6 +5294,71 @@ input[type="file"]::file-selector-button:hover {
    SASHA PLAN | WIN STRATEGY
 ===================================================== */
 
+/* =====================================================
+   PLAN | CURRENT WORK
+===================================================== */
+
+.sasha-plan-current-work {
+  display:
+    inline-flex;
+
+  align-items:
+    center;
+
+  gap:
+    0.5rem;
+
+  margin-bottom:
+    1.25rem;
+
+  padding:
+    0.55rem
+    0.85rem;
+
+  border:
+    1px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.18
+    );
+
+  border-radius:
+    999px;
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.06
+    );
+
+  font-size:
+    0.88rem;
+}
+
+
+.sasha-plan-current-work span {
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.72
+    );
+}
+
+
+.sasha-plan-current-work strong {
+  color:
+    #ffffff;
+
+  font-weight:
+    700;
+}
+
 
 /* =====================================================
    EFFORT LEVEL BANNER

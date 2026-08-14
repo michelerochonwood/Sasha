@@ -22,7 +22,17 @@
 
     </div>
 
+<div class="sasha-plan-current-work">
 
+  <span>
+    You are working on
+  </span>
+
+  <strong>
+    Plan
+  </strong>
+
+</div>
     {{!-- =================================================
          PAGE HEADER
     ================================================== --}}
@@ -325,7 +335,35 @@
 
         </div>
 
+{{!-- ===============================================
+     SASHA WORKING
+=============================================== --}}
 
+<div
+  class="sasha-plan-working"
+  id="sasha-plan-working"
+  hidden
+  aria-hidden="true"
+>
+
+  <video
+    class="sasha-plan-working-video"
+    id="sasha-plan-working-video"
+    muted
+    playsinline
+    preload="metadata"
+  >
+    <source
+      src="/images/sasha_working2.mp4"
+      type="video/mp4"
+    >
+  </video>
+
+  <p>
+    Sasha is working on the plan...
+  </p>
+
+</div>
         {{!-- ===============================================
              CHAT COMPOSER
         ================================================ --}}
