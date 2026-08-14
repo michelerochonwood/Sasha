@@ -351,19 +351,35 @@
                 GO
               </span>
 
-              <strong>
+<strong>
 
-                {{#if rfpAnalysis.goPosition}}
+  {{#ifEquals proposal.goNoGo.decision "go"}}
 
-                  {{rfpAnalysis.goPosition}}
+    GO
 
-                {{else}}
+  {{else}}
 
-                  Unresolved
+    {{#ifEquals proposal.goNoGo.decision "no_go"}}
 
-                {{/if}}
+      NO GO
 
-              </strong>
+    {{else}}
+
+      {{#ifEquals proposal.goNoGo.decision "pending"}}
+
+        PENDING
+
+      {{else}}
+
+        Unresolved
+
+      {{/ifEquals}}
+
+    {{/ifEquals}}
+
+  {{/ifEquals}}
+
+</strong>
 
               <p>
                 Is this work worth pursuing?
@@ -953,7 +969,7 @@
             <span>
 
               <strong>
-                GO
+                DECISION
               </strong>
 
               <small>
