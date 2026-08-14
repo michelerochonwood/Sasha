@@ -1444,6 +1444,40 @@ Return only the requested structured JSON.
         'rfpAnalysis'
       );
 
+      /* ===============================================
+   COMPLETE ANALYZE WORKFLOW STAGE
+=============================================== */
+
+const workflowStages =
+  Array.isArray(
+    proposal.workflowStages
+  )
+    ? proposal.workflowStages
+    : [];
+
+
+const analyzeStage =
+  workflowStages.find(
+    (
+      stage
+    ) =>
+      stage.stage ===
+      'analyze'
+  );
+
+
+if (
+  analyzeStage
+) {
+
+  analyzeStage.status =
+    'complete';
+
+  analyzeStage.completedAt =
+    new Date();
+
+}
+
 
       workProduct = {
         type:
