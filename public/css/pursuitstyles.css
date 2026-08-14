@@ -5739,7 +5739,113 @@ input[type="file"]::file-selector-button:hover {
     1.5;
 }
 
+/* =====================================================
+   PLAN | SASHA WORKING
+===================================================== */
 
+.sasha-plan-working {
+  display:
+    flex;
+
+  width:
+    100%;
+
+  flex-direction:
+    column;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  padding:
+    1.25rem
+    1.5rem
+    0.75rem;
+
+  overflow:
+    hidden;
+
+  text-align:
+    center;
+}
+
+
+.sasha-plan-working[hidden] {
+  display:
+    none;
+}
+
+
+.sasha-plan-working-video {
+  display:
+    block;
+
+  width:
+    100%;
+
+  max-width:
+    400px;
+
+  height:
+    auto;
+
+  border-radius:
+    18px;
+
+  object-fit:
+    contain;
+}
+
+
+.sasha-plan-working p {
+  margin:
+    0.75rem
+    0
+    0;
+
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.82
+    );
+
+  font-size:
+    0.9rem;
+
+  font-weight:
+    600;
+
+  line-height:
+    1.4;
+}
+
+
+/* =====================================================
+   PLAN | SASHA WORKING | MOBILE
+===================================================== */
+
+@media (
+  max-width: 700px
+) {
+
+  .sasha-plan-working {
+    padding:
+      1rem
+      1rem
+      0.5rem;
+  }
+
+
+  .sasha-plan-working-video {
+    max-width:
+      240px;
+  }
+
+}
 /* =====================================================
    PLAN OUTPUT GRID
 ===================================================== */

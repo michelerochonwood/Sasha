@@ -1907,3 +1907,105 @@
   </div>
 
 </section>
+
+<script>
+document.addEventListener(
+  'DOMContentLoaded',
+  () => {
+
+    const planForm =
+      document.getElementById(
+        'sasha-plan-chat-form'
+      );
+
+    const workingBlock =
+      document.getElementById(
+        'sasha-plan-working'
+      );
+
+    const workingVideo =
+      document.getElementById(
+        'sasha-plan-working-video'
+      );
+
+
+    if (
+      !planForm ||
+      !workingBlock ||
+      !workingVideo
+    ) {
+
+      return;
+
+    }
+
+
+    planForm.addEventListener(
+      'submit',
+      () => {
+
+        /* =============================================
+           SHOW WORKING STATE
+        ============================================= */
+
+        workingBlock.hidden =
+          false;
+
+        workingBlock.setAttribute(
+          'aria-hidden',
+          'false'
+        );
+
+
+        /* =============================================
+           START VIDEO FROM BEGINNING
+        ============================================= */
+
+        workingVideo.loop =
+          false;
+
+        workingVideo.currentTime =
+          0;
+
+
+        const playPromise =
+          workingVideo.play();
+
+
+        if (
+          playPromise !==
+          undefined
+        ) {
+
+          playPromise.catch(
+            () => {
+
+              /*
+               * The form submission should continue
+               * even if the browser refuses playback.
+               */
+
+            }
+          );
+
+        }
+
+
+        /* =============================================
+           BRING WORKING STATE INTO VIEW
+        ============================================= */
+
+        workingBlock.scrollIntoView({
+          behavior:
+            'smooth',
+
+          block:
+            'nearest'
+        });
+
+      }
+    );
+
+  }
+);
+</script>
