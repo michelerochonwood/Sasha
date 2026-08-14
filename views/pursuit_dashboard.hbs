@@ -740,18 +740,51 @@
 
         <div class="sasha-pursuit-document-card">
 
-          <span class="sasha-pursuit-document-count">
-            {{proposal.sourceDocuments.length}}
-          </span>
+<span class="sasha-pursuit-document-count">
+  {{sourceDocuments.length}}
+</span>
 
           <h3>
             Source Documents
           </h3>
 
-          <p>
-            RFPs, addenda, procurement material, client information,
-            notes, and other pursuit source documents.
-          </p>
+{{#each sourceDocuments}}
+
+  <div class="sasha-pursuit-document-list">
+
+    {{#each pursuitDocuments}}
+
+      <div class="sasha-pursuit-document-item">
+
+        <strong>
+          {{this.title}}
+        </strong>
+
+        {{#if this.cloudinarySecureUrl}}
+
+          <a
+            href="{{this.cloudinarySecureUrl}}"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            View document →
+          </a>
+
+        {{/if}}
+
+      </div>
+
+    {{/each}}
+
+  </div>
+
+{{else}}
+
+  <p>
+    No source documents have been added yet.
+  </p>
+
+{{/if}}
 
         </div>
 
@@ -760,18 +793,51 @@
 
         <div class="sasha-pursuit-document-card">
 
-          <span class="sasha-pursuit-document-count">
-            {{proposal.proposalDocuments.length}}
-          </span>
+<span class="sasha-pursuit-document-count">
+  {{proposalDocuments.length}}
+</span>
 
           <h3>
             Proposal Documents
           </h3>
 
-          <p>
-            Draft and final proposal documents associated with this
-            pursuit.
-          </p>
+{{#if proposalDocuments.length}}
+
+  <div class="sasha-pursuit-document-list">
+
+    {{#each proposalDocuments}}
+
+      <div class="sasha-pursuit-document-item">
+
+        <strong>
+          {{this.title}}
+        </strong>
+
+        {{#if this.cloudinarySecureUrl}}
+
+          <a
+            href="{{this.cloudinarySecureUrl}}"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            View document →
+          </a>
+
+        {{/if}}
+
+      </div>
+
+    {{/each}}
+
+  </div>
+
+{{else}}
+
+  <p>
+    No proposal documents have been added yet.
+  </p>
+
+{{/if}}
 
         </div>
 

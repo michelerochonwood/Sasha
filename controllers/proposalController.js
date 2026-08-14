@@ -86,6 +86,41 @@ req.session.activePursuitId =
 req.session.activePursuitName =
   proposal.proposalName;
 
+  /* =================================================
+   PURSUIT DOCUMENTS
+================================================== */
+
+const pursuitDocuments =
+  await PursuitDocument.find({
+    organization:
+      req.session.organizationId,
+
+    proposal:
+      proposal._id,
+
+    isCurrent:
+      true
+  })
+    .sort({
+      uploadedAt:
+        -1
+    })
+    .lean();
+
+    const sourceDocuments =
+  pursuitDocuments.filter(
+    document =>
+      document.sourceType ===
+      'client'
+  );
+
+  const proposalDocuments =
+  pursuitDocuments.filter(
+    document =>
+      document.sourceType !==
+      'client'
+  );
+
     /* =================================================
        DEADLINE
     ================================================== */
@@ -363,9 +398,15 @@ goNoGoDecisionLabel
         pageTitle:
           `${proposal.proposalName} | Sasha`,
 
-        proposal,
+proposal,
 
-        dashboard
+dashboard,
+
+pursuitDocuments,
+
+sourceDocuments,
+
+proposalDocuments
       }
     );
 
