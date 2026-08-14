@@ -1909,7 +1909,67 @@ input[type="file"]::file-selector-button:hover {
     var(--sasha-pink);
 }
 
+/* =====================================================
+   PURSUIT DASHBOARD | PAGE TITLE
+===================================================== */
 
+
+.sasha-pursuit-dashboard-page-title {
+  margin-bottom:
+    clamp(
+      2.75rem,
+      5vw,
+      4.5rem
+    );
+}
+
+
+.sasha-pursuit-dashboard-page-title p {
+  margin:
+    0
+    0
+    0.55rem;
+
+  color:
+    var(--sasha-pink);
+
+  font-size:
+    0.8rem;
+
+  font-weight:
+    800;
+
+  letter-spacing:
+    0.08em;
+
+  text-transform:
+    uppercase;
+}
+
+
+.sasha-pursuit-dashboard-page-title h1 {
+  margin:
+    0;
+
+  color:
+    var(--sasha-white);
+
+  font-size:
+    clamp(
+      2.6rem,
+      5vw,
+      4.5rem
+    );
+
+  font-weight:
+    700;
+
+  letter-spacing:
+    -0.045em;
+
+  line-height:
+    0.98;
+}
 /* =====================================================
    DASHBOARD HEADER
 ===================================================== */
@@ -1969,7 +2029,7 @@ input[type="file"]::file-selector-button:hover {
 }
 
 
-.sasha-pursuit-dashboard-identity h1 {
+.sasha-pursuit-dashboard-identity h2 {
   max-width:
     920px;
 
