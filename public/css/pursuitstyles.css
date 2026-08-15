@@ -6073,33 +6073,6 @@ input[type="file"]::file-selector-button:hover {
 }
 
 
-/* =====================================================
-   RICH COPY
-===================================================== */
-
-
-.sasha-plan-rich-copy {
-  color:
-    rgba(255, 255, 255, 0.72);
-
-  font-size:
-    0.86rem;
-
-  line-height:
-    1.58;
-}
-
-
-.sasha-plan-rich-copy p {
-  margin:
-    0;
-}
-
-
-.sasha-plan-rich-copy p + p {
-  margin-top:
-    0.8rem;
-}
 
 
 /* =====================================================
