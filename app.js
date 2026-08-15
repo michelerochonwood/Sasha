@@ -196,33 +196,194 @@ app.engine(
       )
     ],
 
-    helpers: {
+helpers: {
 
-      ifEquals(
-        value1,
-        value2,
-        options
-      ) {
+  ifEquals(
+    value1,
+    value2,
+    options
+  ) {
+
+    if (
+      value1 ===
+      value2
+    ) {
+
+      return options.fn(
+        this
+      );
+
+    }
+
+    return options.inverse(
+      this
+    );
+
+  },
+
+
+  formatPlanText(
+    text
+  ) {
+
+    if (!text) {
+      return '';
+    }
+
+
+    let formatted =
+      String(text)
+        .replace(/\r\n/g, '\n')
+        .replace(/\r/g, '\n');
+
+
+    /* =============================================
+       NUMBERED SECTIONS
+    ============================================= */
+
+    formatted =
+      formatted.replace(
+        /(?:^|\s)(\d+\)\s+)/g,
+        '\n\n$1'
+      );
+
+
+    /* =============================================
+       DASH LIST ITEMS
+    ============================================= */
+
+    formatted =
+      formatted.replace(
+        /\s+-\s+/g,
+        '\n- '
+      );
+
+
+    /* =============================================
+       ESCAPE HTML
+    ============================================= */
+
+    formatted =
+      formatted
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+
+
+    /* =============================================
+       BUILD HTML
+    ============================================= */
+
+    const lines =
+      formatted
+        .split('\n')
+        .map(
+          line =>
+            line.trim()
+        )
+        .filter(Boolean);
+
+
+    let html =
+      '';
+
+    let inList =
+      false;
+
+
+    lines.forEach(
+      line => {
+
+        /* -----------------------------------------
+           BULLET ITEM
+        ----------------------------------------- */
 
         if (
-          value1 ===
-          value2
+          line.startsWith('- ')
         ) {
 
-          return options.fn(
-            this
-          );
+          if (!inList) {
+
+            html +=
+              '<ul>';
+
+            inList =
+              true;
+
+          }
+
+
+          html +=
+            `<li>${line.substring(2)}</li>`;
+
+          return;
 
         }
 
 
-        return options.inverse(
-          this
-        );
+        /* -----------------------------------------
+           CLOSE ACTIVE LIST
+        ----------------------------------------- */
+
+        if (inList) {
+
+          html +=
+            '</ul>';
+
+          inList =
+            false;
+
+        }
+
+
+        /* -----------------------------------------
+           NUMBERED SECTION
+        ----------------------------------------- */
+
+        if (
+          /^\d+\)\s/.test(
+            line
+          )
+        ) {
+
+          html +=
+            `<p class="sasha-plan-section-line"><strong>${line}</strong></p>`;
+
+          return;
+
+        }
+
+
+        /* -----------------------------------------
+           STANDARD PARAGRAPH
+        ----------------------------------------- */
+
+        html +=
+          `<p>${line}</p>`;
 
       }
+    );
+
+
+    /* =============================================
+       CLOSE FINAL LIST
+    ============================================= */
+
+    if (inList) {
+
+      html +=
+        '</ul>';
 
     }
+
+
+    return html;
+
+  }
+
+}
 
   })
 );

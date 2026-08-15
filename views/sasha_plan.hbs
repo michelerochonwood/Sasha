@@ -550,218 +550,218 @@
 
     </div>
 
+{{!-- =================================================
+     PROPOSAL PLAN
+================================================== --}}
 
-    {{!-- =================================================
-         PROPOSAL PLAN
-    ================================================== --}}
+<section class="sasha-plan-section">
 
-    <section class="sasha-plan-section">
+  <header class="sasha-plan-section-heading">
 
-      <header class="sasha-plan-section-heading">
+    <div>
 
-        <div>
+      <p class="sasha-work-eyebrow">
+        Proposal management
+      </p>
 
-          <p class="sasha-work-eyebrow">
-            Proposal management
-          </p>
+      <h2>
+        Proposal Plan
+      </h2>
 
-          <h2>
-            Proposal Plan
-          </h2>
+    </div>
 
-        </div>
+    <p>
+      Work backwards from final production and submission,
+      assign responsibilities, and establish the milestones
+      needed for this level of effort.
+    </p>
 
-        <p>
-          Work backwards from final production and submission,
-          assign responsibilities, and establish the milestones
-          needed for this level of effort.
-        </p>
+  </header>
+
+
+  <div class="sasha-plan-output-grid">
+
+
+    {{!-- =============================================
+         SCHEDULE
+    ============================================== --}}
+
+    <article class="sasha-plan-output-card">
+
+      <header>
+
+        <span>
+          01
+        </span>
+
+        <h3>
+          Proposal Schedule
+        </h3>
 
       </header>
 
 
-      <div class="sasha-plan-output-grid">
+      {{#if plan.schedule}}
 
+        <div class="sasha-plan-rich-copy">
+          {{{formatPlanText plan.schedule}}}
+        </div>
 
-        {{!-- =============================================
-             SCHEDULE
-        ============================================== --}}
+      {{else}}
 
-        <article class="sasha-plan-output-card">
+        <p class="sasha-plan-empty">
+          Sasha has not built the proposal schedule yet.
+        </p>
 
-          <header>
+      {{/if}}
 
-            <span>
-              01
-            </span>
 
-            <h3>
-              Proposal Schedule
-            </h3>
+      <button
+        type="button"
+        class="sasha-plan-card-action"
+      >
+        Work on schedule
+      </button>
 
-          </header>
+    </article>
 
 
-          {{#if plan.schedule}}
+    {{!-- =============================================
+         RESPONSIBILITIES
+    ============================================== --}}
 
-            <div class="sasha-plan-rich-copy">
-              {{{plan.schedule}}}
-            </div>
+    <article class="sasha-plan-output-card">
 
-          {{else}}
+      <header>
 
-            <p class="sasha-plan-empty">
-              Sasha has not built the proposal schedule yet.
-            </p>
+        <span>
+          02
+        </span>
 
-          {{/if}}
+        <h3>
+          Responsibilities
+        </h3>
 
+      </header>
 
-          <button
-            type="button"
-            class="sasha-plan-card-action"
-          >
-            Work on schedule
-          </button>
 
-        </article>
+      {{#if plan.responsibilities}}
 
+        <div class="sasha-plan-rich-copy">
+          {{{formatPlanText plan.responsibilities}}}
+        </div>
 
-        {{!-- =============================================
-             RESPONSIBILITIES
-        ============================================== --}}
+      {{else}}
 
-        <article class="sasha-plan-output-card">
+        <p class="sasha-plan-empty">
+          Proposal responsibilities have not been assigned yet.
+        </p>
 
-          <header>
+      {{/if}}
 
-            <span>
-              02
-            </span>
 
-            <h3>
-              Responsibilities
-            </h3>
+      <button
+        type="button"
+        class="sasha-plan-card-action"
+      >
+        Define responsibilities
+      </button>
 
-          </header>
+    </article>
 
 
-          {{#if plan.responsibilities}}
+    {{!-- =============================================
+         MILESTONES
+    ============================================== --}}
 
-            <div class="sasha-plan-rich-copy">
-              {{{plan.responsibilities}}}
-            </div>
+    <article class="sasha-plan-output-card">
 
-          {{else}}
+      <header>
 
-            <p class="sasha-plan-empty">
-              Proposal responsibilities have not been assigned yet.
-            </p>
+        <span>
+          03
+        </span>
 
-          {{/if}}
+        <h3>
+          Milestones
+        </h3>
 
+      </header>
 
-          <button
-            type="button"
-            class="sasha-plan-card-action"
-          >
-            Define responsibilities
-          </button>
 
-        </article>
+      {{#if plan.milestones}}
 
+        <div class="sasha-plan-rich-copy">
+          {{{formatPlanText plan.milestones}}}
+        </div>
 
-        {{!-- =============================================
-             MILESTONES
-        ============================================== --}}
+      {{else}}
 
-        <article class="sasha-plan-output-card">
+        <p class="sasha-plan-empty">
+          No internal milestones have been established yet.
+        </p>
 
-          <header>
+      {{/if}}
 
-            <span>
-              03
-            </span>
 
-            <h3>
-              Milestones
-            </h3>
+      <button
+        type="button"
+        class="sasha-plan-card-action"
+      >
+        Build milestones
+      </button>
 
-          </header>
+    </article>
 
 
-          {{#if plan.milestones}}
+    {{!-- =============================================
+         PRODUCTION
+    ============================================== --}}
 
-            <div class="sasha-plan-rich-copy">
-              {{{plan.milestones}}}
-            </div>
+    <article class="sasha-plan-output-card">
 
-          {{else}}
+      <header>
 
-            <p class="sasha-plan-empty">
-              No internal milestones have been established yet.
-            </p>
+        <span>
+          04
+        </span>
 
-          {{/if}}
+        <h3>
+          Final Production
+        </h3>
 
+      </header>
 
-          <button
-            type="button"
-            class="sasha-plan-card-action"
-          >
-            Build milestones
-          </button>
 
-        </article>
+      {{#if plan.production}}
 
+        <div class="sasha-plan-rich-copy">
+          {{{formatPlanText plan.production}}}
+        </div>
 
-        {{!-- =============================================
-             PRODUCTION
-        ============================================== --}}
+      {{else}}
 
-        <article class="sasha-plan-output-card">
+        <p class="sasha-plan-empty">
+          Final production and submission activities have not
+          been scheduled yet.
+        </p>
 
-          <header>
+      {{/if}}
 
-            <span>
-              04
-            </span>
 
-            <h3>
-              Final Production
-            </h3>
+      <button
+        type="button"
+        class="sasha-plan-card-action"
+      >
+        Plan production
+      </button>
 
-          </header>
+    </article>
 
 
-          {{#if plan.production}}
+  </div>
 
-            <div class="sasha-plan-rich-copy">
-              {{{plan.production}}}
-            </div>
-
-          {{else}}
-
-            <p class="sasha-plan-empty">
-              Final production and submission activities have not
-              been scheduled yet.
-            </p>
-
-          {{/if}}
-
-
-          <button
-            type="button"
-            class="sasha-plan-card-action"
-          >
-            Plan production
-          </button>
-
-        </article>
-
-      </div>
-
-    </section>
+</section>
 
 
     {{!-- =================================================
