@@ -1080,6 +1080,194 @@ if (
   };
 
 }
+
+/* =================================================
+   APPLY PROPOSAL OUTLINE UPDATE
+================================================= */
+
+if (
+  sashaResult.action ===
+    'update_outline' &&
+  sashaResult.outline &&
+  typeof sashaResult.outline ===
+    'object'
+) {
+
+  proposal.outline = {
+
+    title:
+      sashaResult.outline.title ||
+      'Proposal Outline',
+
+    notes:
+      sashaResult.outline.notes ||
+      '',
+
+    sections:
+      Array.isArray(
+        sashaResult.outline.sections
+      )
+        ? sashaResult.outline.sections.map(
+            (
+              section,
+              index
+            ) => {
+
+              return {
+
+                order:
+                  Number.isFinite(
+                    section.order
+                  )
+                    ? section.order
+                    : index + 1,
+
+                title:
+                  section.title ||
+                  '',
+
+                description:
+                  section.description ||
+                  '',
+
+                subsections:
+                  Array.isArray(
+                    section.subsections
+                  )
+                    ? section.subsections
+                    : []
+
+              };
+
+            }
+          )
+        : []
+
+  };
+
+}
+
+/* =================================================
+   APPLY WIN STRATEGY UPDATE
+================================================= */
+
+if (
+  sashaResult.action ===
+    'update_win_strategy' &&
+  sashaResult.winStrategy &&
+  typeof sashaResult.winStrategy ===
+    'object'
+) {
+
+  proposal.winStrategy = {
+
+    clientPriorities:
+      sashaResult.winStrategy.clientPriorities ||
+      '',
+
+    relevantOffer:
+      sashaResult.winStrategy.relevantOffer ||
+      '',
+
+    projectEvidence:
+      sashaResult.winStrategy.projectEvidence ||
+      '',
+
+    personnelEvidence:
+      sashaResult.winStrategy.personnelEvidence ||
+      '',
+
+    summary:
+      sashaResult.winStrategy.summary ||
+      ''
+
+  };
+
+}
+
+/* =================================================
+   PREPARE WORK PRODUCT METADATA
+================================================= */
+
+let workProduct = {
+  type:
+    '',
+
+  updated:
+    false,
+
+  label:
+    '',
+
+  href:
+    ''
+};
+
+
+if (
+  sashaResult.action ===
+    'update_plan'
+) {
+
+  workProduct = {
+    type:
+      'plan',
+
+    updated:
+      true,
+
+    label:
+      'Proposal Plan',
+
+    href:
+      `/plan?pursuit=${proposal._id}`
+  };
+
+}
+
+
+if (
+  sashaResult.action ===
+    'update_outline'
+) {
+
+  workProduct = {
+    type:
+      'outline',
+
+    updated:
+      true,
+
+    label:
+      'Proposal Outline',
+
+    href:
+      `/plan?pursuit=${proposal._id}`
+  };
+
+}
+
+
+if (
+  sashaResult.action ===
+    'update_win_strategy'
+) {
+
+  workProduct = {
+    type:
+      'win_strategy',
+
+    updated:
+      true,
+
+    label:
+      'Win Strategy',
+
+    href:
+      `/plan?pursuit=${proposal._id}`
+  };
+
+}
 /* =================================================
    SAVE CONVERSATION
 ================================================== */
@@ -1103,19 +1291,7 @@ proposal.planMessages.push(
     content:
       sashaResponse,
 
-    workProduct: {
-      type:
-        '',
-
-      updated:
-        false,
-
-      label:
-        '',
-
-      href:
-        ''
-    },
+workProduct,
 
     createdAt:
       new Date()
@@ -1154,5 +1330,77 @@ return res.redirect(
     );
 
   }
+
+};
+
+exports.prepareOutlineForWrite = (
+  outline,
+  contentSections
+) => {
+
+  const safeOutline =
+    outline &&
+    typeof outline ===
+      'object'
+      ? outline
+      : {};
+
+  const outlineSections =
+    Array.isArray(
+      safeOutline.sections
+    )
+      ? safeOutline.sections
+      : [];
+
+  const safeContentSections =
+    Array.isArray(
+      contentSections
+    )
+      ? contentSections
+      : [];
+
+  const preparedOutlineSections =
+    outlineSections.map(
+      (
+        outlineSection
+      ) => {
+
+        const matchingContentSection =
+          safeContentSections.find(
+            (
+              contentSection
+            ) =>
+              contentSection.title ===
+                outlineSection.title
+          );
+
+        return {
+          ...outlineSection,
+
+          isWritable:
+            Boolean(
+              matchingContentSection
+            ),
+
+          sectionId:
+            matchingContentSection
+              ? matchingContentSection.sectionId
+              : '',
+
+          status:
+            matchingContentSection
+              ? matchingContentSection.status
+              : ''
+        };
+
+      }
+    );
+
+  return {
+    ...safeOutline,
+
+    sections:
+      preparedOutlineSections
+  };
 
 };

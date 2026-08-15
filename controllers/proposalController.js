@@ -9,7 +9,10 @@ const PursuitDocument = require(
 const cloudinary =
   require('../config/cloudinary');
 
-
+const planController =
+  require(
+    './planController'
+  );
 
 
 
@@ -1567,71 +1570,16 @@ async (
         : {};
 
 
-    const outline =
-      proposal.outline &&
-      typeof proposal.outline ===
-        'object'
-        ? proposal.outline
-        : {};
+/* =================================================
+   PREPARE PROPOSAL OUTLINE
+================================================= */
 
-        /* =================================================
-   PREPARE CLICKABLE OUTLINE
-================================================== */
-
-const outlineSections =
-  Array.isArray(
-    outline.sections
-  )
-    ? outline.sections
-    : [];
-
-
-const preparedOutlineSections =
-  outlineSections.map(
-    (
-      outlineSection
-    ) => {
-
-      const matchingContentSection =
-        contentSections.find(
-          (
-            contentSection
-          ) =>
-            contentSection.title ===
-              outlineSection.title
-        );
-
-
-      return {
-        ...outlineSection,
-
-        isWritable:
-          Boolean(
-            matchingContentSection
-          ),
-
-        sectionId:
-          matchingContentSection
-            ? matchingContentSection.sectionId
-            : '',
-
-        status:
-          matchingContentSection
-            ? matchingContentSection.status
-            : ''
-      };
-
-    }
+const preparedOutline =
+  planController.prepareOutlineForWrite(
+    proposal.outline,
+    contentSections
   );
-
-
-const preparedOutline = {
-  ...outline,
-
-  sections:
-    preparedOutlineSections
-};
-
+  
         /* =================================================
    PREPARE ANALYSIS CONVERSATION
 ================================================== */
