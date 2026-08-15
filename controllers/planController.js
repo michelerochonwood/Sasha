@@ -964,7 +964,7 @@ const response =
     },
 
     max_output_tokens:
-      3000
+      6000
   });
 
 
