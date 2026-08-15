@@ -4708,59 +4708,124 @@ input[type="file"]::file-selector-button:hover {
 
 
 /* =====================================================
-   ANALYSIS COPY / EMPTY STATES
+   PLAN | SAVED WORK PRODUCT COPY
 ===================================================== */
 
+.sasha-plan-rich-copy {
+  min-width: 0;
 
-.sasha-analysis-rich-copy {
   color:
-    rgba(255, 255, 255, 0.72);
+    rgba(255, 255, 255, 0.82);
 
   font-size:
-    0.86rem;
+    0.9rem;
 
   line-height:
-    1.58;
+    1.65;
+
+  white-space:
+    pre-line;
+
+  overflow-wrap:
+    anywhere;
 }
 
 
-.sasha-analysis-rich-copy p {
+/* =====================================================
+   PARAGRAPHS
+===================================================== */
+
+.sasha-plan-rich-copy p {
   margin:
+    0
+    0
+    0.9rem;
+}
+
+
+.sasha-plan-rich-copy p:last-child {
+  margin-bottom:
     0;
 }
 
 
-.sasha-analysis-rich-copy p + p {
-  margin-top:
-    0.8rem;
-}
+/* =====================================================
+   GENERATED LISTS
+===================================================== */
 
-
-.sasha-analysis-empty {
+.sasha-plan-rich-copy ul,
+.sasha-plan-rich-copy ol {
   margin:
-    0;
-
-  padding:
+    0.75rem
+    0
     1rem;
 
-  color:
-    rgba(255, 255, 255, 0.5);
+  padding-left:
+    1.35rem;
+}
 
-  background:
-    var(--sasha-white-04);
 
-  border:
-    1px dashed
-    var(--sasha-white-18);
+.sasha-plan-rich-copy li {
+  margin-bottom:
+    0.5rem;
 
-  border-radius:
-    10px;
-
-  font-size:
-    0.8rem;
+  padding-left:
+    0.15rem;
 
   line-height:
-    1.45;
+    1.55;
+}
+
+
+.sasha-plan-rich-copy li:last-child {
+  margin-bottom:
+    0;
+}
+
+
+/* =====================================================
+   EMPHASIS
+===================================================== */
+
+.sasha-plan-rich-copy strong {
+  color:
+    var(--sasha-white);
+
+  font-weight:
+    750;
+}
+
+
+/* =====================================================
+   LINKS
+===================================================== */
+
+.sasha-plan-rich-copy a {
+  color:
+    var(--sasha-pink);
+
+  font-weight:
+    700;
+
+  text-decoration:
+    none;
+}
+
+
+.sasha-plan-rich-copy a:hover {
+  color:
+    var(--sasha-white);
+}
+
+
+/* =====================================================
+   WORK PRODUCT CARD SPACING
+===================================================== */
+
+.sasha-plan-output-card
+.sasha-plan-rich-copy {
+  margin-bottom:
+    1.5rem;
 }
 
 
