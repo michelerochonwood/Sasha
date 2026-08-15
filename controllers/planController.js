@@ -1037,6 +1037,37 @@ console.log(
 
 
 /* =================================================
+   APPLY PROPOSAL PLAN UPDATE
+================================================= */
+
+if (
+  sashaResult.action ===
+    'update_plan' &&
+  sashaResult.plan &&
+  typeof sashaResult.plan ===
+    'object'
+) {
+
+  proposal.plan = {
+    schedule:
+      sashaResult.plan.schedule ||
+      '',
+
+    responsibilities:
+      sashaResult.plan.responsibilities ||
+      '',
+
+    milestones:
+      sashaResult.plan.milestones ||
+      '',
+
+    production:
+      sashaResult.plan.production ||
+      ''
+  };
+
+}
+/* =================================================
    SAVE CONVERSATION
 ================================================== */
 
