@@ -6,6 +6,10 @@ const ensureOrganization = require(
   '../../middleware/ensureOrganization'
 );
 
+const instructionResourceUpload = require(
+  '../../middleware/instructionResourceUpload'
+);
+
 const planController = require(
   '../../controllers/planController'
 );
@@ -31,6 +35,8 @@ const instructionController = require(
 const pursuitDocumentUpload = require(
   '../../middleware/pursuitDocumentUpload'
 );
+
+
 
 const openaiController = require(
   '../../controllers/openaiController'
@@ -134,6 +140,18 @@ router.get(
   '/analyze',
   ensureOrganization,
   analyzeController.getAnalyzePursuit
+);
+
+/* =====================================================
+   SAVE INSTRUCTION RESOURCE
+===================================================== */
+
+router.post(
+  '/add_instructions',
+  ensureOrganization,
+  instructionResourceUpload,
+  verifyCsrfToken,
+  instructionController.postAddInstructions
 );
 
 /* =====================================================
@@ -249,15 +267,7 @@ router.post(
 );
 
 
-/* =====================================================
-SASHA INSTRUCTIONS
-===================================================== */
 
-router.get(
-  '/add_instructions',
-  ensureOrganization,
-  instructionController.getAddInstructions
-);
 
 
 /* =====================================================
@@ -267,6 +277,8 @@ ANALYZE INSTRUCTION RESOURCE
 router.post(
   '/add_instructions/analyze',
   ensureOrganization,
+  instructionResourceUpload,
+  verifyCsrfToken,
   instructionController.analyzeInstruction
 );
 

@@ -1,0 +1,1259 @@
+/* =====================================================
+   SASHA INSTRUCTION / RESOURCE FORM
+   Complete page stylesheet for add_instructions
+===================================================== */
+
+.sasha-form-page {
+  min-height: 100vh;
+  padding:
+    clamp(3.5rem, 7vw, 6rem)
+    clamp(1rem, 4vw, 3rem)
+    clamp(5rem, 8vw, 7rem);
+
+  background:
+    radial-gradient(
+      circle at 85% 8%,
+      rgba(255, 255, 255, 0.10),
+      transparent 30rem
+    ),
+    var(--sasha-purple, #4f50a2);
+
+  color: #fff;
+}
+
+
+.sasha-form-container {
+  width: min(100%, 74rem);
+  margin: 0 auto;
+}
+
+
+/* =====================================================
+   PAGE HEADER
+===================================================== */
+
+.sasha-form-header {
+  max-width: 54rem;
+  margin-bottom: clamp(2rem, 5vw, 3.5rem);
+}
+
+
+.sasha-form-eyebrow {
+  margin: 0 0 0.65rem;
+
+  color: var(--sasha-pink, #f49ac1);
+
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+
+.sasha-form-header h1 {
+  margin: 0;
+
+  color: #fff;
+
+  font-size: clamp(2.35rem, 5vw, 4.4rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.04;
+}
+
+
+.sasha-form-intro {
+  max-width: 50rem;
+
+  margin: 1.25rem 0 0;
+
+  color: rgba(255, 255, 255, 0.84);
+
+  font-size: clamp(1rem, 1.5vw, 1.15rem);
+  line-height: 1.75;
+}
+
+
+/* =====================================================
+   MAIN FORM
+===================================================== */
+
+.sasha-instruction-form {
+  margin-top: clamp(2rem, 4vw, 3rem);
+}
+
+
+/* =====================================================
+   SERVER MESSAGES
+===================================================== */
+
+.sasha-form-message {
+  margin: 1.5rem 0;
+  padding: 1rem 1.2rem;
+
+  border-radius: 1rem;
+
+  line-height: 1.55;
+}
+
+
+.sasha-form-message-error {
+  border: 1px solid rgba(255, 168, 180, 0.75);
+
+  background: rgba(116, 22, 45, 0.3);
+
+  color: #fff;
+}
+
+
+.sasha-form-message-success {
+  border: 1px solid rgba(173, 239, 208, 0.75);
+
+  background: rgba(20, 99, 75, 0.3);
+
+  color: #fff;
+}
+
+
+/* =====================================================
+   UPLOAD SECTION
+===================================================== */
+
+.sasha-instruction-upload {
+  overflow: hidden;
+
+  margin-bottom: 2rem;
+
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 1.75rem;
+
+  background: rgba(255, 255, 255, 0.08);
+
+  box-shadow:
+    0 1.5rem 3rem rgba(29, 19, 76, 0.16);
+}
+
+
+.sasha-instruction-upload-header {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 2rem;
+
+  padding: 2rem 2.25rem;
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+
+.sasha-instruction-upload-header > div {
+  max-width: 48rem;
+}
+
+
+.sasha-instruction-upload-header h2 {
+  margin: 0.35rem 0 0;
+
+  color: #fff;
+
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  line-height: 1.2;
+}
+
+
+.sasha-instruction-upload-header p:not(.sasha-form-eyebrow) {
+  margin: 0.75rem 0 0;
+
+  color: rgba(255, 255, 255, 0.78);
+
+  line-height: 1.65;
+}
+
+
+.sasha-instruction-upload-content {
+  padding: 2rem 2.25rem 2.25rem;
+}
+
+
+/* =====================================================
+   FIELD LAYOUT
+===================================================== */
+
+.sasha-form-grid {
+  display: grid;
+
+  gap:
+    1.4rem
+    1.5rem;
+
+  min-width: 0;
+}
+
+
+.sasha-form-grid-two {
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+}
+
+
+.sasha-form-field {
+  min-width: 0;
+}
+
+
+.sasha-form-field-wide {
+  grid-column: 1 / -1;
+}
+
+
+.sasha-form-field label,
+.sasha-form-choice-group legend {
+  display: block;
+
+  margin: 0 0 0.55rem;
+
+  color: #fff;
+
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+
+.sasha-form-required {
+  color: var(--sasha-pink, #f49ac1);
+}
+
+
+.sasha-form-optional {
+  margin-left: 0.35rem;
+
+  color: rgba(255, 255, 255, 0.55);
+
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+
+/* =====================================================
+   INPUTS
+===================================================== */
+
+.sasha-instruction-form input[type="text"],
+.sasha-instruction-form input[type="date"],
+.sasha-instruction-form input[type="file"],
+.sasha-instruction-form select,
+.sasha-instruction-form textarea {
+  width: 100%;
+
+  box-sizing: border-box;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.24);
+
+  border-radius: 0.9rem;
+
+  background: rgba(255, 255, 255, 0.96);
+
+  color: var(--sasha-purple-dark, #343575);
+
+  font: inherit;
+
+  outline: none;
+
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    background-color 160ms ease;
+}
+
+
+.sasha-instruction-form input[type="text"],
+.sasha-instruction-form input[type="date"],
+.sasha-instruction-form select {
+  min-height: 3.25rem;
+
+  padding:
+    0.78rem
+    0.95rem;
+}
+
+
+.sasha-instruction-form textarea {
+  min-height: 8rem;
+
+  padding:
+    0.9rem
+    0.95rem;
+
+  line-height: 1.55;
+
+  resize: vertical;
+}
+
+
+.sasha-instruction-form input::placeholder,
+.sasha-instruction-form textarea::placeholder {
+  color: rgba(52, 53, 117, 0.52);
+
+  opacity: 1;
+}
+
+
+.sasha-instruction-form input:focus,
+.sasha-instruction-form select:focus,
+.sasha-instruction-form textarea:focus {
+  border-color: var(--sasha-pink, #f49ac1);
+
+  background: #fff;
+
+  box-shadow:
+    0 0 0 3px
+    rgba(244, 154, 193, 0.18);
+}
+
+
+.sasha-instruction-form select:required:invalid {
+  color: rgba(52, 53, 117, 0.52);
+}
+
+
+.sasha-instruction-form select option {
+  background: #fff;
+
+  color: var(--sasha-purple-dark, #343575);
+}
+
+
+/* =====================================================
+   FILE INPUT
+===================================================== */
+
+.sasha-instruction-form input[type="file"] {
+  min-height: 64px;
+
+  padding: 0.55rem;
+
+  color: var(--sasha-purple-dark, #343575);
+}
+
+
+.sasha-instruction-form
+input[type="file"]::file-selector-button {
+  min-height: 2.75rem;
+
+  margin-right: 0.8rem;
+
+  padding:
+    0.7rem
+    1rem;
+
+  border: 0;
+  border-radius: 999px;
+
+  background: rgba(79, 80, 162, 0.10);
+
+  color: var(--sasha-purple-dark, #343575);
+
+  font: inherit;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+
+/* =====================================================
+   FIELD HELP
+===================================================== */
+
+.sasha-form-help {
+  margin: 0.5rem 0 0;
+
+  color: rgba(255, 255, 255, 0.67);
+
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+
+/* =====================================================
+   ASK SASHA TO PREPARE FORM
+===================================================== */
+
+.sasha-instruction-ai-action {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 1.5rem;
+
+  margin-top: 1.5rem;
+  padding: 1.25rem 1.4rem;
+
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 1.15rem;
+
+  background: rgba(255, 255, 255, 0.07);
+}
+
+
+.sasha-instruction-ai-action strong {
+  display: block;
+
+  margin-bottom: 0.35rem;
+
+  color: #fff;
+}
+
+
+.sasha-instruction-ai-action p {
+  max-width: 46rem;
+
+  margin: 0;
+
+  color: rgba(255, 255, 255, 0.78);
+
+  line-height: 1.6;
+}
+
+
+.sasha-instruction-analyze-button {
+  display: inline-flex;
+
+  min-height: 3.25rem;
+
+  align-items: center;
+  justify-content: center;
+
+  flex: 0 0 auto;
+
+  gap: 0.65rem;
+
+  padding:
+    0.85rem
+    1.4rem;
+
+  border: 0;
+  border-radius: 999px;
+
+  background: var(--sasha-pink, #f49ac1);
+
+  color: var(--sasha-purple-dark, #343575);
+
+  font: inherit;
+  font-weight: 800;
+  line-height: 1;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 0.8rem 1.8rem
+    rgba(39, 25, 98, 0.18);
+
+  transition:
+    transform 160ms ease,
+    box-shadow 160ms ease,
+    background-color 160ms ease,
+    opacity 160ms ease;
+}
+
+
+.sasha-instruction-analyze-button:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 1rem 2rem
+    rgba(39, 25, 98, 0.24);
+}
+
+
+.sasha-instruction-analyze-button:focus-visible {
+  outline: 3px solid rgba(255, 255, 255, 0.9);
+  outline-offset: 4px;
+}
+
+
+.sasha-instruction-analyze-button:disabled {
+  opacity: 0.65;
+
+  cursor: wait;
+
+  transform: none;
+}
+
+
+/* =====================================================
+   ANALYSIS STATUS
+===================================================== */
+
+.sasha-instruction-analysis-status,
+.sasha-instruction-analysis-error,
+.sasha-instruction-analysis-success {
+  margin: 1rem 0 2rem;
+
+  border-radius: 0.9rem;
+
+  line-height: 1.55;
+}
+
+
+.sasha-instruction-analysis-status[hidden],
+.sasha-instruction-analysis-error[hidden],
+.sasha-instruction-analysis-success[hidden] {
+  display: none;
+}
+
+
+.sasha-instruction-analysis-status {
+  display: flex;
+
+  width: 100%;
+
+  box-sizing: border-box;
+
+  align-items: center;
+  justify-content: center;
+
+  padding:
+    1.25rem
+    1rem;
+
+  border: 1px solid rgba(255, 255, 255, 0.18);
+
+  background: rgba(255, 255, 255, 0.06);
+
+  text-align: center;
+}
+
+
+.sasha-instruction-analysis-status p {
+  margin: 0;
+
+  color: rgba(255, 255, 255, 0.82);
+
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+
+.sasha-instruction-analysis-error {
+  padding:
+    0.95rem
+    1.15rem;
+
+  border:
+    1px solid
+    rgba(255, 168, 180, 0.75);
+
+  background:
+    rgba(116, 22, 45, 0.3);
+
+  color: #fff;
+}
+
+
+.sasha-instruction-analysis-error p,
+.sasha-instruction-analysis-success p {
+  margin: 0;
+}
+
+
+.sasha-instruction-analysis-success {
+  padding:
+    0.95rem
+    1.15rem;
+
+  border:
+    1px solid
+    rgba(173, 239, 208, 0.75);
+
+  background:
+    rgba(20, 99, 75, 0.3);
+
+  color: #fff;
+}
+
+
+.sasha-instruction-analysis-success strong {
+  display: block;
+
+  margin-bottom: 0.25rem;
+}
+
+
+/* =====================================================
+   COLLAPSIBLE FORM SECTIONS
+===================================================== */
+
+.sasha-form-section {
+  overflow: hidden;
+
+  margin-top: 1.5rem;
+
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 1.5rem;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.085),
+      rgba(255, 255, 255, 0.045)
+    );
+
+  box-shadow:
+    0 1.1rem 2.5rem
+    rgba(29, 19, 76, 0.12);
+}
+
+
+.sasha-form-section summary {
+  position: relative;
+
+  padding:
+    1.4rem
+    3.5rem
+    1.4rem
+    1.6rem;
+
+  color: #fff;
+
+  font-size: clamp(1.15rem, 2vw, 1.4rem);
+  font-weight: 800;
+  line-height: 1.25;
+
+  cursor: pointer;
+
+  list-style: none;
+}
+
+
+.sasha-form-section summary::-webkit-details-marker {
+  display: none;
+}
+
+
+.sasha-form-section summary::after {
+  content: "+";
+
+  position: absolute;
+
+  top: 50%;
+  right: 1.6rem;
+
+  transform: translateY(-50%);
+
+  color: var(--sasha-pink, #f49ac1);
+
+  font-size: 1.6rem;
+  font-weight: 500;
+  line-height: 1;
+}
+
+
+.sasha-form-section[open] summary::after {
+  content: "−";
+}
+
+
+.sasha-form-section[open] summary {
+  border-bottom:
+    1px solid
+    rgba(255, 255, 255, 0.14);
+}
+
+
+.sasha-form-section summary:focus-visible {
+  outline: 3px solid var(--sasha-pink, #f49ac1);
+  outline-offset: -3px;
+}
+
+
+.sasha-form-section-content {
+  padding:
+    1.75rem
+    1.75rem
+    2rem;
+}
+
+
+.sasha-form-section-intro {
+  max-width: 52rem;
+
+  margin:
+    0
+    0
+    1.5rem;
+
+  color: rgba(255, 255, 255, 0.74);
+
+  line-height: 1.65;
+}
+
+
+/* =====================================================
+   RADIO CHOICE GROUP
+===================================================== */
+
+.sasha-form-choice-group {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 1rem;
+
+  min-width: 0;
+
+  margin:
+    0
+    0
+    clamp(2rem, 4vw, 3rem);
+
+  padding: 0;
+
+  border: 0;
+}
+
+
+.sasha-form-choice-group legend {
+  grid-column: 1 / -1;
+
+  width: 100%;
+
+  margin:
+    0
+    0
+    0.25rem;
+
+  padding: 0;
+}
+
+
+/* =====================================================
+   RADIO CHOICE CARD
+===================================================== */
+
+.sasha-form-choice-card {
+  position: relative;
+
+  display: grid;
+
+  grid-template-columns:
+    22px
+    minmax(0, 1fr);
+
+  align-items: start;
+
+  gap: 0.9rem;
+
+  min-width: 0;
+
+  padding: 1.25rem;
+
+  color: #fff;
+
+  background: rgba(255, 255, 255, 0.04);
+
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 18px;
+
+  cursor: pointer;
+
+  transition:
+    transform 180ms ease,
+    background-color 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+
+.sasha-form-choice-card:hover {
+  transform: translateY(-2px);
+
+  background: rgba(255, 255, 255, 0.08);
+
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+
+.sasha-form-choice-card:has(
+  input:checked
+) {
+  background:
+    rgba(244, 154, 193, 0.10);
+
+  border-color:
+    var(--sasha-pink, #f49ac1);
+
+  box-shadow:
+    0 0 0 3px
+    rgba(244, 154, 193, 0.12);
+}
+
+
+.sasha-form-choice-card:has(
+  input:focus-visible
+) {
+  outline:
+    3px solid
+    var(--sasha-pink, #f49ac1);
+
+  outline-offset: 3px;
+}
+
+
+/* =====================================================
+   RADIO CONTROL
+===================================================== */
+
+.sasha-form-choice-card
+input[type="radio"] {
+  appearance: none;
+  -webkit-appearance: none;
+
+  display: grid;
+
+  width: 20px;
+  height: 20px;
+
+  place-content: center;
+
+  margin:
+    0.15rem
+    0
+    0;
+
+  background:
+    rgba(52, 53, 117, 0.72);
+
+  border:
+    2px solid
+    rgba(255, 255, 255, 0.4);
+
+  border-radius: 50%;
+
+  cursor: pointer;
+
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease;
+}
+
+
+.sasha-form-choice-card
+input[type="radio"]::before {
+  content: "";
+
+  width: 8px;
+  height: 8px;
+
+  background:
+    var(--sasha-pink, #f49ac1);
+
+  border-radius: 50%;
+
+  transform: scale(0);
+
+  transition:
+    transform 150ms ease;
+}
+
+
+.sasha-form-choice-card
+input[type="radio"]:checked {
+  border-color:
+    var(--sasha-pink, #f49ac1);
+}
+
+
+.sasha-form-choice-card
+input[type="radio"]:checked::before {
+  transform: scale(1);
+}
+
+
+/* =====================================================
+   CHOICE CARD COPY
+===================================================== */
+
+.sasha-form-choice-copy {
+  display: block;
+
+  min-width: 0;
+}
+
+
+.sasha-form-choice-copy strong {
+  display: block;
+
+  margin-bottom: 0.45rem;
+
+  color: #fff;
+
+  font-size: 0.96rem;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+
+.sasha-form-choice-copy > span {
+  display: block;
+
+  color: rgba(255, 255, 255, 0.72);
+
+  font-size: 0.86rem;
+  font-weight: 400;
+  line-height: 1.48;
+}
+
+
+/* =====================================================
+   SASHA-SUGGESTED FORM VALUES
+===================================================== */
+
+.sasha-instruction-form
+input.is-sasha-suggested,
+.sasha-instruction-form
+select.is-sasha-suggested,
+.sasha-instruction-form
+textarea.is-sasha-suggested {
+  border-color:
+    var(--sasha-pink, #f49ac1);
+
+  background:
+    linear-gradient(
+      0deg,
+      rgba(244, 154, 193, 0.08),
+      rgba(244, 154, 193, 0.08)
+    ),
+    #fff;
+
+  color:
+    var(--sasha-purple-dark, #343575);
+
+  caret-color:
+    var(--sasha-purple-dark, #343575);
+
+  box-shadow:
+    0 0 0 3px
+    rgba(244, 154, 193, 0.16);
+}
+
+
+.sasha-instruction-form
+input.is-sasha-suggested::placeholder,
+.sasha-instruction-form
+textarea.is-sasha-suggested::placeholder {
+  color:
+    rgba(52, 53, 117, 0.6);
+
+  opacity: 1;
+}
+
+
+.sasha-instruction-form
+select.is-sasha-suggested option {
+  background: #fff;
+
+  color:
+    var(--sasha-purple-dark, #343575);
+}
+
+
+.sasha-form-choice-card.is-sasha-suggested {
+  border-color:
+    var(--sasha-pink, #f49ac1);
+
+  background:
+    rgba(244, 154, 193, 0.14);
+
+  box-shadow:
+    0 0 0 3px
+    rgba(244, 154, 193, 0.12);
+}
+
+
+/* =====================================================
+   FORM ACTIONS
+===================================================== */
+
+.sasha-form-actions {
+  display: flex;
+
+  align-items: center;
+  justify-content: flex-end;
+
+  flex-wrap: wrap;
+
+  gap: 0.85rem;
+
+  margin-top: 2rem;
+}
+
+
+.sasha-form-cancel-button,
+.sasha-form-submit-button {
+  display: inline-flex;
+
+  min-height: 3.25rem;
+
+  box-sizing: border-box;
+
+  align-items: center;
+  justify-content: center;
+
+  padding:
+    0.85rem
+    1.35rem;
+
+  border: 1px solid transparent;
+  border-radius: 999px;
+
+  font: inherit;
+  font-weight: 800;
+  line-height: 1.2;
+  text-align: center;
+  text-decoration: none;
+
+  cursor: pointer;
+
+  transition:
+    transform 160ms ease,
+    background-color 160ms ease,
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+
+.sasha-form-submit-button {
+  background:
+    var(--sasha-pink, #f49ac1);
+
+  color:
+    var(--sasha-purple-dark, #343575);
+
+  box-shadow:
+    0 0.8rem 1.8rem
+    rgba(31, 20, 78, 0.22);
+}
+
+
+.sasha-form-cancel-button {
+  border-color:
+    rgba(255, 255, 255, 0.5);
+
+  background:
+    rgba(255, 255, 255, 0.08);
+
+  color: #fff;
+}
+
+
+.sasha-form-submit-button:hover,
+.sasha-form-cancel-button:hover {
+  transform: translateY(-2px);
+}
+
+
+.sasha-form-submit-button:hover {
+  box-shadow:
+    0 1rem 2rem
+    rgba(31, 20, 78, 0.28);
+}
+
+
+.sasha-form-cancel-button:hover {
+  border-color: #fff;
+
+  background:
+    rgba(255, 255, 255, 0.15);
+}
+
+
+.sasha-form-submit-button:focus-visible,
+.sasha-form-cancel-button:focus-visible {
+  outline:
+    3px solid
+    rgba(255, 255, 255, 0.9);
+
+  outline-offset: 4px;
+}
+
+
+/* =====================================================
+   TABLET
+===================================================== */
+
+@media screen and (max-width: 900px) {
+
+  .sasha-form-choice-group {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media screen and (max-width: 760px) {
+
+  .sasha-form-grid-two {
+    grid-template-columns: 1fr;
+  }
+
+
+  .sasha-form-field-wide {
+    grid-column: auto;
+  }
+
+
+  .sasha-instruction-upload-header {
+    align-items: flex-start;
+
+    padding: 1.5rem;
+  }
+
+
+  .sasha-instruction-upload-content {
+    padding: 1.5rem;
+  }
+
+
+  .sasha-instruction-ai-action {
+    align-items: stretch;
+
+    flex-direction: column;
+  }
+
+
+  .sasha-instruction-analyze-button {
+    width: 100%;
+  }
+
+
+  .sasha-form-section-content {
+    padding:
+      1.5rem
+      1.35rem
+      1.75rem;
+  }
+
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media screen and (max-width: 520px) {
+
+  .sasha-form-page {
+    padding:
+      3rem
+      1rem
+      4rem;
+  }
+
+
+  .sasha-instruction-upload {
+    border-radius: 1.25rem;
+  }
+
+
+  .sasha-instruction-upload-header {
+    gap: 1rem;
+
+    padding: 1.25rem;
+  }
+
+
+  .sasha-instruction-upload-content {
+    padding: 1.25rem;
+  }
+
+
+  .sasha-form-section {
+    border-radius: 1.15rem;
+  }
+
+
+  .sasha-form-section summary {
+    padding:
+      1.25rem
+      3.25rem
+      1.25rem
+      1.25rem;
+  }
+
+
+  .sasha-form-section summary::after {
+    right: 1.25rem;
+  }
+
+
+  .sasha-form-choice-card {
+    grid-template-columns:
+      20px
+      minmax(0, 1fr);
+
+    gap: 0.75rem;
+
+    padding: 1rem;
+
+    border-radius: 14px;
+  }
+
+
+  .sasha-form-choice-card
+  input[type="radio"] {
+    width: 18px;
+    height: 18px;
+  }
+
+
+  .sasha-form-actions {
+    align-items: stretch;
+
+    flex-direction: column-reverse;
+  }
+
+
+  .sasha-form-cancel-button,
+  .sasha-form-submit-button {
+    width: 100%;
+  }
+
+}
+
+
+/* =====================================================
+   REDUCED MOTION
+===================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .sasha-form-choice-card,
+  .sasha-form-choice-card
+  input[type="radio"],
+  .sasha-form-choice-card
+  input[type="radio"]::before,
+  .sasha-instruction-analyze-button,
+  .sasha-form-cancel-button,
+  .sasha-form-submit-button,
+  .sasha-instruction-form input,
+  .sasha-instruction-form select,
+  .sasha-instruction-form textarea {
+    transition: none;
+  }
+
+}
