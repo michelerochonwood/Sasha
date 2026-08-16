@@ -15,7 +15,12 @@ exports.getAddInstructions =
         'mainlayout',
 
       pageTitle:
-        'Add Instructions | Sasha'
+        'Add Instructions | Sasha',
+
+      csrfToken:
+        req.csrfToken
+          ? req.csrfToken()
+          : null
     }
   );
 
