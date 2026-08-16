@@ -152,7 +152,6 @@ router.post(
   '/add_instructions/analyze',
   ensureOrganization,
   instructionResourceUpload,
-  verifyCsrfToken,
   instructionController.analyzeInstruction
 );
 
