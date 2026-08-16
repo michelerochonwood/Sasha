@@ -142,6 +142,20 @@ router.get(
   analyzeController.getAnalyzePursuit
 );
 
+
+
+/* =====================================================
+ANALYZE INSTRUCTION RESOURCE
+===================================================== */
+
+router.post(
+  '/add_instructions/analyze',
+  ensureOrganization,
+  instructionResourceUpload,
+  verifyCsrfToken,
+  instructionController.analyzeInstruction
+);
+
 /* =====================================================
    SAVE INSTRUCTION RESOURCE
 ===================================================== */
@@ -152,6 +166,14 @@ router.post(
   instructionResourceUpload,
   verifyCsrfToken,
   instructionController.postAddInstructions
+);
+
+
+
+router.get(
+  '/add_instructions',
+  ensureOrganization,
+  instructionController.getAddInstructions
 );
 
 /* =====================================================
@@ -270,28 +292,7 @@ router.post(
 
 
 
-/* =====================================================
-ANALYZE INSTRUCTION RESOURCE
-===================================================== */
 
-router.post(
-  '/add_instructions/analyze',
-  ensureOrganization,
-  instructionResourceUpload,
-  verifyCsrfToken,
-  instructionController.analyzeInstruction
-);
-
-
-/* =====================================================
-SAVE INSTRUCTION RESOURCE
-===================================================== */
-
-router.post(
-  '/add_instructions',
-  ensureOrganization,
-  instructionController.postAddInstructions
-);
 
 
 /* =====================================================
