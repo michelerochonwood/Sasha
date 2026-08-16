@@ -163,7 +163,6 @@ router.post(
   '/add_instructions',
   ensureOrganization,
   instructionResourceUpload,
-  verifyCsrfToken,
   instructionController.postAddInstructions
 );
 
