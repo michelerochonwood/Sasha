@@ -468,10 +468,10 @@ async (
     }
 
 
-    const client =
-      sashaAiService.createClient(
-        process.env.OPENAI_API_KEY
-      );
+const client =
+  sashaAiService.createClient(
+    process.env.SASHA_OPENAI_API_KEY
+  );
 
 
     const openAiFiles =
@@ -534,6 +534,43 @@ async (
 
 
     try {
+
+      console.log(
+  'INSTRUCTION ANALYSIS REQUEST RECEIVED'
+);
+
+console.log(
+  'ORGANIZATION:',
+  req.session.organizationId
+);
+
+console.log(
+  'FILES:',
+  Array.isArray(req.files)
+    ? req.files.map(
+        (file) => ({
+          name:
+            file.originalname,
+
+          type:
+            file.mimetype,
+
+          size:
+            file.size,
+
+          hasBuffer:
+            Boolean(file.buffer)
+        })
+      )
+    : req.files
+);
+
+console.log(
+  'OPENAI KEY AVAILABLE:',
+  Boolean(
+    process.env.SASHA_OPENAI_API_KEY
+  )
+);
 
       suggestions =
         JSON.parse(
@@ -1141,10 +1178,10 @@ async (
     }
 
 
-    const client =
-      sashaAiService.createClient(
-        process.env.OPENAI_API_KEY
-      );
+const client =
+  sashaAiService.createClient(
+    process.env.SASHA_OPENAI_API_KEY
+  );
 
 
     const vectorStoreId =
