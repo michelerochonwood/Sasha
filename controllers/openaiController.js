@@ -394,10 +394,10 @@ pursuit-record fields.
        SEND TO OPENAI
     ================================================== */
 
-    const client =
-      sashaAiService.createClient(
-        process.env.OPENAI_API_KEY
-      );
+const client =
+  sashaAiService.createClient(
+    process.env.SASHA_OPENAI_API_KEY
+  );
 
 
     const response =

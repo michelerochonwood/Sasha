@@ -14,7 +14,7 @@ function createClient(
   if (!apiKey) {
 
     throw new Error(
-      'OPENAI_API_KEY is not configured.'
+      'An OpenAI API key was not provided.'
     );
 
   }

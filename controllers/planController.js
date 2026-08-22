@@ -2,16 +2,11 @@ const Proposal = require(
   '../models/proposal'
 );
 
-const OpenAI = require(
-  'openai'
+
+const sashaAiService = require(
+  '../services/sashaAiService'
 );
 
-
-const openai =
-  new OpenAI({
-    apiKey:
-      process.env.OPENAI_API_KEY
-  });
 
 
 /* =====================================================
@@ -583,6 +578,8 @@ console.log(
 );
 
 
+
+
 /* =================================================
    SASHA PLAN INSTRUCTIONS
 ================================================== */
@@ -702,10 +699,19 @@ ${JSON.stringify(
 )}
 `;
 
+/* =================================================
+   CREATE OPENAI CLIENT
+================================================= */
+
+const openai =
+  sashaAiService.createClient(
+    process.env.SASHA_OPENAI_API_KEY
+  );
+
 
 /* =================================================
    SEND REQUEST TO OPENAI
-================================================== */
+================================================= */
 
 console.log(
   'SASHA PLAN CHAT SENDING TO OPENAI'
@@ -714,6 +720,7 @@ console.log(
 
 const response =
   await openai.responses.create({
+
     model:
       'gpt-5-mini',
 

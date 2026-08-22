@@ -2,16 +2,9 @@ const Proposal = require(
   '../models/proposal'
 );
 
-const OpenAI = require(
-  'openai'
+const sashaAiService = require(
+  '../services/sashaAiService'
 );
-
-
-const openai =
-  new OpenAI({
-    apiKey:
-      process.env.OPENAI_API_KEY
-  });
 
 
 /* =====================================================
@@ -723,7 +716,11 @@ ${JSON.stringify(
       }
     );
 
-
+const openai =
+  sashaAiService.createClient(
+    process.env.SASHA_OPENAI_API_KEY
+  );
+  
     /* =================================================
        SEND REQUEST TO OPENAI
     ================================================== */
