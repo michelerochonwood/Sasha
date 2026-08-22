@@ -470,7 +470,7 @@ async (
 
 const client =
   sashaAiService.createClient(
-    process.env.SASHA_OPENAI_API_KEY
+    process.env.OPENAI_API_KEY
   );
 
 
@@ -568,7 +568,7 @@ console.log(
 console.log(
   'OPENAI KEY AVAILABLE:',
   Boolean(
-    process.env.SASHA_OPENAI_API_KEY
+    process.env.OPENAI_API_KEY
   )
 );
 
@@ -1180,7 +1180,7 @@ async (
 
 const client =
   sashaAiService.createClient(
-    process.env.SASHA_OPENAI_API_KEY
+    process.env.OPENAI_API_KEY
   );
 
 

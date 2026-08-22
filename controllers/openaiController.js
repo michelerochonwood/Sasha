@@ -396,7 +396,7 @@ pursuit-record fields.
 
 const client =
   sashaAiService.createClient(
-    process.env.SASHA_OPENAI_API_KEY
+    process.env.OPENAI_API_KEY
   );
 
 

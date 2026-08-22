@@ -705,7 +705,7 @@ ${JSON.stringify(
 
 const openai =
   sashaAiService.createClient(
-    process.env.SASHA_OPENAI_API_KEY
+    process.env.OPENAI_API_KEY
   );
 
 
