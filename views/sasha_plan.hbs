@@ -107,7 +107,404 @@
 
     </header>
 
+{{!-- =================================================
+     PENDING DEADLINE CHANGE
+================================================== --}}
 
+{{#if deadlineChangeImpact}}
+
+  <section class="sasha-plan-change-impact">
+
+    <div>
+
+      <p class="sasha-work-eyebrow">
+        RFP Change
+      </p>
+
+      <h2>
+        Submission deadline changed
+      </h2>
+
+
+      {{#if deadlineChangeImpact.summary}}
+
+        <p>
+          {{deadlineChangeImpact.summary}}
+        </p>
+
+      {{else}}
+
+        <p>
+          The client has changed the submission deadline.
+          Your existing proposal plan may need to be revised.
+        </p>
+
+      {{/if}}
+
+    </div>
+
+
+    <div class="sasha-plan-change-impact-action">
+
+      <span>
+        Plan review required
+      </span>
+
+<form
+  method="POST"
+  action="/plan/change-impact/{{deadlineChangeImpact._id}}/review"
+>
+
+  {{#if csrfToken}}
+
+    <input
+      type="hidden"
+      name="_csrf"
+      value="{{csrfToken}}"
+    >
+
+  {{/if}}
+
+
+  <input
+    type="hidden"
+    name="pursuitId"
+    value="{{proposal._id}}"
+  >
+
+
+  <button
+    type="submit"
+    class="sasha-plan-card-action"
+  >
+    Review proposed changes
+  </button>
+
+</form>
+
+    </div>
+
+  </section>
+
+  {{!-- ===============================================
+     PROPOSED PLAN CHANGES
+=============================================== --}}
+
+{{#if deadlineChangeImpact.proposedChanges.generatedAt}}
+
+  <section class="sasha-plan-change-review">
+
+    <header class="sasha-plan-change-review-heading">
+
+      <div>
+
+        <p class="sasha-work-eyebrow">
+          Sasha's Recommendation
+        </p>
+
+        <h2>
+          Proposed Plan Changes
+        </h2>
+
+      </div>
+
+      <p>
+        Review these changes before applying them to the proposal plan.
+        Nothing below has been applied yet.
+      </p>
+
+    </header>
+
+
+    {{!-- =============================================
+         SCHEDULE
+    ============================================== --}}
+
+    {{#if deadlineChangeImpact.proposedChanges.schedule}}
+
+      <div class="sasha-plan-change-review-item">
+
+        <h3>
+          Proposal Schedule
+        </h3>
+
+        <div class="sasha-plan-change-comparison">
+
+          <div>
+
+            <span class="sasha-plan-change-label">
+              Current
+            </span>
+
+            {{#if plan.schedule}}
+
+              <div class="sasha-plan-rich-copy">
+                {{{formatPlanText plan.schedule}}}
+              </div>
+
+            {{else}}
+
+              <p class="sasha-plan-empty">
+                No existing proposal schedule.
+              </p>
+
+            {{/if}}
+
+          </div>
+
+
+          <div>
+
+            <span class="sasha-plan-change-label">
+              Proposed
+            </span>
+
+            <div class="sasha-plan-rich-copy">
+              {{{formatPlanText deadlineChangeImpact.proposedChanges.schedule}}}
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    {{/if}}
+
+
+    {{!-- =============================================
+         MILESTONES
+    ============================================== --}}
+
+    {{#if deadlineChangeImpact.proposedChanges.milestones}}
+
+      <div class="sasha-plan-change-review-item">
+
+        <h3>
+          Milestones
+        </h3>
+
+        <div class="sasha-plan-change-comparison">
+
+          <div>
+
+            <span class="sasha-plan-change-label">
+              Current
+            </span>
+
+            {{#if plan.milestones}}
+
+              <div class="sasha-plan-rich-copy">
+                {{{formatPlanText plan.milestones}}}
+              </div>
+
+            {{else}}
+
+              <p class="sasha-plan-empty">
+                No existing milestones.
+              </p>
+
+            {{/if}}
+
+          </div>
+
+
+          <div>
+
+            <span class="sasha-plan-change-label">
+              Proposed
+            </span>
+
+            <div class="sasha-plan-rich-copy">
+              {{{formatPlanText deadlineChangeImpact.proposedChanges.milestones}}}
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    {{/if}}
+
+
+    {{!-- =============================================
+         PRODUCTION
+    ============================================== --}}
+
+    {{#if deadlineChangeImpact.proposedChanges.production}}
+
+      <div class="sasha-plan-change-review-item">
+
+        <h3>
+          Final Production
+        </h3>
+
+        <div class="sasha-plan-change-comparison">
+
+          <div>
+
+            <span class="sasha-plan-change-label">
+              Current
+            </span>
+
+            {{#if plan.production}}
+
+              <div class="sasha-plan-rich-copy">
+                {{{formatPlanText plan.production}}}
+              </div>
+
+            {{else}}
+
+              <p class="sasha-plan-empty">
+                No existing production plan.
+              </p>
+
+            {{/if}}
+
+          </div>
+
+
+          <div>
+
+            <span class="sasha-plan-change-label">
+              Proposed
+            </span>
+
+            <div class="sasha-plan-rich-copy">
+              {{{formatPlanText deadlineChangeImpact.proposedChanges.production}}}
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    {{/if}}
+
+
+    {{!-- =============================================
+         PROPOSED TASK DATE CHANGES
+    ============================================== --}}
+
+    {{#if deadlineChangeImpact.proposedChanges.tasks.length}}
+
+      <div class="sasha-plan-change-review-item">
+
+        <h3>
+          Task Deadlines
+        </h3>
+
+        <div class="sasha-plan-change-task-list">
+
+          {{#each deadlineChangeImpact.proposedChanges.tasks}}
+
+            <div class="sasha-plan-change-task">
+
+              <strong>
+                {{this.title}}
+              </strong>
+
+              <span>
+                {{this.previousDueDate}}
+                →
+                {{this.proposedDueDate}}
+              </span>
+
+            </div>
+
+          {{/each}}
+
+        </div>
+
+      </div>
+
+    {{/if}}
+
+
+    <div class="sasha-plan-change-review-actions">
+
+      <p>
+        Applying these changes will replace the affected portions
+        of the current proposal plan.
+      </p>
+
+      <div>
+
+<form
+  method="POST"
+  action="/plan/change-impact/{{deadlineChangeImpact._id}}/dismiss"
+>
+
+  {{#if csrfToken}}
+
+    <input
+      type="hidden"
+      name="_csrf"
+      value="{{csrfToken}}"
+    >
+
+  {{/if}}
+
+
+  <input
+    type="hidden"
+    name="pursuitId"
+    value="{{proposal._id}}"
+  >
+
+
+  <button
+    type="submit"
+    class="sasha-plan-card-action"
+  >
+    Keep Current Plan
+  </button>
+
+</form>
+
+<form
+  method="POST"
+  action="/plan/change-impact/{{deadlineChangeImpact._id}}/accept"
+>
+
+  {{#if csrfToken}}
+
+    <input
+      type="hidden"
+      name="_csrf"
+      value="{{csrfToken}}"
+    >
+
+  {{/if}}
+
+
+  <input
+    type="hidden"
+    name="pursuitId"
+    value="{{proposal._id}}"
+  >
+
+
+  <button
+    type="submit"
+    class="sasha-chat-submit"
+  >
+    Accept Proposed Changes
+  </button>
+
+</form>
+
+      </div>
+
+    </div>
+
+  </section>
+
+{{/if}}
+
+{{/if}}
     {{!-- =================================================
          EFFORT LEVEL BANNER
     ================================================== --}}

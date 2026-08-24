@@ -752,7 +752,29 @@ Allowed actions:
 - "none"
 - "update_analysis"
 - "update_outline"
+- "update_deadline"
 
+UPDATE DEADLINE
+
+Use "update_deadline" only when the source documents
+explicitly establish that the official proposal submission
+deadline has changed.
+
+Do not infer or estimate a revised deadline.
+
+Use this action only when the new deadline is clearly supported
+by the RFP, addendum, amendment, or other official client
+document.
+
+When action is "update_deadline", return the revised submission
+deadline as a complete ISO 8601 datetime including the applicable
+time-zone offset whenever the source document provides a time.
+
+Example:
+2026-09-10T14:00:00-04:00
+
+Do not omit the submission time when the source document provides it.
+Do not invent a time or time zone that is not supported by the source.
 
 UPDATE ANALYSIS
 
@@ -801,6 +823,32 @@ Return only the requested structured JSON.
         input:
           conversationInput,
 
+          deadline: {
+  anyOf: [
+    {
+      type:
+        'null'
+    },
+    {
+      type:
+        'string'
+    }
+  ]
+},
+
+deadlineChangeSummary: {
+  anyOf: [
+    {
+      type:
+        'null'
+    },
+    {
+      type:
+        'string'
+    }
+  ]
+},
+
         text: {
           format: {
             type:
@@ -833,7 +881,8 @@ Return only the requested structured JSON.
                   enum: [
                     'none',
                     'update_analysis',
-                    'update_outline'
+                    'update_outline',
+                    'update_deadline'
                   ]
                 },
 
@@ -1101,7 +1150,9 @@ Return only the requested structured JSON.
                 'reply',
                 'action',
                 'analysis',
-                'outline'
+                'outline',
+                'deadline',
+                'deadlineChangeSummary'
               ]
             }
           }
@@ -1513,7 +1564,328 @@ if (
 
     }
 
+/* =================================================
+   APPLY SUBMISSION DEADLINE UPDATE
+================================================== */
 
+if (
+  sashaResult.action ===
+  'update_deadline'
+) {
+
+  const deadlineValue =
+    typeof sashaResult.deadline ===
+      'string'
+      ? sashaResult.deadline.trim()
+      : '';
+
+
+  if (
+    !deadlineValue
+  ) {
+
+    throw new Error(
+      'Sasha requested a deadline update without a revised deadline.'
+    );
+
+  }
+
+
+const revisedDeadline =
+  new Date(
+    deadlineValue
+  );
+
+
+  if (
+    Number.isNaN(
+      revisedDeadline.getTime()
+    )
+  ) {
+
+    throw new Error(
+      'Sasha returned an invalid revised submission deadline.'
+    );
+
+  }
+
+
+  const previousDeadline =
+    proposal.submissionDeadline
+      ? new Date(
+          proposal.submissionDeadline
+        )
+      : null;
+
+const existingDeadlineImpact =
+  Array.isArray(
+    proposal.changeImpacts
+  )
+    ? proposal.changeImpacts.find(
+        (
+          impact
+        ) => {
+
+          if (
+            !impact ||
+            impact.changeType !==
+              'submission_deadline' ||
+            impact.status !==
+              'pending_review'
+          ) {
+
+            return false;
+
+          }
+
+
+          const existingNewValue =
+            typeof impact.newValue ===
+              'string'
+              ? impact.newValue.trim()
+              : '';
+
+
+          return (
+            existingNewValue ===
+            revisedDeadline.toISOString()
+          );
+
+        }
+      )
+    : null;
+  /* ===============================================
+     UPDATE CANONICAL PURSUIT DEADLINE
+  =============================================== */
+
+  proposal.submissionDeadline =
+    revisedDeadline;
+
+
+  /* ===============================================
+     RECORD CHANGE IMPACT
+  =============================================== */
+
+if (
+  !existingDeadlineImpact
+) {
+
+  proposal.changeImpacts.push({
+    changeType:
+      'submission_deadline',
+
+    previousValue:
+      previousDeadline
+        ? previousDeadline.toISOString()
+        : '',
+
+    newValue:
+      revisedDeadline.toISOString(),
+
+    summary:
+      typeof sashaResult.deadlineChangeSummary ===
+        'string'
+        ? sashaResult.deadlineChangeSummary.trim()
+        : '',
+
+    affectedAreas: [
+      'dashboard',
+      'analysis',
+      'schedule',
+      'milestones',
+      'production',
+      'tasks'
+    ],
+
+    status:
+      'pending_review',
+
+    reviewedAt:
+      null
+  });
+
+}
+
+
+  /* ===============================================
+     WORK PRODUCT METADATA
+  =============================================== */
+
+  workProduct = {
+    type:
+      'deadline_change',
+
+    updated:
+      true,
+
+    label:
+      'Submission Deadline',
+
+    href:
+      `/analyze?pursuit=${proposal._id}`
+  };
+
+
+  console.log(
+    'SASHA UPDATED SUBMISSION DEADLINE:',
+    {
+      pursuitId:
+        proposal._id.toString(),
+
+      previousDeadline:
+        previousDeadline
+          ? previousDeadline
+              .toISOString()
+              .slice(
+                0,
+                10
+              )
+          : null,
+
+      revisedDeadline:
+        deadlineValue
+    }
+  );
+
+}
+
+/* =================================================
+   APPLY SUBMISSION DEADLINE UPDATE
+================================================== */
+
+if (
+  sashaResult.action ===
+  'update_deadline'
+) {
+
+  const deadlineValue =
+    typeof sashaResult.deadline ===
+      'string'
+      ? sashaResult.deadline.trim()
+      : '';
+
+
+  if (
+    !deadlineValue
+  ) {
+
+    throw new Error(
+      'Sasha requested a deadline update without a revised deadline.'
+    );
+
+  }
+
+
+  const revisedDeadline =
+    new Date(
+      deadlineValue
+    );
+
+
+  if (
+    Number.isNaN(
+      revisedDeadline.getTime()
+    )
+  ) {
+
+    throw new Error(
+      'Sasha returned an invalid revised submission deadline.'
+    );
+
+  }
+
+
+  const previousDeadline =
+    proposal.submissionDeadline
+      ? new Date(
+          proposal.submissionDeadline
+        )
+      : null;
+
+
+  /* ===============================================
+     UPDATE CANONICAL DEADLINE
+  =============================================== */
+
+  proposal.submissionDeadline =
+    revisedDeadline;
+
+
+  /* ===============================================
+     RECORD CHANGE IMPACT
+  =============================================== */
+
+  proposal.changeImpacts.push({
+    changeType:
+      'submission_deadline',
+
+    previousValue:
+      previousDeadline
+        ? previousDeadline.toISOString()
+        : '',
+
+    newValue:
+      revisedDeadline.toISOString(),
+
+    summary:
+      typeof sashaResult.deadlineChangeSummary ===
+        'string'
+        ? sashaResult.deadlineChangeSummary.trim()
+        : '',
+
+    affectedAreas: [
+      'dashboard',
+      'analysis',
+      'schedule',
+      'milestones',
+      'production',
+      'tasks'
+    ],
+
+    status:
+      'pending_review',
+
+    reviewedAt:
+      null
+  });
+
+
+  /* ===============================================
+     WORK PRODUCT METADATA
+  =============================================== */
+
+  workProduct = {
+    type:
+      'deadline_change',
+
+    updated:
+      true,
+
+    label:
+      'Submission Deadline',
+
+    href:
+      `/analyze?pursuit=${proposal._id}`
+  };
+
+
+  console.log(
+    'SASHA UPDATED SUBMISSION DEADLINE:',
+    {
+      pursuitId:
+        proposal._id.toString(),
+
+      previousDeadline:
+        previousDeadline
+          ? previousDeadline.toISOString()
+          : null,
+
+      revisedDeadline:
+        revisedDeadline.toISOString()
+    }
+  );
+
+}
     /* =================================================
        APPLY OUTLINE UPDATE
     ================================================== */

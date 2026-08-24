@@ -224,6 +224,40 @@ router.post(
   verifyCsrfToken,
   planController.postPlanChat
 );
+
+/* =====================================================
+   REVIEW PLAN CHANGE IMPACT
+===================================================== */
+
+router.post(
+  '/plan/change-impact/:impactId/review',
+  ensureOrganization,
+  verifyCsrfToken,
+  planController.reviewChangeImpact
+);
+
+/* =====================================================
+   ACCEPT PLAN CHANGE IMPACT
+===================================================== */
+
+router.post(
+  '/plan/change-impact/:impactId/accept',
+  ensureOrganization,
+  verifyCsrfToken,
+  planController.acceptChangeImpact
+);
+
+/* =====================================================
+   DISMISS PLAN CHANGE IMPACT
+===================================================== */
+
+router.post(
+  '/plan/change-impact/:impactId/dismiss',
+  ensureOrganization,
+  verifyCsrfToken,
+  planController.dismissChangeImpact
+);
+
 /* =====================================================
 WRITE
 ===================================================== */

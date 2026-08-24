@@ -13,7 +13,7 @@ const proposalSchema = new mongoose.Schema(
 
     schemaVersion: {
       type: Number,
-      default: 1,
+      default: 2,
       required: true
     },
 
@@ -245,7 +245,156 @@ tasks: [
   }
 ],
 
+/* =====================================================
+   CHANGE IMPACTS
+===================================================== */
 
+changeImpacts: [
+  {
+    changeType: {
+      type: String,
+
+      enum: [
+        'submission_deadline',
+        'evaluation_criteria',
+        'submission_requirements',
+        'scope',
+        'team_requirements',
+        'pricing_requirements',
+        'other'
+      ],
+
+      required: true
+    },
+
+
+    sourceDocument: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'PursuitDocument',
+      default: null
+    },
+
+
+    detectedAt: {
+      type: Date,
+      default: Date.now
+    },
+
+
+    previousValue: {
+      type: String,
+      trim: true,
+      default: ''
+    },
+
+
+    newValue: {
+      type: String,
+      trim: true,
+      default: ''
+    },
+
+
+    summary: {
+      type: String,
+      trim: true,
+      default: ''
+    },
+
+
+    affectedAreas: [
+      {
+        type: String,
+
+        enum: [
+          'dashboard',
+          'analysis',
+          'schedule',
+          'milestones',
+          'production',
+          'tasks',
+          'outline',
+          'content',
+          'review'
+        ]
+      }
+    ],
+
+
+    status: {
+      type: String,
+
+      enum: [
+        'pending_review',
+        'accepted',
+        'dismissed'
+      ],
+
+      default: 'pending_review'
+    },
+
+
+    reviewedAt: {
+      type: Date,
+      default: null
+    },
+
+    /* =================================================
+   PROPOSED PLAN CHANGES
+================================================= */
+
+proposedChanges: {
+
+  schedule: {
+    type: String,
+    default: ''
+  },
+
+
+  milestones: {
+    type: String,
+    default: ''
+  },
+
+
+  production: {
+    type: String,
+    default: ''
+  },
+
+
+  tasks: [
+    {
+      taskId: {
+        type: mongoose.Schema.Types.ObjectId,
+        default: null
+      },
+
+      title: {
+        type: String,
+        trim: true,
+        default: ''
+      },
+
+      previousDueDate: {
+        type: Date,
+        default: null
+      },
+
+      proposedDueDate: {
+        type: Date,
+        default: null
+      }
+    }
+  ],
+
+  generatedAt: {
+    type: Date,
+    default: null
+  }
+}
+  }
+],
     /* =====================================================
        SOURCE DOCUMENTS
     ===================================================== */

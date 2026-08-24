@@ -169,6 +169,38 @@ async (
 
     }
 
+    /* =================================================
+   PREPARE CHANGE IMPACTS
+================================================= */
+
+const changeImpacts =
+  Array.isArray(
+    proposal.changeImpacts
+  )
+    ? proposal.changeImpacts
+    : [];
+
+
+const pendingChangeImpacts =
+  changeImpacts.filter(
+    (
+      impact
+    ) =>
+      impact &&
+      impact.status ===
+        'pending_review'
+  );
+
+
+const deadlineChangeImpact =
+  pendingChangeImpacts.find(
+    (
+      impact
+    ) =>
+      impact.changeType ===
+        'submission_deadline'
+  ) ||
+  null;
 
     /* =================================================
        PREPARE PLAN TASKS
@@ -249,6 +281,12 @@ const planMessages =
         winStrategy,
 
         outline,
+
+        changeImpacts,
+
+        pendingChangeImpacts,
+
+        deadlineChangeImpact,
 
         planTasks,
 
@@ -1328,6 +1366,880 @@ return res.redirect(
 
     console.error(
       'SASHA PLAN CHAT FAILED:',
+      error
+    );
+
+
+    return next(
+      error
+    );
+
+  }
+
+};
+
+/* =====================================================
+   REVIEW CHANGE IMPACT
+===================================================== */
+
+exports.reviewChangeImpact =
+async (
+  req,
+  res,
+  next
+) => {
+
+  try {
+
+    /* =================================================
+       REQUEST INFORMATION
+    ================================================== */
+
+    const pursuitId =
+      typeof req.body.pursuitId ===
+        'string'
+        ? req.body.pursuitId.trim()
+        : '';
+
+
+    const impactId =
+      typeof req.params.impactId ===
+        'string'
+        ? req.params.impactId.trim()
+        : '';
+
+
+    if (
+      !pursuitId ||
+      !impactId
+    ) {
+
+      return res.redirect(
+        '/pursuits'
+      );
+
+    }
+
+
+    /* =================================================
+       FIND PURSUIT
+    ================================================== */
+
+    const proposal =
+      await Proposal.findOne({
+        _id:
+          pursuitId,
+
+        organization:
+          req.session.organizationId
+      });
+
+
+    if (
+      !proposal
+    ) {
+
+      return res.status(404).render(
+        'not_found',
+        {
+          layout:
+            'mainlayout',
+
+          pageTitle:
+            'Pursuit Not Found | Sasha'
+        }
+      );
+
+    }
+
+
+    /* =================================================
+       FIND CHANGE IMPACT
+    ================================================== */
+
+    const impact =
+      proposal.changeImpacts.id(
+        impactId
+      );
+
+
+    if (
+      !impact
+    ) {
+
+      return res.status(404).send(
+        'Change impact not found.'
+      );
+
+    }
+
+
+    if (
+      impact.status !==
+        'pending_review'
+    ) {
+
+      return res.redirect(
+        `/plan?pursuit=${proposal._id}`
+      );
+
+    }
+
+
+    /* =================================================
+       CURRENT PLAN
+    ================================================== */
+
+    const currentPlan =
+      proposal.plan &&
+      typeof proposal.plan ===
+        'object'
+        ? proposal.plan
+        : {};
+
+
+    const tasks =
+      Array.isArray(
+        proposal.tasks
+      )
+        ? proposal.tasks
+        : [];
+
+
+    /* =================================================
+       CREATE OPENAI CLIENT
+    ================================================== */
+
+    const openai =
+      sashaAiService.createClient(
+        process.env.OPENAI_API_KEY
+      );
+
+
+    /* =================================================
+       ASK SASHA FOR PROPOSED REVISIONS
+    ================================================== */
+
+    const response =
+      await openai.responses.create({
+
+        model:
+          'gpt-5-mini',
+
+        reasoning: {
+          effort:
+            'minimal'
+        },
+
+        instructions: `
+You are Sasha, an AI proposal and pursuit assistant.
+
+A material RFP change has occurred.
+
+Your job is to REVIEW the existing proposal plan and propose
+appropriate revisions caused by that change.
+
+IMPORTANT:
+
+Do not treat your proposed revisions as approved.
+
+Do not overwrite or discard existing planning work simply because
+the deadline changed.
+
+Preserve useful existing decisions wherever possible.
+
+Revise only dates, sequencing, milestones, production activities,
+or tasks that reasonably need to change because of the new
+submission deadline.
+
+The proposal manager will review and approve or reject these changes.
+
+The official submission deadline in the pursuit record is now:
+
+${proposal.submissionDeadline
+  ? new Date(
+      proposal.submissionDeadline
+    ).toISOString()
+  : 'Not recorded'}
+
+The recorded change impact is:
+
+${JSON.stringify(
+  {
+    changeType:
+      impact.changeType,
+
+    previousValue:
+      impact.previousValue,
+
+    newValue:
+      impact.newValue,
+
+    summary:
+      impact.summary,
+
+    affectedAreas:
+      impact.affectedAreas
+  },
+  null,
+  2
+)}
+
+The current proposal plan is:
+
+${JSON.stringify(
+  currentPlan,
+  null,
+  2
+)}
+
+The current pursuit tasks are:
+
+${JSON.stringify(
+  tasks,
+  null,
+  2
+)}
+
+Return proposed changes only.
+`,
+
+        input: [
+          {
+            role:
+              'user',
+
+            content:
+              'Review the existing plan and propose the changes needed because of this RFP change.'
+          }
+        ],
+
+        text: {
+          format: {
+            type:
+              'json_schema',
+
+            name:
+              'sasha_change_impact_review',
+
+            strict:
+              true,
+
+            schema: {
+              type:
+                'object',
+
+              additionalProperties:
+                false,
+
+              properties: {
+
+                schedule: {
+                  type:
+                    'string'
+                },
+
+                milestones: {
+                  type:
+                    'string'
+                },
+
+                production: {
+                  type:
+                    'string'
+                },
+
+                tasks: {
+                  type:
+                    'array',
+
+                  items: {
+                    type:
+                      'object',
+
+                    additionalProperties:
+                      false,
+
+                    properties: {
+
+                      taskId: {
+                        type:
+                          'string'
+                      },
+
+                      title: {
+                        type:
+                          'string'
+                      },
+
+                      previousDueDate: {
+                        anyOf: [
+                          {
+                            type:
+                              'null'
+                          },
+                          {
+                            type:
+                              'string'
+                          }
+                        ]
+                      },
+
+                      proposedDueDate: {
+                        anyOf: [
+                          {
+                            type:
+                              'null'
+                          },
+                          {
+                            type:
+                              'string'
+                          }
+                        ]
+                      }
+
+                    },
+
+                    required: [
+                      'taskId',
+                      'title',
+                      'previousDueDate',
+                      'proposedDueDate'
+                    ]
+                  }
+                }
+
+              },
+
+              required: [
+                'schedule',
+                'milestones',
+                'production',
+                'tasks'
+              ]
+            }
+          }
+        },
+
+        max_output_tokens:
+          4000
+      });
+
+
+    /* =================================================
+       PARSE RESPONSE
+    ================================================== */
+
+    const outputText =
+      response.output_text
+        ? response.output_text.trim()
+        : '';
+
+
+    if (
+      !outputText
+    ) {
+
+      throw new Error(
+        'Sasha returned an empty change-impact review.'
+      );
+
+    }
+
+
+    const proposed =
+      JSON.parse(
+        outputText
+      );
+
+
+    /* =================================================
+       SAVE PROPOSED CHANGES ONLY
+    ================================================== */
+
+    impact.proposedChanges.schedule =
+      proposed.schedule ||
+      '';
+
+
+    impact.proposedChanges.milestones =
+      proposed.milestones ||
+      '';
+
+
+    impact.proposedChanges.production =
+      proposed.production ||
+      '';
+
+
+    impact.proposedChanges.tasks =
+      Array.isArray(
+        proposed.tasks
+      )
+        ? proposed.tasks.map(
+            (
+              task
+            ) => {
+
+              return {
+                taskId:
+                  task.taskId ||
+                  null,
+
+                title:
+                  task.title ||
+                  '',
+
+                previousDueDate:
+                  task.previousDueDate
+                    ? new Date(
+                        task.previousDueDate
+                      )
+                    : null,
+
+                proposedDueDate:
+                  task.proposedDueDate
+                    ? new Date(
+                        task.proposedDueDate
+                      )
+                    : null
+              };
+
+            }
+          )
+        : [];
+
+
+    impact.proposedChanges.generatedAt =
+      new Date();
+
+
+    await proposal.save();
+
+
+    /* =================================================
+       RETURN TO PLAN
+    ================================================== */
+
+    return res.redirect(
+      `/plan?pursuit=${proposal._id}`
+    );
+
+
+  } catch (
+    error
+  ) {
+
+    console.error(
+      'REVIEW CHANGE IMPACT FAILED:',
+      error
+    );
+
+
+    return next(
+      error
+    );
+
+  }
+
+};
+
+/* =====================================================
+   ACCEPT CHANGE IMPACT
+===================================================== */
+
+exports.acceptChangeImpact =
+async (
+  req,
+  res,
+  next
+) => {
+
+  try {
+
+    /* =================================================
+       REQUEST INFORMATION
+    ================================================== */
+
+    const pursuitId =
+      typeof req.body.pursuitId ===
+        'string'
+        ? req.body.pursuitId.trim()
+        : '';
+
+
+    const impactId =
+      typeof req.params.impactId ===
+        'string'
+        ? req.params.impactId.trim()
+        : '';
+
+
+    if (
+      !pursuitId ||
+      !impactId
+    ) {
+
+      return res.redirect(
+        '/pursuits'
+      );
+
+    }
+
+
+    /* =================================================
+       FIND PURSUIT
+    ================================================== */
+
+    const proposal =
+      await Proposal.findOne({
+        _id:
+          pursuitId,
+
+        organization:
+          req.session.organizationId
+      });
+
+
+    if (
+      !proposal
+    ) {
+
+      return res.status(404).render(
+        'not_found',
+        {
+          layout:
+            'mainlayout',
+
+          pageTitle:
+            'Pursuit Not Found | Sasha'
+        }
+      );
+
+    }
+
+
+    /* =================================================
+       FIND CHANGE IMPACT
+    ================================================== */
+
+    const impact =
+      proposal.changeImpacts.id(
+        impactId
+      );
+
+
+    if (
+      !impact
+    ) {
+
+      return res.status(404).send(
+        'Change impact not found.'
+      );
+
+    }
+
+
+    if (
+      impact.status !==
+        'pending_review'
+    ) {
+
+      return res.redirect(
+        `/plan?pursuit=${proposal._id}`
+      );
+
+    }
+
+
+    /* =================================================
+       REQUIRE GENERATED PROPOSAL
+    ================================================== */
+
+    if (
+      !impact.proposedChanges ||
+      !impact.proposedChanges.generatedAt
+    ) {
+
+      return res.status(400).send(
+        'No proposed plan changes are available to accept.'
+      );
+
+    }
+
+
+    /* =================================================
+       APPLY PLAN CHANGES
+    ================================================== */
+
+    proposal.plan =
+      proposal.plan &&
+      typeof proposal.plan ===
+        'object'
+        ? proposal.plan
+        : {};
+
+
+    if (
+      impact.proposedChanges.schedule
+    ) {
+
+      proposal.plan.schedule =
+        impact.proposedChanges.schedule;
+
+    }
+
+
+    if (
+      impact.proposedChanges.milestones
+    ) {
+
+      proposal.plan.milestones =
+        impact.proposedChanges.milestones;
+
+    }
+
+
+    if (
+      impact.proposedChanges.production
+    ) {
+
+      proposal.plan.production =
+        impact.proposedChanges.production;
+
+    }
+
+
+    proposal.markModified(
+      'plan'
+    );
+
+
+    /* =================================================
+       APPLY TASK DATE CHANGES
+    ================================================== */
+
+    const proposedTasks =
+      Array.isArray(
+        impact.proposedChanges.tasks
+      )
+        ? impact.proposedChanges.tasks
+        : [];
+
+
+    for (
+      const proposedTask of proposedTasks
+    ) {
+
+      if (
+        !proposedTask.taskId ||
+        !proposedTask.proposedDueDate
+      ) {
+
+        continue;
+
+      }
+
+
+      const task =
+        proposal.tasks.id(
+          proposedTask.taskId
+        );
+
+
+      if (
+        !task
+      ) {
+
+        continue;
+
+      }
+
+
+      task.dueDate =
+        proposedTask.proposedDueDate;
+
+    }
+
+
+    /* =================================================
+       MARK IMPACT ACCEPTED
+    ================================================== */
+
+    impact.status =
+      'accepted';
+
+    impact.reviewedAt =
+      new Date();
+
+
+    /* =================================================
+       SAVE PURSUIT
+    ================================================== */
+
+    await proposal.save();
+
+
+    return res.redirect(
+      `/plan?pursuit=${proposal._id}`
+    );
+
+
+  } catch (
+    error
+  ) {
+
+    console.error(
+      'ACCEPT CHANGE IMPACT FAILED:',
+      error
+    );
+
+
+    return next(
+      error
+    );
+
+  }
+
+};
+
+/* =====================================================
+   DISMISS CHANGE IMPACT
+===================================================== */
+
+exports.dismissChangeImpact =
+async (
+  req,
+  res,
+  next
+) => {
+
+  try {
+
+    /* =================================================
+       REQUEST INFORMATION
+    ================================================== */
+
+    const pursuitId =
+      typeof req.body.pursuitId ===
+        'string'
+        ? req.body.pursuitId.trim()
+        : '';
+
+
+    const impactId =
+      typeof req.params.impactId ===
+        'string'
+        ? req.params.impactId.trim()
+        : '';
+
+
+    if (
+      !pursuitId ||
+      !impactId
+    ) {
+
+      return res.redirect(
+        '/pursuits'
+      );
+
+    }
+
+
+    /* =================================================
+       FIND PURSUIT
+    ================================================== */
+
+    const proposal =
+      await Proposal.findOne({
+        _id:
+          pursuitId,
+
+        organization:
+          req.session.organizationId
+      });
+
+
+    if (
+      !proposal
+    ) {
+
+      return res.status(404).render(
+        'not_found',
+        {
+          layout:
+            'mainlayout',
+
+          pageTitle:
+            'Pursuit Not Found | Sasha'
+        }
+      );
+
+    }
+
+
+    /* =================================================
+       FIND CHANGE IMPACT
+    ================================================== */
+
+    const impact =
+      proposal.changeImpacts.id(
+        impactId
+      );
+
+
+    if (
+      !impact
+    ) {
+
+      return res.status(404).send(
+        'Change impact not found.'
+      );
+
+    }
+
+
+    if (
+      impact.status !==
+        'pending_review'
+    ) {
+
+      return res.redirect(
+        `/plan?pursuit=${proposal._id}`
+      );
+
+    }
+
+
+    /* =================================================
+       KEEP CURRENT PLAN
+    ================================================== */
+
+    impact.status =
+      'dismissed';
+
+    impact.reviewedAt =
+      new Date();
+
+
+    /* =================================================
+       SAVE PURSUIT
+    ================================================== */
+
+    await proposal.save();
+
+
+    return res.redirect(
+      `/plan?pursuit=${proposal._id}`
+    );
+
+
+  } catch (
+    error
+  ) {
+
+    console.error(
+      'DISMISS CHANGE IMPACT FAILED:',
       error
     );
 

@@ -209,16 +209,16 @@ const pursuitDocuments =
 
       } else {
 
-        timeRemaining = {
-          label:
-            days > 0
-              ? `${days} day${days === 1 ? '' : 's'} ${hours} hour${hours === 1 ? '' : 's'}`
-              : `${hours} hour${hours === 1 ? '' : 's'}`,
+timeRemaining = {
+  label:
+    days > 0
+      ? `${days} day${days === 1 ? '' : 's'}, ${hours} hour${hours === 1 ? '' : 's'}`
+      : `${hours} hour${hours === 1 ? '' : 's'}`,
 
-          days,
+  days,
 
-          hours
-        };
+  hours
+};
 
       }
 
