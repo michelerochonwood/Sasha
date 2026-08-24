@@ -350,52 +350,63 @@ async (
        REQUEST INFORMATION
     ================================================== */
 
-    const pursuitId =
-      typeof req.body.pursuitId ===
-        'string'
-        ? req.body.pursuitId.trim()
-        : '';
+const pursuitId =
+  typeof req.body.pursuitId ===
+    'string'
+    ? req.body.pursuitId.trim()
+    : '';
 
 
-    const message =
-      typeof req.body.message ===
-        'string'
-        ? req.body.message.trim()
-        : '';
+const message =
+  typeof req.body.message ===
+    'string'
+    ? req.body.message.trim()
+    : '';
 
 
-    if (
-      !pursuitId
-    ) {
-
-      return res.redirect(
-        '/pursuits'
-      );
-
-    }
+const uploadedFiles =
+  Array.isArray(
+    req.files
+  )
+    ? req.files
+    : [];
 
 
-    if (
-      !message
-    ) {
+if (
+  !pursuitId
+) {
 
-      return res.redirect(
-        `/plan?pursuit=${pursuitId}`
-      );
+  return res.redirect(
+    '/pursuits'
+  );
 
-    }
+}
 
 
-    if (
-      message.length >
-      10000
-    ) {
+if (
+  !message &&
+  uploadedFiles.length === 0
+) {
 
-      return res.status(400).send(
-        'Please shorten your message and try again.'
-      );
+  return res.redirect(
+    `/plan?pursuit=${pursuitId}`
+  );
 
-    }
+}
+
+
+if (
+  message.length >
+  10000
+) {
+
+  return res.status(400).send(
+    'Please shorten your message and try again.'
+  );
+
+}
+
+
 
 
     /* =================================================

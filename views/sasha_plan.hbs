@@ -759,12 +759,13 @@
              CHAT COMPOSER
         ================================================ --}}
 
-        <form
-          class="sasha-chat-composer"
-          id="sasha-plan-chat-form"
-          method="POST"
-          action="/plan/chat"
-        >
+<form
+  class="sasha-chat-composer"
+  id="sasha-plan-chat-form"
+  method="POST"
+  action="/plan/chat"
+  enctype="multipart/form-data"
+>
 
           {{#if csrfToken}}
 
@@ -796,8 +797,34 @@
             name="message"
             rows="5"
             placeholder="Ask about the proposal schedule, responsibilities, strategy, projects, people, milestones, reviews, or what to do next..."
-            required
           ></textarea>
+
+          <div class="sasha-chat-file-upload">
+
+  <label
+    for="planSourceDocuments"
+    class="sasha-plan-card-action"
+  >
+    Browse files
+  </label>
+
+  <input
+    type="file"
+    id="planSourceDocuments"
+    name="sourceDocuments"
+    accept=".pdf,.docx,.txt"
+    multiple
+  >
+
+  <span
+    id="planSourceDocumentsStatus"
+    class="sasha-form-help"
+  >
+    Add an RFP addendum, clarification, revised scope,
+    client document, or other pursuit material.
+  </span>
+
+</div>
 
 
           <div class="sasha-chat-actions">
