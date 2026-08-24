@@ -12572,3 +12572,79 @@ input[type="radio"]:checked
 
 }
 
+
+/* =====================================================
+   CHAT COMPOSER | FILE UPLOAD
+===================================================== */
+
+.sasha-chat-composer
+input[type="file"] {
+  max-width: 100%;
+
+  color:
+    rgba(255, 255, 255, 0.7);
+
+  font:
+    inherit;
+
+  font-size:
+    0.82rem;
+}
+
+
+.sasha-chat-composer
+input[type="file"]::file-selector-button {
+  margin-right:
+    0.8rem;
+
+  padding:
+    0.65rem
+    1rem;
+
+  color:
+    var(--sasha-white);
+
+  background:
+    rgba(255, 255, 255, 0.08);
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.22);
+
+  border-radius:
+    999px;
+
+  font:
+    inherit;
+
+  font-size:
+    0.78rem;
+
+  font-weight:
+    800;
+
+  cursor:
+    pointer;
+
+  transition:
+    background-color
+    180ms ease,
+    border-color
+    180ms ease,
+    color
+    180ms ease;
+}
+
+
+.sasha-chat-composer
+input[type="file"]::file-selector-button:hover {
+  color:
+    var(--sasha-navy);
+
+  background:
+    var(--sasha-pink);
+
+  border-color:
+    var(--sasha-pink);
+}
+
