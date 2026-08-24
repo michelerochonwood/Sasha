@@ -444,12 +444,6 @@ if (
    SAVE UPLOADED PURSUIT DOCUMENTS
 ================================================= */
 
-const uploadedFiles =
-  Array.isArray(
-    req.files
-  )
-    ? req.files
-    : [];
 
 
 for (
