@@ -2,10 +2,22 @@ const Proposal = require(
   '../models/proposal'
 );
 
+const PursuitDocument = require(
+  '../models/pursuitDocument'
+);
+
+
+const cloudinary =
+  require(
+    '../config/cloudinary'
+  );
+
 
 const sashaAiService = require(
   '../services/sashaAiService'
 );
+
+
 
 
 
@@ -417,6 +429,194 @@ async (
 
     }
 
+    /* =================================================
+   SAVE UPLOADED PURSUIT DOCUMENTS
+================================================= */
+
+const uploadedFiles =
+  Array.isArray(
+    req.files
+  )
+    ? req.files
+    : [];
+
+
+for (
+  const file of uploadedFiles
+) {
+
+  /* ===============================================
+     UPLOAD TO CLOUDINARY
+  =============================================== */
+
+  const uploadResult =
+    await new Promise(
+      (
+        resolve,
+        reject
+      ) => {
+
+        const uploadStream =
+          cloudinary.uploader.upload_stream(
+            {
+              resource_type:
+                'raw',
+
+              folder:
+                `sasha/${req.session.organizationId}/pursuit-documents`,
+
+              public_id:
+                `${Date.now()}-${file.originalname}`,
+
+              use_filename:
+                true,
+
+              unique_filename:
+                true
+            },
+
+            (
+              error,
+              result
+            ) => {
+
+              if (
+                error
+              ) {
+
+                return reject(
+                  error
+                );
+
+              }
+
+
+              return resolve(
+                result
+              );
+
+            }
+          );
+
+
+        uploadStream.end(
+          file.buffer
+        );
+
+      }
+    );
+
+
+  /* ===============================================
+     FILE EXTENSION
+  =============================================== */
+
+  const fileNameParts =
+    file.originalname
+      .split('.');
+
+
+  const fileExtension =
+    fileNameParts.length > 1
+      ? fileNameParts
+          .pop()
+          .toLowerCase()
+      : '';
+
+
+  /* ===============================================
+     CREATE PURSUIT DOCUMENT
+  =============================================== */
+
+  const pursuitDocument =
+    await PursuitDocument.create({
+      organization:
+        req.session.organizationId,
+
+      proposal:
+        proposal._id,
+
+      title:
+        file.originalname,
+
+      documentType:
+        'addendum',
+
+      sourceType:
+        'client',
+
+      originalFileName:
+        file.originalname,
+
+      storedFileName:
+        uploadResult.public_id ||
+        '',
+
+      mimeType:
+        file.mimetype ||
+        '',
+
+      fileExtension,
+
+      fileSize:
+        Number.isFinite(
+          file.size
+        )
+          ? file.size
+          : 0,
+
+      cloudinaryPublicId:
+        uploadResult.public_id ||
+        '',
+
+      cloudinaryResourceType:
+        uploadResult.resource_type ||
+        'raw',
+
+      cloudinaryUrl:
+        uploadResult.url ||
+        '',
+
+      cloudinarySecureUrl:
+        uploadResult.secure_url ||
+        '',
+
+      uploadedAt:
+        new Date(),
+
+      processingStatus:
+        'not_started',
+
+      processedBySasha:
+        false
+    });
+
+
+  /* ===============================================
+     LINK DOCUMENT TO PURSUIT
+  =============================================== */
+
+  proposal.pursuitDocuments.push(
+    pursuitDocument._id
+  );
+
+
+  console.log(
+    'PLAN PURSUIT DOCUMENT CREATED:',
+    {
+      pursuitId:
+        proposal._id.toString(),
+
+      documentId:
+        pursuitDocument._id.toString(),
+
+      fileName:
+        file.originalname
+    }
+  );
+
+}
+
 
     /* =================================================
        KEEP PURSUIT ACTIVE
@@ -551,25 +751,53 @@ const currentContent = [
 
 
 /* =================================================
-   ATTACH PURSUIT SOURCE DOCUMENTS
-================================================== */
+   LOAD PURSUIT DOCUMENTS
+================================================= */
 
-const sourceDocuments =
-  Array.isArray(
-    proposal.sourceDocuments
-  )
-    ? proposal.sourceDocuments
-    : [];
+const pursuitDocuments =
+  await PursuitDocument.find({
+    organization:
+      req.session.organizationId,
+
+    proposal:
+      proposal._id,
+
+    isCurrent:
+      true
+  })
+    .sort({
+      uploadedAt:
+        1
+    })
+    .lean();
 
 
-sourceDocuments.forEach(
+/* =================================================
+   ATTACH PURSUIT DOCUMENTS TO CURRENT MESSAGE
+================================================= */
+
+pursuitDocuments.forEach(
   (
     document
   ) => {
 
     if (
-      !document ||
-      !document.fileUrl
+      !document
+    ) {
+
+      return;
+
+    }
+
+
+    const fileUrl =
+      document.cloudinarySecureUrl ||
+      document.cloudinaryUrl ||
+      '';
+
+
+    if (
+      !fileUrl
     ) {
 
       return;
@@ -582,7 +810,7 @@ sourceDocuments.forEach(
         'input_file',
 
       file_url:
-        document.fileUrl
+        fileUrl
     });
 
   }
@@ -610,8 +838,8 @@ console.log(
     previousMessageCount:
       existingMessages.length,
 
-    sourceDocumentCount:
-      sourceDocuments.length
+    pursuitDocumentCount:
+  pursuitDocuments.length
   }
 );
 

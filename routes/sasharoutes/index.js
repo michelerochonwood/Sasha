@@ -221,9 +221,12 @@ router.get(
 router.post(
   '/plan/chat',
   ensureOrganization,
+  pursuitDocumentUpload,
   verifyCsrfToken,
   planController.postPlanChat
 );
+
+
 
 /* =====================================================
    REVIEW PLAN CHANGE IMPACT
