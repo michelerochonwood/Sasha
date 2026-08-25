@@ -12220,12 +12220,125 @@ select.is-sasha-suggested option {
 
   grid-template-columns:
     2rem
-    minmax(0, 1fr);
+    minmax(0, 1fr)
+    92px;
 
   gap:
-    0.65rem;
+    0.85rem;
 
   align-items: start;
+}
+
+/* =====================================================
+   OUTLINE PAGE BUDGET
+===================================================== */
+
+.sasha-outline-page-budget {
+  display: flex;
+
+  min-height: 92px;
+
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  padding:
+    0.7rem
+    0.6rem;
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.05
+    );
+
+  border:
+    1px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.16
+    );
+
+  border-radius:
+    12px;
+
+  text-align: center;
+}
+
+
+.sasha-outline-page-budget > span {
+  display: block;
+
+  margin-bottom:
+    0.2rem;
+
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.72
+    );
+
+  font-size:
+    0.68rem;
+
+  font-weight:
+    800;
+
+  letter-spacing:
+    0.04em;
+
+  text-transform:
+    uppercase;
+}
+
+
+.sasha-outline-page-budget > strong {
+  display: block;
+
+  margin: 0;
+
+  padding: 0;
+
+  color:
+    var(--sasha-pink);
+
+  font-size:
+    2.5rem;
+
+  font-weight:
+    800;
+
+  line-height:
+    0.95;
+}
+
+
+.sasha-outline-page-budget > small {
+  display: block;
+
+  margin-top:
+    0.3rem;
+
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.78
+    );
+
+  font-size:
+    0.68rem;
+
+  font-weight:
+    700;
 }
 
 

@@ -1304,6 +1304,17 @@ if (
       sashaResult.outline.notes ||
       '',
 
+    pageLimit:
+      Number.isFinite(
+        sashaResult.outline.pageLimit
+      )
+        ? sashaResult.outline.pageLimit
+        : null,
+
+    pageBudgetNotes:
+      sashaResult.outline.pageBudgetNotes ||
+      '',
+
     sections:
       Array.isArray(
         sashaResult.outline.sections
@@ -1331,6 +1342,13 @@ if (
                   section.description ||
                   '',
 
+                pageBudget:
+                  Number.isFinite(
+                    section.pageBudget
+                  )
+                    ? section.pageBudget
+                    : null,
+
                 subsections:
                   Array.isArray(
                     section.subsections
@@ -1345,6 +1363,11 @@ if (
         : []
 
   };
+
+
+  proposal.markModified(
+    'outline'
+  );
 
 }
 

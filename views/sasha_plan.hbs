@@ -1781,17 +1781,39 @@
 
           <div class="sasha-write-outline-reference-item">
 
-            <div class="sasha-write-outline-reference-heading">
+<div class="sasha-write-outline-reference-heading">
 
-              <span class="sasha-write-outline-number">
-                {{this.order}}
-              </span>
+  <span class="sasha-write-outline-number">
+    {{this.order}}
+  </span>
 
-              <strong>
-                {{this.title}}
-              </strong>
 
-            </div>
+  <strong>
+    {{this.title}}
+  </strong>
+
+
+  {{#if this.pageBudget}}
+
+    <div class="sasha-outline-page-budget">
+
+      <span>
+        Budget
+      </span>
+
+      <strong>
+        {{this.pageBudget}}
+      </strong>
+
+      <small>
+        pages
+      </small>
+
+    </div>
+
+  {{/if}}
+
+</div>
 
 
             {{#if this.description}}
