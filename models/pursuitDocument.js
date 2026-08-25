@@ -70,19 +70,21 @@ const pursuitDocumentSchema =
         default: 'other'
       },
 
-      sourceType: {
-        type: String,
-
-        enum: [
-          'client',
-          'procurement_portal',
-          'pursuit_team',
-          'internal',
-          'other'
-        ],
-
-        default: 'client'
-      },
+sourceType: {
+  type: String,
+  enum: [
+    'client',
+    'procurement_portal',
+    'win_strategy',
+    'proposal_plan',
+    'proposal_outline',
+    'proposal_draft',
+    'review_document',
+    'final_proposal',
+    'other'
+  ],
+  default: 'client'
+},
 
 
       /* =====================================================
