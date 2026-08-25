@@ -779,27 +779,142 @@ const openai =
         instructions: `
 ${analysisInstructions}
 
-IMPORTANT ACTION RULES
+IMPORTANT UPDATE RULES
 
-You may return one controlled pursuit-record action.
+You may identify and perform multiple pursuit-record updates
+from the same request when the evidence supports them.
 
-Allowed actions:
+Do not choose only one update when the same new information
+materially affects more than one part of the pursuit record.
 
-- "none"
-- "update_analysis"
-- "update_outline"
-- "update_deadline"
-- "record_change_impact"
+For every response, return an updates object containing:
+
+- analysis
+- deadline
+- outline
+- changeImpact
+
+Each value must be either true or false.
+
+Set a value to true only when that part of the pursuit record
+should actually be updated from the current conversation and
+source material.
 
 
-RECORD CHANGE IMPACT
+=====================================================
+ANALYSIS UPDATE
+=====================================================
 
-Use "record_change_impact" when an official pursuit document
-such as an addendum, amendment, clarification, revised scope,
-or client instruction materially changes the pursuit.
+Set:
 
-A material change is one that reasonably affects existing or
-future pursuit or proposal work.
+analysis: true
+
+when materially useful information is available to improve
+the pursuit's RFP analysis.
+
+You do not need the user to explicitly request an analysis
+update.
+
+Official addenda, amendments, clarifications, revised scope,
+client instructions, and other material pursuit documents
+should update the RFP analysis when they change or clarify
+information represented in the six analysis areas.
+
+The analysis object must contain the COMPLETE current working
+analysis after your update, not merely the changed fields.
+
+Preserve useful supported existing findings unless new
+evidence supersedes them.
+
+The six analysis areas are:
+
+1. Risk and Contract Concerns
+2. Mandatory Requirements
+3. Evaluation Criteria
+4. Scope of Work
+5. Submission Requirements
+6. Clarifications and Unknowns
+
+Keep each area concise.
+
+If analysis is false, return:
+
+analysis: null
+
+
+=====================================================
+DEADLINE UPDATE
+=====================================================
+
+Set:
+
+deadline: true
+
+only when official source material explicitly establishes
+that the proposal submission deadline has changed.
+
+Do not infer or estimate a revised deadline.
+
+When deadline is true, return the revised submission deadline
+as a complete ISO 8601 datetime including the applicable
+time-zone offset whenever the source provides a submission
+time.
+
+Example:
+
+2026-09-10T14:00:00-04:00
+
+Do not omit the submission time when the source document
+provides it.
+
+Do not invent a time or time zone that is not supported by
+the source.
+
+Also return a concise deadlineChangeSummary.
+
+If deadline is false, return:
+
+deadline: null
+
+deadlineChangeSummary: null
+
+
+=====================================================
+OUTLINE UPDATE
+=====================================================
+
+Set:
+
+outline: true
+
+only when the user explicitly asks you to create, prepare,
+draft, revise, or update the proposal outline or Table of
+Contents.
+
+Do not rewrite an existing outline automatically merely
+because new pursuit information could affect it.
+
+A material change that may require an outline revision should
+normally be recorded through changeImpact first so the user
+can review the downstream consequence.
+
+When outline is true, return the complete proposed outline.
+
+If outline is false, return:
+
+outline: null
+
+
+=====================================================
+MATERIAL PURSUIT CHANGE
+=====================================================
+
+Set:
+
+changeImpact: true
+
+when official pursuit information materially changes existing
+or future pursuit or proposal work.
 
 Examples include changes to:
 
@@ -811,19 +926,19 @@ Examples include changes to:
 - pricing requirements
 - technical requirements
 - consultation requirements
-- proposal schedule or milestones
-- proposal outline or content requirements
-
-Do not create a change impact for routine information,
-restatements, or immaterial clarification.
+- proposal schedule
+- milestones
+- proposal outline requirements
+- proposal content requirements
+- review requirements
 
 Do not create a change impact merely because a document is
 new.
 
 The source material must establish an actual material change.
 
-When action is "record_change_impact", return a changeImpact
-object describing:
+When changeImpact is true, return a changeImpact object
+describing:
 
 - changeType
 - previousValue
@@ -854,89 +969,57 @@ Allowed affectedAreas values are:
 - "content"
 - "review"
 
-Use only affected areas that are reasonably impacted.
+Use only affected areas genuinely affected by the change.
 
 For sourceDocumentTitle, return the filename or document title
-of the official source that establishes the change.
+of the official source establishing the change.
 
-Do not treat the resulting impact as approved proposal work.
+A changeImpact identifies downstream consequences.
 
-The impact will be reviewed separately before affected plan
-work is changed.
+It does NOT mean existing proposal work has been approved for
+replacement.
 
-UPDATE DEADLINE
+Existing authored plan, outline, content, task, or review work
+should be preserved until the appropriate change-review
+workflow applies the revisions.
 
-Use "update_deadline" only when the source documents
-explicitly establish that the official proposal submission
-deadline has changed.
+If changeImpact is false, return:
 
-Do not infer or estimate a revised deadline.
-
-Use this action only when the new deadline is clearly supported
-by the RFP, addendum, amendment, or other official client
-document.
-
-When action is "update_deadline", return the revised submission
-deadline as a complete ISO 8601 datetime including the applicable
-time-zone offset whenever the source document provides a time.
-
-Example:
-2026-09-10T14:00:00-04:00
-
-Do not omit the submission time when the source document provides it.
-Do not invent a time or time zone that is not supported by the source.
-
-UPDATE ANALYSIS
-
-Use "update_analysis" when materially useful information is
-available to improve the pursuit's RFP analysis.
-
-The analysis object must contain the COMPLETE current working
-analysis after your update, not merely the changed field.
-
-Preserve useful supported existing findings.
-
-Keep each of the six analysis areas concise, approximately
-200 words or fewer in total.
-
-If an analysis area has no supported findings, use an empty
-array or empty string as appropriate.
+changeImpact: null
 
 
-UPDATE OUTLINE
+=====================================================
+MULTIPLE UPDATES
+=====================================================
 
-Use "update_outline" only when the user explicitly asks you
-to create, prepare, draft, revise, or update the proposal
-outline or Table of Contents.
+These updates are independent.
 
-Do not update the proposal outline merely because you
-discussed what an outline could contain.
+For example, an addendum that changes scope may require:
 
-When action is "update_outline", return a structured outline
-that reflects the user's request and the available RFP
-evidence.
+analysis: true
+deadline: false
+outline: false
+changeImpact: true
 
-Your reply must also explain that the pursuit outline was
-updated and tell the user that they can review it in the
-proposal writing workspace.
+An addendum that changes the submission deadline may require:
 
+analysis: true
+deadline: true
+outline: false
+changeImpact: true
 
-ACTION PRIORITY
+A user explicitly asking to revise an outline based on new
+scope information may require:
 
-If an official source document establishes a material change,
-prefer "record_change_impact" over "update_analysis".
+analysis: true
+deadline: false
+outline: true
+changeImpact: true
 
-A material pursuit change should be recorded before downstream
-proposal work is revised.
+Determine every supported update from the evidence.
 
-Use "update_deadline" when the material change is specifically
-a revised official submission deadline.
-
-Use "update_outline" only when the user explicitly requests an
-outline change.
-
-Otherwise use "update_analysis" when the conversation provides
-materially useful RFP analysis information.
+Do not suppress one valid update merely because another valid
+update is also required.
 
 Return only the requested structured JSON.
 `,
@@ -971,16 +1054,42 @@ Return only the requested structured JSON.
                     'string'
                 },
 
-action: {
+updates: {
   type:
-    'string',
+    'object',
 
-  enum: [
-    'none',
-    'update_analysis',
-    'update_outline',
-    'update_deadline',
-    'record_change_impact'
+  additionalProperties:
+    false,
+
+  properties: {
+
+    analysis: {
+      type:
+        'boolean'
+    },
+
+    deadline: {
+      type:
+        'boolean'
+    },
+
+    outline: {
+      type:
+        'boolean'
+    },
+
+    changeImpact: {
+      type:
+        'boolean'
+    }
+
+  },
+
+  required: [
+    'analysis',
+    'deadline',
+    'outline',
+    'changeImpact'
   ]
 },
 
@@ -1358,7 +1467,7 @@ changeImpact: {
 
 required: [
   'reply',
-  'action',
+  'updates',
   'analysis',
   'outline',
   'deadline',
@@ -1447,10 +1556,10 @@ max_output_tokens:
     }
 
 
-    console.log(
-      'SASHA ANALYZE CHAT ACTION:',
-      sashaResult.action
-    );
+console.log(
+  'SASHA ANALYZE CHAT UPDATES:',
+  sashaResult.updates
+);
 
 
     /* =================================================
@@ -1465,10 +1574,11 @@ max_output_tokens:
        APPLY RFP ANALYSIS UPDATE
     ================================================== */
 
-    if (
-      sashaResult.action ===
-      'update_analysis'
-    ) {
+if (
+  sashaResult.updates &&
+  sashaResult.updates.analysis ===
+    true
+) {
 
       if (
         !sashaResult.analysis ||
@@ -1740,19 +1850,7 @@ if (
 }
 
 
-      workProduct = {
-        type:
-          'analysis',
 
-        updated:
-          true,
-
-        label:
-          'RFP Analysis',
-
-        href:
-          `/analyze?pursuit=${proposal._id}`
-      };
 
 
       console.log(
@@ -1782,8 +1880,9 @@ if (
 ================================================== */
 
 if (
-  sashaResult.action ===
-  'update_deadline'
+  sashaResult.updates &&
+  sashaResult.updates.deadline ===
+    true
 ) {
 
   const deadlineValue =
@@ -1830,43 +1929,7 @@ const revisedDeadline =
         )
       : null;
 
-const existingDeadlineImpact =
-  Array.isArray(
-    proposal.changeImpacts
-  )
-    ? proposal.changeImpacts.find(
-        (
-          impact
-        ) => {
 
-          if (
-            !impact ||
-            impact.changeType !==
-              'submission_deadline' ||
-            impact.status !==
-              'pending_review'
-          ) {
-
-            return false;
-
-          }
-
-
-          const existingNewValue =
-            typeof impact.newValue ===
-              'string'
-              ? impact.newValue.trim()
-              : '';
-
-
-          return (
-            existingNewValue ===
-            revisedDeadline.toISOString()
-          );
-
-        }
-      )
-    : null;
   /* ===============================================
      UPDATE CANONICAL PURSUIT DEADLINE
   =============================================== */
@@ -1875,69 +1938,7 @@ const existingDeadlineImpact =
     revisedDeadline;
 
 
-  /* ===============================================
-     RECORD CHANGE IMPACT
-  =============================================== */
-
-if (
-  !existingDeadlineImpact
-) {
-
-  proposal.changeImpacts.push({
-    changeType:
-      'submission_deadline',
-
-    previousValue:
-      previousDeadline
-        ? previousDeadline.toISOString()
-        : '',
-
-    newValue:
-      revisedDeadline.toISOString(),
-
-    summary:
-      typeof sashaResult.deadlineChangeSummary ===
-        'string'
-        ? sashaResult.deadlineChangeSummary.trim()
-        : '',
-
-    affectedAreas: [
-      'dashboard',
-      'analysis',
-      'schedule',
-      'milestones',
-      'production',
-      'tasks'
-    ],
-
-    status:
-      'pending_review',
-
-    reviewedAt:
-      null
-  });
-
-}
-
-
-  /* ===============================================
-     WORK PRODUCT METADATA
-  =============================================== */
-
-  workProduct = {
-    type:
-      'deadline_change',
-
-    updated:
-      true,
-
-    label:
-      'Submission Deadline',
-
-    href:
-      `/analyze?pursuit=${proposal._id}`
-  };
-
+ 
 
   console.log(
     'SASHA UPDATED SUBMISSION DEADLINE:',
@@ -1967,8 +1968,9 @@ if (
 ================================================= */
 
 if (
-  sashaResult.action ===
-  'record_change_impact'
+  sashaResult.updates &&
+  sashaResult.updates.changeImpact ===
+    true
 ) {
 
   /* ===============================================
@@ -2213,23 +2215,7 @@ if (
   }
 
 
-  /* ===============================================
-     WORK PRODUCT METADATA
-  =============================================== */
 
-  workProduct = {
-    type:
-      'change_impact',
-
-    updated:
-      true,
-
-    label:
-      'Pursuit Change',
-
-    href:
-      `/plan?pursuit=${proposal._id}`
-  };
 
 
   console.log(
@@ -2261,10 +2247,11 @@ if (
        APPLY OUTLINE UPDATE
     ================================================== */
 
-    if (
-      sashaResult.action ===
-      'update_outline'
-    ) {
+if (
+  sashaResult.updates &&
+  sashaResult.updates.outline ===
+    true
+) {
 
       if (
         !sashaResult.outline ||
@@ -2355,19 +2342,6 @@ if (
       };
 
 
-      workProduct = {
-        type:
-          'outline',
-
-        updated:
-          true,
-
-        label:
-          'Proposal Outline',
-
-        href:
-          `/write?pursuit=${proposal._id}`
-      };
 
 
       /* =================================================
@@ -2513,7 +2487,91 @@ if (
 
     }
 
+/* =================================================
+   DETERMINE PRIMARY WORK PRODUCT
+================================================= */
 
+if (
+  sashaResult.updates &&
+  sashaResult.updates.changeImpact ===
+    true
+) {
+
+  workProduct = {
+    type:
+      'change_impact',
+
+    updated:
+      true,
+
+    label:
+      'Pursuit Change',
+
+    href:
+      `/plan?pursuit=${proposal._id}`
+  };
+
+} else if (
+  sashaResult.updates &&
+  sashaResult.updates.outline ===
+    true
+) {
+
+  workProduct = {
+    type:
+      'outline',
+
+    updated:
+      true,
+
+    label:
+      'Proposal Outline',
+
+    href:
+      `/write?pursuit=${proposal._id}`
+  };
+
+} else if (
+  sashaResult.updates &&
+  sashaResult.updates.deadline ===
+    true
+) {
+
+  workProduct = {
+    type:
+      'deadline_change',
+
+    updated:
+      true,
+
+    label:
+      'Submission Deadline',
+
+    href:
+      `/analyze?pursuit=${proposal._id}`
+  };
+
+} else if (
+  sashaResult.updates &&
+  sashaResult.updates.analysis ===
+    true
+) {
+
+  workProduct = {
+    type:
+      'analysis',
+
+    updated:
+      true,
+
+    label:
+      'RFP Analysis',
+
+    href:
+      `/analyze?pursuit=${proposal._id}`
+  };
+
+}
     /* =================================================
        SAVE CONVERSATION
     ================================================== */
