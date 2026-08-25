@@ -7,10 +7,7 @@ const PursuitDocument = require(
 );
 
 
-const cloudinary =
-  require(
-    '../config/cloudinary'
-  );
+
 
 
 const sashaAiService = require(
@@ -181,7 +178,7 @@ async (
 
     }
 
-    /* =================================================
+/* =================================================
    PREPARE CHANGE IMPACTS
 ================================================= */
 
@@ -193,26 +190,47 @@ const changeImpacts =
     : [];
 
 
+/* =================================================
+   PENDING CHANGE IMPACTS
+================================================= */
+
 const pendingChangeImpacts =
   changeImpacts.filter(
     (
       impact
-    ) =>
-      impact &&
-      impact.status ===
-        'pending_review'
+    ) => {
+
+      return (
+        impact &&
+        impact.status ===
+          'pending_review'
+      );
+
+    }
   );
 
 
-const deadlineChangeImpact =
-  pendingChangeImpacts.find(
-    (
-      impact
-    ) =>
-      impact.changeType ===
-        'submission_deadline'
-  ) ||
-  null;
+/* =================================================
+   PRIMARY PENDING CHANGE IMPACT
+================================================= */
+
+/*
+ * Change impacts are not limited to submission
+ * deadlines.
+ *
+ * They may result from addenda, clarifications,
+ * revised scope, submission requirements,
+ * evaluation changes, client instructions, or
+ * other material pursuit information.
+ *
+ * The Plan workspace reviews the oldest pending
+ * impact first.
+ */
+
+const pendingChangeImpact =
+  pendingChangeImpacts.length > 0
+    ? pendingChangeImpacts[0]
+    : null;
 
     /* =================================================
        PREPARE PLAN TASKS
@@ -298,7 +316,7 @@ const planMessages =
 
         pendingChangeImpacts,
 
-        deadlineChangeImpact,
+        pendingChangeImpact,
 
         planTasks,
 
@@ -377,16 +395,7 @@ if (
 }
 
 
-if (
-  !message &&
-  uploadedFiles.length === 0
-) {
 
-  return res.redirect(
-    `/plan?pursuit=${pursuitId}`
-  );
-
-}
 
 
 if (
@@ -1578,38 +1587,76 @@ async (
             'minimal'
         },
 
-        instructions: `
-You are Sasha, an AI proposal and pursuit assistant.
+instructions: `
+You are Sasha, an AI proposal and pursuit assistant for
+technical consulting firms.
 
-A material RFP change has occurred.
+A material change has occurred during an active pursuit.
 
-Your job is to REVIEW the existing proposal plan and propose
-appropriate revisions caused by that change.
+Your job is to review that change against the existing
+proposal plan and determine what planning work should be
+revised.
 
-IMPORTANT:
+The change may involve:
 
-Do not treat your proposed revisions as approved.
+- submission dates
+- scope of work
+- deliverables
+- evaluation criteria
+- submission requirements
+- mandatory requirements
+- client instructions
+- procurement requirements
+- staffing implications
+- technical requirements
+- consultation requirements
+- schedule requirements
+- or another material pursuit issue
 
-Do not overwrite or discard existing planning work simply because
-the deadline changed.
 
-Preserve useful existing decisions wherever possible.
+IMPORTANT
 
-Revise only dates, sequencing, milestones, production activities,
-or tasks that reasonably need to change because of the new
-submission deadline.
+The existing proposal plan represents work already developed
+by the proposal team.
 
-The proposal manager will review and approve or reject these changes.
+Do not discard or rewrite useful existing planning work
+unless the recorded change genuinely requires it.
 
-The official submission deadline in the pursuit record is now:
+Preserve existing decisions wherever they remain valid.
 
-${proposal.submissionDeadline
-  ? new Date(
-      proposal.submissionDeadline
-    ).toISOString()
-  : 'Not recorded'}
+Revise only the parts of the proposal plan that are
+reasonably affected by the new information.
 
-The recorded change impact is:
+The proposal manager will review the proposed changes before
+they are applied.
+
+Your job in this request is to PROPOSE revisions.
+
+Do not treat those revisions as approved.
+
+
+CURRENT PURSUIT
+
+Proposal:
+${proposal.proposalName || ''}
+
+Client:
+${proposal.clientName || ''}
+
+RFP Number:
+${proposal.rfpNumber || ''}
+
+Current Submission Deadline:
+${
+  proposal.submissionDeadline
+    ? new Date(
+        proposal.submissionDeadline
+      ).toISOString()
+    : 'Not recorded'
+}
+
+
+RECORDED CHANGE IMPACT
 
 ${JSON.stringify(
   {
@@ -1632,7 +1679,8 @@ ${JSON.stringify(
   2
 )}
 
-The current proposal plan is:
+
+CURRENT PROPOSAL PLAN
 
 ${JSON.stringify(
   currentPlan,
@@ -1640,13 +1688,52 @@ ${JSON.stringify(
   2
 )}
 
-The current pursuit tasks are:
+
+CURRENT PURSUIT TASKS
 
 ${JSON.stringify(
   tasks,
   null,
   2
 )}
+
+
+REVIEW REQUIREMENTS
+
+Consider whether the recorded change requires revisions to:
+
+- proposal schedule
+- responsibilities
+- internal milestones
+- production activities
+- review activities
+- submission activities
+- planning tasks
+
+For a scope or deliverable change, consider whether new work
+must be added to the proposal-development process.
+
+For a deadline change, consider whether existing dates,
+sequencing, review periods, production activities, or task
+due dates should move.
+
+For a submission or compliance change, consider whether new
+checks, forms, acknowledgements, production activities, or
+submission tasks are required.
+
+For an evaluation change, consider whether proposal effort,
+emphasis, sequencing, or review should change.
+
+Do not change something merely because it could be improved.
+Change it only when the recorded pursuit change reasonably
+affects it.
+
+Return the COMPLETE proposed schedule, milestones, and
+production content so that the proposal manager can review
+the proposed version against the current plan.
+
+For tasks, return only tasks whose due dates genuinely need
+to change.
 
 Return proposed changes only.
 `,

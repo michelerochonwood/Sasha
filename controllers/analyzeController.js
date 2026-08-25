@@ -2,6 +2,12 @@ const Proposal = require(
   '../models/proposal'
 );
 
+
+const PursuitDocument = require(
+  '../models/pursuitDocument'
+);
+
+
 const sashaAiService = require(
   '../services/sashaAiService'
 );
@@ -641,53 +647,83 @@ ${JSON.stringify(
     ];
 
 
-    /* =================================================
-       ATTACH PURSUIT SOURCE DOCUMENTS
-    ================================================== */
+  /* =================================================
+   LOAD PURSUIT DOCUMENTS
+================================================= */
 
-    const sourceDocuments =
-      Array.isArray(
-        proposal.sourceDocuments
-      )
-        ? proposal.sourceDocuments
-        : [];
+const pursuitDocuments =
+  await PursuitDocument.find({
+    organization:
+      req.session.organizationId,
 
+    proposal:
+      proposal._id,
 
-    sourceDocuments.forEach(
-      (
-        document
-      ) => {
-
-        if (
-          !document ||
-          !document.fileUrl
-        ) {
-
-          return;
-
-        }
+    isCurrent:
+      true
+  })
+    .sort({
+      uploadedAt:
+        1
+    })
+    .lean();
 
 
-        currentContent.push({
-          type:
-            'input_file',
+/* =================================================
+   ATTACH PURSUIT DOCUMENTS TO CURRENT MESSAGE
+================================================= */
 
-          file_url:
-            document.fileUrl
-        });
+pursuitDocuments.forEach(
+  (
+    document
+  ) => {
 
-      }
-    );
+    if (
+      !document
+    ) {
+
+      return;
+
+    }
 
 
-    conversationInput.push({
-      role:
-        'user',
+    const fileUrl =
+      document.cloudinarySecureUrl ||
+      document.cloudinaryUrl ||
+      '';
 
-      content:
-        currentContent
+
+    if (
+      !fileUrl
+    ) {
+
+      return;
+
+    }
+
+
+    currentContent.push({
+      type:
+        'input_file',
+
+      file_url:
+        fileUrl
     });
 
+  }
+);
+
+/* =================================================
+   ADD CURRENT MESSAGE TO CONVERSATION
+================================================= */
+
+conversationInput.push({
+  role:
+    'user',
+
+  content:
+    currentContent
+});
 
     /* =================================================
        LOG REQUEST
@@ -711,8 +747,8 @@ ${JSON.stringify(
         previousMessageCount:
           existingMessages.length,
 
-        sourceDocumentCount:
-          sourceDocuments.length
+pursuitDocumentCount:
+  pursuitDocuments.length
       }
     );
 
@@ -753,6 +789,80 @@ Allowed actions:
 - "update_analysis"
 - "update_outline"
 - "update_deadline"
+- "record_change_impact"
+
+
+RECORD CHANGE IMPACT
+
+Use "record_change_impact" when an official pursuit document
+such as an addendum, amendment, clarification, revised scope,
+or client instruction materially changes the pursuit.
+
+A material change is one that reasonably affects existing or
+future pursuit or proposal work.
+
+Examples include changes to:
+
+- scope of work
+- deliverables
+- evaluation criteria
+- submission requirements
+- team requirements
+- pricing requirements
+- technical requirements
+- consultation requirements
+- proposal schedule or milestones
+- proposal outline or content requirements
+
+Do not create a change impact for routine information,
+restatements, or immaterial clarification.
+
+Do not create a change impact merely because a document is
+new.
+
+The source material must establish an actual material change.
+
+When action is "record_change_impact", return a changeImpact
+object describing:
+
+- changeType
+- previousValue
+- newValue
+- summary
+- affectedAreas
+- sourceDocumentTitle
+
+Allowed changeType values are:
+
+- "submission_deadline"
+- "evaluation_criteria"
+- "submission_requirements"
+- "scope"
+- "team_requirements"
+- "pricing_requirements"
+- "other"
+
+Allowed affectedAreas values are:
+
+- "dashboard"
+- "analysis"
+- "schedule"
+- "milestones"
+- "production"
+- "tasks"
+- "outline"
+- "content"
+- "review"
+
+Use only affected areas that are reasonably impacted.
+
+For sourceDocumentTitle, return the filename or document title
+of the official source that establishes the change.
+
+Do not treat the resulting impact as approved proposal work.
+
+The impact will be reviewed separately before affected plan
+work is changed.
 
 UPDATE DEADLINE
 
@@ -813,9 +923,20 @@ proposal writing workspace.
 
 ACTION PRIORITY
 
-If both an analysis update and an outline update could be
-appropriate in the same turn, prefer the action that most
-directly responds to the user's request.
+If an official source document establishes a material change,
+prefer "record_change_impact" over "update_analysis".
+
+A material pursuit change should be recorded before downstream
+proposal work is revised.
+
+Use "update_deadline" when the material change is specifically
+a revised official submission deadline.
+
+Use "update_outline" only when the user explicitly requests an
+outline change.
+
+Otherwise use "update_analysis" when the conversation provides
+materially useful RFP analysis information.
 
 Return only the requested structured JSON.
 `,
@@ -823,31 +944,7 @@ Return only the requested structured JSON.
         input:
           conversationInput,
 
-          deadline: {
-  anyOf: [
-    {
-      type:
-        'null'
-    },
-    {
-      type:
-        'string'
-    }
-  ]
-},
 
-deadlineChangeSummary: {
-  anyOf: [
-    {
-      type:
-        'null'
-    },
-    {
-      type:
-        'string'
-    }
-  ]
-},
 
         text: {
           format: {
@@ -874,17 +971,18 @@ deadlineChangeSummary: {
                     'string'
                 },
 
-                action: {
-                  type:
-                    'string',
+action: {
+  type:
+    'string',
 
-                  enum: [
-                    'none',
-                    'update_analysis',
-                    'update_outline',
-                    'update_deadline'
-                  ]
-                },
+  enum: [
+    'none',
+    'update_analysis',
+    'update_outline',
+    'update_deadline',
+    'record_change_impact'
+  ]
+},
 
                 analysis: {
                   anyOf: [
@@ -1059,108 +1157,223 @@ deadlineChangeSummary: {
                   ]
                 },
 
-                outline: {
-                  anyOf: [
-                    {
-                      type:
-                        'null'
-                    },
-                    {
-                      type:
-                        'object',
+ outline: {
+  anyOf: [
+    {
+      type:
+        'null'
+    },
+    {
+      type:
+        'object',
 
-                      additionalProperties:
-                        false,
+      additionalProperties:
+        false,
 
-                      properties: {
+      properties: {
 
-                        title: {
-                          type:
-                            'string'
-                        },
+        title: {
+          type:
+            'string'
+        },
 
-                        notes: {
-                          type:
-                            'string'
-                        },
+        notes: {
+          type:
+            'string'
+        },
 
-                        sections: {
-                          type:
-                            'array',
+        sections: {
+          type:
+            'array',
 
-                          items: {
-                            type:
-                              'object',
+          items: {
+            type:
+              'object',
 
-                            additionalProperties:
-                              false,
+            additionalProperties:
+              false,
 
-                            properties: {
+            properties: {
 
-                              order: {
-                                type:
-                                  'number'
-                              },
-
-                              title: {
-                                type:
-                                  'string'
-                              },
-
-                              description: {
-                                type:
-                                  'string'
-                              },
-
-                              subsections: {
-                                type:
-                                  'array',
-
-                                items: {
-                                  type:
-                                    'string'
-                                }
-                              }
-
-                            },
-
-                            required: [
-                              'order',
-                              'title',
-                              'description',
-                              'subsections'
-                            ]
-                          }
-                        }
-
-                      },
-
-                      required: [
-                        'title',
-                        'notes',
-                        'sections'
-                      ]
-                    }
-                  ]
-                }
-
+              order: {
+                type:
+                  'number'
               },
 
-              required: [
-                'reply',
-                'action',
-                'analysis',
-                'outline',
-                'deadline',
-                'deadlineChangeSummary'
-              ]
-            }
+              title: {
+                type:
+                  'string'
+              },
+
+              description: {
+                type:
+                  'string'
+              },
+
+              subsections: {
+                type:
+                  'array',
+
+                items: {
+                  type:
+                    'string'
+                }
+              }
+
+            },
+
+            required: [
+              'order',
+              'title',
+              'description',
+              'subsections'
+            ]
+          }
+        }
+
+      },
+
+      required: [
+        'title',
+        'notes',
+        'sections'
+      ]
+    }
+  ]
+},
+
+deadline: {
+  anyOf: [
+    {
+      type:
+        'null'
+    },
+    {
+      type:
+        'string'
+    }
+  ]
+},
+
+deadlineChangeSummary: {
+  anyOf: [
+    {
+      type:
+        'null'
+    },
+    {
+      type:
+        'string'
+    }
+  ]
+},
+
+changeImpact: {
+  anyOf: [
+    {
+      type:
+        'null'
+    },
+    {
+      type:
+        'object',
+
+      additionalProperties:
+        false,
+
+      properties: {
+
+        changeType: {
+          type:
+            'string',
+
+          enum: [
+            'submission_deadline',
+            'evaluation_criteria',
+            'submission_requirements',
+            'scope',
+            'team_requirements',
+            'pricing_requirements',
+            'other'
+          ]
+        },
+
+        previousValue: {
+          type:
+            'string'
+        },
+
+        newValue: {
+          type:
+            'string'
+        },
+
+        summary: {
+          type:
+            'string'
+        },
+
+        affectedAreas: {
+          type:
+            'array',
+
+          items: {
+            type:
+              'string',
+
+            enum: [
+              'dashboard',
+              'analysis',
+              'schedule',
+              'milestones',
+              'production',
+              'tasks',
+              'outline',
+              'content',
+              'review'
+            ]
           }
         },
 
-        max_output_tokens:
-          3000
-      });
+        sourceDocumentTitle: {
+          type:
+            'string'
+        }
+
+      },
+
+      required: [
+        'changeType',
+        'previousValue',
+        'newValue',
+        'summary',
+        'affectedAreas',
+        'sourceDocumentTitle'
+      ]
+    }
+  ]
+}
+
+},
+
+required: [
+  'reply',
+  'action',
+  'analysis',
+  'outline',
+  'deadline',
+  'deadlineChangeSummary',
+  'changeImpact'
+]
+
+}
+}
+},
+
+max_output_tokens:
+  3000
+
+});
 
 
     console.log(
@@ -1750,104 +1963,254 @@ if (
 }
 
 /* =================================================
-   APPLY SUBMISSION DEADLINE UPDATE
-================================================== */
+   RECORD MATERIAL PURSUIT CHANGE
+================================================= */
 
 if (
   sashaResult.action ===
-  'update_deadline'
+  'record_change_impact'
 ) {
 
-  const deadlineValue =
-    typeof sashaResult.deadline ===
-      'string'
-      ? sashaResult.deadline.trim()
-      : '';
+  /* ===============================================
+     REQUIRE CHANGE IMPACT
+  =============================================== */
 
-
-  if (
-    !deadlineValue
-  ) {
-
-    throw new Error(
-      'Sasha requested a deadline update without a revised deadline.'
-    );
-
-  }
-
-
-  const revisedDeadline =
-    new Date(
-      deadlineValue
-    );
-
-
-  if (
-    Number.isNaN(
-      revisedDeadline.getTime()
-    )
-  ) {
-
-    throw new Error(
-      'Sasha returned an invalid revised submission deadline.'
-    );
-
-  }
-
-
-  const previousDeadline =
-    proposal.submissionDeadline
-      ? new Date(
-          proposal.submissionDeadline
-        )
+  const changeImpact =
+    sashaResult.changeImpact &&
+    typeof sashaResult.changeImpact ===
+      'object'
+      ? sashaResult.changeImpact
       : null;
 
 
+  if (
+    !changeImpact
+  ) {
+
+    throw new Error(
+      'Sasha requested a change-impact record without valid change details.'
+    );
+
+  }
+
+
   /* ===============================================
-     UPDATE CANONICAL DEADLINE
+     VALID CHANGE TYPE
   =============================================== */
 
-  proposal.submissionDeadline =
-    revisedDeadline;
-
-
-  /* ===============================================
-     RECORD CHANGE IMPACT
-  =============================================== */
-
-  proposal.changeImpacts.push({
-    changeType:
+  const allowedChangeTypes =
+    new Set([
       'submission_deadline',
+      'evaluation_criteria',
+      'submission_requirements',
+      'scope',
+      'team_requirements',
+      'pricing_requirements',
+      'other'
+    ]);
 
-    previousValue:
-      previousDeadline
-        ? previousDeadline.toISOString()
-        : '',
 
-    newValue:
-      revisedDeadline.toISOString(),
+  const changeType =
+    allowedChangeTypes.has(
+      changeImpact.changeType
+    )
+      ? changeImpact.changeType
+      : 'other';
 
-    summary:
-      typeof sashaResult.deadlineChangeSummary ===
-        'string'
-        ? sashaResult.deadlineChangeSummary.trim()
-        : '',
 
-    affectedAreas: [
+  /* ===============================================
+     VALID AFFECTED AREAS
+  =============================================== */
+
+  const allowedAffectedAreas =
+    new Set([
       'dashboard',
       'analysis',
       'schedule',
       'milestones',
       'production',
-      'tasks'
-    ],
+      'tasks',
+      'outline',
+      'content',
+      'review'
+    ]);
 
-    status:
-      'pending_review',
 
-    reviewedAt:
-      null
-  });
+  const affectedAreas =
+    Array.isArray(
+      changeImpact.affectedAreas
+    )
+      ? changeImpact.affectedAreas.filter(
+          (
+            area
+          ) =>
+            allowedAffectedAreas.has(
+              area
+            )
+        )
+      : [];
+
+
+  /* ===============================================
+     SOURCE DOCUMENT
+  =============================================== */
+
+  const requestedSourceTitle =
+    typeof changeImpact.sourceDocumentTitle ===
+      'string'
+      ? changeImpact.sourceDocumentTitle
+          .trim()
+          .toLowerCase()
+      : '';
+
+
+  const matchedSourceDocument =
+    requestedSourceTitle
+      ? pursuitDocuments.find(
+          (
+            document
+          ) => {
+
+            const title =
+              typeof document.title ===
+                'string'
+                ? document.title
+                    .trim()
+                    .toLowerCase()
+                : '';
+
+
+            const originalFileName =
+              typeof document.originalFileName ===
+                'string'
+                ? document.originalFileName
+                    .trim()
+                    .toLowerCase()
+                : '';
+
+
+            return (
+              title ===
+                requestedSourceTitle ||
+              originalFileName ===
+                requestedSourceTitle
+            );
+
+          }
+        )
+      : null;
+
+
+  const latestPursuitDocument =
+    pursuitDocuments.length > 0
+      ? pursuitDocuments[
+          pursuitDocuments.length - 1
+        ]
+      : null;
+
+
+  const sourceDocument =
+    matchedSourceDocument ||
+    latestPursuitDocument ||
+    null;
+
+
+  /* ===============================================
+     NORMALIZE VALUES
+  =============================================== */
+
+  const previousValue =
+    typeof changeImpact.previousValue ===
+      'string'
+      ? changeImpact.previousValue.trim()
+      : '';
+
+
+  const newValue =
+    typeof changeImpact.newValue ===
+      'string'
+      ? changeImpact.newValue.trim()
+      : '';
+
+
+  const summary =
+    typeof changeImpact.summary ===
+      'string'
+      ? changeImpact.summary.trim()
+      : '';
+
+
+  /* ===============================================
+     PREVENT DUPLICATE PENDING IMPACT
+  =============================================== */
+
+  const existingImpact =
+    Array.isArray(
+      proposal.changeImpacts
+    )
+      ? proposal.changeImpacts.find(
+          (
+            impact
+          ) => {
+
+            if (
+              !impact ||
+              impact.status !==
+                'pending_review'
+            ) {
+
+              return false;
+
+            }
+
+
+            return (
+              impact.changeType ===
+                changeType &&
+              impact.newValue ===
+                newValue
+            );
+
+          }
+        )
+      : null;
+
+
+  /* ===============================================
+     CREATE CHANGE IMPACT
+  =============================================== */
+
+  if (
+    !existingImpact
+  ) {
+
+    proposal.changeImpacts.push({
+      changeType,
+
+      sourceDocument:
+        sourceDocument
+          ? sourceDocument._id
+          : null,
+
+      detectedAt:
+        new Date(),
+
+      previousValue,
+
+      newValue,
+
+      summary,
+
+      affectedAreas,
+
+      status:
+        'pending_review',
+
+      reviewedAt:
+        null
+    });
+
+  }
 
 
   /* ===============================================
@@ -1856,36 +2219,44 @@ if (
 
   workProduct = {
     type:
-      'deadline_change',
+      'change_impact',
 
     updated:
       true,
 
     label:
-      'Submission Deadline',
+      'Pursuit Change',
 
     href:
-      `/analyze?pursuit=${proposal._id}`
+      `/plan?pursuit=${proposal._id}`
   };
 
 
   console.log(
-    'SASHA UPDATED SUBMISSION DEADLINE:',
+    'SASHA RECORDED PURSUIT CHANGE:',
     {
       pursuitId:
         proposal._id.toString(),
 
-      previousDeadline:
-        previousDeadline
-          ? previousDeadline.toISOString()
+      changeType,
+
+      sourceDocumentId:
+        sourceDocument
+          ? sourceDocument._id.toString()
           : null,
 
-      revisedDeadline:
-        revisedDeadline.toISOString()
+      affectedAreas,
+
+      duplicate:
+        Boolean(
+          existingImpact
+        )
     }
   );
 
 }
+
+
     /* =================================================
        APPLY OUTLINE UPDATE
     ================================================== */
