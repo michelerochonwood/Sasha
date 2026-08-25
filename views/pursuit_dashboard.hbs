@@ -1143,3 +1143,75 @@
   </div>
 
 </section>
+
+<script>
+document.addEventListener(
+  'DOMContentLoaded',
+  () => {
+
+    const fileInput =
+      document.getElementById(
+        'pursuitSourceDocuments'
+      );
+
+    const fileStatus =
+      document.getElementById(
+        'pursuitSourceDocumentsStatus'
+      );
+
+
+    if (
+      !fileInput ||
+      !fileStatus
+    ) {
+      return;
+    }
+
+
+    fileInput.addEventListener(
+      'change',
+      () => {
+
+        const files =
+          Array.from(
+            fileInput.files || []
+          );
+
+
+        if (
+          files.length === 0
+        ) {
+
+          fileStatus.textContent =
+            'PDF, DOCX, or TXT. Up to five files, 25 MB each.';
+
+          return;
+
+        }
+
+
+        if (
+          files.length === 1
+        ) {
+
+          fileStatus.textContent =
+            files[0].name;
+
+          return;
+
+        }
+
+
+        fileStatus.textContent =
+          files
+            .map(
+              file => file.name
+            )
+            .join(', ');
+
+      }
+    );
+
+  }
+);
+</script>
