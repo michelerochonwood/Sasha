@@ -229,6 +229,10 @@ timeRemaining = {
        WORKFLOW
     ================================================== */
 
+/* =================================================
+   WORKFLOW
+================================================= */
+
 const rawWorkflowStages =
   Array.isArray(
     proposal.workflowStages
@@ -236,6 +240,284 @@ const rawWorkflowStages =
     ? proposal.workflowStages
     : [];
 
+
+/* =================================================
+   DETERMINE WORK ACTUALLY PRESENT
+================================================= */
+
+/*
+ * Workflow stages are initialized when the pursuit
+ * is created, but older stages may still say
+ * "not_started" even after work has been created.
+ *
+ * The dashboard should reflect the actual pursuit
+ * record without changing Mongo simply because the
+ * dashboard was viewed.
+ */
+
+
+/* =================================================
+   PLAN WORK
+================================================= */
+
+const plan =
+  proposal.plan &&
+  typeof proposal.plan ===
+    'object'
+    ? proposal.plan
+    : {};
+
+
+const planHasWork =
+  [
+    plan.schedule,
+    plan.responsibilities,
+    plan.milestones,
+    plan.production
+  ].some(
+    (
+      value
+    ) =>
+      typeof value ===
+        'string' &&
+      value.trim()
+  );
+
+
+/* =================================================
+   WIN STRATEGY WORK
+================================================= */
+
+const winStrategy =
+  proposal.winStrategy &&
+  typeof proposal.winStrategy ===
+    'object'
+    ? proposal.winStrategy
+    : {};
+
+
+const winStrategyHasWork =
+  Object.values(
+    winStrategy
+  ).some(
+    (
+      value
+    ) => {
+
+      if (
+        typeof value ===
+          'string'
+      ) {
+
+        return Boolean(
+          value.trim()
+        );
+
+      }
+
+
+      if (
+        Array.isArray(
+          value
+        )
+      ) {
+
+        return (
+          value.length >
+          0
+        );
+
+      }
+
+
+      return false;
+
+    }
+  );
+
+
+/* =================================================
+   OUTLINE WORK
+================================================= */
+
+const outline =
+  proposal.outline &&
+  typeof proposal.outline ===
+    'object'
+    ? proposal.outline
+    : {};
+
+
+const outlineSections =
+  Array.isArray(
+    outline.sections
+  )
+    ? outline.sections
+    : [];
+
+
+const outlineHasWork =
+  Boolean(
+    (
+      typeof outline.title ===
+        'string' &&
+      outline.title.trim()
+    ) ||
+    (
+      typeof outline.notes ===
+        'string' &&
+      outline.notes.trim()
+    ) ||
+    outlineSections.length >
+      0
+  );
+
+
+/* =================================================
+   WRITE WORK
+================================================= */
+
+const contentSections =
+  Array.isArray(
+    proposal.contentSections
+  )
+    ? proposal.contentSections
+    : [];
+
+
+const writeHasWork =
+  contentSections.some(
+    (
+      section
+    ) => {
+
+      if (
+        !section
+      ) {
+
+        return false;
+
+      }
+
+
+      const hasContent =
+        typeof section.content ===
+          'string' &&
+        section.content.trim();
+
+
+      const hasStartedStatus =
+        section.status &&
+        section.status !==
+          'not_started';
+
+
+      return Boolean(
+        hasContent ||
+        hasStartedStatus
+      );
+
+    }
+  );
+
+
+/* =================================================
+   REVIEW WORK
+================================================= */
+
+const reviews =
+  proposal.reviews &&
+  typeof proposal.reviews ===
+    'object'
+    ? proposal.reviews
+    : {};
+
+
+const reviewFindings =
+  Array.isArray(
+    reviews.findings
+  )
+    ? reviews.findings
+    : [];
+
+
+const reviewHasWork =
+  reviewFindings.length >
+    0 ||
+  Boolean(
+    reviews.status &&
+    typeof reviews.status ===
+      'object' &&
+    Object.keys(
+      reviews.status
+    ).length >
+      0
+  );
+
+
+/* =================================================
+   SUBMISSION / OUTCOME WORK
+================================================= */
+
+const submissionHasWork =
+  [
+    'submitted',
+    'won',
+    'lost'
+  ].includes(
+    proposal.proposalStatus
+  );
+
+
+const outcome =
+  proposal.outcome &&
+  typeof proposal.outcome ===
+    'object'
+    ? proposal.outcome
+    : {};
+
+
+const outcomeHasWork =
+  Boolean(
+    outcome.status &&
+    outcome.status !==
+      'pending'
+  );
+
+
+/* =================================================
+   ACTUAL WORK MAP
+================================================= */
+
+const stageHasWork = {
+
+  plan:
+    planHasWork,
+
+  win_strategy:
+    winStrategyHasWork,
+
+  outline:
+    outlineHasWork,
+
+  write:
+    writeHasWork,
+
+  review:
+    reviewHasWork,
+
+  submission:
+    submissionHasWork,
+
+  outcome:
+    outcomeHasWork
+
+};
+
+
+/* =================================================
+   WORKFLOW META
+================================================= */
 
 const workflowStageMeta = {
 
@@ -283,7 +565,7 @@ const workflowStageMeta = {
       `/plan?pursuit=${proposal._id}`
   },
 
-    outline: {
+  outline: {
     label:
       'Outline',
 
@@ -304,8 +586,6 @@ const workflowStageMeta = {
     href:
       `/plan?pursuit=${proposal._id}`
   },
-
-
 
   write: {
     label:
@@ -354,6 +634,10 @@ const workflowStageMeta = {
 };
 
 
+/* =================================================
+   PREPARE WORKFLOW STAGES
+================================================= */
+
 const workflowStages =
   rawWorkflowStages.map(
     (
@@ -365,13 +649,41 @@ const workflowStages =
           stage.stage
         ] || {};
 
+
+      /*
+       * Preserve explicit completion or skipping.
+       *
+       * Otherwise, if work actually exists for a
+       * stage whose saved workflow status still says
+       * not_started, show it as in progress.
+       */
+
+      let effectiveStatus =
+        stage.status ||
+        'not_started';
+
+
+      if (
+        effectiveStatus ===
+          'not_started' &&
+        stageHasWork[
+          stage.stage
+        ]
+      ) {
+
+        effectiveStatus =
+          'in_progress';
+
+      }
+
+
       let statusLabel =
         'Not Started';
 
 
       if (
-        stage.status ===
-        'in_progress'
+        effectiveStatus ===
+          'in_progress'
       ) {
 
         statusLabel =
@@ -381,8 +693,8 @@ const workflowStages =
 
 
       if (
-        stage.status ===
-        'complete'
+        effectiveStatus ===
+          'complete'
       ) {
 
         statusLabel =
@@ -392,8 +704,8 @@ const workflowStages =
 
 
       if (
-        stage.status ===
-        'skipped'
+        effectiveStatus ===
+          'skipped'
       ) {
 
         statusLabel =
@@ -404,6 +716,14 @@ const workflowStages =
 
       return {
         ...stage,
+
+        /*
+         * Use the derived status on the dashboard.
+         * This does not alter the Mongo record.
+         */
+
+        status:
+          effectiveStatus,
 
         label:
           meta.label ||
@@ -422,7 +742,6 @@ const workflowStages =
 
     }
   );
-
 
 const workflowGroups = [
   {
