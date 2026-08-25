@@ -12648,3 +12648,723 @@ input[type="file"]::file-selector-button:hover {
     var(--sasha-pink);
 }
 
+
+
+/* =====================================================
+   PURSUIT DASHBOARD | DOCUMENT UPLOAD
+===================================================== */
+
+
+.sasha-pursuit-document-upload {
+  display:
+    grid;
+
+  grid-template-columns:
+    minmax(260px, 0.7fr)
+    minmax(0, 1.3fr);
+
+  gap:
+    clamp(
+      2rem,
+      4vw,
+      4rem
+    );
+
+  align-items:
+    start;
+
+  margin-bottom:
+    1.5rem;
+
+  padding:
+    clamp(
+      1.75rem,
+      3vw,
+      2.4rem
+    );
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.06
+    );
+
+  border:
+    1px solid
+    var(--sasha-white-25);
+
+  border-radius:
+    var(--sasha-radius-medium);
+
+  box-shadow:
+    inset
+    0
+    1px
+    0
+    rgba(
+      255,
+      255,
+      255,
+      0.05
+    ),
+    0
+    18px
+    42px
+    rgba(
+      20,
+      16,
+      72,
+      0.12
+    );
+}
+
+
+/* =====================================================
+   UPLOAD INTRODUCTION
+===================================================== */
+
+
+.sasha-pursuit-document-upload-copy {
+  max-width:
+    520px;
+}
+
+
+.sasha-pursuit-document-upload-copy h3 {
+  margin:
+    0;
+
+  color:
+    var(--sasha-white);
+
+  font-size:
+    clamp(
+      1.35rem,
+      2.5vw,
+      1.8rem
+    );
+
+  font-weight:
+    700;
+
+  letter-spacing:
+    -0.03em;
+
+  line-height:
+    1.15;
+}
+
+
+.sasha-pursuit-document-upload-copy
+> p:not(
+  .sasha-pursuit-dashboard-eyebrow
+) {
+  margin:
+    0.9rem
+    0
+    0;
+
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.66
+    );
+
+  font-size:
+    0.88rem;
+
+  line-height:
+    1.55;
+}
+
+
+/* =====================================================
+   UPLOAD FORM
+===================================================== */
+
+
+.sasha-pursuit-document-upload-form {
+  display:
+    grid;
+
+  min-width:
+    0;
+
+  gap:
+    1.25rem;
+}
+
+
+/* =====================================================
+   DOCUMENT TYPE / SOURCE
+===================================================== */
+
+
+.sasha-pursuit-document-upload-fields {
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(
+      2,
+      minmax(
+        0,
+        1fr
+      )
+    );
+
+  gap:
+    1rem;
+}
+
+
+.sasha-pursuit-document-upload-fields
+> div {
+  min-width:
+    0;
+}
+
+
+.sasha-pursuit-document-upload-fields
+label {
+  display:
+    block;
+
+  margin-bottom:
+    0.5rem;
+
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.74
+    );
+
+  font-size:
+    0.72rem;
+
+  font-weight:
+    800;
+
+  letter-spacing:
+    0.05em;
+
+  text-transform:
+    uppercase;
+}
+
+
+.sasha-pursuit-document-upload-fields
+select {
+  display:
+    block;
+
+  width:
+    100%;
+
+  min-height:
+    50px;
+
+  padding:
+    0.75rem
+    2.75rem
+    0.75rem
+    1rem;
+
+  color:
+    var(--sasha-white);
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.07
+    );
+
+  border:
+    1px solid
+    var(--sasha-white-25);
+
+  border-radius:
+    12px;
+
+  outline:
+    none;
+
+  font:
+    inherit;
+
+  font-size:
+    0.88rem;
+
+  font-weight:
+    600;
+
+  cursor:
+    pointer;
+
+  transition:
+    background-color
+    180ms ease,
+    border-color
+    180ms ease,
+    box-shadow
+    180ms ease;
+}
+
+
+.sasha-pursuit-document-upload-fields
+select:hover {
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.1
+    );
+
+  border-color:
+    var(--sasha-white-40);
+}
+
+
+.sasha-pursuit-document-upload-fields
+select:focus {
+  border-color:
+    var(--sasha-pink);
+
+  box-shadow:
+    0
+    0
+    0
+    3px
+    rgba(
+      242,
+      130,
+      170,
+      0.14
+    );
+}
+
+
+.sasha-pursuit-document-upload-fields
+select option {
+  color:
+    var(--sasha-navy);
+
+  background:
+    var(--sasha-white);
+}
+
+
+/* =====================================================
+   FILE PICKER
+===================================================== */
+
+
+.sasha-pursuit-document-file-row {
+  display:
+    flex;
+
+  flex-wrap:
+    wrap;
+
+  align-items:
+    center;
+
+  gap:
+    0.85rem;
+}
+
+
+/*
+ * The visible Browse Files control is the label.
+ * Hide the browser's native file input so we do
+ * not display two Browse buttons.
+ */
+
+.sasha-pursuit-document-file-row
+input[type="file"] {
+  position:
+    absolute;
+
+  width:
+    1px;
+
+  height:
+    1px;
+
+  overflow:
+    hidden;
+
+  clip:
+    rect(
+      0,
+      0,
+      0,
+      0
+    );
+
+  white-space:
+    nowrap;
+
+  clip-path:
+    inset(50%);
+}
+
+
+/* =====================================================
+   BROWSE BUTTON
+===================================================== */
+
+
+.sasha-pursuit-document-file-row
+.sasha-plan-card-action {
+  display:
+    inline-flex;
+
+  min-height:
+    46px;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  margin:
+    0;
+
+  padding:
+    0.7rem
+    1.15rem;
+
+  color:
+    var(--sasha-white);
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.07
+    );
+
+  border:
+    1px solid
+    var(--sasha-white-25);
+
+  border-radius:
+    999px;
+
+  font-size:
+    0.78rem;
+
+  font-weight:
+    800;
+
+  cursor:
+    pointer;
+
+  transition:
+    color
+    180ms ease,
+    background-color
+    180ms ease,
+    border-color
+    180ms ease,
+    transform
+    180ms ease;
+}
+
+
+.sasha-pursuit-document-file-row
+.sasha-plan-card-action:hover {
+  transform:
+    translateY(-1px);
+
+  color:
+    var(--sasha-navy);
+
+  background:
+    var(--sasha-pink);
+
+  border-color:
+    var(--sasha-pink);
+}
+
+
+/* =====================================================
+   FILE HELP
+===================================================== */
+
+
+.sasha-pursuit-document-file-row
+.sasha-form-help {
+  margin:
+    0;
+
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.54
+    );
+
+  font-size:
+    0.78rem;
+
+  line-height:
+    1.4;
+}
+
+
+/* =====================================================
+   UPLOAD ACTION
+===================================================== */
+
+
+.sasha-pursuit-document-upload-actions {
+  display:
+    flex;
+
+  justify-content:
+    flex-start;
+
+  padding-top:
+    0.25rem;
+}
+
+
+.sasha-pursuit-document-upload
+.sasha-chat-submit {
+  display:
+    inline-flex;
+
+  min-height:
+    48px;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  padding:
+    0.75rem
+    1.35rem;
+
+  color:
+    var(--sasha-navy);
+
+  background:
+    var(--sasha-pink);
+
+  border:
+    1px solid
+    var(--sasha-pink);
+
+  border-radius:
+    999px;
+
+  font:
+    inherit;
+
+  font-size:
+    0.82rem;
+
+  font-weight:
+    800;
+
+  cursor:
+    pointer;
+
+  transition:
+    transform
+    180ms ease,
+    background-color
+    180ms ease,
+    border-color
+    180ms ease;
+}
+
+
+.sasha-pursuit-document-upload
+.sasha-chat-submit:hover {
+  transform:
+    translateY(-2px);
+
+  background:
+    var(--sasha-white);
+
+  border-color:
+    var(--sasha-white);
+}
+
+
+/* =====================================================
+   CURRENT DOCUMENT LIST
+===================================================== */
+
+
+.sasha-pursuit-document-list {
+  display:
+    grid;
+
+  gap:
+    0.7rem;
+
+  margin-top:
+    1.2rem;
+}
+
+
+.sasha-pursuit-document-item {
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    space-between;
+
+  gap:
+    1rem;
+
+  min-width:
+    0;
+
+  padding:
+    0.85rem
+    0.95rem;
+
+  background:
+    var(--sasha-white-04);
+
+  border:
+    1px solid
+    var(--sasha-white-18);
+
+  border-radius:
+    12px;
+}
+
+
+.sasha-pursuit-document-item
+strong {
+  min-width:
+    0;
+
+  overflow-wrap:
+    anywhere;
+
+  color:
+    var(--sasha-white);
+
+  font-size:
+    0.84rem;
+
+  font-weight:
+    700;
+
+  line-height:
+    1.35;
+}
+
+
+.sasha-pursuit-document-item
+a {
+  flex:
+    0 0 auto;
+
+  color:
+    var(--sasha-pink);
+
+  font-size:
+    0.76rem;
+
+  font-weight:
+    800;
+
+  text-decoration:
+    none;
+}
+
+
+.sasha-pursuit-document-item
+a:hover {
+  color:
+    var(--sasha-white);
+}
+
+
+/* =====================================================
+   DOCUMENT UPLOAD | TABLET
+===================================================== */
+
+
+@media screen and (max-width: 900px) {
+
+  .sasha-pursuit-document-upload {
+    grid-template-columns:
+      1fr;
+  }
+
+}
+
+
+/* =====================================================
+   DOCUMENT UPLOAD | MOBILE
+===================================================== */
+
+
+@media screen and (max-width: 680px) {
+
+  .sasha-pursuit-document-upload {
+    padding:
+      1.5rem;
+  }
+
+
+  .sasha-pursuit-document-upload-fields {
+    grid-template-columns:
+      1fr;
+  }
+
+
+  .sasha-pursuit-document-file-row {
+    align-items:
+      flex-start;
+
+    flex-direction:
+      column;
+  }
+
+
+  .sasha-pursuit-document-file-row
+  .sasha-plan-card-action,
+  .sasha-pursuit-document-upload
+  .sasha-chat-submit {
+    width:
+      100%;
+  }
+
+
+  .sasha-pursuit-document-item {
+    align-items:
+      flex-start;
+
+    flex-direction:
+      column;
+  }
+
+}
+
