@@ -12255,13 +12255,13 @@ select.is-sasha-suggested option {
 
   grid-template-columns:
     2rem
-    minmax(0, 1fr)
-    92px;
+    minmax(0, 1fr);
 
   gap:
     0.85rem;
 
-  align-items: start;
+  align-items:
+    start;
 }
 
 /* =====================================================
@@ -12269,14 +12269,32 @@ select.is-sasha-suggested option {
 ===================================================== */
 
 .sasha-outline-page-budget {
-  display: flex;
+  position:
+    absolute;
 
-  min-height: 92px;
+  top:
+    0.85rem;
 
-  flex-direction: column;
+  right:
+    1rem;
 
-  align-items: center;
-  justify-content: center;
+  width:
+    92px;
+
+  min-height:
+    92px;
+
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
 
   padding:
     0.7rem
@@ -12284,10 +12302,10 @@ select.is-sasha-suggested option {
 
   background:
     rgba(
-      255,
-      255,
-      255,
-      0.05
+      40,
+      32,
+      105,
+      0.34
     );
 
   border:
@@ -12296,41 +12314,14 @@ select.is-sasha-suggested option {
       255,
       255,
       255,
-      0.16
+      0.18
     );
 
   border-radius:
-    12px;
+    10px;
 
-  text-align: center;
-}
-
-
-.sasha-outline-page-budget > span {
-  display: block;
-
-  margin-bottom:
-    0.2rem;
-
-  color:
-    rgba(
-      255,
-      255,
-      255,
-      0.72
-    );
-
-  font-size:
-    0.68rem;
-
-  font-weight:
-    800;
-
-  letter-spacing:
-    0.04em;
-
-  text-transform:
-    uppercase;
+  text-align:
+    center;
 }
 
 
