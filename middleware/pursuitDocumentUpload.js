@@ -223,6 +223,13 @@ function pursuitDocumentUpload(
           '/create_pursuit/analyze'
         );
 
+        const isPursuitDashboardRequest =
+  req.originalUrl.includes(
+    '/documents'
+  ) &&
+  req.params &&
+  req.params.id;
+
 
       if (isAnalysisRequest) {
 
@@ -235,7 +242,21 @@ function pursuitDocumentUpload(
 
       }
 
+if (
+  isPursuitDashboardRequest
+) {
 
+  console.error(
+    'PURSUIT DASHBOARD UPLOAD FAILED:',
+    errorMessage
+  );
+
+
+  return res.redirect(
+    `/pursuit/${req.params.id}`
+  );
+
+}
       /*
        * Any future non-analysis use can render
        * the pursuit form again with an error.

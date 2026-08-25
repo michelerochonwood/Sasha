@@ -709,6 +709,403 @@ proposalDocuments
 
 
 /* =====================================================
+   POST PURSUIT DOCUMENTS
+===================================================== */
+
+exports.postPursuitDocuments =
+async (
+  req,
+  res,
+  next
+) => {
+
+  try {
+
+    /* =================================================
+       REQUEST INFORMATION
+    ================================================== */
+
+    const pursuitId =
+      typeof req.params.id ===
+        'string'
+        ? req.params.id.trim()
+        : '';
+
+
+    const uploadedFiles =
+      Array.isArray(
+        req.files
+      )
+        ? req.files
+        : [];
+
+
+    const requestedDocumentType =
+      typeof req.body.documentType ===
+        'string'
+        ? req.body.documentType.trim()
+        : 'other';
+
+
+    const requestedSourceType =
+      typeof req.body.sourceType ===
+        'string'
+        ? req.body.sourceType.trim()
+        : 'client';
+
+
+    /* =================================================
+       REQUIRE PURSUIT
+    ================================================== */
+
+    if (
+      !pursuitId
+    ) {
+
+      return res.redirect(
+        '/pursuits'
+      );
+
+    }
+
+
+    /* =================================================
+       REQUIRE FILES
+    ================================================== */
+
+    if (
+      uploadedFiles.length ===
+      0
+    ) {
+
+      return res.redirect(
+        `/pursuit/${pursuitId}`
+      );
+
+    }
+
+
+    /* =================================================
+       VALID DOCUMENT TYPE
+    ================================================== */
+
+    const allowedDocumentTypes =
+      new Set([
+        'rfp',
+        'addendum',
+        'contract',
+        'scope',
+        'client_document',
+        'reference',
+        'background',
+        'notes',
+        'other'
+      ]);
+
+
+    const documentType =
+      allowedDocumentTypes.has(
+        requestedDocumentType
+      )
+        ? requestedDocumentType
+        : 'other';
+
+
+    /* =================================================
+       VALID SOURCE TYPE
+    ================================================== */
+
+    const allowedSourceTypes =
+      new Set([
+        'client',
+        'procurement_portal',
+        'pursuit_team',
+        'internal',
+        'other'
+      ]);
+
+
+    const sourceType =
+      allowedSourceTypes.has(
+        requestedSourceType
+      )
+        ? requestedSourceType
+        : 'client';
+
+
+    /* =================================================
+       FIND PURSUIT
+    ================================================== */
+
+    const proposal =
+      await Proposal.findOne({
+        _id:
+          pursuitId,
+
+        organization:
+          req.session.organizationId
+      });
+
+
+    if (
+      !proposal
+    ) {
+
+      return res.status(404).render(
+        'not_found',
+        {
+          layout:
+            'mainlayout',
+
+          pageTitle:
+            'Pursuit Not Found | Sasha'
+        }
+      );
+
+    }
+
+
+    /* =================================================
+       SAVE PURSUIT DOCUMENTS
+    ================================================== */
+
+    for (
+      const file of uploadedFiles
+    ) {
+
+      /* ===============================================
+         UPLOAD TO CLOUDINARY
+      =============================================== */
+
+      const uploadResult =
+        await new Promise(
+          (
+            resolve,
+            reject
+          ) => {
+
+            const uploadStream =
+              cloudinary.uploader.upload_stream(
+                {
+                  resource_type:
+                    'raw',
+
+                  folder:
+                    `sasha/${req.session.organizationId}/pursuit-documents`,
+
+                  public_id:
+                    `${Date.now()}-${file.originalname}`,
+
+                  use_filename:
+                    true,
+
+                  unique_filename:
+                    true
+                },
+
+                (
+                  error,
+                  result
+                ) => {
+
+                  if (
+                    error
+                  ) {
+
+                    return reject(
+                      error
+                    );
+
+                  }
+
+
+                  return resolve(
+                    result
+                  );
+
+                }
+              );
+
+
+            uploadStream.end(
+              file.buffer
+            );
+
+          }
+        );
+
+
+      /* ===============================================
+         FILE EXTENSION
+      =============================================== */
+
+      const fileNameParts =
+        file.originalname
+          .split('.');
+
+
+      const fileExtension =
+        fileNameParts.length > 1
+          ? fileNameParts
+              .pop()
+              .toLowerCase()
+          : '';
+
+
+      /* ===============================================
+         CREATE PURSUIT DOCUMENT
+      =============================================== */
+
+      const pursuitDocument =
+        await PursuitDocument.create({
+          organization:
+            req.session.organizationId,
+
+          proposal:
+            proposal._id,
+
+          title:
+            file.originalname,
+
+          documentType,
+
+          sourceType,
+
+          originalFileName:
+            file.originalname,
+
+          storedFileName:
+            uploadResult.public_id ||
+            '',
+
+          mimeType:
+            file.mimetype ||
+            '',
+
+          fileExtension,
+
+          fileSize:
+            Number.isFinite(
+              file.size
+            )
+              ? file.size
+              : 0,
+
+          cloudinaryPublicId:
+            uploadResult.public_id ||
+            '',
+
+          cloudinaryResourceType:
+            uploadResult.resource_type ||
+            'raw',
+
+          cloudinaryUrl:
+            uploadResult.url ||
+            '',
+
+          cloudinarySecureUrl:
+            uploadResult.secure_url ||
+            '',
+
+          uploadedAt:
+            new Date(),
+
+          processingStatus:
+            'not_started',
+
+          processedBySasha:
+            false
+        });
+
+
+      /* ===============================================
+         LINK DOCUMENT TO PURSUIT
+      =============================================== */
+
+      if (
+        !Array.isArray(
+          proposal.pursuitDocuments
+        )
+      ) {
+
+        proposal.pursuitDocuments =
+          [];
+
+      }
+
+
+      proposal.pursuitDocuments.push(
+        pursuitDocument._id
+      );
+
+
+      console.log(
+        'PURSUIT DASHBOARD DOCUMENT CREATED:',
+        {
+          pursuitId:
+            proposal._id.toString(),
+
+          documentId:
+            pursuitDocument._id.toString(),
+
+          documentType,
+
+          sourceType,
+
+          fileName:
+            file.originalname
+        }
+      );
+
+    }
+
+
+    /* =================================================
+       KEEP PURSUIT ACTIVE
+    ================================================== */
+
+    req.session.activePursuitId =
+      proposal._id.toString();
+
+    req.session.activePursuitName =
+      proposal.proposalName;
+
+
+    /* =================================================
+       SAVE PURSUIT
+    ================================================== */
+
+    await proposal.save();
+
+
+    /* =================================================
+       RETURN TO DASHBOARD
+    ================================================== */
+
+    return res.redirect(
+      `/pursuit/${proposal._id}`
+    );
+
+
+  } catch (
+    error
+  ) {
+
+    console.error(
+      'PURSUIT DOCUMENT UPLOAD FAILED:',
+      error
+    );
+
+
+    return next(
+      error
+    );
+
+  }
+
+};
+
+/* =====================================================
    POST CREATE PURSUIT
 ===================================================== */
 

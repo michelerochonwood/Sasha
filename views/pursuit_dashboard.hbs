@@ -781,140 +781,348 @@
     </div>
 
 
-    {{!-- =================================================
-         DOCUMENTS
-    ================================================== --}}
+ {{!-- =================================================
+     DOCUMENTS
+================================================== --}}
 
-    <section class="sasha-pursuit-dashboard-section">
+<section class="sasha-pursuit-dashboard-section">
 
-      <header class="sasha-pursuit-dashboard-section-heading">
+  <header class="sasha-pursuit-dashboard-section-heading">
+
+    <div>
+
+      <p class="sasha-pursuit-dashboard-eyebrow">
+        pursuit record
+      </p>
+
+      <h2>
+        Documents
+      </h2>
+
+    </div>
+
+    <p>
+      Keep the pursuit record current as new client,
+      procurement, and internal material becomes available.
+    </p>
+
+  </header>
+
+
+  {{!-- =================================================
+       ADD PURSUIT DOCUMENTS
+  ================================================== --}}
+
+  <div class="sasha-pursuit-document-upload">
+
+    <div class="sasha-pursuit-document-upload-copy">
+
+      <p class="sasha-pursuit-dashboard-eyebrow">
+        Add pursuit material
+      </p>
+
+      <h3>
+        Upload New Documents
+      </h3>
+
+      <p>
+        Add RFP addenda, clarifications, revised scope,
+        client documents, reference material, or other
+        information received during the pursuit.
+      </p>
+
+    </div>
+
+
+    <form
+      method="POST"
+      action="/pursuit/{{proposal._id}}/documents"
+      enctype="multipart/form-data"
+      class="sasha-pursuit-document-upload-form"
+    >
+
+      {{#if csrfToken}}
+
+        <input
+          type="hidden"
+          name="_csrf"
+          value="{{csrfToken}}"
+        >
+
+      {{/if}}
+
+
+      {{!-- ===============================================
+           DOCUMENT INFORMATION
+      ================================================ --}}
+
+      <div class="sasha-pursuit-document-upload-fields">
+
+
+        {{!-- DOCUMENT TYPE --}}
 
         <div>
 
-          <p class="sasha-pursuit-dashboard-eyebrow">
-            pursuit record
-          </p>
+          <label for="pursuitDocumentType">
+            Document Type
+          </label>
 
-          <h2>
-            Documents
-          </h2>
+          <select
+            id="pursuitDocumentType"
+            name="documentType"
+          >
+
+            <option value="addendum">
+              Addendum
+            </option>
+
+            <option value="rfp">
+              RFP
+            </option>
+
+            <option value="scope">
+              Scope
+            </option>
+
+            <option value="contract">
+              Contract
+            </option>
+
+            <option value="client_document">
+              Client Document
+            </option>
+
+            <option value="reference">
+              Reference
+            </option>
+
+            <option value="background">
+              Background
+            </option>
+
+            <option value="notes">
+              Notes
+            </option>
+
+            <option value="other">
+              Other
+            </option>
+
+          </select>
 
         </div>
 
-      </header>
 
+        {{!-- SOURCE --}}
 
-      <div class="sasha-pursuit-document-grid">
+        <div>
 
+          <label for="pursuitDocumentSource">
+            Source
+          </label>
 
-        {{!-- SOURCE DOCUMENTS --}}
-
-        <div class="sasha-pursuit-document-card">
-
-<span class="sasha-pursuit-document-count">
-  {{sourceDocuments.length}}
-</span>
-
-<h3>
-  Source Documents
-</h3>
-
-{{#if sourceDocuments.length}}
-
-  <div class="sasha-pursuit-document-list">
-
-    {{#each sourceDocuments}}
-
-      <div class="sasha-pursuit-document-item">
-
-        <strong>
-          {{this.title}}
-        </strong>
-
-        {{#if this.cloudinarySecureUrl}}
-
-          <a
-            href="{{this.cloudinarySecureUrl}}"
-            target="_blank"
-            rel="noopener noreferrer"
+          <select
+            id="pursuitDocumentSource"
+            name="sourceType"
           >
-            View document →
-          </a>
 
-        {{/if}}
+            <option value="client">
+              Client
+            </option>
 
-      </div>
+            <option value="procurement_portal">
+              Procurement Portal
+            </option>
 
-    {{/each}}
+            <option value="pursuit_team">
+              Pursuit Team
+            </option>
 
-  </div>
+            <option value="internal">
+              Internal
+            </option>
 
-{{else}}
+            <option value="other">
+              Other
+            </option>
 
-  <p>
-    No source documents have been added yet.
-  </p>
-
-{{/if}}
-
-</div>
-
-
-        {{!-- PROPOSAL DOCUMENTS --}}
-
-        <div class="sasha-pursuit-document-card">
-
-<span class="sasha-pursuit-document-count">
-  {{proposalDocuments.length}}
-</span>
-
-          <h3>
-            Proposal Documents
-          </h3>
-
-{{#if proposalDocuments.length}}
-
-  <div class="sasha-pursuit-document-list">
-
-    {{#each proposalDocuments}}
-
-      <div class="sasha-pursuit-document-item">
-
-        <strong>
-          {{this.title}}
-        </strong>
-
-        {{#if this.cloudinarySecureUrl}}
-
-          <a
-            href="{{this.cloudinarySecureUrl}}"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            View document →
-          </a>
-
-        {{/if}}
-
-      </div>
-
-    {{/each}}
-
-  </div>
-
-{{else}}
-
-  <p>
-    No proposal documents have been added yet.
-  </p>
-
-{{/if}}
+          </select>
 
         </div>
 
       </div>
 
-    </section>
+
+      {{!-- ===============================================
+           FILE SELECTION
+      ================================================ --}}
+
+      <div class="sasha-pursuit-document-file-row">
+
+        <label
+          for="pursuitSourceDocuments"
+          class="sasha-plan-card-action"
+        >
+          Browse files
+        </label>
+
+        <input
+          type="file"
+          id="pursuitSourceDocuments"
+          name="sourceDocuments"
+          accept=".pdf,.docx,.txt"
+          multiple
+        >
+
+        <span
+          id="pursuitSourceDocumentsStatus"
+          class="sasha-form-help"
+        >
+          PDF, DOCX, or TXT. Up to five files, 25 MB each.
+        </span>
+
+      </div>
+
+
+      {{!-- ===============================================
+           SUBMIT
+      ================================================ --}}
+
+      <div class="sasha-pursuit-document-upload-actions">
+
+        <button
+          type="submit"
+          class="sasha-chat-submit"
+        >
+          Add to Pursuit
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+
+  {{!-- =================================================
+       CURRENT PURSUIT DOCUMENTS
+  ================================================== --}}
+
+  <div class="sasha-pursuit-document-grid">
+
+
+    {{!-- ===============================================
+         SOURCE DOCUMENTS
+    ================================================ --}}
+
+    <div class="sasha-pursuit-document-card">
+
+      <span class="sasha-pursuit-document-count">
+        {{sourceDocuments.length}}
+      </span>
+
+      <h3>
+        Source Documents
+      </h3>
+
+
+      {{#if sourceDocuments.length}}
+
+        <div class="sasha-pursuit-document-list">
+
+          {{#each sourceDocuments}}
+
+            <div class="sasha-pursuit-document-item">
+
+              <strong>
+                {{this.title}}
+              </strong>
+
+
+              {{#if this.cloudinarySecureUrl}}
+
+                <a
+                  href="{{this.cloudinarySecureUrl}}"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  View document →
+                </a>
+
+              {{/if}}
+
+            </div>
+
+          {{/each}}
+
+        </div>
+
+      {{else}}
+
+        <p>
+          No source documents have been added yet.
+        </p>
+
+      {{/if}}
+
+    </div>
+
+
+    {{!-- ===============================================
+         PROPOSAL DOCUMENTS
+    ================================================ --}}
+
+    <div class="sasha-pursuit-document-card">
+
+      <span class="sasha-pursuit-document-count">
+        {{proposalDocuments.length}}
+      </span>
+
+      <h3>
+        Proposal Documents
+      </h3>
+
+
+      {{#if proposalDocuments.length}}
+
+        <div class="sasha-pursuit-document-list">
+
+          {{#each proposalDocuments}}
+
+            <div class="sasha-pursuit-document-item">
+
+              <strong>
+                {{this.title}}
+              </strong>
+
+
+              {{#if this.cloudinarySecureUrl}}
+
+                <a
+                  href="{{this.cloudinarySecureUrl}}"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  View document →
+                </a>
+
+              {{/if}}
+
+            </div>
+
+          {{/each}}
+
+        </div>
+
+      {{else}}
+
+        <p>
+          No proposal documents have been added yet.
+        </p>
+
+      {{/if}}
+
+    </div>
 
   </div>
 

@@ -2,17 +2,21 @@ const express = require(
   'express'
 );
 
+
 const ensureOrganization = require(
   '../../middleware/ensureOrganization'
 );
+
 
 const instructionResourceUpload = require(
   '../../middleware/instructionResourceUpload'
 );
 
-const planController = require(
-  '../../controllers/planController'
+
+const pursuitDocumentUpload = require(
+  '../../middleware/pursuitDocumentUpload'
 );
+
 
 const {
   verifyCsrfToken
@@ -20,41 +24,51 @@ const {
   '../../middleware/csrfProtection'
 );
 
+
 const organizationController = require(
   '../../controllers/organizationController'
 );
+
 
 const proposalController = require(
   '../../controllers/proposalController'
 );
 
+
+const analyzeController = require(
+  '../../controllers/analyzeController'
+);
+
+
+const planController = require(
+  '../../controllers/planController'
+);
+
+
 const instructionController = require(
   '../../controllers/instructionController'
 );
-
-const pursuitDocumentUpload = require(
-  '../../middleware/pursuitDocumentUpload'
-);
-
 
 
 const openaiController = require(
   '../../controllers/openaiController'
 );
-const analyzeController = require(
-  '../../controllers/analyzeController'
-);
 
-const router = express.Router();
+
+const router =
+  express.Router();
 
 
 /* =====================================================
-HOME
+   HOME
 ===================================================== */
 
 router.get(
   '/',
-  (req, res) => {
+  (
+    req,
+    res
+  ) => {
 
     return res.render(
       'sasha_homepage',
@@ -83,7 +97,7 @@ router.get(
 
 
 /* =====================================================
-   ANALYZE PURSUIT MATERIAL
+   ANALYZE PURSUIT MATERIAL DURING CREATION
 ===================================================== */
 
 router.post(
@@ -96,7 +110,7 @@ router.post(
 
 
 /* =====================================================
-   SAVE PURSUIT
+   SAVE NEW PURSUIT
 ===================================================== */
 
 router.post(
@@ -109,7 +123,7 @@ router.post(
 
 
 /* =====================================================
-PURSUITS
+   PURSUITS
 ===================================================== */
 
 router.get(
@@ -120,7 +134,7 @@ router.get(
 
 
 /* =====================================================
-PURSUIT DASHBOARD
+   PURSUIT DASHBOARD
 ===================================================== */
 
 router.get(
@@ -130,10 +144,21 @@ router.get(
 );
 
 
+/* =====================================================
+   ADD DOCUMENTS TO EXISTING PURSUIT
+===================================================== */
+
+router.post(
+  '/pursuit/:id/documents',
+  ensureOrganization,
+  pursuitDocumentUpload,
+  verifyCsrfToken,
+  proposalController.postPursuitDocuments
+);
 
 
 /* =====================================================
-ANALYZE | GO NO GO
+   ANALYZE | GO / NO GO
 ===================================================== */
 
 router.get(
@@ -143,41 +168,9 @@ router.get(
 );
 
 
-
-/* =====================================================
-ANALYZE INSTRUCTION RESOURCE
-===================================================== */
-
-router.post(
-  '/add_instructions/analyze',
-  ensureOrganization,
-  instructionResourceUpload,
-  instructionController.analyzeInstruction
-);
-
-/* =====================================================
-   SAVE INSTRUCTION RESOURCE
-===================================================== */
-
-router.post(
-  '/add_instructions',
-  ensureOrganization,
-  instructionResourceUpload,
-  instructionController.postAddInstructions
-);
-
-
-
-router.get(
-  '/add_instructions',
-  ensureOrganization,
-  instructionController.getAddInstructions
-);
-
 /* =====================================================
    RECORD GO / NO GO DECISION
 ===================================================== */
-
 
 router.post(
   '/analyze/decision',
@@ -197,8 +190,10 @@ router.post(
   verifyCsrfToken,
   analyzeController.postEffortLevel
 );
+
+
 /* =====================================================
-ANALYZE PURSUIT CHAT
+   ANALYZE PURSUIT CHAT
 ===================================================== */
 
 router.post(
@@ -208,8 +203,9 @@ router.post(
   analyzeController.postAnalyzeChat
 );
 
+
 /* =====================================================
-PLAN | WIN STRATEGY
+   PLAN | WIN STRATEGY
 ===================================================== */
 
 router.get(
@@ -218,14 +214,17 @@ router.get(
   planController.getPlanPursuit
 );
 
+
+/* =====================================================
+   PLAN | WIN STRATEGY CHAT
+===================================================== */
+
 router.post(
   '/plan/chat',
   ensureOrganization,
-  pursuitDocumentUpload,
   verifyCsrfToken,
   planController.postPlanChat
 );
-
 
 
 /* =====================================================
@@ -239,6 +238,7 @@ router.post(
   planController.reviewChangeImpact
 );
 
+
 /* =====================================================
    ACCEPT PLAN CHANGE IMPACT
 ===================================================== */
@@ -249,6 +249,7 @@ router.post(
   verifyCsrfToken,
   planController.acceptChangeImpact
 );
+
 
 /* =====================================================
    DISMISS PLAN CHANGE IMPACT
@@ -261,8 +262,9 @@ router.post(
   planController.dismissChangeImpact
 );
 
+
 /* =====================================================
-WRITE
+   WRITE
 ===================================================== */
 
 router.get(
@@ -273,7 +275,7 @@ router.get(
 
 
 /* =====================================================
-REVIEW
+   REVIEW
 ===================================================== */
 
 router.get(
@@ -284,7 +286,42 @@ router.get(
 
 
 /* =====================================================
-ORGANIZATION AUTHENTICATION
+   SASHA INSTRUCTIONS
+===================================================== */
+
+router.get(
+  '/add_instructions',
+  ensureOrganization,
+  instructionController.getAddInstructions
+);
+
+
+/* =====================================================
+   ANALYZE INSTRUCTION RESOURCE
+===================================================== */
+
+router.post(
+  '/add_instructions/analyze',
+  ensureOrganization,
+  instructionResourceUpload,
+  instructionController.analyzeInstruction
+);
+
+
+/* =====================================================
+   SAVE INSTRUCTION RESOURCE
+===================================================== */
+
+router.post(
+  '/add_instructions',
+  ensureOrganization,
+  instructionResourceUpload,
+  instructionController.postAddInstructions
+);
+
+
+/* =====================================================
+   ORGANIZATION AUTHENTICATION
 ===================================================== */
 
 router.get(
@@ -308,7 +345,7 @@ router.post(
 
 
 /* =====================================================
-ORGANIZATION SETUP
+   ORGANIZATION SETUP
 ===================================================== */
 
 router.get(
@@ -324,14 +361,9 @@ router.post(
 );
 
 
-
-
-
-
-
-
 /* =====================================================
-EXPORT ROUTER
+   EXPORT ROUTER
 ===================================================== */
 
-module.exports = router;
+module.exports =
+  router;

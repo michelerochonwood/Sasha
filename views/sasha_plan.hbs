@@ -764,7 +764,7 @@
   id="sasha-plan-chat-form"
   method="POST"
   action="/plan/chat"
-  enctype="multipart/form-data"
+
 >
 
           {{#if csrfToken}}
@@ -804,28 +804,7 @@
   <label
     for="planSourceDocuments"
     class="sasha-plan-card-action"
-  >
-    Browse files
-  </label>
-
-  <input
-    type="file"
-    id="planSourceDocuments"
-    name="sourceDocuments"
-    accept=".pdf,.docx,.txt"
-    multiple
-  >
-
-  <span
-    id="planSourceDocumentsStatus"
-    class="sasha-form-help"
-  >
-    Add an RFP addendum, clarification, revised scope,
-    client document, or other pursuit material.
-  </span>
-
-</div>
-
+  
 
           <div class="sasha-chat-actions">
 
