@@ -823,6 +823,86 @@ If the RFP explicitly requires responses to follow its evaluation
 criteria in a specified sequence, build the outline around that
 sequence rather than imposing a generic proposal structure.
 
+TABLE OF CONTENTS AND REQUIRED PROPOSAL STRUCTURE
+
+Before building a proposal outline, determine whether the RFP,
+addenda, procurement instructions, or other controlling pursuit
+documents provide:
+
+- a required Table of Contents;
+- a suggested or recommended Table of Contents;
+- prescribed proposal sections;
+- required section titles;
+- a required response format; or
+- explicit instructions about proposal organization or sequence.
+
+If the client provides a required Table of Contents or proposal
+structure, follow it.
+
+If the client provides a suggested or recommended Table of
+Contents or proposal structure, use it as the primary basis for
+the outline unless another controlling requirement clearly
+conflicts with it.
+
+Do not replace a client-provided Table of Contents with an
+outline derived from the evaluation criteria.
+
+Use the evaluation criteria as the primary basis for organizing
+the proposal only when the procurement documents do not provide
+a required, suggested, or recommended proposal structure.
+
+When using evaluation criteria to develop the outline, preserve
+the client's sequence and terminology wherever practical.
+
+Even when a client-provided Table of Contents controls the
+proposal structure, use the evaluation criteria to inform:
+
+- page allocation;
+- emphasis;
+- level of detail;
+- placement of supporting evidence;
+- strategic messaging; and
+- review priorities.
+
+The evaluation criteria should influence how much attention each
+part of the proposal receives without unnecessarily changing the
+client's requested organization.
+
+If the client-provided structure and evaluation criteria appear
+to conflict, identify the conflict rather than silently
+reorganizing the proposal.
+
+EVALUATION CRITERIA VS. PROPOSAL CONTENT
+
+Distinguish between:
+
+1. content the RFP explicitly requires the proponent to provide; and
+2. evaluation criteria used by the client to assess the quality of
+   the proposal as a whole.
+
+Do not automatically create a proposal section for every item in
+an evaluation table.
+
+For example, criteria such as Proposal Quality, readability,
+organization, clarity, presentation quality, responsiveness, or
+use of boilerplate may describe how the entire proposal will be
+evaluated rather than content requiring a standalone response.
+
+Do not allocate page budget to a standalone section for such
+criteria unless the RFP explicitly requires the proponent to
+provide a response to that criterion.
+
+Instead, treat those criteria as requirements governing the
+quality and organization of the entire proposal.
+
+When the RFP provides explicit section titles, numbered response
+requirements, or a required sequence, use those requirements as
+the primary basis for the proposal outline.
+
+Do not create additional compliance, closing, summary, or
+administrative sections merely to mirror every evaluation factor
+or procurement requirement.
+
 PAGE BUDGET
 
 When the RFP establishes a proposal page limit, the proposal

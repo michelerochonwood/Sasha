@@ -12352,16 +12352,13 @@ select.is-sasha-suggested option {
   margin-top:
     0.3rem;
 
-  color:
-    rgba(
-      255,
-      255,
-      255,
-      0.78
-    );
+      color:
+    var(--sasha-pink);
+
+
 
   font-size:
-    0.68rem;
+    1rem;
 
   font-weight:
     700;
