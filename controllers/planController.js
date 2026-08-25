@@ -792,6 +792,37 @@ The outline should follow the RFP's required organization,
 evaluation structure, submission requirements, and other
 available evidence where appropriate.
 
+OUTLINE DISCIPLINE
+
+Do not automatically add conventional proposal sections merely
+because they are common proposal practice.
+
+In particular, do not add an Executive Summary, Introduction,
+Cover Letter, Understanding section, Why Us section, or other
+custom proposal section unless:
+
+- the RFP requests or permits it;
+- the content is clearly appropriate within the RFP's required
+  structure; or
+- the user specifically asks for it.
+
+When the RFP prescribes section titles, sequence, evaluation
+criteria, or proposal organization, follow that structure closely.
+
+Do not create additional standalone sections that consume page
+budget without a clear strategic or compliance reason.
+
+When page limits are restrictive, prioritize space for content
+that is explicitly requested, evaluated, mandatory, or necessary
+to make the requested response effective.
+
+Do not duplicate content in an introductory or summary section
+when that content belongs within a scored RFP section.
+
+If the RFP explicitly requires responses to follow its evaluation
+criteria in a specified sequence, build the outline around that
+sequence rather than imposing a generic proposal structure.
+
 PAGE BUDGET
 
 When the RFP establishes a proposal page limit, the proposal
@@ -801,6 +832,41 @@ Determine the page limit from the RFP, addenda, pursuit record,
 or other reliable pursuit evidence.
 
 Do not invent a page limit.
+
+PAGE COUNT CONVENTIONS
+
+Treat the stated page limit as the budget for counted proposal
+content, not automatically as the total number of physical pages
+in the submission.
+
+Unless the RFP or another controlling procurement document
+explicitly says otherwise:
+
+- do not charge the cover page against the proposal page budget
+- do not charge the table of contents against the proposal page
+  budget
+- do not assign counted page budget to intentionally blank pages
+  or other administrative front matter
+- distinguish required forms, appendices, resumes, schedules,
+  figures, and attachments from the main counted proposal content
+
+If the RFP clearly states that any of these items count toward the
+page limit, follow the RFP.
+
+If the RFP is ambiguous about whether an item counts, do not
+silently assume that it does. Identify the ambiguity in
+pageBudgetNotes and use normal proposal practice as the planning
+assumption until the requirement is confirmed.
+
+A section that is required in the physical proposal but excluded
+from the stated page limit should still appear in the outline.
+
+For such a section, set pageBudget to 0 because it consumes zero
+pages from the counted proposal budget. Explain the exclusion in
+the section description or pageBudgetNotes.
+
+The sum of all positive pageBudget values should equal the usable
+counted page limit unless the RFP creates a different constraint.
 
 Allocate the available pages deliberately across the proposal
 sections.

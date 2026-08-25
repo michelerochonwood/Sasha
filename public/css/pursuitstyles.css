@@ -12189,25 +12189,60 @@ select.is-sasha-suggested option {
 ===================================================== */
 
 .sasha-write-outline-reference-item {
-  padding:
-    1rem
-    0;
+  position: relative;
 
-  border-bottom:
+  margin-bottom:
+    0.75rem;
+
+  padding:
+    1.25rem
+    8.5rem
+    1.25rem
+    1.25rem;
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.055
+    );
+
+  border:
     1px solid
-    rgba(255, 255, 255, 0.12);
+    rgba(
+      255,
+      255,
+      255,
+      0.16
+    );
+
+  border-radius:
+    14px;
 }
 
 
 .sasha-write-outline-reference-item:first-child {
-  padding-top: 0;
+  padding-top:
+    1.25rem;
 }
 
 
 .sasha-write-outline-reference-item:last-child {
-  padding-bottom: 0;
+  margin-bottom:
+    0;
 
-  border-bottom: 0;
+  padding-bottom:
+    1.25rem;
+
+  border:
+    1px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.16
+    );
 }
 
 
@@ -12385,6 +12420,306 @@ select.is-sasha-suggested option {
 
   line-height:
     1.35;
+}
+
+
+/* =====================================================
+   OUTLINE | PAGE BUDGET SUMMARY
+===================================================== */
+
+.sasha-outline-budget-summary {
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1.35fr)
+    minmax(260px, 0.85fr);
+
+  margin-bottom:
+    1rem;
+
+  overflow:
+    hidden;
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.065
+    );
+
+  border:
+    1px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.18
+    );
+
+  border-radius:
+    14px;
+}
+
+
+/* =====================================================
+   PAGE LIMIT
+===================================================== */
+
+.sasha-outline-budget-summary-limit {
+  display: flex;
+
+  align-items:
+    flex-start;
+
+  gap:
+    1rem;
+
+  padding:
+    1.25rem
+    1.4rem;
+}
+
+
+.sasha-outline-budget-summary-icon {
+  display: flex;
+
+  width:
+    42px;
+
+  height:
+    42px;
+
+  flex:
+    0 0 42px;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  color:
+    var(--sasha-navy);
+
+  background:
+    var(--sasha-pink);
+
+  border-radius:
+    50%;
+
+  font-size:
+    1.1rem;
+
+  font-weight:
+    800;
+}
+
+
+.sasha-outline-budget-summary-limit strong {
+  display:
+    block;
+
+  margin-bottom:
+    0.3rem;
+
+  color:
+    var(--sasha-white);
+
+  font-size:
+    0.9rem;
+
+  font-weight:
+    800;
+
+  line-height:
+    1.3;
+}
+
+
+.sasha-outline-budget-summary-limit p {
+  margin:
+    0;
+
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.72
+    );
+
+  font-size:
+    0.78rem;
+
+  line-height:
+    1.45;
+}
+
+
+.sasha-outline-budget-summary-limit small {
+  display:
+    block;
+
+  margin-top:
+    0.25rem;
+
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.52
+    );
+
+  font-size:
+    0.7rem;
+
+  line-height:
+    1.45;
+}
+
+
+/* =====================================================
+   PAGE BUDGET TOTAL
+===================================================== */
+
+.sasha-outline-budget-summary-total {
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  justify-content:
+    center;
+
+  padding:
+    1.15rem
+    1.4rem;
+
+  border-left:
+    1px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.14
+    );
+}
+
+
+.sasha-outline-budget-summary-total > span {
+  display:
+    block;
+
+  margin-bottom:
+    0.25rem;
+
+  color:
+    var(--sasha-white);
+
+  font-size:
+    0.72rem;
+
+  font-weight:
+    800;
+}
+
+
+.sasha-outline-budget-summary-total > div {
+  display:
+    flex;
+
+  align-items:
+    baseline;
+
+  gap:
+    0.35rem;
+}
+
+
+.sasha-outline-budget-summary-total > div > strong {
+  color:
+    var(--sasha-pink);
+
+  font-size:
+    2.5rem;
+
+  font-weight:
+    800;
+
+  letter-spacing:
+    -0.04em;
+
+  line-height:
+    1;
+}
+
+
+.sasha-outline-budget-summary-total > div > small {
+  color:
+    var(--sasha-pink);
+
+  font-size:
+    0.82rem;
+
+  font-weight:
+    800;
+}
+
+
+.sasha-outline-budget-summary-total > p {
+  max-width:
+    360px;
+
+  margin:
+    0.35rem
+    0
+    0;
+
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.58
+    );
+
+  font-size:
+    0.7rem;
+
+  line-height:
+    1.45;
+}
+
+
+/* =====================================================
+   PAGE BUDGET SUMMARY | MOBILE
+===================================================== */
+
+@media screen and (max-width: 760px) {
+
+  .sasha-outline-budget-summary {
+    grid-template-columns:
+      1fr;
+  }
+
+
+  .sasha-outline-budget-summary-total {
+    border-left:
+      0;
+
+    border-top:
+      1px solid
+      rgba(
+        255,
+        255,
+        255,
+        0.14
+      );
+  }
+
 }
 
 

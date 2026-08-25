@@ -1766,16 +1766,81 @@
 
     <div class="sasha-write-outline-reference">
 
-      {{#if outline.notes}}
+{{#if outline.pageLimit}}
 
-        <p class="sasha-write-outline-notes">
-          {{outline.notes}}
+  <div class="sasha-outline-budget-summary">
+
+    <div class="sasha-outline-budget-summary-limit">
+
+      <div class="sasha-outline-budget-summary-icon">
+        ▤
+      </div>
+
+      <div>
+
+        <strong>
+          Technical Proposal Page Limit
+        </strong>
+
+        <p>
+          {{outline.pageLimit}} pages total
+        </p>
+
+        {{#if outline.notes}}
+
+          <small>
+            {{outline.notes}}
+          </small>
+
+        {{/if}}
+
+      </div>
+
+    </div>
+
+
+    <div class="sasha-outline-budget-summary-total">
+
+      <span>
+        Page Budget Summary
+      </span>
+
+      <div>
+        <strong>
+          {{outline.pageLimit}}
+        </strong>
+
+        <small>
+          pages
+        </small>
+      </div>
+
+      {{#if outline.pageBudgetNotes}}
+
+        <p>
+          {{outline.pageBudgetNotes}}
         </p>
 
       {{/if}}
 
+    </div>
 
-      <div class="sasha-write-outline-list">
+  </div>
+
+{{else}}
+
+  {{#if outline.notes}}
+
+    <p class="sasha-write-outline-notes">
+      {{outline.notes}}
+    </p>
+
+  {{/if}}
+
+{{/if}}
+
+
+<div class="sasha-write-outline-list">
 
         {{#each outline.sections}}
 
