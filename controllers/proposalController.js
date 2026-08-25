@@ -110,18 +110,32 @@ const pursuitDocuments =
     })
     .lean();
 
-    const sourceDocuments =
+const proposalSourceTypes =
+  new Set([
+    'win_strategy',
+    'proposal_plan',
+    'proposal_outline',
+    'proposal_draft',
+    'review_document',
+    'final_proposal'
+  ]);
+
+
+const sourceDocuments =
   pursuitDocuments.filter(
     document =>
-      document.sourceType ===
-      'client'
+      !proposalSourceTypes.has(
+        document.sourceType
+      )
   );
 
-  const proposalDocuments =
+
+const proposalDocuments =
   pursuitDocuments.filter(
     document =>
-      document.sourceType !==
-      'client'
+      proposalSourceTypes.has(
+        document.sourceType
+      )
   );
 
     /* =================================================
@@ -1136,11 +1150,15 @@ async (
 
     const allowedSourceTypes =
       new Set([
-        'client',
-        'procurement_portal',
-        'pursuit_team',
-        'internal',
-        'other'
+    'client',
+    'procurement_portal',
+    'win_strategy',
+    'proposal_plan',
+    'proposal_outline',
+    'proposal_draft',
+    'review_document',
+    'final_proposal',
+    'other'
       ]);
 
 
