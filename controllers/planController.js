@@ -150,21 +150,27 @@ async (
        PREPARE OUTLINE
     ================================================== */
 
-    const outline =
-      proposal.outline &&
-      typeof proposal.outline ===
-        'object'
-        ? proposal.outline
-        : {
-            title:
-              'Proposal Outline',
+const outline =
+  proposal.outline &&
+  typeof proposal.outline ===
+    'object'
+    ? proposal.outline
+    : {
+        title:
+          'Proposal Outline',
 
-            notes:
-              '',
+        notes:
+          '',
 
-            sections:
-              []
-          };
+        pageLimit:
+          null,
+
+        pageBudgetNotes:
+          '',
+
+        sections:
+          []
+      };
 
 
     if (
@@ -773,6 +779,8 @@ does not create or materially change a saved work product.
 
 PROPOSAL OUTLINE
 
+PROPOSAL OUTLINE
+
 The outline is created and maintained in the Plan workspace
 and later appears in the Write workspace as the guide for
 proposal drafting.
@@ -783,6 +791,64 @@ reorganize, or materially develop the proposal structure.
 The outline should follow the RFP's required organization,
 evaluation structure, submission requirements, and other
 available evidence where appropriate.
+
+PAGE BUDGET
+
+When the RFP establishes a proposal page limit, the proposal
+outline MUST include a page budget.
+
+Determine the page limit from the RFP, addenda, pursuit record,
+or other reliable pursuit evidence.
+
+Do not invent a page limit.
+
+Allocate the available pages deliberately across the proposal
+sections.
+
+Consider:
+
+- evaluation weights
+- mandatory requirements
+- complexity of each requested response
+- strategic importance
+- evidence required
+- personnel and project information
+- tables, matrices, schedules, and graphics
+- whether particular material is excluded from the stated
+  page count
+
+Do not simply divide the page limit equally between sections.
+
+Do not mechanically allocate pages in direct proportion to
+evaluation weights. Use professional proposal judgment.
+
+The section page budgets should collectively respect the
+stated page limit.
+
+If the RFP excludes particular material from the page count,
+identify that clearly in pageBudgetNotes.
+
+Whenever you create or materially revise an outline, return:
+
+- pageLimit
+- pageBudgetNotes
+- pageBudget for every outline section
+
+If no page limit can be established from reliable pursuit
+evidence, return pageLimit as null and explain that in
+pageBudgetNotes.
+
+ACTION RULE FOR OUTLINE
+
+If your response creates, revises, reorganizes, expands,
+adds a page budget to, or otherwise materially changes the
+proposal outline, you MUST set:
+
+action = "update_outline"
+
+Return the COMPLETE current outline when action is
+"update_outline". Preserve useful existing outline content
+unless the user deliberately changes or replaces it.
 
 The pursuit record currently contains:
 
@@ -991,6 +1057,24 @@ const response =
                         'string'
                     },
 
+                    pageLimit: {
+                      anyOf: [
+                        {
+                          type:
+                            'null'
+                        },
+                        {
+                          type:
+                            'number'
+                        }
+                      ]
+                    },
+
+                    pageBudgetNotes: {
+                      type:
+                        'string'
+                    },
+
                     sections: {
                       type:
                         'array',
@@ -1019,6 +1103,19 @@ const response =
                               'string'
                           },
 
+                          pageBudget: {
+                            anyOf: [
+                              {
+                                type:
+                                  'null'
+                              },
+                              {
+                                type:
+                                  'number'
+                              }
+                            ]
+                          },
+
                           subsections: {
                             type:
                               'array',
@@ -1035,6 +1132,7 @@ const response =
                           'order',
                           'title',
                           'description',
+                          'pageBudget',
                           'subsections'
                         ]
                       }
@@ -1045,6 +1143,8 @@ const response =
                   required: [
                     'title',
                     'notes',
+                    'pageLimit',
+                    'pageBudgetNotes',
                     'sections'
                   ]
                 }
