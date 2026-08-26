@@ -7540,6 +7540,896 @@ input[type="file"]::file-selector-button:hover {
 
 
 /* =====================================================
+   WRITE | SAVED PROPOSAL SECTIONS
+===================================================== */
+
+.sasha-write-saved-sections {
+  margin-top:
+    clamp(
+      3rem,
+      6vw,
+      5rem
+    );
+
+  margin-bottom:
+    clamp(
+      4rem,
+      8vw,
+      6rem
+    );
+}
+
+
+/* =====================================================
+   SAVED SECTIONS HEADER
+===================================================== */
+
+.sasha-write-saved-sections
+.sasha-write-section-heading {
+  display:
+    grid;
+
+  grid-template-columns:
+    minmax(
+      0,
+      1fr
+    )
+    minmax(
+      280px,
+      0.65fr
+    );
+
+  gap:
+    clamp(
+      2rem,
+      5vw,
+      5rem
+    );
+
+  align-items:
+    end;
+
+  margin-bottom:
+    1.75rem;
+}
+
+
+.sasha-write-saved-sections
+.sasha-write-section-heading h2 {
+  margin:
+    0;
+
+  color:
+    #ffffff;
+
+  font-size:
+    clamp(
+      2rem,
+      3vw,
+      3rem
+    );
+
+  line-height:
+    1.05;
+}
+
+
+.sasha-write-saved-sections
+.sasha-write-section-heading > p {
+  margin:
+    0;
+
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.76
+    );
+
+  font-size:
+    0.98rem;
+
+  line-height:
+    1.6;
+}
+
+
+/* =====================================================
+   SAVED SECTION LIST
+===================================================== */
+
+.sasha-write-saved-section-list {
+  display:
+    grid;
+
+  gap:
+    1rem;
+}
+
+
+/* =====================================================
+   SAVED SECTION DROPDOWN
+===================================================== */
+
+.sasha-write-saved-section {
+  overflow:
+    hidden;
+
+  color:
+    #ffffff;
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.08
+    );
+
+  border:
+    1px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.22
+    );
+
+  border-radius:
+    1.25rem;
+
+  box-shadow:
+    0
+    14px
+    34px
+    rgba(
+      22,
+      16,
+      70,
+      0.16
+    );
+}
+
+
+/* =====================================================
+   DROPDOWN SUMMARY
+===================================================== */
+
+.sasha-write-saved-section-summary {
+  display:
+    flex;
+
+  justify-content:
+    space-between;
+
+  align-items:
+    center;
+
+  gap:
+    1.5rem;
+
+  min-height:
+    5.5rem;
+
+  padding:
+    1.25rem
+    1.5rem;
+
+  cursor:
+    pointer;
+
+  list-style:
+    none;
+
+  transition:
+    background
+    0.2s
+    ease;
+}
+
+
+.sasha-write-saved-section-summary::-webkit-details-marker {
+  display:
+    none;
+}
+
+
+.sasha-write-saved-section-summary::marker {
+  display:
+    none;
+  content:
+    '';
+}
+
+
+.sasha-write-saved-section-summary:hover {
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.06
+    );
+}
+
+
+/* =====================================================
+   SUMMARY HEADING
+===================================================== */
+
+.sasha-write-saved-section-heading {
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  gap:
+    1rem;
+
+  min-width:
+    0;
+}
+
+
+.sasha-write-saved-section-number {
+  display:
+    inline-flex;
+
+  flex:
+    0
+    0
+    auto;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  width:
+    2.4rem;
+
+  height:
+    2.4rem;
+
+  color:
+    var(--sasha-pink);
+
+  font-size:
+    0.9rem;
+
+  font-weight:
+    700;
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.1
+    );
+
+  border:
+    1px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.22
+    );
+
+  border-radius:
+    50%;
+}
+
+
+.sasha-write-saved-section-title {
+  display:
+    flex;
+
+  flex-wrap:
+    wrap;
+
+  align-items:
+    center;
+
+  gap:
+    0.7rem
+    1rem;
+
+  min-width:
+    0;
+}
+
+
+.sasha-write-saved-section-title strong {
+  color:
+    #ffffff;
+
+  font-size:
+    clamp(
+      1rem,
+      1.3vw,
+      1.2rem
+    );
+
+  line-height:
+    1.35;
+}
+
+
+/* =====================================================
+   SECTION STATUS
+===================================================== */
+
+.sasha-write-saved-section-status {
+  display:
+    inline-flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  padding:
+    0.35rem
+    0.65rem;
+
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.72
+    );
+
+  font-size:
+    0.72rem;
+
+  font-weight:
+    700;
+
+  line-height:
+    1;
+
+  text-transform:
+    capitalize;
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.08
+    );
+
+  border:
+    1px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.16
+    );
+
+  border-radius:
+    999px;
+}
+
+
+.sasha-write-saved-section-status.is-in_progress,
+.sasha-write-saved-section-status.is-in-progress {
+  color:
+    var(--sasha-pink);
+
+  border-color:
+    rgba(
+      255,
+      163,
+      196,
+      0.36
+    );
+}
+
+
+.sasha-write-saved-section-status.is-ready_for_review,
+.sasha-write-saved-section-status.is-ready-for-review {
+  color:
+    #ffffff;
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.15
+    );
+}
+
+
+/* =====================================================
+   OPEN / CLOSE CONTROL
+===================================================== */
+
+.sasha-write-saved-section-toggle {
+  display:
+    inline-flex;
+
+  flex:
+    0
+    0
+    auto;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  width:
+    2.3rem;
+
+  height:
+    2.3rem;
+
+  color:
+    var(--sasha-pink);
+
+  font-size:
+    1.6rem;
+
+  font-weight:
+    300;
+
+  line-height:
+    1;
+
+  border:
+    1px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.22
+    );
+
+  border-radius:
+    50%;
+
+  transition:
+    transform
+    0.2s
+    ease;
+}
+
+
+.sasha-write-saved-section[open]
+.sasha-write-saved-section-toggle {
+  transform:
+    rotate(
+      45deg
+    );
+}
+
+
+/* =====================================================
+   OPEN SECTION SUMMARY
+===================================================== */
+
+.sasha-write-saved-section[open]
+.sasha-write-saved-section-summary {
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.06
+    );
+
+  border-bottom:
+    1px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.14
+    );
+}
+
+
+/* =====================================================
+   SAVED SECTION BODY
+===================================================== */
+
+.sasha-write-saved-section-body {
+  display:
+    grid;
+
+  gap:
+    1.5rem;
+
+  padding:
+    1.6rem
+    1.75rem
+    1.75rem;
+}
+
+
+/* =====================================================
+   SAVED SECTION LABELS
+===================================================== */
+
+.sasha-write-saved-section-label {
+  margin:
+    0
+    0
+    0.75rem;
+
+  color:
+    var(--sasha-pink);
+
+  font-size:
+    0.78rem;
+
+  font-weight:
+    700;
+
+  letter-spacing:
+    0.08em;
+
+  text-transform:
+    uppercase;
+}
+
+
+/* =====================================================
+   CURRENT DRAFT
+===================================================== */
+
+.sasha-write-saved-section-content {
+  padding:
+    1.4rem
+    1.5rem;
+
+  color:
+    var(--sasha-navy);
+
+  background:
+    #f6f5f2;
+
+  border-radius:
+    1rem;
+}
+
+
+.sasha-write-saved-section-copy {
+  color:
+    rgba(
+      31,
+      27,
+      82,
+      0.92
+    );
+
+  font-size:
+    1rem;
+
+  line-height:
+    1.7;
+}
+
+
+.sasha-write-saved-section-copy p {
+  margin:
+    0
+    0
+    1rem;
+}
+
+
+.sasha-write-saved-section-copy p:last-child {
+  margin-bottom:
+    0;
+}
+
+
+.sasha-write-saved-section-copy h3,
+.sasha-write-saved-section-copy h4 {
+  margin:
+    1.4rem
+    0
+    0.65rem;
+
+  color:
+    var(--sasha-navy);
+}
+
+
+.sasha-write-saved-section-copy ul,
+.sasha-write-saved-section-copy ol {
+  margin:
+    0.75rem
+    0
+    1rem
+    1.4rem;
+}
+
+
+.sasha-write-saved-section-copy li {
+  margin-bottom:
+    0.4rem;
+}
+
+
+/* =====================================================
+   EMPTY DRAFT
+===================================================== */
+
+.sasha-write-saved-section-empty {
+  margin:
+    0;
+
+  color:
+    rgba(
+      31,
+      27,
+      82,
+      0.55
+    );
+
+  font-style:
+    italic;
+
+  line-height:
+    1.55;
+}
+
+
+/* =====================================================
+   WORKING NOTES
+===================================================== */
+
+.sasha-write-saved-section-notes {
+  padding:
+    1.15rem
+    1.35rem;
+
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.82
+    );
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.07
+    );
+
+  border:
+    1px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.14
+    );
+
+  border-radius:
+    1rem;
+}
+
+
+.sasha-write-saved-section-notes p:last-child {
+  margin:
+    0;
+
+  line-height:
+    1.6;
+}
+
+
+/* =====================================================
+   SECTION ACTIONS
+===================================================== */
+
+.sasha-write-saved-section-actions {
+  display:
+    flex;
+
+  justify-content:
+    flex-end;
+
+  align-items:
+    center;
+}
+
+
+.sasha-write-saved-section-actions
+.sasha-write-secondary-button {
+  display:
+    inline-flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  padding:
+    0.75rem
+    1rem;
+
+  color:
+    #ffffff;
+
+  text-decoration:
+    none;
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.08
+    );
+
+  border:
+    1px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.22
+    );
+
+  border-radius:
+    0.75rem;
+
+  transition:
+    background
+    0.2s
+    ease,
+    border-color
+    0.2s
+    ease;
+}
+
+
+.sasha-write-saved-section-actions
+.sasha-write-secondary-button:hover {
+  color:
+    var(--sasha-navy);
+
+  background:
+    var(--sasha-pink);
+
+  border-color:
+    var(--sasha-pink);
+}
+
+
+/* =====================================================
+   NO WRITING SECTIONS
+===================================================== */
+
+.sasha-write-saved-sections-empty {
+  padding:
+    2rem;
+
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.72
+    );
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.07
+    );
+
+  border:
+    1px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.18
+    );
+
+  border-radius:
+    1.25rem;
+}
+
+
+.sasha-write-saved-sections-empty p {
+  margin:
+    0;
+}
+
+
+.sasha-write-saved-sections-empty p + p {
+  margin-top:
+    0.5rem;
+}
+
+
+/* =====================================================
+   SAVED SECTIONS | RESPONSIVE
+===================================================== */
+
+@media screen and (max-width: 950px) {
+
+  .sasha-write-saved-sections
+  .sasha-write-section-heading {
+    grid-template-columns:
+      1fr;
+
+    gap:
+      1rem;
+  }
+
+
+  .sasha-write-saved-section-summary {
+    padding:
+      1.1rem
+      1.2rem;
+  }
+
+
+  .sasha-write-saved-section-body {
+    padding:
+      1.25rem;
+  }
+
+}
+
+
+@media screen and (max-width: 640px) {
+
+  .sasha-write-saved-section-title {
+    display:
+      grid;
+
+    gap:
+      0.5rem;
+  }
+
+
+  .sasha-write-saved-section-status {
+    width:
+      fit-content;
+  }
+
+
+  .sasha-write-saved-section-actions {
+    justify-content:
+      stretch;
+  }
+
+
+  .sasha-write-saved-section-actions
+  .sasha-write-secondary-button {
+    width:
+      100%;
+  }
+
+}
+
+
+/* =====================================================
    CURRENT SECTION
 ===================================================== */
 
