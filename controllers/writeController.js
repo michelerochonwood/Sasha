@@ -14,8 +14,11 @@ const sashaAiService = require(
 );
 
 
+/* =====================================================
+   PREPARE ABBREVIATED OUTLINE FOR WRITE
+===================================================== */
 
-exports.prepareOutlineForWrite = (
+const prepareOutlineForWrite = (
   outline,
   contentSections
 ) => {
@@ -47,7 +50,8 @@ exports.prepareOutlineForWrite = (
   const preparedOutlineSections =
     outlineSections.map(
       (
-        outlineSection
+        outlineSection,
+        index
       ) => {
 
         const matchingContentSection =
@@ -61,7 +65,38 @@ exports.prepareOutlineForWrite = (
 
 
         return {
-          ...outlineSection,
+
+          order:
+            Number.isFinite(
+              outlineSection.order
+            )
+              ? outlineSection.order
+              : index + 1,
+
+          title:
+            outlineSection.title ||
+            '',
+
+          subsections:
+            Array.isArray(
+              outlineSection.subsections
+            )
+              ? outlineSection.subsections
+                  .filter(
+                    (
+                      subsection
+                    ) =>
+                      typeof subsection ===
+                        'string' &&
+                      subsection.trim()
+                  )
+                  .map(
+                    (
+                      subsection
+                    ) =>
+                      subsection.trim()
+                  )
+              : [],
 
           isWritable:
             Boolean(
@@ -77,6 +112,7 @@ exports.prepareOutlineForWrite = (
             matchingContentSection
               ? matchingContentSection.status
               : ''
+
         };
 
       }
@@ -84,10 +120,14 @@ exports.prepareOutlineForWrite = (
 
 
   return {
-    ...safeOutline,
+
+    title:
+      safeOutline.title ||
+      'Proposal Outline',
 
     sections:
       preparedOutlineSections
+
   };
 
 };
