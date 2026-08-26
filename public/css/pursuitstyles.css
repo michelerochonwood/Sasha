@@ -7095,14 +7095,14 @@ input[type="file"]::file-selector-button:hover {
     grid;
 
   grid-template-columns:
-    minmax(260px, 0.6fr)
-    minmax(0, 1.6fr);
+    minmax(0, 20fr)
+    minmax(0, 80fr);
 
   gap:
     clamp(
       1.5rem,
-      3vw,
-      2.5rem
+      2vw,
+      2rem
     );
 
   align-items:
@@ -14227,3 +14227,40 @@ input[type="file"]::file-selector-button:hover {
     );
 }
 
+
+/* =====================================================
+   WRITE PAGE CONTAINER
+===================================================== */
+
+.sasha-write-container {
+  width:
+    80vw;
+
+  max-width:
+    none;
+
+  margin:
+    0 auto;
+}
+
+
+
+
+@media screen and (max-width: 1200px) {
+
+  .sasha-write-container {
+    width:
+      calc(
+        100% -
+        3rem
+      );
+  }
+
+
+  .sasha-write-layout {
+    grid-template-columns:
+      minmax(220px, 0.25fr)
+      minmax(0, 0.75fr);
+  }
+
+}
