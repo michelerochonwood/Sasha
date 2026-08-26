@@ -13804,3 +13804,426 @@ a:hover {
 
 }
 
+
+/* =====================================================
+   SASHA CHAT WINDOWS | HIGH-CONTRAST WORKSPACE
+===================================================== */
+
+
+/* =====================================================
+   CHAT SHELL
+===================================================== */
+
+.sasha-chat-panel {
+  overflow: hidden;
+
+  color:
+    var(--sasha-navy);
+
+  background:
+    #f3f3f1;
+
+  border:
+    6px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.32
+    );
+
+  border-radius:
+    1.75rem;
+
+  box-shadow:
+    0
+    26px
+    65px
+    rgba(
+      17,
+      13,
+      61,
+      0.34
+    );
+}
+
+
+/* =====================================================
+   CHAT HEADER
+===================================================== */
+
+.sasha-chat-header {
+  padding:
+    1.6rem
+    1.8rem;
+
+  color:
+    var(--sasha-navy);
+
+  background:
+    #d9d9d7;
+
+  border-bottom:
+    1px solid
+    rgba(
+      31,
+      27,
+      82,
+      0.14
+    );
+}
+
+
+.sasha-chat-header h2 {
+  color:
+    var(--sasha-navy);
+}
+
+
+.sasha-chat-header
+.sasha-work-eyebrow {
+  color:
+    var(--sasha-pink);
+}
+
+
+.sasha-chat-status {
+  color:
+    rgba(
+      31,
+      27,
+      82,
+      0.72
+    );
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.46
+    );
+
+  border:
+    1px solid
+    rgba(
+      31,
+      27,
+      82,
+      0.18
+    );
+}
+
+
+/* =====================================================
+   CHAT THREAD
+===================================================== */
+
+.sasha-chat-thread {
+  background:
+    #fafaf8;
+}
+
+
+/* =====================================================
+   SPEAKER LABELS
+===================================================== */
+
+.sasha-chat-speaker {
+  color:
+    rgba(
+      31,
+      27,
+      82,
+      0.7
+    );
+}
+
+
+.sasha-chat-message.is-sasha
+.sasha-chat-speaker,
+.sasha-chat-message.is-assistant
+.sasha-chat-speaker {
+  color:
+    var(--sasha-navy);
+}
+
+
+/* =====================================================
+   SASHA MESSAGE
+===================================================== */
+
+.sasha-chat-message.is-sasha
+.sasha-chat-bubble,
+.sasha-chat-message.is-assistant
+.sasha-chat-bubble {
+  color:
+    rgba(
+      31,
+      27,
+      82,
+      0.92
+    );
+
+  background:
+    #e3e3e1;
+
+  border:
+    1px solid
+    rgba(
+      31,
+      27,
+      82,
+      0.18
+    );
+
+  border-radius:
+    1rem;
+}
+
+
+/* =====================================================
+   USER MESSAGE
+===================================================== */
+
+.sasha-chat-message.is-user
+.sasha-chat-speaker {
+  color:
+    rgba(
+      31,
+      27,
+      82,
+      0.64
+    );
+}
+
+
+.sasha-chat-message.is-user
+.sasha-chat-bubble {
+  color:
+    var(--sasha-navy);
+
+  background:
+    #d5d5d3;
+
+  border:
+    1px solid
+    rgba(
+      31,
+      27,
+      82,
+      0.22
+    );
+
+  border-radius:
+    1rem;
+}
+
+
+/* =====================================================
+   CHAT TYPOGRAPHY
+===================================================== */
+
+.sasha-chat-bubble strong {
+  color:
+    var(--sasha-navy);
+}
+
+
+/* =====================================================
+   CHAT COMPOSER
+===================================================== */
+
+.sasha-chat-composer {
+  padding:
+    1.5rem
+    1.8rem
+    1.7rem;
+
+  background:
+    #d9d9d7;
+
+  border-top:
+    1px solid
+    rgba(
+      31,
+      27,
+      82,
+      0.14
+    );
+}
+
+
+.sasha-chat-label {
+  color:
+    var(--sasha-navy);
+}
+
+
+/* =====================================================
+   CHAT TEXTAREA
+===================================================== */
+
+.sasha-chat-composer textarea {
+  color:
+    var(--sasha-navy);
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.5
+    );
+
+  border:
+    2px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.82
+    );
+
+  border-radius:
+    1rem;
+}
+
+
+.sasha-chat-composer textarea::placeholder {
+  color:
+    rgba(
+      31,
+      27,
+      82,
+      0.55
+    );
+}
+
+
+.sasha-chat-composer textarea:focus {
+  background:
+    #ffffff;
+
+  border-color:
+    var(--sasha-pink);
+
+  box-shadow:
+    0
+    0
+    0
+    4px
+    rgba(
+      242,
+      130,
+      170,
+      0.16
+    );
+}
+
+
+/* =====================================================
+   CHAT HELP TEXT
+===================================================== */
+
+.sasha-chat-actions p {
+  color:
+    rgba(
+      31,
+      27,
+      82,
+      0.66
+    );
+}
+
+
+/* =====================================================
+   CHAT FILE INPUT
+===================================================== */
+
+.sasha-chat-composer
+input[type="file"] {
+  color:
+    rgba(
+      31,
+      27,
+      82,
+      0.7
+    );
+}
+
+
+.sasha-chat-composer
+input[type="file"]::file-selector-button {
+  color:
+    var(--sasha-navy);
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.55
+    );
+
+  border:
+    1px solid
+    rgba(
+      31,
+      27,
+      82,
+      0.18
+    );
+}
+
+
+.sasha-chat-composer
+input[type="file"]::file-selector-button:hover {
+  color:
+    var(--sasha-navy);
+
+  background:
+    var(--sasha-pink);
+
+  border-color:
+    var(--sasha-pink);
+}
+
+
+/* =====================================================
+   CHAT WORK PRODUCT LINK
+===================================================== */
+
+.sasha-chat-work-product-link {
+  color:
+    var(--sasha-navy);
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.52
+    );
+
+  border:
+    1px solid
+    rgba(
+      31,
+      27,
+      82,
+      0.18
+    );
+}
+
+
+.sasha-chat-work-product-link:hover {
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.82
+    );
+}
+
