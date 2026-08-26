@@ -551,7 +551,7 @@ const pursuitContext = {
 
 const conversationInput =
   existingMessages
-    .slice(-20)
+    .slice(-8)
     .map(
       (
         savedMessage
@@ -610,6 +610,7 @@ const pursuitDocuments =
    ATTACH PURSUIT DOCUMENTS TO CURRENT MESSAGE
 ================================================= */
 
+/*
 pursuitDocuments.forEach(
   (
     document
@@ -649,6 +650,7 @@ pursuitDocuments.forEach(
 
   }
 );
+*/
 
 
 conversationInput.push({
@@ -1019,8 +1021,16 @@ const openai =
    SEND REQUEST TO OPENAI
 ================================================= */
 
+const planChatStartedAt =
+  Date.now();
+
+
 console.log(
-  'SASHA PLAN CHAT SENDING TO OPENAI'
+  'SASHA PLAN CHAT SENDING TO OPENAI',
+  {
+    startedAt:
+      new Date().toISOString()
+  }
 );
 
 
@@ -1676,9 +1686,32 @@ workProduct,
 await proposal.save();
 
 
+console.log(
+  'SASHA PLAN CHAT PURSUIT SAVED',
+  {
+    elapsedMs:
+      Date.now() -
+      planChatStartedAt
+  }
+);
+
+
 /* =================================================
    RETURN TO PLAN
 ================================================== */
+
+console.log(
+  'SASHA PLAN CHAT COMPLETE',
+  {
+    action:
+      sashaResult.action,
+
+    elapsedMs:
+      Date.now() -
+      planChatStartedAt
+  }
+);
+
 
 return res.redirect(
   `/plan?pursuit=${proposal._id}`
