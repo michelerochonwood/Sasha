@@ -150,125 +150,117 @@
         </header>
 
 
-        {{!-- ===============================================
-             SAVED OUTLINE
-        ================================================ --}}
+{{!-- ===============================================
+     SAVED OUTLINE
+=============================================== --}}
 
-        {{#if outline.sections.length}}
+{{#if outline.sections.length}}
 
-          <div class="sasha-write-outline-reference">
+  <nav
+    class="sasha-write-outline-reference"
+    aria-label="Proposal outline"
+  >
 
-            {{#if outline.notes}}
+    <div class="sasha-write-outline-list">
 
-              <p class="sasha-write-outline-notes">
-                {{outline.notes}}
-              </p>
+      {{#each outline.sections}}
 
+        <div
+          class="
+            sasha-write-outline-reference-item
+            {{#if this.isWritable}}
+              is-writable
             {{/if}}
+          "
+        >
 
+          {{!-- =====================================
+               SECTION TITLE
+          ====================================== --}}
 
-            <div class="sasha-write-outline-list">
+          {{#if this.isWritable}}
 
-              {{#each outline.sections}}
+            <a
+              href="/write?pursuit={{@root.proposal._id}}&section={{this.sectionId}}"
+              class="sasha-write-outline-section-link"
+            >
 
-                <div
-                  class="
-                    sasha-write-outline-reference-item
-                    {{#if this.isWritable}}
-                      is-writable
-                    {{/if}}
-                  "
-                >
+              <div class="sasha-write-outline-reference-heading">
 
-                  {{#if this.isWritable}}
+                <span class="sasha-write-outline-number">
+                  {{this.order}}
+                </span>
 
-                    <a
-                      href="/write?pursuit={{@root.proposal._id}}&section={{this.sectionId}}"
-                      class="sasha-write-outline-section-link"
-                    >
+                <strong>
+                  {{this.title}}
+                </strong>
 
-                      <div class="sasha-write-outline-reference-heading">
+              </div>
 
-                        <span class="sasha-write-outline-number">
-                          {{this.order}}
-                        </span>
+            </a>
 
-                        <strong>
-                          {{this.title}}
-                        </strong>
+          {{else}}
 
-                      </div>
+            <div class="sasha-write-outline-reference-heading">
 
-                    </a>
+              <span class="sasha-write-outline-number">
+                {{this.order}}
+              </span>
 
-                  {{else}}
-
-                    <div class="sasha-write-outline-reference-heading">
-
-                      <span class="sasha-write-outline-number">
-                        {{this.order}}
-                      </span>
-
-                      <strong>
-                        {{this.title}}
-                      </strong>
-
-                    </div>
-
-                  {{/if}}
-
-
-                  {{#if this.description}}
-
-                    <p class="sasha-write-outline-description">
-                      {{this.description}}
-                    </p>
-
-                  {{/if}}
-
-
-                  {{#if this.subsections.length}}
-
-                    <ul class="sasha-write-outline-subsections">
-
-                      {{#each this.subsections}}
-
-                        <li>
-                          {{this}}
-                        </li>
-
-                      {{/each}}
-
-                    </ul>
-
-                  {{/if}}
-
-                </div>
-
-              {{/each}}
+              <strong>
+                {{this.title}}
+              </strong>
 
             </div>
 
-          </div>
+          {{/if}}
 
 
-        {{else}}
+          {{!-- =====================================
+               SUBSECTION TITLES
+          ====================================== --}}
 
-          <div class="sasha-write-outline-empty">
+          {{#if this.subsections.length}}
 
-            <p>
-              Sasha has not created the proposal outline yet.
-            </p>
+            <ul class="sasha-write-outline-subsections">
 
-            <p>
-              Ask Sasha to prepare an outline based on the RFP structure,
-              evaluation criteria, mandatory requirements, and the way the
-              client expects the proposal to be organized.
-            </p>
+              {{#each this.subsections}}
 
-          </div>
+                <li>
+                  {{this}}
+                </li>
 
-        {{/if}}
+              {{/each}}
+
+            </ul>
+
+          {{/if}}
+
+        </div>
+
+      {{/each}}
+
+    </div>
+
+  </nav>
+
+
+{{else}}
+
+  <div class="sasha-write-outline-empty">
+
+    <p>
+      Sasha has not created the proposal outline yet.
+    </p>
+
+    <p>
+      Build the proposal outline in the Plan workspace before
+      drafting begins.
+    </p>
+
+  </div>
+
+{{/if}}
 
       </aside>
 

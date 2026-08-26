@@ -55,6 +55,11 @@ const openaiController = require(
 );
 
 
+const writeController = require(
+  '../../controllers/writeController'
+);
+
+
 const router =
   express.Router();
 
@@ -270,7 +275,7 @@ router.post(
 router.get(
   '/write',
   ensureOrganization,
-  proposalController.getWritePursuit
+  writeController.getWritePursuit
 );
 
 
