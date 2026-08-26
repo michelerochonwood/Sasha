@@ -14,6 +14,8 @@ const sashaAiService = require(
 );
 
 
+
+
 /* =====================================================
    PREPARE ABBREVIATED OUTLINE FOR WRITE
 ===================================================== */
@@ -45,6 +47,88 @@ const prepareOutlineForWrite = (
     )
       ? contentSections
       : [];
+
+
+  const abbreviateSubsection = (
+    subsection
+  ) => {
+
+    if (
+      typeof subsection !==
+        'string'
+    ) {
+
+      return '';
+
+    }
+
+
+    const trimmed =
+      subsection.trim();
+
+
+    if (
+      !trimmed
+    ) {
+
+      return '';
+
+    }
+
+
+    const separators = [
+      ' — ',
+      ' – ',
+      ': '
+    ];
+
+
+    let abbreviated =
+      trimmed;
+
+
+    for (
+      const separator of separators
+    ) {
+
+      const separatorIndex =
+        abbreviated.indexOf(
+          separator
+        );
+
+
+      if (
+        separatorIndex >
+        -1
+      ) {
+
+        abbreviated =
+          abbreviated
+            .slice(
+              0,
+              separatorIndex
+            )
+            .trim();
+
+        break;
+
+      }
+
+    }
+
+
+    abbreviated =
+      abbreviated
+        .replace(
+          /\s*\([^)]*\)\s*$/,
+          ''
+        )
+        .trim();
+
+
+    return abbreviated;
+
+  };
 
 
   const preparedOutlineSections =
@@ -82,19 +166,16 @@ const prepareOutlineForWrite = (
               outlineSection.subsections
             )
               ? outlineSection.subsections
-                  .filter(
-                    (
-                      subsection
-                    ) =>
-                      typeof subsection ===
-                        'string' &&
-                      subsection.trim()
-                  )
                   .map(
                     (
                       subsection
                     ) =>
-                      subsection.trim()
+                      abbreviateSubsection(
+                        subsection
+                      )
+                  )
+                  .filter(
+                    Boolean
                   )
               : [],
 
