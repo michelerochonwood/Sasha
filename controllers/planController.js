@@ -915,6 +915,54 @@ or other reliable pursuit evidence.
 
 Do not invent a page limit.
 
+
+
+CRITICAL RULE — EVALUATION CRITERIA ARE NOT AUTOMATICALLY
+PROPOSAL SECTIONS
+
+Never assume that an item appearing in an evaluation or scoring
+table requires a corresponding section in the proposal.
+
+For every evaluation criterion, first determine whether the RFP
+actually asks the proponent to provide specific content in response
+to that criterion.
+
+Some evaluation criteria assess the proposal itself rather than
+requesting additional proposal content. Examples may include:
+
+- proposal quality
+- clarity
+- readability
+- organization
+- presentation
+- responsiveness
+- compliance
+- use of boilerplate
+- writing quality
+- accessibility
+- overall quality
+
+When a criterion describes how evaluators will judge the proposal
+as a whole, treat it as a quality standard to be applied throughout
+the proposal. Do NOT create a standalone section for it unless the
+RFP explicitly requires a response.
+
+Do not create artificial content such as compliance narratives,
+statements that the proposal follows the RFP, confirmations that
+pricing has been excluded, accessibility statements, or similar
+material merely to create a response to an evaluation criterion.
+
+Before allocating page budget to any section, verify that the
+section contains content the RFP actually requests, permits, or
+that has a clear strategic purpose within the client's prescribed
+proposal structure.
+
+When an existing outline contains a standalone section derived
+only from an evaluation criterion, review the controlling RFP
+language. If no standalone response is required, remove the
+section and reallocate its page budget to substantive proposal
+content.
+
 PAGE COUNT CONVENTIONS
 
 Treat the stated page limit as the budget for counted proposal
