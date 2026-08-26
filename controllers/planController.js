@@ -1405,6 +1405,77 @@ console.log(
   sashaResult.action
 );
 
+/* =================================================
+   VALIDATE OUTLINE PAGE BUDGET
+================================================= */
+
+if (
+  sashaResult.action ===
+    'update_outline' &&
+  sashaResult.outline &&
+  typeof sashaResult.outline ===
+    'object' &&
+  Number.isFinite(
+    sashaResult.outline.pageLimit
+  ) &&
+  Array.isArray(
+    sashaResult.outline.sections
+  )
+) {
+
+  const countedPageBudget =
+    sashaResult.outline.sections.reduce(
+      (
+        total,
+        section
+      ) => {
+
+        if (
+          Number.isFinite(
+            section.pageBudget
+          ) &&
+          section.pageBudget > 0
+        ) {
+
+          return (
+            total +
+            section.pageBudget
+          );
+
+        }
+
+
+        return total;
+
+      },
+      0
+    );
+
+
+  console.log(
+    'SASHA OUTLINE PAGE BUDGET CHECK:',
+    {
+      pageLimit:
+        sashaResult.outline.pageLimit,
+
+      countedPageBudget
+    }
+  );
+
+
+  if (
+    countedPageBudget >
+    sashaResult.outline.pageLimit
+  ) {
+
+    throw new Error(
+      `Sasha returned an outline page budget of ${countedPageBudget} pages against a ${sashaResult.outline.pageLimit}-page limit.`
+    );
+
+  }
+
+}
+
 
 /* =================================================
    APPLY PROPOSAL PLAN UPDATE
