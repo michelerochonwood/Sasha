@@ -519,42 +519,228 @@
 
 
     {{!-- =================================================
-         CURRENT SECTION
-    ================================================== --}}
+     CURRENT SECTION
+================================================== --}}
 
-    {{#if activeSection}}
+{{#if activeSection}}
 
-      <section
-        class="sasha-write-current-section"
-        aria-labelledby="sasha-current-section-heading"
+  <section
+    class="sasha-write-current-section"
+    aria-labelledby="sasha-current-section-heading"
+  >
+
+    <header class="sasha-write-section-header">
+
+      <div>
+
+        <p class="sasha-work-eyebrow">
+          Working Draft
+        </p>
+
+        <h2 id="sasha-current-section-heading">
+          {{activeSection.title}}
+        </h2>
+
+      </div>
+
+
+      <span
+        class="
+          sasha-write-section-status
+          is-{{activeSection.status}}
+        "
+      >
+        {{activeSection.status}}
+      </span>
+
+    </header>
+
+
+    {{!-- ===============================================
+         SECTION CONTEXT
+    ================================================ --}}
+
+    <div class="sasha-write-section-context">
+
+      <div class="sasha-write-context-item">
+
+        <span>
+          Section
+        </span>
+
+        <strong>
+          {{activeSection.order}}
+        </strong>
+
+      </div>
+
+
+      <div class="sasha-write-context-item">
+
+        <span>
+          Status
+        </span>
+
+        <strong class="sasha-pursuit-capitalize">
+          {{activeSection.status}}
+        </strong>
+
+      </div>
+
+
+      <div class="sasha-write-context-item">
+
+        <span>
+          Last Updated
+        </span>
+
+        {{#if activeSection.updatedAt}}
+
+          <strong>
+            {{activeSection.updatedAt}}
+          </strong>
+
+        {{else}}
+
+          <strong>
+            Not yet
+          </strong>
+
+        {{/if}}
+
+      </div>
+
+    </div>
+
+
+    {{!-- ===============================================
+         SECTION DRAFT FORM
+    ================================================ --}}
+
+    <form
+      class="sasha-write-section-form"
+      action="/write/section"
+      method="POST"
+    >
+
+      {{#if csrfToken}}
+
+        <input
+          type="hidden"
+          name="_csrf"
+          value="{{csrfToken}}"
+        >
+
+      {{/if}}
+
+
+      <input
+        type="hidden"
+        name="pursuitId"
+        value="{{proposal._id}}"
       >
 
-        <header class="sasha-write-section-header">
 
-          <div>
-
-            <p class="sasha-work-eyebrow">
-              Working Draft
-            </p>
-
-            <h2 id="sasha-current-section-heading">
-              {{activeSection.title}}
-            </h2>
-
-          </div>
+      <input
+        type="hidden"
+        name="sectionId"
+        value="{{activeSection.sectionId}}"
+      >
 
 
-          <span
-            class="
-              sasha-write-section-status
-              is-{{activeSection.status}}
-            "
+      <div class="sasha-write-section-field">
+
+        <label for="sectionContent">
+          Section Draft
+        </label>
+
+        <textarea
+          id="sectionContent"
+          name="content"
+          rows="24"
+          placeholder="The current section draft will appear here as you work with Sasha."
+        >{{activeSection.content}}</textarea>
+
+      </div>
+
+
+      <div class="sasha-write-section-field">
+
+        <label for="sectionNotes">
+          Working Notes
+        </label>
+
+        <textarea
+          id="sectionNotes"
+          name="notes"
+          rows="5"
+          placeholder="Capture assumptions, missing information, contributor notes, review reminders, or anything Sasha should remember about this section."
+        >{{activeSection.notes}}</textarea>
+
+      </div>
+
+
+      <div class="sasha-write-section-actions">
+
+        <a
+          href="/pursuit/{{proposal._id}}"
+          class="sasha-form-cancel-button"
+        >
+          Return to Dashboard
+        </a>
+
+
+        <div class="sasha-write-section-action-group">
+
+          <button
+            type="submit"
+            name="action"
+            value="save"
+            class="sasha-write-secondary-button"
           >
-            {{activeSection.status}}
-          </span>
+            Save Draft
+          </button>
 
-        </header>
 
+          <button
+            type="submit"
+            name="action"
+            value="ready_for_review"
+            class="sasha-form-submit-button"
+          >
+            Mark Ready for Review
+          </button>
+
+        </div>
+
+      </div>
+
+    </form>
+
+  </section>
+
+
+{{else}}
+
+  <section class="sasha-write-no-section">
+
+    <p class="sasha-work-eyebrow">
+      Working Draft
+    </p>
+
+    <h2>
+      Select a Section to Begin
+    </h2>
+
+    <p>
+      Choose a section from the proposal outline. Sasha will bring
+      forward the pursuit strategy and relevant evidence so you can
+      begin drafting in context.
+    </p>
+
+  </section>
+
+{{/if}}
 
 {{!-- =================================================
      SAVED PROPOSAL SECTIONS

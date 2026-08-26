@@ -278,6 +278,17 @@ router.get(
   writeController.getWritePursuit
 );
 
+/* =====================================================
+   SAVE WRITE SECTION
+===================================================== */
+
+router.post(
+  '/write/section',
+  ensureOrganization,
+  verifyCsrfToken,
+  writeController.postWriteSection
+);
+
 
 /* =====================================================
    REVIEW
