@@ -610,7 +610,7 @@ const pursuitDocuments =
    ATTACH PURSUIT DOCUMENTS TO CURRENT MESSAGE
 ================================================= */
 
-/*
+
 pursuitDocuments.forEach(
   (
     document
@@ -650,7 +650,7 @@ pursuitDocuments.forEach(
 
   }
 );
-*/
+
 
 
 conversationInput.push({
@@ -931,6 +931,26 @@ explicitly says otherwise:
   or other administrative front matter
 - distinguish required forms, appendices, resumes, schedules,
   figures, and attachments from the main counted proposal content
+
+  When revising an existing outline, do not preserve an existing
+pageBudget merely because it is already stored in the pursuit
+record.
+
+Re-evaluate every existing section against the controlling RFP
+and addenda.
+
+If a section or item is excluded from the stated page limit,
+change its pageBudget to 0 even if the existing outline currently
+contains a positive pageBudget.
+
+If the existing outline conflicts with the RFP or addenda, the
+RFP and addenda control.
+
+When the user specifically asks you to correct page allocations
+based on what counts toward the page limit, you MUST inspect the
+available procurement documents and revise the actual numeric
+pageBudget values. Do not merely revise pageBudgetNotes or state
+that the allocation has been corrected.
 
 If the RFP clearly states that any of these items count toward the
 page limit, follow the RFP.
