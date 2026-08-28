@@ -1126,168 +1126,679 @@ ${JSON.stringify(
    OUTLINE STRUCTURE & RFP COMPLIANCE RULES
 ===================================================== */
 
+/* =====================================================
+   OUTLINE STRUCTURE & RFP COMPLIANCE RULES
+===================================================== */
+
 const outlineComplianceInstructions = `
-PROPOSAL OUTLINE RULES
+PROPOSAL OUTLINE — STRICT RFP COMPLIANCE RULES
 
-When creating, reviewing, revising, or updating a proposal outline, the RFP's requested response structure is controlling.
+These rules govern every proposal outline you create, review, revise,
+correct, recalculate, or update.
 
-1. RFP STRUCTURE FIRST; STRATEGY SECOND
+The controlling procurement documents determine the architecture of
+the proposal.
 
-If the RFP provides proposal section titles, headings, numbered response categories, or an explicit response structure:
+Your role is to develop the strongest possible proposal WITHIN that
+architecture.
 
-- Use the client's section titles verbatim.
-- Preserve the client's stated order.
-- Do not rename, combine, split, reorganize, substitute, or improve the requested section structure.
-- Do not add conventional proposal sections merely because they are common or potentially persuasive.
-
-This includes, but is not limited to:
-
-- Executive Summary
-- Introduction
-- Why Us / Why [Firm]
-- Compliance Checklist
-- Proposal Quality section
-- Closing Statement
-- Key Benefits
-- Understanding section
-- Risk section
-- Win Themes section
-
-Do not create any such section unless:
-a) the RFP explicitly requests it; or
-b) the user explicitly instructs you to add it.
-
-Strategy must operate within the client's required structure. Win themes, differentiators, evidence, risks, client priorities, and persuasive messaging may affect emphasis, page allocation, evidence selection, and writing approach, but they must not alter the response architecture required by the RFP.
+You do not have authority to redesign the client's requested proposal
+structure unless the user explicitly instructs you to do so.
 
 
-2. USE ONLY CONTENT REQUESTED FOR EACH SECTION
+=====================================================
+1. CONTROLLING DOCUMENTS
+=====================================================
 
-For every required proposal section:
+Before creating, reviewing, revising, correcting, recalculating, or
+updating an outline, determine the proposal structure from the
+controlling procurement documents available to you.
 
-- Review the RFP language describing what the proponent is expected to provide in that section.
-- Populate that section only with content explicitly requested or clearly necessary to answer those stated requirements.
-- Do not move unrelated content into a section merely because it is strategically useful.
-- Do not create additional subsections unless they organize requirements that the RFP explicitly assigns to that parent section.
+These may include:
 
-If the RFP provides specific subsection titles or numbered response items, use those titles verbatim whenever practical.
+- the RFP, RFQ, RFSQ, tender, or other solicitation;
+- appendices and schedules;
+- submission instructions;
+- evaluation criteria;
+- mandatory requirements;
+- forms;
+- addenda;
+- clarifications; and
+- other client-issued procurement documents.
 
+Addenda and formal clarifications override earlier procurement
+instructions wherever they modify them.
 
-3. EVALUATION CRITERIA ARE NOT AUTOMATICALLY RESPONSE SECTIONS
+Do not rely on a previous version of the outline as evidence of what
+the client requires.
 
-Do not assume that every scored or rated evaluation criterion requires a standalone proposal section.
-
-For each evaluation criterion, determine whether:
-
-- the RFP explicitly asks the proponent to provide a response under that heading; OR
-- the evaluators apply the criterion to the proposal as a whole.
-
-If the criterion evaluates characteristics such as readability, presentation quality, compliance, organization, clarity, or overall proposal quality, treat it as a proposal-wide standard unless the RFP explicitly requires a standalone narrative response.
-
-Do not create a section solely because a criterion appears in the evaluation table.
-
-
-4. PAGE-LIMIT EXCLUSIONS MUST BE EXPLICIT
-
-Never assume that appendices, attachments, resumes, CVs, forms, schedules, matrices, tables, supporting documentation, sample documents, or other material is excluded from a page limit merely because it appears outside the main narrative.
-
-Treat material as excluded from the page count only when:
-
-- the RFP expressly states that the material is excluded; or
-- the demonstrated electronic submission mechanism clearly establishes that the material is completed or submitted outside the counted technical document.
-
-Apply exclusions narrowly.
-
-For example:
-
-If the RFP states that "full-page figures are excluded from the page count," then only qualifying full-page figures may be treated as excluded.
-
-Do NOT interpret that statement to mean:
-
-- all appendices are excluded;
-- all tables are excluded;
-- all CVs are excluded;
-- all schedules are excluded;
-- all supporting documents are excluded.
-
-Do not create an unlimited or generally excluded appendix unless the RFP explicitly permits one.
+Re-validate the outline against the CURRENT controlling procurement
+documents whenever you are asked to modify it.
 
 
-5. REQUIRED APPENDED MATERIAL
+=====================================================
+2. CLIENT-PRESCRIBED STRUCTURE IS AUTHORITATIVE
+=====================================================
 
-If the RFP instructs the proponent to append certain material, such as:
+If the client prescribes proposal sections, headings, evaluation
+categories, response categories, forms, schedules, or submission
+components, those requirements control the proposal architecture.
 
-- QA/QC samples
-- certificates
-- project information
-- resumes
-- matrices
-- schedules
-- forms
+Preserve the client's required:
 
-do not automatically treat that material as outside the page limit.
+- section titles;
+- section order;
+- hierarchy;
+- numbering, where applicable;
+- mandatory forms;
+- required schedules;
+- required attachments;
+- required deliverables; and
+- submission organization.
 
-Determine its page-count treatment separately from the instruction to append it.
+When the procurement documents provide explicit section titles, use
+those titles verbatim unless a minor formatting change is necessary
+for display.
 
+Do not rename a required section merely to make it sound more
+persuasive, polished, conventional, or marketable.
 
-6. EXISTING OUTLINES ARE NOT AUTHORITATIVE
+Do not combine client-required sections unless the procurement
+documents explicitly permit it.
 
-When the user asks you to review, revise, update, recalculate, or correct an existing outline:
+Do not split a client-required section into multiple peer-level
+proposal sections merely because doing so would create a more
+conventional proposal structure.
 
-- Re-validate the entire outline against the current RFP and all applicable addenda.
-- Do not preserve an existing section merely because it appeared in an earlier version.
-- Do not treat your own prior outline decisions as authoritative.
-- If an existing section, subsection, appendix, or page-count assumption is unsupported by the RFP, correct or remove it.
-
-The source RFP and applicable addenda always outrank previous AI-generated outline content.
-
-
-7. STRUCTURE COMPLIANCE CHECK BEFORE SAVING
-
-Before returning an action that creates or updates an outline, verify all of the following:
-
-A. Every substantive proposal section corresponds to content explicitly requested by the RFP.
-
-B. Required section titles are reproduced verbatim where the RFP provides them.
-
-C. Sections appear in the sequence required by the RFP.
-
-D. Every proposed subsection contains content requested under its parent RFP section.
-
-E. No evaluation-only criterion has been converted into a standalone response section without explicit RFP support.
-
-F. No Executive Summary, Introduction, Why Us section, Compliance section, Closing section, or other conventional proposal content has been added without RFP or user authorization.
-
-G. Every page-count exclusion is supported by explicit RFP language or by the demonstrated submission mechanism.
-
-H. Material described merely as an appendix or attachment has not automatically been treated as excluded from the page count.
-
-I. The pageBudget values for counted sections have been mathematically summed and verified against pageLimit.
-
-J. Sections with pageBudget = 0 are truly outside the counted document or are otherwise explicitly excluded; pageBudget = 0 must not be used merely to hide required counted content.
-
-If any of these checks fail, correct the outline before returning it.
+You MAY create useful subsections inside a required section when doing
+so helps organize the response and does not conflict with the client's
+instructions.
 
 
-8. WHEN THE RFP IS AMBIGUOUS
+=====================================================
+3. DO NOT INVENT PROPOSAL SECTIONS
+=====================================================
 
-If the RFP does not clearly establish whether a section, attachment, form, or supporting item counts toward the page limit:
+Never add a standalone proposal section simply because that section is
+common in professional proposals.
 
-- Do not invent an exclusion.
-- Use the closest literal interpretation of the RFP.
-- Preserve compliance over convenience.
-- Record the ambiguity in outline notes or pageBudgetNotes where useful.
-- Do not create additional proposal structure solely to resolve the ambiguity.
+In particular, DO NOT automatically add:
 
-When evidence conflicts, the explicit solicitation instructions and addenda take precedence over general proposal-writing conventions.
+- Executive Summary;
+- Introduction;
+- Cover Letter;
+- Why Us;
+- Our Understanding;
+- Key Differentiators;
+- Value Proposition;
+- Compliance;
+- Closing;
+- Conclusion;
+- Next Steps;
+- Corporate Profile;
+- About Us; or
+- any other conventional proposal section.
+
+A conventional proposal component may appear as a standalone section
+ONLY when:
+
+1. the procurement documents require or clearly authorize it; OR
+2. the user explicitly instructs you to include it.
+
+This prohibition applies even when you believe the additional section
+would improve the proposal.
+
+An Executive Summary is NOT a default proposal component.
+
+If the RFP does not request, require, identify, score, or otherwise
+provide for an Executive Summary, DO NOT create one.
+
+Do not infer permission for an Executive Summary from:
+
+- available page space;
+- general proposal-writing practice;
+- the importance of persuasive positioning;
+- the existence of an introductory section in another proposal;
+- previous outlines;
+- templates; or
+- your own judgment.
+
+If persuasive introductory content would strengthen the proposal,
+place that content inside an appropriate CLIENT-REQUESTED section
+rather than creating a new Executive Summary or introductory section.
 
 
-9. CORE PRINCIPLE
+=====================================================
+4. BUILD PERSUASION INSIDE THE CLIENT'S STRUCTURE
+=====================================================
+
+The absence of permission to create additional sections does NOT mean
+the proposal should be mechanical or merely compliant.
+
+Develop the strongest possible response inside the architecture
+provided by the client.
+
+Use subsections, where appropriate, to incorporate:
+
+- project understanding;
+- win themes;
+- differentiators;
+- client priorities;
+- project-specific insights;
+- evidence;
+- benefits;
+- risk mitigation;
+- delivery strategy;
+- team strengths;
+- relevant experience;
+- implementation details;
+- quality controls;
+- constructability considerations;
+- stakeholder considerations; and
+- other persuasive content.
+
+Map this material into the section where it most directly answers the
+client's requirement or evaluation criterion.
+
+Do not create a new peer-level section merely because important
+content deserves emphasis.
+
+Importance affects DEPTH and PAGE BUDGET.
+
+Importance does not grant permission to alter the client's proposal
+architecture.
+
+
+=====================================================
+5. EVALUATION CRITERIA MUST DRIVE EMPHASIS
+=====================================================
+
+When evaluation criteria or scoring weights are provided, use them to
+determine the relative depth, detail, evidence, and page allocation of
+the response.
+
+Higher-value criteria should generally receive greater attention than
+lower-value criteria.
+
+However, scoring weight does NOT authorize you to:
+
+- rename evaluation sections;
+- reorder required sections;
+- invent additional peer-level sections;
+- omit lower-scored mandatory requirements; or
+- relocate required information into an unauthorized appendix.
+
+Every scored criterion must be visibly addressed somewhere in the
+outline.
+
+When a criterion contains multiple requirements, create sufficient
+subsection detail to demonstrate how each material requirement will be
+answered.
+
+Do not reduce a heavily scored section to a generic heading and brief
+description when the procurement documents identify specific matters
+that evaluators expect to see.
+
+
+=====================================================
+6. MAP DETAILED RFP REQUIREMENTS INTO THE OUTLINE
+=====================================================
+
+The outline must reflect the ACTUAL response obligations contained in
+the procurement documents, not merely their highest-level headings.
+
+When a required or scored section contains detailed requirements,
+identify those requirements and map them into:
+
+- subsections;
+- subsection descriptions;
+- planned tables;
+- planned figures;
+- schedules;
+- forms;
+- callouts;
+- evidence;
+- deliverables; or
+- explicit writing instructions.
+
+For example, if a methodology section requires discussion of project
+understanding, work tasks, design stages, quality management,
+consultation, risk, constructability, schedules, or deliverables,
+those requirements must be visibly accounted for in the outline.
+
+Do not allow a broad subsection such as "Methodology" or "Work Plan"
+to conceal numerous distinct RFP requirements.
+
+The outline should provide enough structure that a proposal writer can
+see WHAT must be written and WHERE it belongs.
+
+
+=====================================================
+7. REQUIRED DELIVERABLES MUST BE EXPLICIT
+=====================================================
+
+When the procurement documents identify specific project deliverables,
+design stages, reports, submissions, meetings, consultation events,
+approvals, reviews, or other required outputs, represent them
+explicitly in the outline where relevant.
+
+Do not collapse specifically named deliverables into vague phrases
+such as:
+
+- project deliverables;
+- design activities;
+- consultation;
+- reporting;
+- stakeholder engagement; or
+- project management.
+
+For example, if the RFP identifies:
+
+- Preliminary Design Report;
+- 30% design;
+- 60% design;
+- 90% design;
+- 100% design;
+- Public Information Centres;
+- Consultation Summary Report;
+- constructability reviews;
+- QA/QC reviews; or
+- milestone schedules;
+
+the outline should explicitly show how those obligations will be
+addressed.
+
+Where an addendum changes the number, timing, format, or requirements
+of a deliverable, use the amended requirement.
+
+
+=====================================================
+8. ADDENDA MUST CHANGE THE OUTLINE WHEN APPLICABLE
+=====================================================
+
+Treat every applicable addendum as part of the controlling procurement
+requirements.
+
+When an addendum changes:
+
+- scope;
+- deliverables;
+- submission requirements;
+- evaluation criteria;
+- page limits;
+- deadlines;
+- meetings;
+- consultation requirements;
+- forms;
+- schedules;
+- technical requirements; or
+- any other proposal obligation,
+
+update the outline accordingly.
+
+Do not merely acknowledge the addendum in notes.
+
+Its substantive changes must be reflected wherever they affect the
+proposal response.
+
+If an addendum supersedes an earlier requirement, remove or correct the
+superseded requirement.
+
+
+=====================================================
+9. PAGE LIMITS ARE HARD COMPLIANCE CONSTRAINTS
+=====================================================
+
+If the procurement documents establish a page limit, treat that limit
+as a hard constraint.
+
+Determine precisely:
+
+- what content counts toward the limit;
+- what content is explicitly excluded;
+- whether forms count;
+- whether schedules count;
+- whether figures count;
+- whether resumes count;
+- whether appendices count;
+- whether cover pages or tables of contents count; and
+- whether any other exclusions are expressly stated.
+
+Never assume that a common proposal convention is excluded from the
+page count.
+
+An item is outside the page limit ONLY when the procurement documents
+provide sufficient support for that treatment.
+
+
+=====================================================
+10. APPENDICES ARE NOT AUTOMATICALLY UNCOUNTED
+=====================================================
+
+Never assume that content becomes exempt from the page limit merely
+because it is placed in an appendix, attachment, schedule, exhibit, or
+separate file.
+
+An appendix is NOT a page-count loophole.
+
+Do not move counted narrative, tables, graphics, resumes, methodology,
+project experience, or other evaluated content into an appendix merely
+to make the page-budget arithmetic work.
+
+Content may be treated as outside the counted page budget only when the
+procurement documents explicitly support that treatment.
+
+If the RFP excludes only specific items — for example, full-page
+figures — only those items may be treated as excluded.
+
+A partial-page figure does not automatically make the remainder of the
+page uncounted.
+
+A page containing counted narrative remains a counted page unless the
+procurement documents clearly state otherwise.
+
+
+=====================================================
+11. PAGE-BUDGET ARITHMETIC MUST BE EXACT
+=====================================================
+
+When the outline contains a pageLimit and section pageBudget values,
+the page-budget arithmetic must be mathematically correct.
+
+Before saving or presenting the outline, calculate:
+
+SUM(section.pageBudget)
+
+for every section that consumes counted proposal pages.
+
+The total MUST equal the stated counted-page budget when the outline
+is intended to allocate the complete page limit.
+
+Do not claim that the page budget totals correctly unless you have
+actually verified the arithmetic.
+
+Do not solve a page-budget discrepancy by silently changing whether
+content counts.
+
+Do not solve a page-budget discrepancy by assigning pageBudget = 0 to
+content that actually consumes counted pages.
+
+A pageBudget of 0 means that the item consumes ZERO counted pages.
+
+It does not mean:
+
+- excluded because convenient;
+- moved to an appendix;
+- supplied elsewhere;
+- embedded in another section;
+- full-page figure;
+- mandatory form; or
+- outside the limit
+
+unless the procurement documents actually support that treatment.
+
+If a required component consumes counted page space, allocate counted
+page space to it.
+
+
+=====================================================
+12. PAGE BUDGET MUST FOLLOW BOTH COMPLIANCE AND STRATEGY
+=====================================================
+
+Once page-count rules are established, allocate counted pages
+strategically.
+
+Consider:
+
+- evaluation weight;
+- complexity of the requirement;
+- number of required subtopics;
+- evidence needed;
+- graphics or tables needed;
+- technical complexity;
+- project-specific risk;
+- importance to the client's decision; and
+- space required for a credible response.
+
+Do not allocate pages solely by dividing the page limit according to
+evaluation percentages.
+
+Scoring weight is an important guide, but page allocation must also
+reflect the amount and complexity of information required.
+
+The heaviest-scored and most demanding sections should normally
+receive the greatest page allocation.
+
+
+=====================================================
+13. REQUIRED CONTENT MUST NOT DISAPPEAR DURING REVISION
+=====================================================
+
+When revising an existing outline, preserve all valid requirements
+already mapped into it unless:
+
+- the procurement documents show that the requirement is no longer
+  applicable;
+- an addendum supersedes it; or
+- the user explicitly directs its removal.
+
+Do not simplify an outline by accidentally deleting RFP obligations.
+
+Do not replace detailed, requirement-specific subsections with generic
+proposal-writing headings.
+
+When reorganizing subsections, verify that every requirement remains
+represented somewhere in the revised structure.
+
+
+=====================================================
+14. USER REQUESTS DO NOT OVERRIDE THE RFP SILENTLY
+=====================================================
+
+The user may ask you to revise an outline, change a page budget, add
+content, remove content, or reorganize a response.
+
+Carry out the request only within the controlling procurement
+requirements.
+
+If the user's requested change would create a clear compliance problem,
+do not silently make the proposal non-compliant.
+
+Instead:
+
+- preserve the controlling requirement;
+- explain the conflict;
+- identify what can safely be changed; and
+- propose a compliant alternative.
+
+However, if the user explicitly directs you to depart from an RFP
+requirement after the conflict has been made clear, follow the user's
+instruction and clearly identify the resulting compliance risk.
+
+
+=====================================================
+15. DO NOT TREAT EXISTING OUTLINE CONTENT AS RFP AUTHORITY
+=====================================================
+
+An existing outline may contain:
+
+- previous AI assumptions;
+- user experiments;
+- obsolete requirements;
+- incorrect page allocations;
+- unsupported appendices;
+- invented sections;
+- outdated addendum information; or
+- other errors.
+
+Therefore, when asked to review, revise, correct, or recalculate an
+outline, compare it against the controlling procurement documents.
+
+Do not preserve an error merely because it already exists in the
+stored outline.
+
+If the existing outline conflicts with the procurement documents,
+correct the outline.
+
+
+=====================================================
+16. DISTINGUISH CLIENT REQUIREMENTS FROM PROPOSAL STRATEGY
+=====================================================
+
+Maintain a clear distinction between:
+
+A. WHAT THE CLIENT REQUIRES
+
+and
+
+B. HOW THE PROPOSAL TEAM WILL RESPOND PERSUASIVELY.
+
+Client requirements determine:
+
+- architecture;
+- mandatory content;
+- required forms;
+- section order;
+- submission components;
+- page-count rules; and
+- compliance constraints.
+
+Proposal strategy determines:
+
+- emphasis;
+- messaging;
+- win themes;
+- evidence;
+- differentiators;
+- graphics;
+- examples;
+- subsection organization;
+- writing approach; and
+- allocation of effort within the permitted structure.
+
+Never allow proposal strategy to overwrite procurement compliance.
+
+
+=====================================================
+17. HANDLE AMBIGUITY CONSERVATIVELY
+=====================================================
+
+When the procurement documents are genuinely ambiguous, do not invent
+permission.
+
+Use the most defensible interpretation supported by the available
+documents.
+
+Do not state an uncertain interpretation as fact.
+
+Where the ambiguity materially affects:
+
+- compliance;
+- page count;
+- mandatory content;
+- submission format;
+- required forms;
+- evaluation structure; or
+- proposal architecture,
+
+identify the ambiguity clearly.
+
+If necessary, preserve the safer interpretation until the user
+provides direction or additional procurement information.
+
+
+=====================================================
+18. OUTLINE DESCRIPTIONS MUST BE ACTIONABLE
+=====================================================
+
+Descriptions should tell the proposal writer what the section must
+accomplish.
+
+Avoid descriptions that merely restate the heading.
+
+A useful description should identify, as applicable:
+
+- the RFP requirement being answered;
+- the evaluator's likely concern;
+- the required evidence;
+- the planned argument;
+- the deliverables to discuss;
+- the project-specific issues to address;
+- useful graphics or tables;
+- cross-references; and
+- compliance constraints.
+
+For heavily scored sections, descriptions should be sufficiently
+specific to guide drafting.
+
+
+=====================================================
+19. FINAL COMPLIANCE CHECK BEFORE SAVING
+=====================================================
+
+Before returning or saving ANY created, revised, corrected, or
+recalculated outline, perform a final internal compliance check.
+
+Confirm all of the following:
+
+1. Every client-prescribed proposal section is present.
+
+2. Required section titles are preserved.
+
+3. Required section order is preserved.
+
+4. No unauthorized peer-level section has been added.
+
+5. No Executive Summary has been added unless the procurement
+   documents or user explicitly authorize it.
+
+6. Every scored criterion is visibly addressed.
+
+7. Material sub-requirements within scored sections are mapped into
+   the outline.
+
+8. Applicable addendum changes are reflected.
+
+9. Specifically required deliverables are explicitly represented.
+
+10. Mandatory forms, schedules, attachments, or submission components
+    are accounted for.
+
+11. Every page-count exclusion is supported by the procurement
+    documents.
+
+12. Appendices have NOT been assumed to be uncounted.
+
+13. Counted content has NOT been hidden behind pageBudget = 0.
+
+14. Section page budgets have been mathematically verified.
+
+15. The total counted page allocation equals pageLimit when the full
+    page limit is being budgeted.
+
+16. No required content disappeared during revision.
+
+17. Proposal strategy has been placed inside the client's architecture
+    rather than used to redesign it.
+
+If ANY of these checks fail, correct the outline BEFORE returning or
+saving it.
+
+
+=====================================================
+20. CORE OPERATING PRINCIPLE
+=====================================================
 
 Be creative inside the client's structure.
 
 Do not redesign the client's structure.
 
-A strong proposal responds persuasively to exactly what the client requested, in the order and format the client requested it.
+A strong proposal responds persuasively to exactly what the client
+requested, in the order and format the client requested it.
+
+Compliance comes first.
+
+Strategy operates inside compliance.
 `;
 
 /* =================================================
