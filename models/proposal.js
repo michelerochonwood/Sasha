@@ -615,10 +615,84 @@ userOverrides: [
       default: {}
     },
 
-    plan: {
-      type: mongoose.Schema.Types.Mixed,
-      default: {}
+plan: {
+  anyOf: [
+    {
+      type:
+        'null'
     },
+    {
+      type:
+        'object',
+
+      additionalProperties:
+        false,
+
+      properties: {
+
+        schedule: {
+          anyOf: [
+            {
+              type:
+                'null'
+            },
+            {
+              type:
+                'string'
+            }
+          ]
+        },
+
+        responsibilities: {
+          anyOf: [
+            {
+              type:
+                'null'
+            },
+            {
+              type:
+                'string'
+            }
+          ]
+        },
+
+        milestones: {
+          anyOf: [
+            {
+              type:
+                'null'
+            },
+            {
+              type:
+                'string'
+            }
+          ]
+        },
+
+        production: {
+          anyOf: [
+            {
+              type:
+                'null'
+            },
+            {
+              type:
+                'string'
+            }
+          ]
+        }
+
+      },
+
+      required: [
+        'schedule',
+        'responsibilities',
+        'milestones',
+        'production'
+      ]
+    }
+  ]
+},
 
     reviews: {
       type: mongoose.Schema.Types.Mixed,

@@ -3869,6 +3869,9 @@ throw new Error(
   }
 
 }
+
+
+
 /* =================================================
    APPLY PROPOSAL PLAN UPDATE
 ================================================= */
@@ -3881,23 +3884,162 @@ if (
     'object'
 ) {
 
-  proposal.plan = {
-    schedule:
-      sashaResult.plan.schedule ||
-      '',
+  /* ===============================================
+     ENSURE PLAN EXISTS
+  =============================================== */
 
-    responsibilities:
-      sashaResult.plan.responsibilities ||
-      '',
+  if (
+    !proposal.plan ||
+    typeof proposal.plan !==
+      'object'
+  ) {
 
-    milestones:
-      sashaResult.plan.milestones ||
-      '',
+    proposal.plan = {
+      schedule:
+        [],
 
-    production:
-      sashaResult.plan.production ||
-      ''
+      responsibilities:
+        [],
+
+      milestones:
+        [],
+
+      production:
+        []
+    };
+
+  }
+
+
+  /* ===============================================
+     NORMALIZE LEGACY PLAN VALUES
+  =============================================== */
+
+  const normalizeStoredPlanCategory =
+    (
+      value
+    ) => {
+
+      if (
+        Array.isArray(
+          value
+        )
+      ) {
+
+        return value;
+
+      }
+
+
+      if (
+        typeof value ===
+          'string' &&
+        value.trim()
+      ) {
+
+        return [
+          {
+            content:
+              value.trim(),
+
+            createdAt:
+              new Date()
+          }
+        ];
+
+      }
+
+
+      return [];
+
+    };
+
+
+  proposal.plan.schedule =
+    normalizeStoredPlanCategory(
+      proposal.plan.schedule
+    );
+
+
+  proposal.plan.responsibilities =
+    normalizeStoredPlanCategory(
+      proposal.plan.responsibilities
+    );
+
+
+  proposal.plan.milestones =
+    normalizeStoredPlanCategory(
+      proposal.plan.milestones
+    );
+
+
+  proposal.plan.production =
+    normalizeStoredPlanCategory(
+      proposal.plan.production
+    );
+
+
+  /* ===============================================
+     APPEND NEW PLAN BLOCKS
+  =============================================== */
+
+  const appendPlanBlock =
+    (
+      category,
+      content
+    ) => {
+
+      if (
+        typeof content !==
+          'string' ||
+        !content.trim()
+      ) {
+
+        return;
+
+      }
+
+
+      proposal.plan[
+        category
+      ].push({
+        content:
+          content.trim(),
+
+        createdAt:
+          new Date()
+      });
+
   };
+
+
+  appendPlanBlock(
+    'schedule',
+    sashaResult.plan.schedule
+  );
+
+
+  appendPlanBlock(
+    'responsibilities',
+    sashaResult.plan.responsibilities
+  );
+
+
+  appendPlanBlock(
+    'milestones',
+    sashaResult.plan.milestones
+  );
+
+
+  appendPlanBlock(
+    'production',
+    sashaResult.plan.production
+  );
+
+
+  proposal.markModified(
+    'plan'
+  );
 
 }
 
@@ -5061,52 +5203,147 @@ async (
     }
 
 
-    /* =================================================
-       APPLY PLAN CHANGES
-    ================================================== */
+/* =================================================
+   APPEND ACCEPTED PLAN CHANGES
+================================================= */
 
-    proposal.plan =
-      proposal.plan &&
-      typeof proposal.plan ===
-        'object'
-        ? proposal.plan
-        : {};
+proposal.plan =
+  proposal.plan &&
+  typeof proposal.plan ===
+    'object'
+    ? proposal.plan
+    : {};
 
+
+/* ===============================================
+   NORMALIZE EXISTING PLAN CATEGORIES
+=============================================== */
+
+const normalizeAcceptedPlanCategory =
+  (
+    value
+  ) => {
 
     if (
-      impact.proposedChanges.schedule
+      Array.isArray(
+        value
+      )
     ) {
 
-      proposal.plan.schedule =
-        impact.proposedChanges.schedule;
+      return value;
 
     }
 
 
     if (
-      impact.proposedChanges.milestones
+      typeof value ===
+        'string' &&
+      value.trim()
     ) {
 
-      proposal.plan.milestones =
-        impact.proposedChanges.milestones;
+      return [
+        {
+          content:
+            value.trim(),
+
+          createdAt:
+            new Date()
+        }
+      ];
 
     }
 
+
+    return [];
+
+  };
+
+
+proposal.plan.schedule =
+  normalizeAcceptedPlanCategory(
+    proposal.plan.schedule
+  );
+
+
+proposal.plan.responsibilities =
+  normalizeAcceptedPlanCategory(
+    proposal.plan.responsibilities
+  );
+
+
+proposal.plan.milestones =
+  normalizeAcceptedPlanCategory(
+    proposal.plan.milestones
+  );
+
+
+proposal.plan.production =
+  normalizeAcceptedPlanCategory(
+    proposal.plan.production
+  );
+
+
+/* ===============================================
+   APPEND NEW ACCEPTED BLOCK
+=============================================== */
+
+const appendAcceptedPlanBlock =
+  (
+    category,
+    content
+  ) => {
 
     if (
-      impact.proposedChanges.production
+      typeof content !==
+        'string' ||
+      !content.trim()
     ) {
 
-      proposal.plan.production =
-        impact.proposedChanges.production;
+      return;
 
     }
 
 
-    proposal.markModified(
-      'plan'
-    );
+    proposal.plan[
+      category
+    ].push({
+      content:
+        content.trim(),
 
+      createdAt:
+        new Date()
+    });
+
+  };
+
+
+appendAcceptedPlanBlock(
+  'schedule',
+  impact.proposedChanges.schedule
+);
+
+
+appendAcceptedPlanBlock(
+  'responsibilities',
+  impact.proposedChanges.responsibilities
+);
+
+
+appendAcceptedPlanBlock(
+  'milestones',
+  impact.proposedChanges.milestones
+);
+
+
+appendAcceptedPlanBlock(
+  'production',
+  impact.proposedChanges.production
+);
+
+
+proposal.markModified(
+  'plan'
+);
 
     /* =================================================
        APPLY TASK DATE CHANGES

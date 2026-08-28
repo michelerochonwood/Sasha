@@ -236,19 +236,29 @@
               Current
             </span>
 
-            {{#if plan.schedule}}
+{{#if plan.schedule.length}}
 
-              <div class="sasha-plan-rich-copy">
-                {{{formatPlanText plan.schedule}}}
-              </div>
+  <div class="sasha-plan-block-list">
 
-            {{else}}
+    {{#each plan.schedule}}
 
-              <p class="sasha-plan-empty">
-                No existing proposal schedule.
-              </p>
+      <div class="sasha-plan-rich-copy sasha-plan-history-block">
 
-            {{/if}}
+        {{{formatPlanText this.content}}}
+
+      </div>
+
+    {{/each}}
+
+  </div>
+
+{{else}}
+
+  <p class="sasha-plan-empty">
+    Sasha has not built the proposal schedule yet.
+  </p>
+
+{{/if}}
 
           </div>
 
@@ -1044,19 +1054,29 @@
       </header>
 
 
-      {{#if plan.responsibilities}}
+{{#if plan.responsibilities.length}}
 
-        <div class="sasha-plan-rich-copy">
-          {{{formatPlanText plan.responsibilities}}}
-        </div>
+  <div class="sasha-plan-block-list">
 
-      {{else}}
+    {{#each plan.responsibilities}}
 
-        <p class="sasha-plan-empty">
-          Proposal responsibilities have not been assigned yet.
-        </p>
+      <div class="sasha-plan-rich-copy sasha-plan-history-block">
 
-      {{/if}}
+        {{{formatPlanText this.content}}}
+
+      </div>
+
+    {{/each}}
+
+  </div>
+
+{{else}}
+
+  <p class="sasha-plan-empty">
+    Proposal responsibilities have not been assigned yet.
+  </p>
+
+{{/if}}
 
 
       <button
@@ -1088,19 +1108,29 @@
       </header>
 
 
-      {{#if plan.milestones}}
+{{#if plan.milestones.length}}
 
-        <div class="sasha-plan-rich-copy">
-          {{{formatPlanText plan.milestones}}}
-        </div>
+  <div class="sasha-plan-block-list">
 
-      {{else}}
+    {{#each plan.milestones}}
 
-        <p class="sasha-plan-empty">
-          No internal milestones have been established yet.
-        </p>
+      <div class="sasha-plan-rich-copy sasha-plan-history-block">
 
-      {{/if}}
+        {{{formatPlanText this.content}}}
+
+      </div>
+
+    {{/each}}
+
+  </div>
+
+{{else}}
+
+  <p class="sasha-plan-empty">
+    No internal milestones have been established yet.
+  </p>
+
+{{/if}}
 
 
       <button
@@ -1132,20 +1162,29 @@
       </header>
 
 
-      {{#if plan.production}}
+{{#if plan.production.length}}
 
-        <div class="sasha-plan-rich-copy">
-          {{{formatPlanText plan.production}}}
-        </div>
+  <div class="sasha-plan-block-list">
 
-      {{else}}
+    {{#each plan.production}}
 
-        <p class="sasha-plan-empty">
-          Final production and submission activities have not
-          been scheduled yet.
-        </p>
+      <div class="sasha-plan-rich-copy sasha-plan-history-block">
 
-      {{/if}}
+        {{{formatPlanText this.content}}}
+
+      </div>
+
+    {{/each}}
+
+  </div>
+
+{{else}}
+
+  <p class="sasha-plan-empty">
+    Final production and submission activities have not been scheduled yet.
+  </p>
+
+{{/if}}
 
 
       <button
