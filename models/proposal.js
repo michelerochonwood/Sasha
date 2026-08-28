@@ -350,6 +350,11 @@ proposedChanges: {
     default: ''
   },
 
+  responsibilities: {
+  type: String,
+  default: ''
+},
+
 
   milestones: {
     type: String,

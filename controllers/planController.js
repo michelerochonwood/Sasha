@@ -5155,6 +5155,10 @@ required: [
       proposed.schedule ||
       '';
 
+      impact.proposedChanges.responsibilities =
+  proposed.responsibilities ||
+  '';
+
 
     impact.proposedChanges.milestones =
       proposed.milestones ||
