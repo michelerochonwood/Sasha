@@ -126,12 +126,97 @@ async (
        PREPARE PLAN
     ================================================== */
 
-    const plan =
+/* =================================================
+   PREPARE PLAN
+================================================= */
+
+const normalizePlanBlocks =
+  (
+    value
+  ) => {
+
+    /*
+     * Backward compatibility for pursuits that still
+     * contain a legacy single-string plan value.
+     */
+
+    if (
+      typeof value ===
+        'string' &&
+      value.trim()
+    ) {
+
+      return [
+        {
+          content:
+            value.trim(),
+
+          createdAt:
+            null
+        }
+      ];
+
+    }
+
+
+    if (
+      !Array.isArray(
+        value
+      )
+    ) {
+
+      return [];
+
+    }
+
+
+    return value
+      .filter(
+        (
+          block
+        ) => {
+
+          return (
+            block &&
+            typeof block.content ===
+              'string' &&
+            block.content.trim()
+          );
+
+        }
+      )
+      .slice(-6);
+
+  };
+
+
+const plan = {
+
+  schedule:
+    normalizePlanBlocks(
       proposal.plan &&
-      typeof proposal.plan ===
-        'object'
-        ? proposal.plan
-        : {};
+      proposal.plan.schedule
+    ),
+
+  responsibilities:
+    normalizePlanBlocks(
+      proposal.plan &&
+      proposal.plan.responsibilities
+    ),
+
+  milestones:
+    normalizePlanBlocks(
+      proposal.plan &&
+      proposal.plan.milestones
+    ),
+
+  production:
+    normalizePlanBlocks(
+      proposal.plan &&
+      proposal.plan.production
+    )
+
+};
 
 
     /* =================================================
@@ -1339,9 +1424,28 @@ proposal outline, you MUST set:
 
 action = "update_outline"
 
-Return the COMPLETE current outline when action is
-"update_outline". Preserve useful existing outline content
-unless the user deliberately changes or replaces it.
+Return only the NEW proposed plan content created by this
+change-impact review.
+
+For each plan category:
+
+- schedule
+- responsibilities
+- milestones
+- production
+
+return a string containing the proposed new block when that category
+is affected.
+
+Return an empty string when that category is not affected.
+
+Do not repeat the complete existing plan history in a proposed change.
+The existing plan remains stored separately and will be preserved.
+
+For tasks, return only tasks whose due dates genuinely need
+to change.
+
+Return proposed changes only.
 
 The pursuit record currently contains:
 
@@ -4923,6 +5027,11 @@ Return proposed changes only.
                     'string'
                 },
 
+                responsibilities: {
+  type:
+    'string'
+},
+
                 milestones: {
                   type:
                     'string'
@@ -4995,12 +5104,13 @@ Return proposed changes only.
 
               },
 
-              required: [
-                'schedule',
-                'milestones',
-                'production',
-                'tasks'
-              ]
+required: [
+  'schedule',
+  'responsibilities',
+  'milestones',
+  'production',
+  'tasks'
+]
             }
           }
         },
