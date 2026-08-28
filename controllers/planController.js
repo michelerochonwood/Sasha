@@ -1006,9 +1006,7 @@ in the submission.
 Unless the RFP or another controlling procurement document
 explicitly says otherwise:
 
-- do not charge the cover page against the proposal page budget
-- do not charge the table of contents against the proposal page
-  budget
+
 - do not assign counted page budget to intentionally blank pages
   or other administrative front matter
 - distinguish required forms, appendices, resumes, schedules,
@@ -1497,6 +1495,139 @@ page uncounted.
 A page containing counted narrative remains a counted page unless the
 procurement documents clearly state otherwise.
 
+=====================================================
+10A. PAGE-COUNT TREATMENT MUST BE STRUCTURED
+=====================================================
+
+Every outline section must include a pageCountTreatment.
+
+Allowed values are:
+
+- counted
+- excluded
+- mixed
+- not_applicable
+
+Use them as follows.
+
+COUNTED
+
+Use pageCountTreatment = "counted" when the section consumes pages
+from the stated proposal page limit.
+
+A counted section must normally have a numeric pageBudget greater
+than zero.
+
+EXCLUDED
+
+Use pageCountTreatment = "excluded" only when the controlling
+procurement documents explicitly establish that the entire section
+is excluded from the stated page limit.
+
+The pageCountNotes must identify the procurement basis for the
+exclusion.
+
+Do not use "excluded" based on proposal-writing convention.
+
+MIXED
+
+Use pageCountTreatment = "mixed" when a section contains multiple
+items whose page-count treatment differs.
+
+This will commonly apply to appendices or supporting-material
+sections.
+
+For a mixed section:
+
+- set the parent section pageBudget to null;
+- do NOT assign pageBudget = 0 to the entire parent section;
+- identify each material component separately in pageCountItems;
+- determine page-count treatment for each pageCountItem independently.
+
+For each pageCountItem return:
+
+- title;
+- pageCountTreatment;
+- pageBudget; and
+- pageCountBasis.
+
+If an item is counted, pageCountTreatment must be "counted" and its
+pageBudget must represent the counted pages allocated to that item.
+
+If an item is explicitly excluded, pageCountTreatment must be
+"excluded", pageBudget must be 0, and pageCountBasis must identify
+the RFP provision supporting the exclusion.
+
+If the item does not form part of the page-limited proposal document
+because it is completed or submitted separately through a procurement
+system, use pageCountTreatment = "not_applicable", pageBudget = null,
+and explain the submission mechanism in pageCountBasis.
+
+NOT_APPLICABLE
+
+Use pageCountTreatment = "not_applicable" only when the component
+does not participate in the page-count calculation at all.
+
+Examples may include information entered separately into an electronic
+procurement system, but only where the procurement documents establish
+that submission mechanism.
+
+Do not use "not_applicable" merely because page-count treatment is
+uncertain.
+
+
+=====================================================
+10B. PAGECOUNTITEMS CONTROL MIXED SECTIONS
+=====================================================
+
+pageCountItems are required for every section.
+
+For ordinary counted proposal sections, pageCountItems may be an empty
+array.
+
+For ordinary wholly excluded sections, pageCountItems may be an empty
+array when the exclusion applies to the complete section.
+
+For mixed sections, pageCountItems MUST identify every material item
+whose page-count treatment differs.
+
+An exclusion applying to one pageCountItem NEVER transfers to another
+pageCountItem automatically.
+
+
+=====================================================
+10C. UNCERTAINTY DOES NOT CREATE AN EXCLUSION
+=====================================================
+
+If you cannot establish from the controlling procurement documents
+that an item is excluded, treat it as counted.
+
+Do NOT use:
+
+- pageBudget = 0;
+- pageCountTreatment = "excluded";
+- pageCountTreatment = "not_applicable"; or
+- a parent mixed section with pageBudget = 0
+
+as a temporary placeholder while waiting for future verification.
+
+Statements such as:
+
+- "verify at upload";
+- "where permitted";
+- "where allowed";
+- "subject to confirmation";
+- "per convention"; or
+- "if the bidding system permits"
+
+do not establish an exclusion.
+
+A future verification task may be recorded elsewhere in the pursuit
+workflow, but it does not change the current page-count conclusion.
+
+The outline must reflect the best-supported compliance conclusion
+available NOW.
+
 
 =====================================================
 11. PAGE-BUDGET ARITHMETIC MUST BE EXACT
@@ -1505,11 +1636,27 @@ procurement documents clearly state otherwise.
 When the outline contains a pageLimit and section pageBudget values,
 the page-budget arithmetic must be mathematically correct.
 
-Before saving or presenting the outline, calculate:
+Before saving or presenting the outline, calculate all counted pages.
 
-SUM(section.pageBudget)
+The counted-page total is:
 
-for every section that consumes counted proposal pages.
+1. the pageBudget of every section whose pageCountTreatment is
+   "counted";
+
+PLUS
+
+2. the pageBudget of every pageCountItem whose pageCountTreatment is
+   "counted" inside a parent section whose pageCountTreatment is
+   "mixed".
+
+Do NOT add the parent pageBudget of a mixed section. A mixed section
+must have pageBudget = null.
+
+Do NOT add items whose pageCountTreatment is "excluded" or
+"not_applicable".
+
+The resulting total must equal the stated counted-page budget when the
+outline allocates the complete page limit.
 
 The total MUST equal the stated counted-page budget when the outline
 is intended to allocate the complete page limit.
@@ -2024,13 +2171,122 @@ ${outlineComplianceInstructions}`,
               ]
             },
 
-            outline: {
-              anyOf: [
-                {
+outline: {
+  anyOf: [
+    {
+      type:
+        'null'
+    },
+    {
+      type:
+        'object',
+
+      additionalProperties:
+        false,
+
+      properties: {
+
+        title: {
+          type:
+            'string'
+        },
+
+        notes: {
+          type:
+            'string'
+        },
+
+        pageLimit: {
+          anyOf: [
+            {
+              type:
+                'null'
+            },
+            {
+              type:
+                'number'
+            }
+          ]
+        },
+
+        pageBudgetNotes: {
+          type:
+            'string'
+        },
+
+        sections: {
+          type:
+            'array',
+
+          items: {
+            type:
+              'object',
+
+            additionalProperties:
+              false,
+
+            properties: {
+
+              order: {
+                type:
+                  'number'
+              },
+
+              title: {
+                type:
+                  'string'
+              },
+
+              description: {
+                type:
+                  'string'
+              },
+
+              pageBudget: {
+                anyOf: [
+                  {
+                    type:
+                      'null'
+                  },
+                  {
+                    type:
+                      'number'
+                  }
+                ]
+              },
+
+              pageCountTreatment: {
+                type:
+                  'string',
+
+                enum: [
+                  'counted',
+                  'excluded',
+                  'mixed',
+                  'not_applicable'
+                ]
+              },
+
+              pageCountNotes: {
+                type:
+                  'string'
+              },
+
+              subsections: {
+                type:
+                  'array',
+
+                items: {
                   type:
-                    'null'
-                },
-                {
+                    'string'
+                }
+              },
+
+              pageCountItems: {
+                type:
+                  'array',
+
+                items: {
                   type:
                     'object',
 
@@ -2044,12 +2300,18 @@ ${outlineComplianceInstructions}`,
                         'string'
                     },
 
-                    notes: {
+                    pageCountTreatment: {
                       type:
-                        'string'
+                        'string',
+
+                      enum: [
+                        'counted',
+                        'excluded',
+                        'not_applicable'
+                      ]
                     },
 
-                    pageLimit: {
+                    pageBudget: {
                       anyOf: [
                         {
                           type:
@@ -2062,86 +2324,49 @@ ${outlineComplianceInstructions}`,
                       ]
                     },
 
-                    pageBudgetNotes: {
+                    pageCountBasis: {
                       type:
                         'string'
-                    },
-
-                    sections: {
-                      type:
-                        'array',
-
-                      items: {
-                        type:
-                          'object',
-
-                        additionalProperties:
-                          false,
-
-                        properties: {
-
-                          order: {
-                            type:
-                              'number'
-                          },
-
-                          title: {
-                            type:
-                              'string'
-                          },
-
-                          description: {
-                            type:
-                              'string'
-                          },
-
-                          pageBudget: {
-                            anyOf: [
-                              {
-                                type:
-                                  'null'
-                              },
-                              {
-                                type:
-                                  'number'
-                              }
-                            ]
-                          },
-
-                          subsections: {
-                            type:
-                              'array',
-
-                            items: {
-                              type:
-                                'string'
-                            }
-                          }
-
-                        },
-
-                        required: [
-                          'order',
-                          'title',
-                          'description',
-                          'pageBudget',
-                          'subsections'
-                        ]
-                      }
                     }
 
                   },
 
                   required: [
                     'title',
-                    'notes',
-                    'pageLimit',
-                    'pageBudgetNotes',
-                    'sections'
+                    'pageCountTreatment',
+                    'pageBudget',
+                    'pageCountBasis'
                   ]
                 }
-              ]
-            }
+              }
+
+            },
+
+            required: [
+              'order',
+              'title',
+              'description',
+              'pageBudget',
+              'pageCountTreatment',
+              'pageCountNotes',
+              'subsections',
+              'pageCountItems'
+            ]
+          }
+        }
+
+      },
+
+      required: [
+        'title',
+        'notes',
+        'pageLimit',
+        'pageBudgetNotes',
+        'sections'
+      ]
+    }
+  ]
+}
 
           },
 
