@@ -974,9 +974,22 @@ For a deliberate removal or replacement of an existing Plan block:
 - userOverride.applied = true
 - userOverride.workProduct = "plan"
 - return userOverride.planBlockChange as an object
-- identify the exact existing block using its stored _id from the
-  pursuitContext
-- do not invent a block ID
+Identify the existing Plan block by its chronological position within
+the affected category.
+
+Plan block positions are 1-based:
+
+- first block = 1
+- second block = 2
+- third block = 3
+- etc.
+
+When the user says "the second Schedule block", return:
+
+category = "schedule"
+targetBlockPosition = 2
+
+Do not use MongoDB IDs to identify Plan blocks.
 - do not modify any other Plan block
 - do not append a replacement as a new historical block when the user
   explicitly asked to replace the existing block
@@ -985,14 +998,14 @@ For REMOVE:
 
 planBlockChange.operation = "remove"
 planBlockChange.category = affected category
-planBlockChange.targetBlockId = exact existing block _id
+planBlockChange.targetBlockPosition = chronological block number
 planBlockChange.replacementContent = null
 
 For REPLACE:
 
 planBlockChange.operation = "replace"
 planBlockChange.category = affected category
-planBlockChange.targetBlockId = exact existing block _id
+planBlockChange.targetBlockPosition = chronological block number
 planBlockChange.replacementContent = exact replacement content
 
 When planBlockChange is used for remove or replace, return null for all
@@ -2894,10 +2907,12 @@ ${outlineComplianceInstructions}`,
           ]
         },
 
-        targetBlockId: {
-          type:
-            'string'
-        },
+targetBlockPosition: {
+  type:
+    'integer',
+  minimum:
+    1
+},
 
         replacementContent: {
           anyOf: [
@@ -2914,12 +2929,12 @@ ${outlineComplianceInstructions}`,
 
       },
 
-      required: [
-        'operation',
-        'category',
-        'targetBlockId',
-        'replacementContent'
-      ]
+required: [
+  'operation',
+  'category',
+  'targetBlockPosition',
+  'replacementContent'
+]
     }
   ]
 }
@@ -4743,57 +4758,55 @@ if (
     }
 
 
-    const targetBlockId =
-      typeof planBlockChange.targetBlockId ===
-        'string'
-        ? planBlockChange.targetBlockId.trim()
-        : '';
+/* =============================================
+   RESOLVE TARGET PLAN BLOCK
+============================================= */
+
+const categoryBlocks =
+  proposal.plan[
+    category
+  ];
 
 
-    if (
-      !targetBlockId
-    ) {
-
-      throw new Error(
-        'Sasha returned a Plan block override without a target block ID.'
-      );
-
-    }
+const targetBlockPosition =
+  Number.isInteger(
+    planBlockChange.targetBlockPosition
+  )
+    ? planBlockChange.targetBlockPosition
+    : null;
 
 
-    const categoryBlocks =
-      proposal.plan[
-        category
-      ];
+if (
+  !targetBlockPosition ||
+  targetBlockPosition < 1
+) {
+
+  throw new Error(
+    'Sasha returned an invalid Plan block position for override.'
+  );
+
+}
 
 
-    const targetIndex =
-      categoryBlocks.findIndex(
-        (
-          block
-        ) => {
+/*
+ * Sasha uses human-readable 1-based positions.
+ * Arrays use zero-based indexes.
+ */
 
-          return (
-            block &&
-            block._id &&
-            block._id.toString() ===
-              targetBlockId
-          );
-
-        }
-      );
+const targetIndex =
+  targetBlockPosition - 1;
 
 
-    if (
-      targetIndex ===
-        -1
-    ) {
+if (
+  targetIndex < 0 ||
+  targetIndex >= categoryBlocks.length
+) {
 
-      throw new Error(
-        `Sasha could not locate the requested ${category} Plan block for override.`
-      );
+  throw new Error(
+    `Sasha could not locate ${category} Plan block ${targetBlockPosition}.`
+  );
 
-    }
+}
 
 
     /* =============================================
@@ -4815,13 +4828,14 @@ if (
         true;
 
 
-      console.log(
-        'SASHA PLAN BLOCK USER OVERRIDE: REMOVED',
-        {
-          category,
-          targetBlockId
-        }
-      );
+console.log(
+  'SASHA PLAN BLOCK USER OVERRIDE: REMOVED',
+  {
+    category,
+    targetBlockPosition,
+    targetIndex
+  }
+);
 
     }
 
