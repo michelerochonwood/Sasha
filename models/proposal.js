@@ -550,7 +550,60 @@ goNoGo: {
 },
 
 
+userOverrides: [
+  {
 
+    workProduct: {
+      type: String,
+
+      enum: [
+        'plan',
+        'win_strategy',
+        'outline',
+        'draft',
+        'review',
+        'analysis',
+        'other'
+      ],
+
+      required: true
+    },
+
+    target: {
+      type: String,
+      trim: true,
+      default: ''
+    },
+
+    summary: {
+      type: String,
+      trim: true,
+      default: ''
+    },
+
+    complianceConflict: {
+      type: Boolean,
+      default: false
+    },
+
+    complianceNote: {
+      type: String,
+      trim: true,
+      default: ''
+    },
+
+    active: {
+      type: Boolean,
+      default: true
+    },
+
+    createdAt: {
+      type: Date,
+      default: Date.now
+    }
+
+  }
+],
 
     outline: {
       type: mongoose.Schema.Types.Mixed,

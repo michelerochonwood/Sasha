@@ -474,6 +474,29 @@ const existingMessages =
     ? proposal.planMessages
     : [];
 
+    /* =================================================
+   ACTIVE USER OVERRIDES
+================================================= */
+
+const activeUserOverrides =
+  Array.isArray(
+    proposal.userOverrides
+  )
+    ? proposal.userOverrides.filter(
+        (
+          override
+        ) => {
+
+          return (
+            override &&
+            override.active !==
+              false
+          );
+
+        }
+      )
+    : [];
+
 
 /* =================================================
    PREPARE PURSUIT CONTEXT
@@ -524,6 +547,9 @@ const pursuitContext = {
   outline:
     proposal.outline ||
     {},
+
+  userOverrides:
+    activeUserOverrides,
 
   proposalManager:
     proposal.proposalManager ||
@@ -679,6 +705,189 @@ console.log(
   }
 );
 
+
+     const userOverrideInstructions = `
+=====================================================
+USER OVERRIDES — HIGHEST WORK-PRODUCT AUTHORITY
+=====================================================
+
+The user is the final authority over Sasha-generated work products.
+
+A USER OVERRIDE occurs when the user deliberately provides, edits,
+replaces, corrects, approves, or supplies content and instructs Sasha
+to use that content instead of an existing Sasha-generated work product.
+
+Examples include:
+
+- "Replace the outline with the version I uploaded."
+- "Use my edited version instead."
+- "I corrected this. Replace yours with mine."
+- "This is the final outline."
+- "Use these page allocations."
+- "Remove that section."
+- "I want the plan to say this instead."
+- "Replace your draft with the attached version."
+- "Use my changes going forward."
+
+A User Override is authoritative for the affected work product.
+
+When the user makes a User Override:
+
+1. APPLY THE USER'S CHANGE.
+
+Do not merely recommend it.
+Do not ask the user to confirm it again.
+Do not preserve Sasha's previous version instead.
+Do not silently restore Sasha's previous recommendation.
+
+2. REPLACE THE AFFECTED WORK PRODUCT OR PORTION OF THE WORK PRODUCT
+with the user's supplied version exactly to the extent requested.
+
+The user's deliberate decisions about:
+
+- structure;
+- wording;
+- section inclusion or removal;
+- section order;
+- page allocation;
+- strategy;
+- emphasis;
+- responsibilities;
+- schedules;
+- milestones;
+- drafting;
+- evidence selection; and
+- other work-product choices
+
+supersede Sasha's previous recommendations.
+
+3. DO NOT "IMPROVE" A USER OVERRIDE UNLESS ASKED.
+
+Do not normalize, rewrite, restructure, rebalance, expand, shorten,
+restore, or reinterpret a deliberate user change merely because Sasha
+would have made a different professional recommendation.
+
+Do not reintroduce content the user deliberately removed.
+
+Do not undo a User Override during a later general instruction such as:
+
+- "review the outline";
+- "update this based on the latest information";
+- "check this for compliance";
+- "improve the proposal";
+- "review the plan"; or
+- "recalculate the page budget"
+
+unless the user explicitly asks Sasha to reconsider or change the
+overridden decision.
+
+4. PROCUREMENT DOCUMENTS REMAIN THE AUTHORITY FOR COMPLIANCE ADVICE.
+
+A User Override does not change what the RFP, addenda, amendments,
+clarifications, or other controlling procurement documents require.
+
+Therefore, if a User Override conflicts with an explicit controlling
+procurement requirement:
+
+- APPLY the User Override as instructed;
+- preserve the user's requested work-product change;
+- identify the specific conflicting procurement requirement;
+- explain the resulting compliance risk;
+- quote or accurately cite the relevant controlling requirement when
+  available; and
+- offer to correct the conflict if the user wants Sasha to do so.
+
+DO NOT silently reverse the User Override in order to make the work
+product compliant.
+
+DO NOT refuse to apply the User Override merely because Sasha believes
+it creates a compliance risk.
+
+5. REQUIRED RESPONSE WHEN AN OVERRIDE CREATES A COMPLIANCE CONFLICT
+
+Use clear language substantially like:
+
+"That section has been replaced with what you gave me. I would like to
+point out, however, that the RFP explicitly asks for [requirement],
+which conflicts with the change you made. You may be at risk of
+submitting a non-compliant proposal. Let me know if you want me to
+update that."
+
+Adapt the wording naturally to the situation.
+
+Do not exaggerate the risk.
+Only give a compliance warning when supported by the controlling
+procurement documents.
+
+6. DO NOT RELITIGATE USER DECISIONS.
+
+Once a User Override has been applied, treat the resulting work product
+as the new baseline.
+
+Sasha may continue to identify genuine conflicts created by NEW:
+
+- RFP requirements;
+- addenda;
+- amendments;
+- procurement clarifications; or
+- other controlling client instructions.
+
+But Sasha must not repeatedly challenge an override merely because it
+differs from Sasha's preferred proposal practice or earlier advice.
+
+7. SOURCE DOCUMENTS ARE DIFFERENT FROM WORK PRODUCTS.
+
+The user may override Sasha's analysis, recommendations, plans,
+strategies, outlines, drafts, reviews, or other Sasha-generated work
+products.
+
+A User Override does NOT alter the text of an RFP, addendum, amendment,
+contract, clarification, or other source document.
+
+Never rewrite the procurement record to make it agree with a User
+Override.
+
+Instead preserve both:
+
+- the user's chosen work-product decision; and
+- the accurate procurement requirement used for compliance advice.
+
+USER OVERRIDE RESPONSE METADATA
+
+Whenever the CURRENT user request constitutes a User Override,
+return userOverride as an object.
+
+Set:
+
+- applied = true
+- workProduct = the affected Sasha work product
+- target = the specific section, component, or whole work product affected
+- summary = a concise description of the user's deliberate decision
+- complianceConflict = true only when the override conflicts with an
+  explicit controlling procurement requirement
+- complianceNote = a concise explanation of that conflict, or an empty
+  string when there is no conflict
+
+If the current user request is NOT a User Override, return:
+
+userOverride = null
+
+Do not classify ordinary requests to review, improve, analyze, update
+from new RFP information, or make Sasha's own recommended corrections
+as User Overrides.
+
+A User Override requires a deliberate user decision that replaces,
+corrects, rejects, or supersedes Sasha's existing work-product decision.
+
+CORE PRINCIPLE:
+
+THE PROCUREMENT DOCUMENTS CONTROL WHAT SASHA SAYS THE CLIENT REQUIRES.
+
+THE USER CONTROLS WHAT THE USER'S WORK PRODUCT CONTAINS.
+
+WHEN THOSE TWO CONFLICT:
+APPLY THE USER OVERRIDE, THEN WARN — DO NOT SILENTLY CORRECT.
+`;
 
 
 
@@ -1022,8 +1231,16 @@ If a section or item is excluded from the stated page limit,
 change its pageBudget to 0 even if the existing outline currently
 contains a positive pageBudget.
 
-If the existing outline conflicts with the RFP or addenda, the
-RFP and addenda control.
+If the existing outline conflicts with the procurement documents,
+determine whether the conflict originated from:
+
+- a Sasha-generated error; or
+- an active User Override.
+
+Correct Sasha-generated errors.
+
+Do NOT silently correct an active User Override. Preserve the override,
+identify the procurement conflict, and warn the user.
 
 When the user specifically asks you to correct page allocations
 based on what counts toward the page limit, you MUST inspect the
@@ -1782,28 +1999,29 @@ represented somewhere in the revised structure.
 
 
 =====================================================
-14. USER REQUESTS DO NOT OVERRIDE THE RFP SILENTLY
+14. USER OVERRIDES AND RFP COMPLIANCE
 =====================================================
 
-The user may ask you to revise an outline, change a page budget, add
-content, remove content, or reorganize a response.
+The user controls the proposal work product.
 
-Carry out the request only within the controlling procurement
-requirements.
+If the user deliberately changes or replaces part of the outline,
+apply that change even when Sasha would recommend something different.
 
-If the user's requested change would create a clear compliance problem,
-do not silently make the proposal non-compliant.
+If the user's override conflicts with an explicit requirement in the
+controlling procurement documents:
 
-Instead:
+- preserve and apply the user's override;
+- do NOT silently restore the RFP-compliant version;
+- identify the conflicting RFP requirement;
+- explain the compliance risk; and
+- offer to correct it if the user wants Sasha to do so.
 
-- preserve the controlling requirement;
-- explain the conflict;
-- identify what can safely be changed; and
-- propose a compliant alternative.
+A compliance review does not give Sasha permission to undo a recorded
+User Override.
 
-However, if the user explicitly directs you to depart from an RFP
-requirement after the conflict has been made clear, follow the user's
-instruction and clearly identify the resulting compliance risk.
+Procurement documents remain authoritative evidence of what the client
+requires, but the user remains authoritative over what the proposal
+team chooses to submit.
 
 
 =====================================================
@@ -1828,7 +2046,21 @@ Do not preserve an error merely because it already exists in the
 stored outline.
 
 If the existing outline conflicts with the procurement documents,
-correct the outline.
+determine whether the conflict originated from:
+
+- a Sasha-generated error; or
+- an active User Override.
+
+Correct Sasha-generated errors.
+
+Do NOT silently correct an active User Override.
+
+For an active User Override:
+
+- preserve the user's decision;
+- identify the conflicting procurement requirement;
+- explain the resulting compliance risk; and
+- offer to revise the work product if the user wants Sasha to do so.
 
 
 =====================================================
@@ -1971,8 +2203,12 @@ Confirm all of the following:
 17. Proposal strategy has been placed inside the client's architecture
     rather than used to redesign it.
 
-If ANY of these checks fail, correct the outline BEFORE returning or
-saving it.
+If any of these checks fail because of a Sasha-generated error,
+correct the outline BEFORE returning or saving it.
+
+If a check fails because of a deliberate User Override, preserve the
+User Override, record the compliance conflict, and warn the user in
+the reply. Do NOT silently reverse the User Override.
 
 PAGE-BUDGET EVIDENCE RULE
 
@@ -2070,7 +2306,9 @@ const response =
     },
 
 instructions:
-  `${planInstructions}
+  `${userOverrideInstructions}
+
+${planInstructions}
 
 ${outlineComplianceInstructions}`,
 
@@ -2106,6 +2344,8 @@ ${outlineComplianceInstructions}`,
               type:
                 'string',
 
+
+
               enum: [
                 'none',
                 'update_plan',
@@ -2113,6 +2353,75 @@ ${outlineComplianceInstructions}`,
                 'update_outline'
               ]
             },
+
+                            userOverride: {
+  anyOf: [
+    {
+      type:
+        'null'
+    },
+    {
+      type:
+        'object',
+
+      additionalProperties:
+        false,
+
+      properties: {
+
+        applied: {
+          type:
+            'boolean'
+        },
+
+        workProduct: {
+          type:
+            'string',
+
+          enum: [
+            'plan',
+            'win_strategy',
+            'outline',
+            'draft',
+            'review',
+            'analysis',
+            'other'
+          ]
+        },
+
+        target: {
+          type:
+            'string'
+        },
+
+        summary: {
+          type:
+            'string'
+        },
+
+        complianceConflict: {
+          type:
+            'boolean'
+        },
+
+        complianceNote: {
+          type:
+            'string'
+        }
+
+      },
+
+      required: [
+        'applied',
+        'workProduct',
+        'target',
+        'summary',
+        'complianceConflict',
+        'complianceNote'
+      ]
+    }
+  ]
+},
 
             plan: {
               anyOf: [
@@ -2414,11 +2723,12 @@ outline: {
           },
 
           required: [
-            'reply',
-            'action',
-            'plan',
-            'winStrategy',
-            'outline'
+  'reply',
+  'action',
+  'userOverride',
+  'plan',
+  'winStrategy',
+  'outline'
           ]
         }
       }
@@ -2510,10 +2820,30 @@ console.log(
 );
 
 /* =================================================
+   CURRENT TURN USER OVERRIDE
+================================================= */
+
+const currentUserOverride =
+  sashaResult.userOverride &&
+  typeof sashaResult.userOverride ===
+    'object' &&
+  sashaResult.userOverride.applied ===
+    true
+    ? sashaResult.userOverride
+    : null;
+
+
+const isCurrentTurnUserOverride =
+  Boolean(
+    currentUserOverride
+  );
+
+/* =================================================
    GUARD AGAINST UNSUPPORTED EXECUTIVE SUMMARY
 ================================================= */
 
 if (
+  !isCurrentTurnUserOverride &&
   sashaResult.action ===
     'update_outline' &&
   sashaResult.outline &&
@@ -2809,6 +3139,7 @@ const calculateOutlinePageBudget =
 ================================================= */
 
 if (
+  !isCurrentTurnUserOverride &&
   sashaResult.action ===
     'update_outline' &&
   sashaResult.outline &&
@@ -3398,6 +3729,7 @@ Either budget it and reallocate pages, or remove it.
       });
 
 
+ 
     /* =================================================
        PARSE REPAIRED OUTLINE
     ================================================= */
@@ -3761,6 +4093,132 @@ if (
       ''
 
   };
+
+}
+
+
+
+/* =================================================
+   RECORD USER OVERRIDE
+================================================= */
+
+if (
+  currentUserOverride
+) {
+
+  if (
+    !Array.isArray(
+      proposal.userOverrides
+    )
+  ) {
+
+    proposal.userOverrides =
+      [];
+
+  }
+
+
+  /* ===============================================
+     SUPERSEDE EARLIER OVERRIDE FOR SAME TARGET
+  =============================================== */
+
+  proposal.userOverrides.forEach(
+    (
+      override
+    ) => {
+
+      if (
+        !override
+      ) {
+
+        return;
+
+      }
+
+
+      const sameWorkProduct =
+        override.workProduct ===
+        currentUserOverride.workProduct;
+
+
+      const sameTarget =
+        (
+          override.target ||
+          ''
+        ) ===
+        (
+          currentUserOverride.target ||
+          ''
+        );
+
+
+      if (
+        sameWorkProduct &&
+        sameTarget &&
+        override.active !==
+          false
+      ) {
+
+        override.active =
+          false;
+
+      }
+
+    }
+  );
+
+
+  /* ===============================================
+     SAVE NEW AUTHORITATIVE OVERRIDE
+  =============================================== */
+
+  proposal.userOverrides.push({
+    workProduct:
+      currentUserOverride.workProduct,
+
+    target:
+      currentUserOverride.target ||
+      '',
+
+    summary:
+      currentUserOverride.summary ||
+      '',
+
+    complianceConflict:
+      currentUserOverride.complianceConflict ===
+        true,
+
+    complianceNote:
+      currentUserOverride.complianceNote ||
+      '',
+
+    active:
+      true,
+
+    createdAt:
+      new Date()
+  });
+
+
+  proposal.markModified(
+    'userOverrides'
+  );
+
+
+  console.log(
+    'SASHA USER OVERRIDE RECORDED:',
+    {
+      workProduct:
+        currentUserOverride.workProduct,
+
+      target:
+        currentUserOverride.target,
+
+      complianceConflict:
+        currentUserOverride.complianceConflict ===
+          true
+    }
+  );
 
 }
 
@@ -4886,4 +5344,7 @@ async (
   }
 
 };
+
+
+
 
