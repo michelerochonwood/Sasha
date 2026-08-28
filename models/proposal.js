@@ -550,60 +550,6 @@ goNoGo: {
 },
 
 
-userOverrides: [
-  {
-
-    workProduct: {
-      type: String,
-
-      enum: [
-        'plan',
-        'win_strategy',
-        'outline',
-        'draft',
-        'review',
-        'analysis',
-        'other'
-      ],
-
-      required: true
-    },
-
-    target: {
-      type: String,
-      trim: true,
-      default: ''
-    },
-
-    summary: {
-      type: String,
-      trim: true,
-      default: ''
-    },
-
-    complianceConflict: {
-      type: Boolean,
-      default: false
-    },
-
-    complianceNote: {
-      type: String,
-      trim: true,
-      default: ''
-    },
-
-    active: {
-      type: Boolean,
-      default: true
-    },
-
-    createdAt: {
-      type: Date,
-      default: Date.now
-    }
-
-  }
-],
 
     outline: {
       type: mongoose.Schema.Types.Mixed,
@@ -615,84 +561,10 @@ userOverrides: [
       default: {}
     },
 
-plan: {
-  anyOf: [
-    {
-      type:
-        'null'
+    plan: {
+      type: mongoose.Schema.Types.Mixed,
+      default: {}
     },
-    {
-      type:
-        'object',
-
-      additionalProperties:
-        false,
-
-      properties: {
-
-        schedule: {
-          anyOf: [
-            {
-              type:
-                'null'
-            },
-            {
-              type:
-                'string'
-            }
-          ]
-        },
-
-        responsibilities: {
-          anyOf: [
-            {
-              type:
-                'null'
-            },
-            {
-              type:
-                'string'
-            }
-          ]
-        },
-
-        milestones: {
-          anyOf: [
-            {
-              type:
-                'null'
-            },
-            {
-              type:
-                'string'
-            }
-          ]
-        },
-
-        production: {
-          anyOf: [
-            {
-              type:
-                'null'
-            },
-            {
-              type:
-                'string'
-            }
-          ]
-        }
-
-      },
-
-      required: [
-        'schedule',
-        'responsibilities',
-        'milestones',
-        'production'
-      ]
-    }
-  ]
-},
 
     reviews: {
       type: mongoose.Schema.Types.Mixed,

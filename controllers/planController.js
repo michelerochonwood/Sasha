@@ -981,9 +981,26 @@ proposal time, recommend how proposal effort should be distributed,
 or otherwise produces planning content that should appear in the
 Proposal Plan workspace, use "update_plan", not "none".
 
-When action is "update_plan", return the COMPLETE current proposal
-plan in the plan object. Preserve useful existing plan information
-unless the user has deliberately changed or replaced it.
+When action is "update_plan", return ONLY the new planning content
+created or materially changed by the CURRENT request.
+
+For each proposal-plan category:
+
+- return a string containing the new plan block when that category
+  is materially affected;
+- return null when that category is not affected.
+
+Do not repeat previous plan blocks.
+
+Do not regenerate the complete proposal plan.
+
+The existing plan history is already stored in the pursuit record and
+must remain available as context for future planning.
+
+A new block may supplement, revise, or supersede an earlier block.
+When new information supersedes an earlier decision, explain that
+clearly in the new block rather than deleting or rewriting the
+historical block.
 
 Use action = "none" only when the response is conversational and
 does not create or materially change a saved work product.
@@ -2423,52 +2440,84 @@ ${outlineComplianceInstructions}`,
   ]
 },
 
-            plan: {
-              anyOf: [
-                {
-                  type:
-                    'null'
-                },
-                {
-                  type:
-                    'object',
+plan: {
+  anyOf: [
+    {
+      type:
+        'null'
+    },
+    {
+      type:
+        'object',
 
-                  additionalProperties:
-                    false,
+      additionalProperties:
+        false,
 
-                  properties: {
+      properties: {
 
-                    schedule: {
-                      type:
-                        'string'
-                    },
-
-                    responsibilities: {
-                      type:
-                        'string'
-                    },
-
-                    milestones: {
-                      type:
-                        'string'
-                    },
-
-                    production: {
-                      type:
-                        'string'
-                    }
-
-                  },
-
-                  required: [
-                    'schedule',
-                    'responsibilities',
-                    'milestones',
-                    'production'
-                  ]
-                }
-              ]
+        schedule: {
+          anyOf: [
+            {
+              type:
+                'null'
             },
+            {
+              type:
+                'string'
+            }
+          ]
+        },
+
+        responsibilities: {
+          anyOf: [
+            {
+              type:
+                'null'
+            },
+            {
+              type:
+                'string'
+            }
+          ]
+        },
+
+        milestones: {
+          anyOf: [
+            {
+              type:
+                'null'
+            },
+            {
+              type:
+                'string'
+            }
+          ]
+        },
+
+        production: {
+          anyOf: [
+            {
+              type:
+                'null'
+            },
+            {
+              type:
+                'string'
+            }
+          ]
+        }
+
+      },
+
+      required: [
+        'schedule',
+        'responsibilities',
+        'milestones',
+        'production'
+      ]
+    }
+  ]
+},
 
             winStrategy: {
               anyOf: [
