@@ -1784,6 +1784,46 @@ Confirm all of the following:
 If ANY of these checks fail, correct the outline BEFORE returning or
 saving it.
 
+PAGE-BUDGET EVIDENCE RULE
+
+A pageBudget value of 0 is a compliance conclusion, not a placeholder.
+
+Before assigning pageBudget = 0 to ANY proposal component that would
+physically occupy pages, you must be able to identify specific language
+in the controlling procurement documents establishing that the component
+is excluded from the counted page limit.
+
+Do not assign pageBudget = 0 based on:
+- proposal convention;
+- appendix placement;
+- attachment placement;
+- separate section placement;
+- convenience;
+- previous outline treatment;
+- uncertainty;
+- an assumption that procurement will permit it; or
+- a future instruction to "verify at upload."
+
+If exclusion is uncertain, the content must be treated as COUNTED until
+documentary evidence establishes otherwise.
+
+A future verification action does not authorize pageBudget = 0 today.
+
+When an appendix contains multiple items, determine page-count treatment
+ITEM BY ITEM. An exclusion applying to one appendix item does not apply
+to the entire appendix section.
+
+For example, if the RFP excludes full-page figures, a full-page GANTT
+that qualifies as a figure may be excluded. That exclusion does NOT
+automatically apply to CVs, forms, matrices, narratives, sample
+documents, checklists, templates, project evidence, or other appendix
+content.
+
+Never write language such as "where permitted," "where allowed,"
+"subject to verification," or "per convention" and then assign
+pageBudget = 0. Either the exclusion is supported now or the content
+must be treated as counted.
+
 
 =====================================================
 20. CORE OPERATING PRINCIPLE
