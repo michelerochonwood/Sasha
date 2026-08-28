@@ -797,33 +797,46 @@ available evidence where appropriate.
 OUTLINE DISCIPLINE
 
 Do not automatically add conventional proposal sections merely
-because they are common proposal practice.
+because they are common or recommended proposal practice.
 
-In particular, do not add an Executive Summary, Introduction,
-Cover Letter, Understanding section, Why Us section, or other
-custom proposal section unless:
+CRITICAL RULE — EXECUTIVE SUMMARY
 
-- the RFP requests or permits it;
-- the content is clearly appropriate within the RFP's required
-  structure; or
-- the user specifically asks for it.
+NEVER add an Executive Summary, Executive Overview, Proposal
+Summary, Management Summary, or equivalent standalone summary
+section unless:
 
-When the RFP prescribes section titles, sequence, evaluation
-criteria, or proposal organization, follow that structure closely.
+- the RFP, addendum, required Table of Contents, or other
+  controlling procurement document explicitly requires or
+  requests that section; or
+- the user explicitly instructs you to add one.
 
-Do not create additional standalone sections that consume page
-budget without a clear strategic or compliance reason.
+The fact that an Executive Summary would be useful, persuasive,
+customary, strategically desirable, or not expressly prohibited
+is NOT sufficient reason to include one.
 
-When page limits are restrictive, prioritize space for content
-that is explicitly requested, evaluated, mandatory, or necessary
-to make the requested response effective.
+Silence in the RFP does NOT constitute permission to add an
+Executive Summary.
 
-Do not duplicate content in an introductory or summary section
-when that content belongs within a scored RFP section.
+Do not infer an Executive Summary requirement from evaluation
+criteria, page limits, general proposal-quality requirements,
+or normal proposal practice.
 
-If the RFP explicitly requires responses to follow its evaluation
-criteria in a specified sequence, build the outline around that
-sequence rather than imposing a generic proposal structure.
+If the RFP does not request an Executive Summary, distribute
+project understanding, differentiators, value propositions,
+win themes, client priorities, and persuasive messaging within
+the RFP-requested sections instead.
+
+When revising an existing outline, if it contains an Executive
+Summary or equivalent standalone summary that is not explicitly
+supported by the controlling procurement documents or an
+explicit user instruction, REMOVE that section and reallocate
+its page budget to appropriate RFP-requested content.
+
+The same conservative principle applies to an Introduction,
+Cover Letter, Understanding section, Why Us section, closing
+section, or other custom standalone proposal section: do not
+add it unless supported by the procurement documents or
+explicitly requested by the user.
 
 TABLE OF CONTENTS AND REQUIRED PROPOSAL STRUCTURE
 
@@ -1481,6 +1494,126 @@ console.log(
   'SASHA PLAN CHAT ACTION:',
   sashaResult.action
 );
+
+/* =================================================
+   GUARD AGAINST UNSUPPORTED EXECUTIVE SUMMARY
+================================================= */
+
+if (
+  sashaResult.action ===
+    'update_outline' &&
+  sashaResult.outline &&
+  typeof sashaResult.outline ===
+    'object' &&
+  Array.isArray(
+    sashaResult.outline.sections
+  )
+) {
+
+  const executiveSummaryPattern =
+    /\b(executive|proposal|management)\s+(summary|overview)\b/i;
+
+
+  const existingOutlineSections =
+    proposal.outline &&
+    Array.isArray(
+      proposal.outline.sections
+    )
+      ? proposal.outline.sections
+      : [];
+
+
+  const existingExecutiveSummary =
+    existingOutlineSections.some(
+      (
+        section
+      ) => {
+
+        return (
+          section &&
+          typeof section.title ===
+            'string' &&
+          executiveSummaryPattern.test(
+            section.title
+          )
+        );
+
+      }
+    );
+
+
+  const userRequestedExecutiveSummary =
+    /\b(add|include|create|write|draft|develop|insert|restore)\b[\s\S]{0,80}\b(executive|proposal|management)\s+(summary|overview)\b/i
+      .test(
+        message
+      );
+
+
+  if (
+    !existingExecutiveSummary &&
+    !userRequestedExecutiveSummary
+  ) {
+
+    const originalSections =
+      sashaResult.outline.sections;
+
+
+    const filteredSections =
+      originalSections.filter(
+        (
+          section
+        ) => {
+
+          if (
+            !section ||
+            typeof section.title !==
+              'string'
+          ) {
+
+            return true;
+
+          }
+
+
+          return !executiveSummaryPattern.test(
+            section.title
+          );
+
+        }
+      );
+
+
+    if (
+      filteredSections.length !==
+      originalSections.length
+    ) {
+
+      console.warn(
+        'SASHA OUTLINE GUARD: Removed unsupported Executive Summary.'
+      );
+
+
+      sashaResult.outline.sections =
+        filteredSections.map(
+          (
+            section,
+            index
+          ) => {
+
+            return {
+              ...section,
+              order:
+                index + 1
+            };
+
+          }
+        );
+
+    }
+
+  }
+
+}
 
 /* =================================================
    VALIDATE OUTLINE PAGE BUDGET
