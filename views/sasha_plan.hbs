@@ -1010,19 +1010,29 @@
       </header>
 
 
-      {{#if plan.schedule}}
+{{#if plan.schedule.length}}
 
-        <div class="sasha-plan-rich-copy">
-          {{{formatPlanText plan.schedule}}}
-        </div>
+  <div class="sasha-plan-block-list">
 
-      {{else}}
+    {{#each plan.schedule}}
 
-        <p class="sasha-plan-empty">
-          Sasha has not built the proposal schedule yet.
-        </p>
+      <div class="sasha-plan-rich-copy sasha-plan-history-block">
 
-      {{/if}}
+        {{{formatPlanText this.content}}}
+
+      </div>
+
+    {{/each}}
+
+  </div>
+
+{{else}}
+
+  <p class="sasha-plan-empty">
+    Sasha has not built the proposal schedule yet.
+  </p>
+
+{{/if}}
 
 
       <button
