@@ -1657,6 +1657,50 @@ Do NOT add items whose pageCountTreatment is "excluded" or
 The resulting total must equal the stated counted-page budget when the
 outline allocates the complete page limit.
 
+CRITICAL REALLOCATION RULE
+
+The pageLimit applies to ALL counted proposal content collectively.
+
+You may not allocate the full pageLimit to counted parent sections and
+then add additional counted pageCountItems on top of that allocation.
+
+Whenever a pageCountItem is classified as "counted" and given a positive
+pageBudget, those pages consume part of the SAME pageLimit available to
+the counted proposal sections.
+
+Therefore, if counted pageCountItems are added or increased, you MUST
+reduce one or more counted section pageBudget values so that the combined
+total remains within pageLimit.
+
+Example:
+
+If pageLimit = 20 and counted appendix items require 4 pages, the counted
+body sections may collectively consume no more than 16 pages.
+
+A = 7 pages
+B = 3 pages
+C = 6 pages
+Counted appendix items = 4 pages
+
+TOTAL = 20 pages.
+
+It is INVALID to allocate:
+
+A = 8
+B = 3
+C = 9
+
+and then add counted appendix items, because A + B + C already consume
+the entire 20-page limit.
+
+Before returning an outline, calculate the combined counted total AFTER
+all section and pageCountItem allocations have been assigned.
+
+If the combined total exceeds pageLimit, revise the allocations BEFORE
+returning the outline.
+
+Never return an outline whose counted total exceeds pageLimit.
+
 The total MUST equal the stated counted-page budget when the outline
 is intended to allocate the complete page limit.
 
@@ -2584,9 +2628,184 @@ if (
   }
 
 }
+/* =================================================
+   VALIDATE + REPAIR OUTLINE PAGE BUDGET
+================================================= */
+
+/*
+ * Calculate the complete counted page total.
+ *
+ * Count:
+ * - section.pageBudget when pageCountTreatment = counted
+ * - pageCountItem.pageBudget when the parent section is mixed
+ *   and the item itself is counted
+ *
+ * Also identify counted items that do not have a usable
+ * positive numeric pageBudget.
+ */
+
+const calculateOutlinePageBudget =
+  (
+    outline
+  ) => {
+
+    const result = {
+      countedPageBudget:
+        0,
+
+      invalidCountedItems:
+        []
+    };
+
+
+    if (
+      !outline ||
+      typeof outline !==
+        'object' ||
+      !Array.isArray(
+        outline.sections
+      )
+    ) {
+
+      return result;
+
+    }
+
+
+    outline.sections.forEach(
+      (
+        section
+      ) => {
+
+        if (
+          !section ||
+          typeof section !==
+            'object'
+        ) {
+
+          return;
+
+        }
+
+
+        /* =============================================
+           COUNTED SECTION
+        ============================================= */
+
+        if (
+          section.pageCountTreatment ===
+            'counted'
+        ) {
+
+          if (
+            Number.isFinite(
+              section.pageBudget
+            ) &&
+            section.pageBudget > 0
+          ) {
+
+            result.countedPageBudget +=
+              section.pageBudget;
+
+          } else {
+
+            result.invalidCountedItems.push(
+              {
+                type:
+                  'section',
+
+                title:
+                  section.title ||
+                  'Untitled section',
+
+                reason:
+                  'Counted section does not have a positive numeric pageBudget.'
+              }
+            );
+
+          }
+
+        }
+
+
+        /* =============================================
+           MIXED SECTION ITEMS
+        ============================================= */
+
+        if (
+          section.pageCountTreatment ===
+            'mixed' &&
+          Array.isArray(
+            section.pageCountItems
+          )
+        ) {
+
+          section.pageCountItems.forEach(
+            (
+              item
+            ) => {
+
+              if (
+                !item ||
+                typeof item !==
+                  'object' ||
+                item.pageCountTreatment !==
+                  'counted'
+              ) {
+
+                return;
+
+              }
+
+
+              if (
+                Number.isFinite(
+                  item.pageBudget
+                ) &&
+                item.pageBudget > 0
+              ) {
+
+                result.countedPageBudget +=
+                  item.pageBudget;
+
+              } else {
+
+                result.invalidCountedItems.push(
+                  {
+                    type:
+                      'pageCountItem',
+
+                    title:
+                      item.title ||
+                      'Untitled counted item',
+
+                    parentSection:
+                      section.title ||
+                      '',
+
+                    reason:
+                      'Counted pageCountItem does not have a positive numeric pageBudget.'
+                  }
+                );
+
+              }
+
+            }
+          );
+
+        }
+
+      }
+    );
+
+
+    return result;
+
+  };
+
 
 /* =================================================
-   VALIDATE OUTLINE PAGE BUDGET
+   CHECK WHETHER OUTLINE NEEDS REPAIR
 ================================================= */
 
 if (
@@ -2603,102 +2822,11 @@ if (
   )
 ) {
 
-const countedPageBudget =
-  sashaResult.outline.sections.reduce(
-    (
-      total,
-      section
-    ) => {
+  let outlineBudgetCheck =
+    calculateOutlinePageBudget(
+      sashaResult.outline
+    );
 
-      if (
-        !section ||
-        typeof section !==
-          'object'
-      ) {
-
-        return total;
-
-      }
-
-
-      /* =============================================
-         COUNTED SECTION
-      ============================================= */
-
-      if (
-        section.pageCountTreatment ===
-          'counted' &&
-        Number.isFinite(
-          section.pageBudget
-        ) &&
-        section.pageBudget > 0
-      ) {
-
-        return (
-          total +
-          section.pageBudget
-        );
-
-      }
-
-
-      /* =============================================
-         MIXED SECTION
-      ============================================= */
-
-      if (
-        section.pageCountTreatment ===
-          'mixed' &&
-        Array.isArray(
-          section.pageCountItems
-        )
-      ) {
-
-        const mixedCountedPages =
-          section.pageCountItems.reduce(
-            (
-              itemTotal,
-              item
-            ) => {
-
-              if (
-                item &&
-                item.pageCountTreatment ===
-                  'counted' &&
-                Number.isFinite(
-                  item.pageBudget
-                ) &&
-                item.pageBudget > 0
-              ) {
-
-                return (
-                  itemTotal +
-                  item.pageBudget
-                );
-
-              }
-
-
-              return itemTotal;
-
-            },
-            0
-          );
-
-
-        return (
-          total +
-          mixedCountedPages
-        );
-
-      }
-
-
-      return total;
-
-    },
-    0
-  );
 
   console.log(
     'SASHA OUTLINE PAGE BUDGET CHECK:',
@@ -2706,25 +2834,503 @@ const countedPageBudget =
       pageLimit:
         sashaResult.outline.pageLimit,
 
-      countedPageBudget
+      countedPageBudget:
+        outlineBudgetCheck.countedPageBudget,
+
+      invalidCountedItemCount:
+        outlineBudgetCheck
+          .invalidCountedItems
+          .length
     }
   );
 
 
+  const outlineNeedsRepair =
+    outlineBudgetCheck.countedPageBudget >
+      sashaResult.outline.pageLimit ||
+    outlineBudgetCheck
+      .invalidCountedItems
+      .length > 0;
+
+
   if (
-    countedPageBudget >
-    sashaResult.outline.pageLimit
+    outlineNeedsRepair
   ) {
 
-    throw new Error(
-      `Sasha returned an outline page budget of ${countedPageBudget} pages against a ${sashaResult.outline.pageLimit}-page limit.`
+    console.warn(
+      'SASHA OUTLINE REQUIRES AUTOMATIC PAGE BUDGET REPAIR:',
+      {
+        pageLimit:
+          sashaResult.outline.pageLimit,
+
+        countedPageBudget:
+          outlineBudgetCheck.countedPageBudget,
+
+        invalidCountedItems:
+          outlineBudgetCheck.invalidCountedItems
+      }
+    );
+
+
+    /* =================================================
+       ASK SASHA TO REPAIR THE OUTLINE ONCE
+    ================================================= */
+
+    const repairResponse =
+      await openai.responses.create({
+
+        model:
+          'gpt-5-mini',
+
+        reasoning: {
+          effort:
+            'minimal'
+        },
+
+        instructions: `
+You are correcting a proposal outline that has already been reviewed
+against its controlling RFP and addenda.
+
+Your ONLY task is to repair the page-budget allocation.
+
+Do not redesign the proposal.
+
+Do not invent new sections.
+
+Do not add an Executive Summary or any other new proposal section.
+
+Preserve valid RFP structure, headings, required content, subsection
+mapping, addendum requirements, and page-count treatment decisions.
+
+The controlling page limit is:
+
+${sashaResult.outline.pageLimit}
+
+The current calculated counted-page total is:
+
+${outlineBudgetCheck.countedPageBudget}
+
+The following counted items do not have valid positive numeric page
+budgets:
+
+${JSON.stringify(
+  outlineBudgetCheck.invalidCountedItems,
+  null,
+  2
+)}
+
+PAGE-BUDGET REPAIR RULES
+
+1. Every section with pageCountTreatment = "counted" must have a
+   positive numeric pageBudget.
+
+2. Every pageCountItem with pageCountTreatment = "counted" must have
+   a positive numeric pageBudget if that item will physically occupy
+   proposal pages.
+
+3. Counted pageCountItems consume pages from the SAME pageLimit as
+   counted body sections.
+
+4. Do not allocate the full pageLimit to Sections A/B/C and then add
+   counted appendix pages on top.
+
+5. If counted appendix material requires pages, reduce counted body
+   section allocations accordingly.
+
+6. If optional supporting material is unnecessary and cannot fit
+   within the page limit, remove it from the proposed appendix rather
+   than pretending it is excluded.
+
+7. Do not change an item from "counted" to "excluded" merely to make
+   the arithmetic work.
+
+8. An item may remain "excluded" only where the controlling procurement
+   documents support that exclusion.
+
+9. An item may remain "not_applicable" only where the procurement
+   submission mechanism establishes that it is outside the counted
+   technical document.
+
+10. A mixed parent section must have pageBudget = null.
+
+11. The FINAL combined counted total must equal the pageLimit.
+
+12. Before returning the corrected outline, mathematically verify:
+
+    counted section pageBudgets
+    PLUS
+    counted pageCountItem pageBudgets
+    EQUALS
+    pageLimit.
+
+Return the COMPLETE corrected outline.
+`,
+
+        input: [
+          {
+            role:
+              'user',
+
+            content: [
+              {
+                type:
+                  'input_text',
+
+                text:
+                  JSON.stringify(
+                    sashaResult.outline,
+                    null,
+                    2
+                  )
+              }
+            ]
+          }
+        ],
+
+        text: {
+          format: {
+            type:
+              'json_schema',
+
+            name:
+              'sasha_outline_page_budget_repair',
+
+            strict:
+              true,
+
+            schema: {
+              type:
+                'object',
+
+              additionalProperties:
+                false,
+
+              properties: {
+
+                title: {
+                  type:
+                    'string'
+                },
+
+                notes: {
+                  type:
+                    'string'
+                },
+
+                pageLimit: {
+                  anyOf: [
+                    {
+                      type:
+                        'null'
+                    },
+                    {
+                      type:
+                        'number'
+                    }
+                  ]
+                },
+
+                pageBudgetNotes: {
+                  type:
+                    'string'
+                },
+
+                sections: {
+                  type:
+                    'array',
+
+                  items: {
+                    type:
+                      'object',
+
+                    additionalProperties:
+                      false,
+
+                    properties: {
+
+                      order: {
+                        type:
+                          'number'
+                      },
+
+                      title: {
+                        type:
+                          'string'
+                      },
+
+                      description: {
+                        type:
+                          'string'
+                      },
+
+                      pageBudget: {
+                        anyOf: [
+                          {
+                            type:
+                              'null'
+                          },
+                          {
+                            type:
+                              'number'
+                          }
+                        ]
+                      },
+
+                      pageCountTreatment: {
+                        type:
+                          'string',
+
+                        enum: [
+                          'counted',
+                          'excluded',
+                          'mixed',
+                          'not_applicable'
+                        ]
+                      },
+
+                      pageCountNotes: {
+                        type:
+                          'string'
+                      },
+
+                      subsections: {
+                        type:
+                          'array',
+
+                        items: {
+                          type:
+                            'string'
+                        }
+                      },
+
+                      pageCountItems: {
+                        type:
+                          'array',
+
+                        items: {
+                          type:
+                            'object',
+
+                          additionalProperties:
+                            false,
+
+                          properties: {
+
+                            title: {
+                              type:
+                                'string'
+                            },
+
+                            pageCountTreatment: {
+                              type:
+                                'string',
+
+                              enum: [
+                                'counted',
+                                'excluded',
+                                'not_applicable'
+                              ]
+                            },
+
+                            pageBudget: {
+                              anyOf: [
+                                {
+                                  type:
+                                    'null'
+                                },
+                                {
+                                  type:
+                                    'number'
+                                }
+                              ]
+                            },
+
+                            pageCountBasis: {
+                              type:
+                                'string'
+                            }
+
+                          },
+
+                          required: [
+                            'title',
+                            'pageCountTreatment',
+                            'pageBudget',
+                            'pageCountBasis'
+                          ]
+                        }
+                      }
+
+                    },
+
+                    required: [
+                      'order',
+                      'title',
+                      'description',
+                      'pageBudget',
+                      'pageCountTreatment',
+                      'pageCountNotes',
+                      'subsections',
+                      'pageCountItems'
+                    ]
+                  }
+                }
+
+              },
+
+              required: [
+                'title',
+                'notes',
+                'pageLimit',
+                'pageBudgetNotes',
+                'sections'
+              ]
+            }
+          }
+        },
+
+        max_output_tokens:
+          6000
+
+      });
+
+
+    /* =================================================
+       PARSE REPAIRED OUTLINE
+    ================================================= */
+
+    const repairOutputText =
+      repairResponse.output_text
+        ? repairResponse.output_text.trim()
+        : '';
+
+
+    if (
+      !repairOutputText
+    ) {
+
+      throw new Error(
+        'Sasha returned an empty outline page-budget repair response.'
+      );
+
+    }
+
+
+    let repairedOutline;
+
+
+    try {
+
+      repairedOutline =
+        JSON.parse(
+          repairOutputText
+        );
+
+    } catch (
+      repairParseError
+    ) {
+
+      console.error(
+        'SASHA OUTLINE REPAIR JSON PARSE FAILED:',
+        repairOutputText
+      );
+
+
+      throw new Error(
+        'Sasha returned invalid outline repair JSON.'
+      );
+
+    }
+
+
+    /* =================================================
+       VALIDATE REPAIRED OUTLINE
+    ================================================= */
+
+    outlineBudgetCheck =
+      calculateOutlinePageBudget(
+        repairedOutline
+      );
+
+
+    console.log(
+      'SASHA OUTLINE REPAIR PAGE BUDGET CHECK:',
+      {
+        pageLimit:
+          repairedOutline.pageLimit,
+
+        countedPageBudget:
+          outlineBudgetCheck.countedPageBudget,
+
+        invalidCountedItemCount:
+          outlineBudgetCheck
+            .invalidCountedItems
+            .length
+      }
+    );
+
+
+    const repairedOutlineIsInvalid =
+      !Number.isFinite(
+        repairedOutline.pageLimit
+      ) ||
+      outlineBudgetCheck.countedPageBudget >
+        repairedOutline.pageLimit ||
+      outlineBudgetCheck.countedPageBudget !==
+        repairedOutline.pageLimit ||
+      outlineBudgetCheck
+        .invalidCountedItems
+        .length > 0;
+
+
+    if (
+      repairedOutlineIsInvalid
+    ) {
+
+      console.error(
+        'SASHA OUTLINE AUTOMATIC REPAIR FAILED:',
+        {
+          pageLimit:
+            repairedOutline.pageLimit,
+
+          countedPageBudget:
+            outlineBudgetCheck.countedPageBudget,
+
+          invalidCountedItems:
+            outlineBudgetCheck.invalidCountedItems
+        }
+      );
+
+
+      throw new Error(
+        `Sasha could not produce a compliant outline page budget. Final counted total: ${outlineBudgetCheck.countedPageBudget}; required total: ${repairedOutline.pageLimit}.`
+      );
+
+    }
+
+
+    /* =================================================
+       ACCEPT REPAIRED OUTLINE
+    ================================================= */
+
+    sashaResult.outline =
+      repairedOutline;
+
+
+    console.log(
+      'SASHA OUTLINE AUTOMATIC PAGE BUDGET REPAIR ACCEPTED:',
+      {
+        pageLimit:
+          repairedOutline.pageLimit,
+
+        countedPageBudget:
+          outlineBudgetCheck.countedPageBudget
+      }
     );
 
   }
 
 }
-
-
 /* =================================================
    APPLY PROPOSAL PLAN UPDATE
 ================================================= */
