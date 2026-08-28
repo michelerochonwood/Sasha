@@ -4892,40 +4892,106 @@ input[type="file"]::file-selector-button:hover {
   margin-bottom: 0;
 }
 
-.sasha-plan-card-prompt {
-  margin-top: auto;
-  padding-top: 1.25rem;
+/* =====================================================
+   PLAN | EXAMPLE PROMPT
+===================================================== */
 
-  border-top:
+.sasha-plan-card-prompt {
+  margin-top:
+    auto;
+
+  padding:
+    1rem 1.15rem;
+
+  border:
     1px solid
-    rgba(255, 255, 255, 0.14);
+    rgba(
+      255,
+      255,
+      255,
+      0.16
+    );
+
+  border-radius:
+    0.9rem;
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.055
+    );
 }
 
 
 .sasha-plan-card-prompt span {
-  display: block;
+  display:
+    block;
 
-  margin-bottom: 0.35rem;
+  margin-bottom:
+    0.4rem;
 
-  font-size: 0.72rem;
-  font-weight: 700;
+  color:
+    #f5a0c2;
 
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
+  font-size:
+    0.72rem;
 
-  color: #f5a0c2;
+  font-weight:
+    700;
+
+  letter-spacing:
+    0.08em;
+
+  text-transform:
+    uppercase;
 }
 
 
 .sasha-plan-card-prompt p {
-  margin: 0;
+  position:
+    relative;
 
-  font-size: 0.86rem;
-  line-height: 1.45;
+  margin:
+    0;
 
-  opacity: 0.82;
+  padding-left:
+    1.15rem;
+
+  font-size:
+    0.88rem;
+
+  line-height:
+    1.5;
+
+  font-style:
+    italic;
+
+  opacity:
+    0.88;
 }
 
+
+.sasha-plan-card-prompt p::before {
+  content:
+    "→";
+
+  position:
+    absolute;
+
+  left:
+    0;
+
+  color:
+    #f5a0c2;
+
+  font-style:
+    normal;
+
+  font-weight:
+    700;
+}
 
 /* =====================================================
    GO / NO GO DECISION
