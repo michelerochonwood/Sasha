@@ -953,6 +953,63 @@ Set:
 - complianceNote = a concise explanation of that conflict, or an empty
   string when there is no conflict
 
+PLAN BLOCK USER OVERRIDES
+
+The Proposal Plan normally preserves history by appending new blocks.
+
+However, when the user deliberately instructs you to REMOVE or REPLACE
+a specific existing Proposal Plan block, that instruction is a User
+Override and may alter the stored history.
+
+Examples:
+
+- "Remove the second Schedule block."
+- "Delete that milestone. It was added in error."
+- "Replace the last Responsibilities block with this wording."
+- "That Schedule entry is wrong. Remove it."
+
+For a deliberate removal or replacement of an existing Plan block:
+
+- action = "update_plan"
+- userOverride.applied = true
+- userOverride.workProduct = "plan"
+- return userOverride.planBlockChange as an object
+- identify the exact existing block using its stored _id from the
+  pursuitContext
+- do not invent a block ID
+- do not modify any other Plan block
+- do not append a replacement as a new historical block when the user
+  explicitly asked to replace the existing block
+
+For REMOVE:
+
+planBlockChange.operation = "remove"
+planBlockChange.category = affected category
+planBlockChange.targetBlockId = exact existing block _id
+planBlockChange.replacementContent = null
+
+For REPLACE:
+
+planBlockChange.operation = "replace"
+planBlockChange.category = affected category
+planBlockChange.targetBlockId = exact existing block _id
+planBlockChange.replacementContent = exact replacement content
+
+When planBlockChange is used for remove or replace, return null for all
+four normal plan update fields:
+
+schedule = null
+responsibilities = null
+milestones = null
+production = null
+
+This prevents the correction from also being appended as a new block.
+
+For a normal additive Plan update, userOverride.planBlockChange = null.
+
+A User Override is the ONLY reason Sasha may remove or replace an
+existing historical Plan block.
+
 If the current user request is NOT a User Override, return:
 
 userOverride = null
@@ -2798,18 +2855,86 @@ ${outlineComplianceInstructions}`,
         complianceNote: {
           type:
             'string'
+        },
+
+        planBlockChange: {
+  anyOf: [
+    {
+      type:
+        'null'
+    },
+    {
+      type:
+        'object',
+
+      additionalProperties:
+        false,
+
+      properties: {
+
+        operation: {
+          type:
+            'string',
+
+          enum: [
+            'remove',
+            'replace'
+          ]
+        },
+
+        category: {
+          type:
+            'string',
+
+          enum: [
+            'schedule',
+            'responsibilities',
+            'milestones',
+            'production'
+          ]
+        },
+
+        targetBlockId: {
+          type:
+            'string'
+        },
+
+        replacementContent: {
+          anyOf: [
+            {
+              type:
+                'null'
+            },
+            {
+              type:
+                'string'
+            }
+          ]
         }
 
       },
 
       required: [
-        'applied',
-        'workProduct',
-        'target',
-        'summary',
-        'complianceConflict',
-        'complianceNote'
+        'operation',
+        'category',
+        'targetBlockId',
+        'replacementContent'
       ]
+    }
+  ]
+}
+
+      },
+
+required: [
+  'applied',
+  'workProduct',
+  'target',
+  'summary',
+  'complianceConflict',
+  'complianceNote',
+  'planBlockChange'
+]
     }
   ]
 },
@@ -4467,159 +4592,359 @@ if (
 }
 
 /* =================================================
-   APPLY PROPOSAL OUTLINE UPDATE
+   APPLY PROPOSAL PLAN UPDATE
 ================================================= */
 
 if (
   sashaResult.action ===
-    'update_outline' &&
-  sashaResult.outline &&
-  typeof sashaResult.outline ===
-    'object'
+    'update_plan'
 ) {
 
-  proposal.outline = {
+  /* ===============================================
+     ENSURE PLAN EXISTS
+  =============================================== */
 
-    title:
-      sashaResult.outline.title ||
-      'Proposal Outline',
+  if (
+    !proposal.plan ||
+    typeof proposal.plan !==
+      'object'
+  ) {
 
-    notes:
-      sashaResult.outline.notes ||
-      '',
+    proposal.plan = {
+      schedule:
+        [],
 
-    pageLimit:
-      Number.isFinite(
-        sashaResult.outline.pageLimit
+      responsibilities:
+        [],
+
+      milestones:
+        [],
+
+      production:
+        []
+    };
+
+  }
+
+
+  /* ===============================================
+     NORMALIZE LEGACY PLAN VALUES
+  =============================================== */
+
+  const normalizeStoredPlanCategory =
+    (
+      value
+    ) => {
+
+      if (
+        Array.isArray(
+          value
+        )
+      ) {
+
+        return value;
+
+      }
+
+
+      if (
+        typeof value ===
+          'string' &&
+        value.trim()
+      ) {
+
+        return [
+          {
+            content:
+              value.trim(),
+
+            createdAt:
+              new Date()
+          }
+        ];
+
+      }
+
+
+      return [];
+
+    };
+
+
+  proposal.plan.schedule =
+    normalizeStoredPlanCategory(
+      proposal.plan.schedule
+    );
+
+
+  proposal.plan.responsibilities =
+    normalizeStoredPlanCategory(
+      proposal.plan.responsibilities
+    );
+
+
+  proposal.plan.milestones =
+    normalizeStoredPlanCategory(
+      proposal.plan.milestones
+    );
+
+
+  proposal.plan.production =
+    normalizeStoredPlanCategory(
+      proposal.plan.production
+    );
+
+
+  /* ===============================================
+     CHECK FOR PLAN-BLOCK USER OVERRIDE
+  =============================================== */
+
+  const planBlockChange =
+    currentUserOverride &&
+    currentUserOverride.workProduct ===
+      'plan' &&
+    currentUserOverride.planBlockChange &&
+    typeof currentUserOverride.planBlockChange ===
+      'object'
+      ? currentUserOverride.planBlockChange
+      : null;
+
+
+  let handledPlanBlockOverride =
+    false;
+
+
+  if (
+    planBlockChange
+  ) {
+
+    const category =
+      planBlockChange.category;
+
+
+    const validCategories = [
+      'schedule',
+      'responsibilities',
+      'milestones',
+      'production'
+    ];
+
+
+    if (
+      !validCategories.includes(
+        category
       )
-        ? sashaResult.outline.pageLimit
-        : null,
+    ) {
 
-    pageBudgetNotes:
-      sashaResult.outline.pageBudgetNotes ||
-      '',
+      throw new Error(
+        'Sasha returned an invalid Plan block override category.'
+      );
 
-    sections:
-      Array.isArray(
-        sashaResult.outline.sections
-      )
-        ? sashaResult.outline.sections.map(
-            (
-              section,
-              index
-            ) => {
+    }
 
-              return {
 
-                order:
-                  Number.isFinite(
-                    section.order
-                  )
-                    ? section.order
-                    : index + 1,
+    const targetBlockId =
+      typeof planBlockChange.targetBlockId ===
+        'string'
+        ? planBlockChange.targetBlockId.trim()
+        : '';
 
-                title:
-                  section.title ||
-                  '',
 
-                description:
-                  section.description ||
-                  '',
+    if (
+      !targetBlockId
+    ) {
 
-                pageBudget:
-                  Number.isFinite(
-                    section.pageBudget
-                  )
-                    ? section.pageBudget
-                    : null,
+      throw new Error(
+        'Sasha returned a Plan block override without a target block ID.'
+      );
 
-                pageCountTreatment:
-                  [
-                    'counted',
-                    'excluded',
-                    'mixed',
-                    'not_applicable'
-                  ].includes(
-                    section.pageCountTreatment
-                  )
-                    ? section.pageCountTreatment
-                    : 'counted',
+    }
 
-                pageCountNotes:
-                  typeof section.pageCountNotes ===
-                    'string'
-                    ? section.pageCountNotes
-                    : '',
 
-                subsections:
-                  Array.isArray(
-                    section.subsections
-                  )
-                    ? section.subsections
-                    : [],
+    const categoryBlocks =
+      proposal.plan[
+        category
+      ];
 
-                pageCountItems:
-                  Array.isArray(
-                    section.pageCountItems
-                  )
-                    ? section.pageCountItems.map(
-                        (
-                          item
-                        ) => {
 
-                          return {
+    const targetIndex =
+      categoryBlocks.findIndex(
+        (
+          block
+        ) => {
 
-                            title:
-                              item &&
-                              typeof item.title ===
-                                'string'
-                                ? item.title
-                                : '',
+          return (
+            block &&
+            block._id &&
+            block._id.toString() ===
+              targetBlockId
+          );
 
-                            pageCountTreatment:
-                              item &&
-                              [
-                                'counted',
-                                'excluded',
-                                'not_applicable'
-                              ].includes(
-                                item.pageCountTreatment
-                              )
-                                ? item.pageCountTreatment
-                                : 'counted',
+        }
+      );
 
-                            pageBudget:
-                              item &&
-                              Number.isFinite(
-                                item.pageBudget
-                              )
-                                ? item.pageBudget
-                                : null,
 
-                            pageCountBasis:
-                              item &&
-                              typeof item.pageCountBasis ===
-                                'string'
-                                ? item.pageCountBasis
-                                : ''
+    if (
+      targetIndex ===
+        -1
+    ) {
 
-                          };
+      throw new Error(
+        `Sasha could not locate the requested ${category} Plan block for override.`
+      );
 
-                        }
-                      )
-                    : []
+    }
 
-              };
 
-            }
-          )
-        : []
+    /* =============================================
+       REMOVE BLOCK
+    ============================================= */
 
-  };
+    if (
+      planBlockChange.operation ===
+        'remove'
+    ) {
+
+      categoryBlocks.splice(
+        targetIndex,
+        1
+      );
+
+
+      handledPlanBlockOverride =
+        true;
+
+
+      console.log(
+        'SASHA PLAN BLOCK USER OVERRIDE: REMOVED',
+        {
+          category,
+          targetBlockId
+        }
+      );
+
+    }
+
+
+    /* =============================================
+       REPLACE BLOCK
+    ============================================= */
+
+    if (
+      planBlockChange.operation ===
+        'replace'
+    ) {
+
+      const replacementContent =
+        typeof planBlockChange.replacementContent ===
+          'string'
+          ? planBlockChange.replacementContent.trim()
+          : '';
+
+
+      if (
+        !replacementContent
+      ) {
+
+        throw new Error(
+          'Sasha returned a Plan block replacement without replacement content.'
+        );
+
+      }
+
+
+      categoryBlocks[
+        targetIndex
+      ].content =
+        replacementContent;
+
+
+      handledPlanBlockOverride =
+        true;
+
+
+      console.log(
+        'SASHA PLAN BLOCK USER OVERRIDE: REPLACED',
+        {
+          category,
+          targetBlockId
+        }
+      );
+
+    }
+
+  }
+
+
+  /* ===============================================
+     APPEND NORMAL NEW PLAN BLOCKS
+  =============================================== */
+
+  if (
+    !handledPlanBlockOverride &&
+    sashaResult.plan &&
+    typeof sashaResult.plan ===
+      'object'
+  ) {
+
+    const appendPlanBlock =
+      (
+        category,
+        content
+      ) => {
+
+        if (
+          typeof content !==
+            'string' ||
+          !content.trim()
+        ) {
+
+          return;
+
+        }
+
+
+        proposal.plan[
+          category
+        ].push({
+          content:
+            content.trim(),
+
+          createdAt:
+            new Date()
+        });
+
+      };
+
+
+    appendPlanBlock(
+      'schedule',
+      sashaResult.plan.schedule
+    );
+
+
+    appendPlanBlock(
+      'responsibilities',
+      sashaResult.plan.responsibilities
+    );
+
+
+    appendPlanBlock(
+      'milestones',
+      sashaResult.plan.milestones
+    );
+
+
+    appendPlanBlock(
+      'production',
+      sashaResult.plan.production
+    );
+
+  }
 
 
   proposal.markModified(
-    'outline'
+    'plan'
   );
 
 }
