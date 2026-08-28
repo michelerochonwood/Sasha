@@ -1008,7 +1008,6 @@ explicitly says otherwise:
 
 
 - do not assign counted page budget to intentionally blank pages
-  or other administrative front matter
 - distinguish required forms, appendices, resumes, schedules,
   figures, and attachments from the main counted proposal content
 
@@ -2604,34 +2603,102 @@ if (
   )
 ) {
 
-  const countedPageBudget =
-    sashaResult.outline.sections.reduce(
-      (
-        total,
-        section
-      ) => {
+const countedPageBudget =
+  sashaResult.outline.sections.reduce(
+    (
+      total,
+      section
+    ) => {
 
-        if (
-          Number.isFinite(
-            section.pageBudget
-          ) &&
-          section.pageBudget > 0
-        ) {
-
-          return (
-            total +
-            section.pageBudget
-          );
-
-        }
-
+      if (
+        !section ||
+        typeof section !==
+          'object'
+      ) {
 
         return total;
 
-      },
-      0
-    );
+      }
 
+
+      /* =============================================
+         COUNTED SECTION
+      ============================================= */
+
+      if (
+        section.pageCountTreatment ===
+          'counted' &&
+        Number.isFinite(
+          section.pageBudget
+        ) &&
+        section.pageBudget > 0
+      ) {
+
+        return (
+          total +
+          section.pageBudget
+        );
+
+      }
+
+
+      /* =============================================
+         MIXED SECTION
+      ============================================= */
+
+      if (
+        section.pageCountTreatment ===
+          'mixed' &&
+        Array.isArray(
+          section.pageCountItems
+        )
+      ) {
+
+        const mixedCountedPages =
+          section.pageCountItems.reduce(
+            (
+              itemTotal,
+              item
+            ) => {
+
+              if (
+                item &&
+                item.pageCountTreatment ===
+                  'counted' &&
+                Number.isFinite(
+                  item.pageBudget
+                ) &&
+                item.pageBudget > 0
+              ) {
+
+                return (
+                  itemTotal +
+                  item.pageBudget
+                );
+
+              }
+
+
+              return itemTotal;
+
+            },
+            0
+          );
+
+
+        return (
+          total +
+          mixedCountedPages
+        );
+
+      }
+
+
+      return total;
+
+    },
+    0
+  );
 
   console.log(
     'SASHA OUTLINE PAGE BUDGET CHECK:',
@@ -2757,11 +2824,80 @@ if (
                     ? section.pageBudget
                     : null,
 
+                pageCountTreatment:
+                  [
+                    'counted',
+                    'excluded',
+                    'mixed',
+                    'not_applicable'
+                  ].includes(
+                    section.pageCountTreatment
+                  )
+                    ? section.pageCountTreatment
+                    : 'counted',
+
+                pageCountNotes:
+                  typeof section.pageCountNotes ===
+                    'string'
+                    ? section.pageCountNotes
+                    : '',
+
                 subsections:
                   Array.isArray(
                     section.subsections
                   )
                     ? section.subsections
+                    : [],
+
+                pageCountItems:
+                  Array.isArray(
+                    section.pageCountItems
+                  )
+                    ? section.pageCountItems.map(
+                        (
+                          item
+                        ) => {
+
+                          return {
+
+                            title:
+                              item &&
+                              typeof item.title ===
+                                'string'
+                                ? item.title
+                                : '',
+
+                            pageCountTreatment:
+                              item &&
+                              [
+                                'counted',
+                                'excluded',
+                                'not_applicable'
+                              ].includes(
+                                item.pageCountTreatment
+                              )
+                                ? item.pageCountTreatment
+                                : 'counted',
+
+                            pageBudget:
+                              item &&
+                              Number.isFinite(
+                                item.pageBudget
+                              )
+                                ? item.pageBudget
+                                : null,
+
+                            pageCountBasis:
+                              item &&
+                              typeof item.pageCountBasis ===
+                                'string'
+                                ? item.pageCountBasis
+                                : ''
+
+                          };
+
+                        }
+                      )
                     : []
 
               };
@@ -2778,7 +2914,6 @@ if (
   );
 
 }
-
 /* =================================================
    APPLY WIN STRATEGY UPDATE
 ================================================= */
