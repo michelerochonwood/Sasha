@@ -991,224 +991,410 @@
   <div class="sasha-plan-output-grid">
 
 
-    {{!-- =============================================
-         SCHEDULE
-    ============================================== --}}
-
-    <article class="sasha-plan-output-card">
-
-      <header>
-
-        <span>
-          01
-        </span>
-
-        <h3>
-          Proposal Schedule
-        </h3>
-
-      </header>
+<div class="sasha-plan-output-grid">
 
 
-{{#if plan.schedule.length}}
+  {{!-- =============================================
+       SCHEDULE
+  ============================================== --}}
 
-  <div class="sasha-plan-block-list">
+  <div class="sasha-plan-category-stack">
 
-    {{#each plan.schedule}}
+    {{#if plan.schedule.length}}
 
-      <div class="sasha-plan-rich-copy sasha-plan-history-block">
+      {{#each plan.schedule}}
 
-        {{{formatPlanText this.content}}}
+        <article
+          class="
+            sasha-plan-output-card
+            {{#unless @first}}
+              sasha-plan-update-card
+            {{/unless}}
+          "
+        >
 
-      </div>
+          <header>
 
-    {{/each}}
+            {{#if @first}}
 
-  </div>
+              <span>
+                01
+              </span>
 
-{{else}}
+              <h3>
+                Proposal Schedule
+              </h3>
 
-  <p class="sasha-plan-empty">
-    Sasha has not built the proposal schedule yet.
-  </p>
+            {{else}}
 
-{{/if}}
+              <span>
+                U{{@index}}
+              </span>
 
+              <h3>
+                Update {{@index}}
+              </h3>
 
-      <button
-        type="button"
-        class="sasha-plan-card-action"
-      >
-        Work on schedule
-      </button>
+            {{/if}}
 
-    </article>
-
-
-    {{!-- =============================================
-         RESPONSIBILITIES
-    ============================================== --}}
-
-    <article class="sasha-plan-output-card">
-
-      <header>
-
-        <span>
-          02
-        </span>
-
-        <h3>
-          Responsibilities
-        </h3>
-
-      </header>
+          </header>
 
 
-{{#if plan.responsibilities.length}}
-
-  <div class="sasha-plan-block-list">
-
-    {{#each plan.responsibilities}}
-
-      <div class="sasha-plan-rich-copy sasha-plan-history-block">
-
-        {{{formatPlanText this.content}}}
-
-      </div>
-
-    {{/each}}
-
-  </div>
-
-{{else}}
-
-  <p class="sasha-plan-empty">
-    Proposal responsibilities have not been assigned yet.
-  </p>
-
-{{/if}}
+          <div class="sasha-plan-rich-copy">
+            {{{formatPlanText this.content}}}
+          </div>
 
 
-      <button
-        type="button"
-        class="sasha-plan-card-action"
-      >
-        Define responsibilities
-      </button>
+          {{#if @first}}
 
-    </article>
+            <button
+              type="button"
+              class="sasha-plan-card-action"
+            >
+              Work on schedule
+            </button>
 
+          {{/if}}
 
-    {{!-- =============================================
-         MILESTONES
-    ============================================== --}}
+        </article>
 
-    <article class="sasha-plan-output-card">
+      {{/each}}
 
-      <header>
+    {{else}}
 
-        <span>
-          03
-        </span>
+      <article class="sasha-plan-output-card">
 
-        <h3>
-          Milestones
-        </h3>
+        <header>
 
-      </header>
+          <span>
+            01
+          </span>
 
+          <h3>
+            Proposal Schedule
+          </h3>
 
-{{#if plan.milestones.length}}
+        </header>
 
-  <div class="sasha-plan-block-list">
+        <p class="sasha-plan-empty">
+          Sasha has not built the proposal schedule yet.
+        </p>
 
-    {{#each plan.milestones}}
+        <button
+          type="button"
+          class="sasha-plan-card-action"
+        >
+          Work on schedule
+        </button>
 
-      <div class="sasha-plan-rich-copy sasha-plan-history-block">
+      </article>
 
-        {{{formatPlanText this.content}}}
-
-      </div>
-
-    {{/each}}
+    {{/if}}
 
   </div>
 
-{{else}}
 
-  <p class="sasha-plan-empty">
-    No internal milestones have been established yet.
-  </p>
+  {{!-- =============================================
+       RESPONSIBILITIES
+  ============================================== --}}
 
-{{/if}}
+  <div class="sasha-plan-category-stack">
+
+    {{#if plan.responsibilities.length}}
+
+      {{#each plan.responsibilities}}
+
+        <article
+          class="
+            sasha-plan-output-card
+            {{#unless @first}}
+              sasha-plan-update-card
+            {{/unless}}
+          "
+        >
+
+          <header>
+
+            {{#if @first}}
+
+              <span>
+                02
+              </span>
+
+              <h3>
+                Responsibilities
+              </h3>
+
+            {{else}}
+
+              <span>
+                U{{@index}}
+              </span>
+
+              <h3>
+                Update {{@index}}
+              </h3>
+
+            {{/if}}
+
+          </header>
 
 
-      <button
-        type="button"
-        class="sasha-plan-card-action"
-      >
-        Build milestones
-      </button>
-
-    </article>
+          <div class="sasha-plan-rich-copy">
+            {{{formatPlanText this.content}}}
+          </div>
 
 
-    {{!-- =============================================
-         PRODUCTION
-    ============================================== --}}
+          {{#if @first}}
 
-    <article class="sasha-plan-output-card">
+            <button
+              type="button"
+              class="sasha-plan-card-action"
+            >
+              Define responsibilities
+            </button>
 
-      <header>
+          {{/if}}
 
-        <span>
-          04
-        </span>
+        </article>
 
-        <h3>
-          Final Production
-        </h3>
+      {{/each}}
 
-      </header>
+    {{else}}
 
+      <article class="sasha-plan-output-card">
 
-{{#if plan.production.length}}
+        <header>
 
-  <div class="sasha-plan-block-list">
+          <span>
+            02
+          </span>
 
-    {{#each plan.production}}
+          <h3>
+            Responsibilities
+          </h3>
 
-      <div class="sasha-plan-rich-copy sasha-plan-history-block">
+        </header>
 
-        {{{formatPlanText this.content}}}
+        <p class="sasha-plan-empty">
+          Proposal responsibilities have not been assigned yet.
+        </p>
 
-      </div>
+        <button
+          type="button"
+          class="sasha-plan-card-action"
+        >
+          Define responsibilities
+        </button>
 
-    {{/each}}
+      </article>
+
+    {{/if}}
 
   </div>
 
-{{else}}
 
-  <p class="sasha-plan-empty">
-    Final production and submission activities have not been scheduled yet.
-  </p>
+  {{!-- =============================================
+       MILESTONES
+  ============================================== --}}
 
-{{/if}}
+  <div class="sasha-plan-category-stack">
+
+    {{#if plan.milestones.length}}
+
+      {{#each plan.milestones}}
+
+        <article
+          class="
+            sasha-plan-output-card
+            {{#unless @first}}
+              sasha-plan-update-card
+            {{/unless}}
+          "
+        >
+
+          <header>
+
+            {{#if @first}}
+
+              <span>
+                03
+              </span>
+
+              <h3>
+                Milestones
+              </h3>
+
+            {{else}}
+
+              <span>
+                U{{@index}}
+              </span>
+
+              <h3>
+                Update {{@index}}
+              </h3>
+
+            {{/if}}
+
+          </header>
 
 
-      <button
-        type="button"
-        class="sasha-plan-card-action"
-      >
-        Plan production
-      </button>
+          <div class="sasha-plan-rich-copy">
+            {{{formatPlanText this.content}}}
+          </div>
 
-    </article>
 
+          {{#if @first}}
+
+            <button
+              type="button"
+              class="sasha-plan-card-action"
+            >
+              Build milestones
+            </button>
+
+          {{/if}}
+
+        </article>
+
+      {{/each}}
+
+    {{else}}
+
+      <article class="sasha-plan-output-card">
+
+        <header>
+
+          <span>
+            03
+          </span>
+
+          <h3>
+            Milestones
+          </h3>
+
+        </header>
+
+        <p class="sasha-plan-empty">
+          No internal milestones have been established yet.
+        </p>
+
+        <button
+          type="button"
+          class="sasha-plan-card-action"
+        >
+          Build milestones
+        </button>
+
+      </article>
+
+    {{/if}}
 
   </div>
 
+
+  {{!-- =============================================
+       FINAL PRODUCTION
+  ============================================== --}}
+
+  <div class="sasha-plan-category-stack">
+
+    {{#if plan.production.length}}
+
+      {{#each plan.production}}
+
+        <article
+          class="
+            sasha-plan-output-card
+            {{#unless @first}}
+              sasha-plan-update-card
+            {{/unless}}
+          "
+        >
+
+          <header>
+
+            {{#if @first}}
+
+              <span>
+                04
+              </span>
+
+              <h3>
+                Final Production
+              </h3>
+
+            {{else}}
+
+              <span>
+                U{{@index}}
+              </span>
+
+              <h3>
+                Update {{@index}}
+              </h3>
+
+            {{/if}}
+
+          </header>
+
+
+          <div class="sasha-plan-rich-copy">
+            {{{formatPlanText this.content}}}
+          </div>
+
+
+          {{#if @first}}
+
+            <button
+              type="button"
+              class="sasha-plan-card-action"
+            >
+              Plan production
+            </button>
+
+          {{/if}}
+
+        </article>
+
+      {{/each}}
+
+    {{else}}
+
+      <article class="sasha-plan-output-card">
+
+        <header>
+
+          <span>
+            04
+          </span>
+
+          <h3>
+            Final Production
+          </h3>
+
+        </header>
+
+        <p class="sasha-plan-empty">
+          Final production and submission activities have not been scheduled yet.
+        </p>
+
+        <button
+          type="button"
+          class="sasha-plan-card-action"
+        >
+          Plan production
+        </button>
+
+      </article>
+
+    {{/if}}
+
+  </div>
+
+
+</div>
 </section>
 
 
