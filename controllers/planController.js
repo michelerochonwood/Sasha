@@ -2918,7 +2918,6 @@ ${JSON.stringify(
   null,
   2
 )}
-
 PAGE-BUDGET REPAIR RULES
 
 1. Every section with pageCountTreatment = "counted" must have a
@@ -2931,39 +2930,103 @@ PAGE-BUDGET REPAIR RULES
 3. Counted pageCountItems consume pages from the SAME pageLimit as
    counted body sections.
 
-4. Do not allocate the full pageLimit to Sections A/B/C and then add
-   counted appendix pages on top.
+4. NEVER solve a missing counted pageCountItem budget by simply adding
+   pages on top of the current counted total.
 
-5. If counted appendix material requires pages, reduce counted body
-   section allocations accordingly.
+5. The current counted total BEFORE repairing missing numeric budgets is:
 
-6. If optional supporting material is unnecessary and cannot fit
-   within the page limit, remove it from the proposed appendix rather
-   than pretending it is excluded.
+${outlineBudgetCheck.countedPageBudget}
 
-7. Do not change an item from "counted" to "excluded" merely to make
-   the arithmetic work.
+6. The maximum permitted counted total is:
 
-8. An item may remain "excluded" only where the controlling procurement
-   documents support that exclusion.
+${sashaResult.outline.pageLimit}
 
-9. An item may remain "not_applicable" only where the procurement
-   submission mechanism establishes that it is outside the counted
-   technical document.
+7. Therefore, if the current counted total already equals the pageLimit,
+   EVERY positive page assigned to a previously unbudgeted counted
+   pageCountItem MUST be removed from one or more existing counted
+   section pageBudgets.
 
-10. A mixed parent section must have pageBudget = null.
+   Example:
 
-11. The FINAL combined counted total must equal the pageLimit.
+   Current:
+   Section A = 8
+   Section B = 3
+   Section C = 9
 
-12. Before returning the corrected outline, mathematically verify:
+   Current total = 20
 
-    counted section pageBudgets
+   If a counted appendix item requires 1 page, an INVALID repair is:
+
+   A = 8
+   B = 3
+   C = 9
+   Appendix item = 1
+
+   Total = 21
+
+   A VALID repair would instead be something such as:
+
+   A = 7
+   B = 3
+   C = 9
+   Appendix item = 1
+
+   Total = 20
+
+   or another strategically justified redistribution that still totals 20.
+
+8. If the current counted total is below pageLimit, only the unused
+   portion may be assigned without reducing another counted section.
+
+9. If the total numeric budgets required for previously unbudgeted
+   counted items exceed the unused portion of pageLimit, reduce existing
+   counted section allocations by exactly the additional amount needed.
+
+10. Preserve relative strategic priority when reducing body sections.
+    Higher-weighted and more demanding sections should generally retain
+    more space than lower-weighted sections.
+
+11. Do not change an item from "counted" to "excluded" merely to make
+    the arithmetic work.
+
+12. An item may remain "excluded" only where the controlling procurement
+    documents support that exclusion.
+
+13. An item may remain "not_applicable" only where the procurement
+    submission mechanism establishes that it is outside the counted
+    technical document.
+
+14. A mixed parent section must have pageBudget = null.
+
+15. Do not leave ANY section or pageCountItem with
+    pageCountTreatment = "counted" and pageBudget = null.
+
+16. If optional supporting material is unnecessary and cannot justify
+    consuming scarce counted pages, remove that proposed supporting
+    material from the outline instead of allocating pages to it.
+
+17. Before returning the corrected outline, calculate:
+
+    SUM of pageBudget for all sections where
+    pageCountTreatment = "counted"
+
     PLUS
-    counted pageCountItem pageBudgets
-    EQUALS
-    pageLimit.
 
-Return the COMPLETE corrected outline.
+    SUM of pageBudget for all pageCountItems where
+    pageCountTreatment = "counted"
+
+18. That combined total MUST equal exactly:
+
+${sashaResult.outline.pageLimit}
+
+19. Perform the arithmetic AFTER all repairs and reallocations are
+    complete.
+
+20. If your first proposed allocation does not equal the pageLimit,
+    recalculate and correct it internally BEFORE returning the JSON.
+
+Return the COMPLETE corrected outline only after the combined counted
+total equals the pageLimit exactly.
 `,
 
         input: [
