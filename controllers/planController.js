@@ -3025,6 +3025,75 @@ ${sashaResult.outline.pageLimit}
 20. If your first proposed allocation does not equal the pageLimit,
     recalculate and correct it internally BEFORE returning the JSON.
 
+    21. NEVER combine multiple materially different counted appendix
+    components into one pageCountItem.
+
+    For example, this is INVALID:
+
+    title =
+    "CVs; Team Matrices; QA/QC samples; Consultation template;
+    geotech reports; PIC materials"
+
+    Each materially different component must be evaluated separately.
+
+22. When an existing pageCountItem contains multiple different
+    components joined together, SPLIT it into separate pageCountItems
+    before assigning page budgets.
+
+23. For each resulting item, determine whether it actually needs to
+    appear in the proposal submission.
+
+    Do not keep an appendix item merely because it might be useful.
+
+24. If a supporting appendix item is optional, is not requested by
+    the RFP, and would consume counted pages that are better used in
+    the scored response, REMOVE that item from both:
+
+    - pageCountItems; and
+    - the corresponding subsections list.
+
+25. Do not create proposal appendices containing contract deliverables
+    merely to demonstrate that those future deliverables will exist.
+
+    A deliverable such as a Consultation Summary Report, geotechnical
+    report, SUE deliverable, CCTV deliverable, or other post-award work
+    product should be described in the appropriate methodology/work-plan
+    section unless the RFP actually asks the proponent to submit a
+    sample, template, or copy with the proposal.
+
+26. Similarly, do not include sample QA/QC forms, sample constructability
+    notes, sample PIC materials, or other sample documents unless:
+
+    - the RFP requests them; or
+    - they provide enough strategic value to justify consuming part of
+      the counted page limit.
+
+27. Required personnel or project information must remain represented
+    where the RFP requires it.
+
+    If the RFP requires personnel information but does not explicitly
+    require full CV appendices, do not automatically create full CV
+    appendices.
+
+    If compact Team Matrices already satisfy the RFP requirement in
+    the counted body, do not automatically duplicate them as full
+    appendix matrices.
+
+28. Every remaining pageCountItem whose pageCountTreatment = "counted"
+    MUST have a positive numeric pageBudget.
+
+    pageBudget = null is NEVER valid for a counted item.
+
+29. If you cannot determine a reasonable positive pageBudget for an
+    optional counted appendix item, REMOVE the optional item rather
+    than returning pageBudget = null.
+
+30. After splitting, removing optional material, and reallocating pages,
+    recalculate the entire proposal again.
+
+    The final combined counted total MUST equal pageLimit exactly and
+    invalidCountedItems must be zero.
+
 Return the COMPLETE corrected outline only after the combined counted
 total equals the pageLimit exactly.
 `,
@@ -3365,9 +3434,12 @@ total equals the pageLimit exactly.
       );
 
 
-      throw new Error(
-        `Sasha could not produce a compliant outline page budget. Final counted total: ${outlineBudgetCheck.countedPageBudget}; required total: ${repairedOutline.pageLimit}.`
-      );
+throw new Error(
+  `Sasha could not produce a compliant outline page budget. ` +
+  `Final counted total: ${outlineBudgetCheck.countedPageBudget}; ` +
+  `required total: ${repairedOutline.pageLimit}; ` +
+  `counted items without valid page budgets: ${outlineBudgetCheck.invalidCountedItems.length}.`
+);
 
     }
 
