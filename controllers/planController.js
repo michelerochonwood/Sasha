@@ -1097,6 +1097,175 @@ ${JSON.stringify(
 )}
 `;
 
+
+/* =====================================================
+   OUTLINE STRUCTURE & RFP COMPLIANCE RULES
+===================================================== */
+
+const outlineComplianceInstructions = `
+PROPOSAL OUTLINE RULES
+
+When creating, reviewing, revising, or updating a proposal outline, the RFP's requested response structure is controlling.
+
+1. RFP STRUCTURE FIRST; STRATEGY SECOND
+
+If the RFP provides proposal section titles, headings, numbered response categories, or an explicit response structure:
+
+- Use the client's section titles verbatim.
+- Preserve the client's stated order.
+- Do not rename, combine, split, reorganize, substitute, or improve the requested section structure.
+- Do not add conventional proposal sections merely because they are common or potentially persuasive.
+
+This includes, but is not limited to:
+
+- Executive Summary
+- Introduction
+- Why Us / Why [Firm]
+- Compliance Checklist
+- Proposal Quality section
+- Closing Statement
+- Key Benefits
+- Understanding section
+- Risk section
+- Win Themes section
+
+Do not create any such section unless:
+a) the RFP explicitly requests it; or
+b) the user explicitly instructs you to add it.
+
+Strategy must operate within the client's required structure. Win themes, differentiators, evidence, risks, client priorities, and persuasive messaging may affect emphasis, page allocation, evidence selection, and writing approach, but they must not alter the response architecture required by the RFP.
+
+
+2. USE ONLY CONTENT REQUESTED FOR EACH SECTION
+
+For every required proposal section:
+
+- Review the RFP language describing what the proponent is expected to provide in that section.
+- Populate that section only with content explicitly requested or clearly necessary to answer those stated requirements.
+- Do not move unrelated content into a section merely because it is strategically useful.
+- Do not create additional subsections unless they organize requirements that the RFP explicitly assigns to that parent section.
+
+If the RFP provides specific subsection titles or numbered response items, use those titles verbatim whenever practical.
+
+
+3. EVALUATION CRITERIA ARE NOT AUTOMATICALLY RESPONSE SECTIONS
+
+Do not assume that every scored or rated evaluation criterion requires a standalone proposal section.
+
+For each evaluation criterion, determine whether:
+
+- the RFP explicitly asks the proponent to provide a response under that heading; OR
+- the evaluators apply the criterion to the proposal as a whole.
+
+If the criterion evaluates characteristics such as readability, presentation quality, compliance, organization, clarity, or overall proposal quality, treat it as a proposal-wide standard unless the RFP explicitly requires a standalone narrative response.
+
+Do not create a section solely because a criterion appears in the evaluation table.
+
+
+4. PAGE-LIMIT EXCLUSIONS MUST BE EXPLICIT
+
+Never assume that appendices, attachments, resumes, CVs, forms, schedules, matrices, tables, supporting documentation, sample documents, or other material is excluded from a page limit merely because it appears outside the main narrative.
+
+Treat material as excluded from the page count only when:
+
+- the RFP expressly states that the material is excluded; or
+- the demonstrated electronic submission mechanism clearly establishes that the material is completed or submitted outside the counted technical document.
+
+Apply exclusions narrowly.
+
+For example:
+
+If the RFP states that "full-page figures are excluded from the page count," then only qualifying full-page figures may be treated as excluded.
+
+Do NOT interpret that statement to mean:
+
+- all appendices are excluded;
+- all tables are excluded;
+- all CVs are excluded;
+- all schedules are excluded;
+- all supporting documents are excluded.
+
+Do not create an unlimited or generally excluded appendix unless the RFP explicitly permits one.
+
+
+5. REQUIRED APPENDED MATERIAL
+
+If the RFP instructs the proponent to append certain material, such as:
+
+- QA/QC samples
+- certificates
+- project information
+- resumes
+- matrices
+- schedules
+- forms
+
+do not automatically treat that material as outside the page limit.
+
+Determine its page-count treatment separately from the instruction to append it.
+
+
+6. EXISTING OUTLINES ARE NOT AUTHORITATIVE
+
+When the user asks you to review, revise, update, recalculate, or correct an existing outline:
+
+- Re-validate the entire outline against the current RFP and all applicable addenda.
+- Do not preserve an existing section merely because it appeared in an earlier version.
+- Do not treat your own prior outline decisions as authoritative.
+- If an existing section, subsection, appendix, or page-count assumption is unsupported by the RFP, correct or remove it.
+
+The source RFP and applicable addenda always outrank previous AI-generated outline content.
+
+
+7. STRUCTURE COMPLIANCE CHECK BEFORE SAVING
+
+Before returning an action that creates or updates an outline, verify all of the following:
+
+A. Every substantive proposal section corresponds to content explicitly requested by the RFP.
+
+B. Required section titles are reproduced verbatim where the RFP provides them.
+
+C. Sections appear in the sequence required by the RFP.
+
+D. Every proposed subsection contains content requested under its parent RFP section.
+
+E. No evaluation-only criterion has been converted into a standalone response section without explicit RFP support.
+
+F. No Executive Summary, Introduction, Why Us section, Compliance section, Closing section, or other conventional proposal content has been added without RFP or user authorization.
+
+G. Every page-count exclusion is supported by explicit RFP language or by the demonstrated submission mechanism.
+
+H. Material described merely as an appendix or attachment has not automatically been treated as excluded from the page count.
+
+I. The pageBudget values for counted sections have been mathematically summed and verified against pageLimit.
+
+J. Sections with pageBudget = 0 are truly outside the counted document or are otherwise explicitly excluded; pageBudget = 0 must not be used merely to hide required counted content.
+
+If any of these checks fail, correct the outline before returning it.
+
+
+8. WHEN THE RFP IS AMBIGUOUS
+
+If the RFP does not clearly establish whether a section, attachment, form, or supporting item counts toward the page limit:
+
+- Do not invent an exclusion.
+- Use the closest literal interpretation of the RFP.
+- Preserve compliance over convenience.
+- Record the ambiguity in outline notes or pageBudgetNotes where useful.
+- Do not create additional proposal structure solely to resolve the ambiguity.
+
+When evidence conflicts, the explicit solicitation instructions and addenda take precedence over general proposal-writing conventions.
+
+
+9. CORE PRINCIPLE
+
+Be creative inside the client's structure.
+
+Do not redesign the client's structure.
+
+A strong proposal responds persuasively to exactly what the client requested, in the order and format the client requested it.
+`;
+
 /* =================================================
    CREATE OPENAI CLIENT
 ================================================= */
