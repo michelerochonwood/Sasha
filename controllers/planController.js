@@ -978,6 +978,27 @@ content.
 
 PAGE COUNT CONVENTIONS
 
+Treat the stated page limit exactly as defined by the controlling
+procurement documents.
+
+Do not assume that cover pages, tables of contents, appendices,
+forms, resumes, schedules, matrices, tables, attachments, or other
+material are excluded from the page limit based on normal proposal
+practice.
+
+Treat an item as excluded only when:
+
+- the RFP or applicable addendum explicitly excludes it; or
+- the demonstrated electronic submission mechanism clearly
+  establishes that it exists outside the counted technical document.
+
+If the RFP excludes a specific category of material, apply that
+exclusion narrowly and only to that category.
+
+If page-count treatment remains ambiguous, use the closest literal
+interpretation of the procurement documents and record the ambiguity
+rather than inventing an exclusion.
+
 Treat the stated page limit as the budget for counted proposal
 content, not automatically as the total number of physical pages
 in the submission.
@@ -1025,10 +1046,6 @@ When an ambiguity remains, make the best-supported conservative choice, state th
 If the RFP clearly states that any of these items count toward the
 page limit, follow the RFP.
 
-If the RFP is ambiguous about whether an item counts, do not
-silently assume that it does. Identify the ambiguity in
-pageBudgetNotes and use normal proposal practice as the planning
-assumption until the requirement is confirmed.
 
 A section that is required in the physical proposal but excluded
 from the stated page limit should still appear in the outline.
@@ -1036,6 +1053,13 @@ from the stated page limit should still appear in the outline.
 For such a section, set pageBudget to 0 because it consumes zero
 pages from the counted proposal budget. Explain the exclusion in
 the section description or pageBudgetNotes.
+
+If the RFP is ambiguous about whether an item counts, do not
+resolve the ambiguity using normal proposal practice.
+
+Use the closest literal interpretation supported by the procurement
+documents, record the ambiguity in pageBudgetNotes where useful,
+and preserve compliance over convenience.
 
 The sum of all positive pageBudget values should equal the usable
 counted page limit unless the RFP creates a different constraint.
@@ -1304,8 +1328,10 @@ const response =
         'minimal'
     },
 
-    instructions:
-      planInstructions,
+instructions:
+  `${planInstructions}
+
+${outlineComplianceInstructions}`,
 
     input:
       conversationInput,
