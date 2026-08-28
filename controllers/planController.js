@@ -3041,147 +3041,132 @@ templates, reports, forms, matrices, CVs, schedules, or evidence.
 Work only with the structure and items already present in the outline
 you were given.
 
-22. For every EXISTING pageCountItem whose pageCountTreatment =
-"counted" but whose pageBudget is null or otherwise invalid, make
-ONE of these two corrections:
 
-A. If the item is actually necessary to the proposal submission,
-assign it a positive numeric pageBudget and reduce existing counted
-section pageBudgets by exactly the same amount.
 
-OR
+22. INVALID COUNTED ITEMS MUST BE RESOLVED.
 
-B. If the item is optional supporting material that the RFP does not
-require and it is not necessary to answer a scored requirement,
-REMOVE that existing pageCountItem and remove its corresponding
-subsection entry.
+The following items have already failed validation:
 
-Do not create replacement appendix items.
+${JSON.stringify(
+  outlineBudgetCheck.invalidCountedItems,
+  null,
+  2
+)}
 
-23. Prefer keeping required response content inside the RFP-requested
-body sections rather than consuming counted pages with optional
-appendix material.
+You are NOT permitted to return any of these items unchanged.
 
-If the proposal body already addresses the requirement adequately,
-optional duplicate appendix evidence should normally be removed.
+For EACH listed invalid item, you MUST do exactly one of the following:
 
-24. Do not duplicate content.
+A. KEEP IT AS COUNTED
 
-For example, if compact Team Matrices are already included in the
-counted Section A response, do not also preserve full Team Matrices
-as counted appendix material unless the RFP requires both.
+If the item is required or strategically necessary:
 
-If the methodology already explains the QA/QC program, PIC approach,
-Consultation Summary Report approach, geotechnical work, SUE work,
-CCTV work, DSCP responsibilities, or constructability process, do not
-automatically preserve sample documents or future project deliverables
-as counted proposal appendices.
-
-25. Do not turn future contract deliverables into proposal appendices
-unless the RFP explicitly asks the proponent to submit a sample,
-template, example, or completed version with the proposal.
-
-26. After correcting or removing the EXISTING invalid counted items,
-recalculate the full page budget.
-
-The final result must satisfy BOTH conditions:
-
-- combined counted pageBudget = pageLimit exactly; and
-- every remaining item with pageCountTreatment = "counted" has a
-  positive numeric pageBudget.
-
-27. If the existing counted body sections already total the entire
-pageLimit and the invalid appendix item is optional, REMOVE the
-optional appendix item rather than increasing the total above the
-pageLimit.
-
-28. Never return a repaired outline with:
-
-- countedPageBudget greater than pageLimit;
-- countedPageBudget less than pageLimit;
-- pageCountTreatment = "counted" with pageBudget = null; or
-- newly invented appendix material.
-
-Return the COMPLETE corrected outline only after both the arithmetic
-and all counted-item budgets are valid.21. THIS IS A REPAIR PASS, NOT A NEW OUTLINE-DESIGN PASS.
-
-Do not add new sections.
-
-Do not add new subsections.
-
-Do not add new pageCountItems.
-
-Do not split an existing pageCountItem into multiple new items.
-
-Do not introduce new supporting materials, appendices, samples,
-templates, reports, forms, matrices, CVs, schedules, or evidence.
-
-Work only with the structure and items already present in the outline
-you were given.
-
-22. For every EXISTING pageCountItem whose pageCountTreatment =
-"counted" but whose pageBudget is null or otherwise invalid, make
-ONE of these two corrections:
-
-A. If the item is actually necessary to the proposal submission,
-assign it a positive numeric pageBudget and reduce existing counted
-section pageBudgets by exactly the same amount.
+- assign it a positive numeric pageBudget;
+- reduce one or more existing counted section pageBudgets by exactly
+  the same total number of pages;
+- preserve the overall pageLimit.
 
 OR
 
-B. If the item is optional supporting material that the RFP does not
-require and it is not necessary to answer a scored requirement,
-REMOVE that existing pageCountItem and remove its corresponding
-subsection entry.
+B. REMOVE IT
 
-Do not create replacement appendix items.
+If the item is optional, duplicative, not requested by the RFP, or not
+necessary to answer a scored requirement:
 
-23. Prefer keeping required response content inside the RFP-requested
-body sections rather than consuming counted pages with optional
-appendix material.
+- remove the pageCountItem completely; and
+- remove the corresponding optional appendix entry from subsections.
 
-If the proposal body already addresses the requirement adequately,
-optional duplicate appendix evidence should normally be removed.
+Returning the item with pageCountTreatment = "counted" and
+pageBudget = null is FORBIDDEN.
 
-24. Do not duplicate content.
+23. CURRENT CAPACITY RULE
 
-For example, if compact Team Matrices are already included in the
-counted Section A response, do not also preserve full Team Matrices
-as counted appendix material unless the RFP requires both.
+The current valid numeric counted allocation is:
 
-If the methodology already explains the QA/QC program, PIC approach,
-Consultation Summary Report approach, geotechnical work, SUE work,
-CCTV work, DSCP responsibilities, or constructability process, do not
-automatically preserve sample documents or future project deliverables
-as counted proposal appendices.
+${outlineBudgetCheck.countedPageBudget}
 
-25. Do not turn future contract deliverables into proposal appendices
-unless the RFP explicitly asks the proponent to submit a sample,
-template, example, or completed version with the proposal.
+The pageLimit is:
 
-26. After correcting or removing the EXISTING invalid counted items,
-recalculate the full page budget.
+${sashaResult.outline.pageLimit}
 
-The final result must satisfy BOTH conditions:
+If those two numbers are already equal, there are ZERO unallocated
+counted pages available.
 
-- combined counted pageBudget = pageLimit exactly; and
-- every remaining item with pageCountTreatment = "counted" has a
-  positive numeric pageBudget.
+Therefore, when current countedPageBudget equals pageLimit:
 
-27. If the existing counted body sections already total the entire
-pageLimit and the invalid appendix item is optional, REMOVE the
-optional appendix item rather than increasing the total above the
-pageLimit.
+- you may NOT add any positive pageBudget without reducing another
+  counted allocation by the same amount;
+- if an invalid counted appendix item is optional, REMOVE it;
+- if it is required, assign its pages and reduce existing counted
+  section budgets by the same amount.
 
-28. Never return a repaired outline with:
+24. DO NOT PRESERVE OPTIONAL DUPLICATION.
 
-- countedPageBudget greater than pageLimit;
-- countedPageBudget less than pageLimit;
-- pageCountTreatment = "counted" with pageBudget = null; or
-- newly invented appendix material.
+If required information already appears in the counted body, do not
+also consume counted appendix pages with a duplicate version unless
+the RFP explicitly requires that duplicate submission.
 
-Return the COMPLETE corrected outline only after both the arithmetic
-and all counted-item budgets are valid.
+Examples:
+
+- compact Team Matrices in Section A do not automatically justify
+  additional full Team Matrices in an appendix;
+- a QA/QC methodology in Section C does not automatically justify
+  sample QA/QC forms;
+- describing the Consultation Summary Report deliverable does not
+  automatically justify attaching a sample template;
+- describing geotechnical, SUE, CCTV, PIC or constructability work
+  does not automatically justify sample deliverables in appendices.
+
+25. FUTURE CONTRACT DELIVERABLES ARE NOT AUTOMATIC PROPOSAL CONTENT.
+
+Do not preserve a report, template, sample deliverable or project work
+product in the proposal appendices merely because it will be produced
+after award.
+
+Include such an appendix only when the RFP requests it or when it has
+clear strategic value sufficient to justify consuming counted pages.
+
+26. DO NOT CREATE NEW MATERIAL DURING REPAIR.
+
+Do not:
+
+- add new sections;
+- add new subsections;
+- add new pageCountItems;
+- split existing pageCountItems into additional items;
+- invent new appendices; or
+- add new evidence.
+
+This pass repairs the existing outline only.
+
+27. FINAL VALIDATION IS MANDATORY.
+
+Before returning the repaired outline, verify BOTH:
+
+A. Combined counted pageBudget equals exactly:
+
+${sashaResult.outline.pageLimit}
+
+AND
+
+B. There are ZERO remaining items for which:
+
+pageCountTreatment = "counted"
+
+and
+
+pageBudget is null, zero, missing, or non-numeric.
+
+If either condition fails, revise the outline internally before
+returning it.
+
+28. YOU MUST NOT RETURN AN UNRESOLVED INVALID ITEM.
+
+The repair is unsuccessful if any item listed under
+"invalidCountedItems" above remains counted without a positive numeric
+pageBudget.
+
+Either budget it and reallocate pages, or remove it.
 `,
 
         input: [
