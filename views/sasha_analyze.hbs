@@ -604,350 +604,6 @@
 
     </div>
 
-
-    {{!-- =================================================
-         RFP ANALYSIS
-    ================================================== --}}
-
-    <section class="sasha-analysis-section">
-
-      <header class="sasha-analysis-section-heading">
-
-        <div>
-
-          <p class="sasha-work-eyebrow">
-            RFP analysis
-          </p>
-
-          <h2>
-            What Sasha Has Found
-          </h2>
-
-        </div>
-
-        <p>
-          These work products will develop as Sasha reviews the RFP
-          and talks through the pursuit with your team.
-        </p>
-
-      </header>
-
-
-      <div class="sasha-analysis-output-grid">
-
-
-        {{!-- =============================================
-             RISK
-        ============================================== --}}
-
-        <article class="sasha-analysis-output-card is-risk">
-
-          <header>
-
-            <span>
-              01
-            </span>
-
-            <h3>
-              Risk and Contract Concerns
-            </h3>
-
-          </header>
-
-
-          {{#if risks.length}}
-
-            <div class="sasha-analysis-item-list">
-
-              {{#each risks}}
-
-                <div class="sasha-analysis-item">
-
-                  <strong>
-                    {{this.title}}
-                  </strong>
-
-                  {{#if this.description}}
-
-                    <p>
-                      {{this.description}}
-                    </p>
-
-                  {{/if}}
-
-                </div>
-
-              {{/each}}
-
-            </div>
-
-          {{else}}
-
-            <p class="sasha-analysis-empty">
-              Sasha has not recorded any risk findings yet.
-            </p>
-
-          {{/if}}
-
-        </article>
-
-
-        {{!-- =============================================
-             MANDATORY REQUIREMENTS
-        ============================================== --}}
-
-        <article class="sasha-analysis-output-card">
-
-          <header>
-
-            <span>
-              02
-            </span>
-
-            <h3>
-              Mandatory Requirements
-            </h3>
-
-          </header>
-
-
-          {{#if mandatoryRequirements.length}}
-
-            <div class="sasha-compliance-list">
-
-              {{#each mandatoryRequirements}}
-
-                <div class="sasha-compliance-item">
-
-                  <span class="sasha-compliance-marker">
-                    {{#if this.complete}}
-                      ✓
-                    {{else}}
-                      ○
-                    {{/if}}
-                  </span>
-
-                  <div>
-
-                    <strong>
-                      {{this.requirement}}
-                    </strong>
-
-                    {{#if this.notes}}
-
-                      <p>
-                        {{this.notes}}
-                      </p>
-
-                    {{/if}}
-
-                  </div>
-
-                </div>
-
-              {{/each}}
-
-            </div>
-
-          {{else}}
-
-            <p class="sasha-analysis-empty">
-              The mandatory requirements checklist has not been built yet.
-            </p>
-
-          {{/if}}
-
-        </article>
-
-
-        {{!-- =============================================
-             EVALUATION CRITERIA
-        ============================================== --}}
-
-        <article class="sasha-analysis-output-card">
-
-          <header>
-
-            <span>
-              03
-            </span>
-
-            <h3>
-              Evaluation Criteria
-            </h3>
-
-          </header>
-
-
-          {{#if evaluationCriteria.length}}
-
-            <div class="sasha-analysis-item-list">
-
-              {{#each evaluationCriteria}}
-
-                <div class="sasha-analysis-item">
-
-                  <strong>
-                    {{this.criterion}}
-                  </strong>
-
-                  {{#if this.weight}}
-
-                    <span>
-                      {{this.weight}}
-                    </span>
-
-                  {{/if}}
-
-                </div>
-
-              {{/each}}
-
-            </div>
-
-          {{else}}
-
-            <p class="sasha-analysis-empty">
-              No evaluation criteria have been recorded yet.
-            </p>
-
-          {{/if}}
-
-        </article>
-
-
-        {{!-- =============================================
-             SCOPE
-        ============================================== --}}
-
-        <article class="sasha-analysis-output-card">
-
-          <header>
-
-            <span>
-              04
-            </span>
-
-            <h3>
-              Scope of Work
-            </h3>
-
-          </header>
-
-
-          {{#if rfpAnalysis.scopeSummary}}
-
-            <div class="sasha-analysis-rich-copy">
-              {{{rfpAnalysis.scopeSummary}}}
-            </div>
-
-          {{else}}
-
-            <p class="sasha-analysis-empty">
-              Sasha has not prepared the scope analysis yet.
-            </p>
-
-          {{/if}}
-
-        </article>
-
-
-        {{!-- =============================================
-             SUBMISSION
-        ============================================== --}}
-
-        <article class="sasha-analysis-output-card">
-
-          <header>
-
-            <span>
-              05
-            </span>
-
-            <h3>
-              Submission Requirements
-            </h3>
-
-          </header>
-
-
-          {{#if rfpAnalysis.submissionRequirements}}
-
-            <div class="sasha-analysis-rich-copy">
-              {{{rfpAnalysis.submissionRequirements}}}
-            </div>
-
-          {{else}}
-
-            <p class="sasha-analysis-empty">
-              Submission requirements have not been recorded yet.
-            </p>
-
-          {{/if}}
-
-        </article>
-
-
-        {{!-- =============================================
-             UNKNOWNS
-        ============================================== --}}
-
-        <article class="sasha-analysis-output-card">
-
-          <header>
-
-            <span>
-              06
-            </span>
-
-            <h3>
-              Clarifications and Unknowns
-            </h3>
-
-          </header>
-
-
-          {{#if unknowns.length}}
-
-            <div class="sasha-analysis-item-list">
-
-              {{#each unknowns}}
-
-                <div class="sasha-analysis-item">
-
-                  <strong>
-                    {{this.question}}
-                  </strong>
-
-                  {{#if this.notes}}
-
-                    <p>
-                      {{this.notes}}
-                    </p>
-
-                  {{/if}}
-
-                </div>
-
-              {{/each}}
-
-            </div>
-
-          {{else}}
-
-            <p class="sasha-analysis-empty">
-              No material clarifications or unknowns have been recorded yet.
-            </p>
-
-          {{/if}}
-
-        </article>
-
-      </div>
-
-    </section>
-
-
     {{!-- =================================================
          GO / NO GO DECISION
     ================================================== --}}
@@ -1119,10 +775,709 @@
 
     </section>
 
+    {{!-- =================================================
+         RFP ANALYSIS
+    ================================================== --}}
+
+    <section class="sasha-analysis-section">
+
+      <header class="sasha-analysis-section-heading">
+
+        <div>
+
+          <p class="sasha-work-eyebrow">
+            RFP analysis
+          </p>
+
+          <h2>
+            What Sasha Has Found
+          </h2>
+
+        </div>
+
+        <p>
+          These work products will develop as Sasha reviews the RFP
+          and talks through the pursuit with your team.
+        </p>
+
+      </header>
+
+
+      <div class="sasha-analysis-output-grid">
+
+
+
+
+
+  {{!-- =============================================
+       RISK AND CONTRACT CONCERNS
+  ============================================== --}}
+
+  <div class="sasha-analysis-category-stack">
+
+    {{#if riskBlocks.length}}
+
+      {{#each riskBlocks}}
+
+        <article
+          class="
+            sasha-analysis-output-card
+            is-risk
+            {{#unless @first}}
+              sasha-analysis-update-card
+            {{/unless}}
+          "
+        >
+
+          <header>
+
+            {{#if @first}}
+
+              <span>
+                01
+              </span>
+
+              <h3>
+                Risk and Contract Concerns
+              </h3>
+
+            {{else}}
+
+              <span>
+                U{{@index}}
+              </span>
+
+              <h3>
+                Update {{@index}}
+              </h3>
+
+            {{/if}}
+
+          </header>
+
+
+          {{#if this.content.length}}
+
+            <div class="sasha-analysis-item-list">
+
+              {{#each this.content}}
+
+                <div class="sasha-analysis-item">
+
+                  <strong>
+                    {{this.title}}
+                  </strong>
+
+
+                  {{#if this.description}}
+
+                    <p>
+                      {{this.description}}
+                    </p>
+
+                  {{/if}}
+
+                </div>
+
+              {{/each}}
+
+            </div>
+
+          {{else}}
+
+            <p class="sasha-analysis-empty">
+              No risk findings were recorded in this update.
+            </p>
+
+          {{/if}}
+
+        </article>
+
+      {{/each}}
+
+    {{else}}
+
+      <article
+        class="
+          sasha-analysis-output-card
+          is-risk
+        "
+      >
+
+        <header>
+
+          <span>
+            01
+          </span>
+
+          <h3>
+            Risk and Contract Concerns
+          </h3>
+
+        </header>
+
+
+        <p class="sasha-analysis-empty">
+          Sasha has not recorded any risk findings yet.
+        </p>
+
+      </article>
+
+    {{/if}}
+
+  </div>
+
+
+  {{!-- =============================================
+       MANDATORY REQUIREMENTS
+  ============================================== --}}
+
+  <div class="sasha-analysis-category-stack">
+
+    {{#if mandatoryRequirementBlocks.length}}
+
+      {{#each mandatoryRequirementBlocks}}
+
+        <article
+          class="
+            sasha-analysis-output-card
+            {{#unless @first}}
+              sasha-analysis-update-card
+            {{/unless}}
+          "
+        >
+
+          <header>
+
+            {{#if @first}}
+
+              <span>
+                02
+              </span>
+
+              <h3>
+                Mandatory Requirements
+              </h3>
+
+            {{else}}
+
+              <span>
+                U{{@index}}
+              </span>
+
+              <h3>
+                Update {{@index}}
+              </h3>
+
+            {{/if}}
+
+          </header>
+
+
+          {{#if this.content.length}}
+
+            <div class="sasha-compliance-list">
+
+              {{#each this.content}}
+
+                <div class="sasha-compliance-item">
+
+                  <span class="sasha-compliance-marker">
+
+                    {{#if this.complete}}
+
+                      ✓
+
+                    {{else}}
+
+                      ○
+
+                    {{/if}}
+
+                  </span>
+
+
+                  <div>
+
+                    <strong>
+                      {{this.requirement}}
+                    </strong>
+
+
+                    {{#if this.notes}}
+
+                      <p>
+                        {{this.notes}}
+                      </p>
+
+                    {{/if}}
+
+                  </div>
+
+                </div>
+
+              {{/each}}
+
+            </div>
+
+          {{else}}
+
+            <p class="sasha-analysis-empty">
+              No mandatory requirements were recorded in this update.
+            </p>
+
+          {{/if}}
+
+        </article>
+
+      {{/each}}
+
+    {{else}}
+
+      <article class="sasha-analysis-output-card">
+
+        <header>
+
+          <span>
+            02
+          </span>
+
+          <h3>
+            Mandatory Requirements
+          </h3>
+
+        </header>
+
+
+        <p class="sasha-analysis-empty">
+          The mandatory requirements checklist has not been built yet.
+        </p>
+
+      </article>
+
+    {{/if}}
+
+  </div>
+
+
+  {{!-- =============================================
+       EVALUATION CRITERIA
+  ============================================== --}}
+
+  <div class="sasha-analysis-category-stack">
+
+    {{#if evaluationCriteriaBlocks.length}}
+
+      {{#each evaluationCriteriaBlocks}}
+
+        <article
+          class="
+            sasha-analysis-output-card
+            {{#unless @first}}
+              sasha-analysis-update-card
+            {{/unless}}
+          "
+        >
+
+          <header>
+
+            {{#if @first}}
+
+              <span>
+                03
+              </span>
+
+              <h3>
+                Evaluation Criteria
+              </h3>
+
+            {{else}}
+
+              <span>
+                U{{@index}}
+              </span>
+
+              <h3>
+                Update {{@index}}
+              </h3>
+
+            {{/if}}
+
+          </header>
+
+
+          {{#if this.content.length}}
+
+            <div class="sasha-analysis-item-list">
+
+              {{#each this.content}}
+
+                <div class="sasha-analysis-item">
+
+                  <strong>
+                    {{this.criterion}}
+                  </strong>
+
+
+                  {{#if this.weight}}
+
+                    <span>
+                      {{this.weight}}
+                    </span>
+
+                  {{/if}}
+
+                </div>
+
+              {{/each}}
+
+            </div>
+
+          {{else}}
+
+            <p class="sasha-analysis-empty">
+              No evaluation criteria were recorded in this update.
+            </p>
+
+          {{/if}}
+
+        </article>
+
+      {{/each}}
+
+    {{else}}
+
+      <article class="sasha-analysis-output-card">
+
+        <header>
+
+          <span>
+            03
+          </span>
+
+          <h3>
+            Evaluation Criteria
+          </h3>
+
+        </header>
+
+
+        <p class="sasha-analysis-empty">
+          No evaluation criteria have been recorded yet.
+        </p>
+
+      </article>
+
+    {{/if}}
+
+  </div>
+
+
+  {{!-- =============================================
+       SCOPE OF WORK
+  ============================================== --}}
+
+  <div class="sasha-analysis-category-stack">
+
+    {{#if scopeBlocks.length}}
+
+      {{#each scopeBlocks}}
+
+        <article
+          class="
+            sasha-analysis-output-card
+            {{#unless @first}}
+              sasha-analysis-update-card
+            {{/unless}}
+          "
+        >
+
+          <header>
+
+            {{#if @first}}
+
+              <span>
+                04
+              </span>
+
+              <h3>
+                Scope of Work
+              </h3>
+
+            {{else}}
+
+              <span>
+                U{{@index}}
+              </span>
+
+              <h3>
+                Update {{@index}}
+              </h3>
+
+            {{/if}}
+
+          </header>
+
+
+          {{#if this.content}}
+
+            <div class="sasha-analysis-rich-copy">
+              {{{this.content}}}
+            </div>
+
+          {{else}}
+
+            <p class="sasha-analysis-empty">
+              No scope information was recorded in this update.
+            </p>
+
+          {{/if}}
+
+        </article>
+
+      {{/each}}
+
+    {{else}}
+
+      <article class="sasha-analysis-output-card">
+
+        <header>
+
+          <span>
+            04
+          </span>
+
+          <h3>
+            Scope of Work
+          </h3>
+
+        </header>
+
+
+        <p class="sasha-analysis-empty">
+          Sasha has not prepared the scope analysis yet.
+        </p>
+
+      </article>
+
+    {{/if}}
+
+  </div>
+
+
+  {{!-- =============================================
+       SUBMISSION REQUIREMENTS
+  ============================================== --}}
+
+  <div class="sasha-analysis-category-stack">
+
+    {{#if submissionRequirementBlocks.length}}
+
+      {{#each submissionRequirementBlocks}}
+
+        <article
+          class="
+            sasha-analysis-output-card
+            {{#unless @first}}
+              sasha-analysis-update-card
+            {{/unless}}
+          "
+        >
+
+          <header>
+
+            {{#if @first}}
+
+              <span>
+                05
+              </span>
+
+              <h3>
+                Submission Requirements
+              </h3>
+
+            {{else}}
+
+              <span>
+                U{{@index}}
+              </span>
+
+              <h3>
+                Update {{@index}}
+              </h3>
+
+            {{/if}}
+
+          </header>
+
+
+          {{#if this.content}}
+
+            <div class="sasha-analysis-rich-copy">
+              {{{this.content}}}
+            </div>
+
+          {{else}}
+
+            <p class="sasha-analysis-empty">
+              No submission requirements were recorded in this update.
+            </p>
+
+          {{/if}}
+
+        </article>
+
+      {{/each}}
+
+    {{else}}
+
+      <article class="sasha-analysis-output-card">
+
+        <header>
+
+          <span>
+            05
+          </span>
+
+          <h3>
+            Submission Requirements
+          </h3>
+
+        </header>
+
+
+        <p class="sasha-analysis-empty">
+          Submission requirements have not been recorded yet.
+        </p>
+
+      </article>
+
+    {{/if}}
+
+  </div>
+
+
+  {{!-- =============================================
+       CLARIFICATIONS AND UNKNOWNS
+  ============================================== --}}
+
+  <div class="sasha-analysis-category-stack">
+
+    {{#if clarificationBlocks.length}}
+
+      {{#each clarificationBlocks}}
+
+        <article
+          class="
+            sasha-analysis-output-card
+            {{#unless @first}}
+              sasha-analysis-update-card
+            {{/unless}}
+          "
+        >
+
+          <header>
+
+            {{#if @first}}
+
+              <span>
+                06
+              </span>
+
+              <h3>
+                Clarifications and Unknowns
+              </h3>
+
+            {{else}}
+
+              <span>
+                U{{@index}}
+              </span>
+
+              <h3>
+                Update {{@index}}
+              </h3>
+
+            {{/if}}
+
+          </header>
+
+
+          {{#if this.content.length}}
+
+            <div class="sasha-analysis-item-list">
+
+              {{#each this.content}}
+
+                <div class="sasha-analysis-item">
+
+                  <strong>
+                    {{this.question}}
+                  </strong>
+
+
+                  {{#if this.notes}}
+
+                    <p>
+                      {{this.notes}}
+                    </p>
+
+                  {{/if}}
+
+                </div>
+
+              {{/each}}
+
+            </div>
+
+          {{else}}
+
+            <p class="sasha-analysis-empty">
+              No clarifications or unknowns were recorded in this update.
+            </p>
+
+          {{/if}}
+
+        </article>
+
+      {{/each}}
+
+    {{else}}
+
+      <article class="sasha-analysis-output-card">
+
+        <header>
+
+          <span>
+            06
+          </span>
+
+          <h3>
+            Clarifications and Unknowns
+          </h3>
+
+        </header>
+
+
+        <p class="sasha-analysis-empty">
+          No material clarifications or unknowns have been recorded yet.
+        </p>
+
+      </article>
+
+    {{/if}}
 
   </div>
 
 </section>
+
+
+  </div>
+
+</section>
+
+
+
 
 
 <script>

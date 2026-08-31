@@ -163,49 +163,194 @@ const pursuitId =
     }
 
 
-    /* =================================================
-       PREPARE ANALYSIS
-    ================================================== */
+/* =================================================
+   PREPARE ANALYSIS
+================================================== */
 
-    const rfpAnalysis =
-      proposal.rfpAnalysis &&
-      typeof proposal.rfpAnalysis ===
-        'object'
-        ? proposal.rfpAnalysis
-        : {};
-
-
-    const mandatoryRequirements =
-      Array.isArray(
-        rfpAnalysis.mandatoryRequirements
-      )
-        ? rfpAnalysis.mandatoryRequirements
-        : [];
+const rfpAnalysis =
+  proposal.rfpAnalysis &&
+  typeof proposal.rfpAnalysis ===
+    'object'
+    ? proposal.rfpAnalysis
+    : {};
 
 
-    const evaluationCriteria =
-      Array.isArray(
-        rfpAnalysis.evaluationCriteria
-      )
-        ? rfpAnalysis.evaluationCriteria
-        : [];
+/* =================================================
+   NORMALIZE ANALYSIS HISTORY BLOCKS
+================================================= */
+
+const normalizeAnalysisBlocks =
+  (
+    value
+  ) => {
+
+    /*
+     * New structure:
+     *
+     * [
+     *   {
+     *     content: ...,
+     *     createdAt: Date
+     *   }
+     * ]
+     *
+     * Legacy analysis values are converted into
+     * the first historical block for display.
+     */
+
+    if (
+      typeof value ===
+        'string'
+    ) {
+
+      const trimmed =
+        value.trim();
+
+      if (
+        !trimmed
+      ) {
+
+        return [];
+
+      }
 
 
-    const risks =
-      Array.isArray(
-        rfpAnalysis.risks
-      )
-        ? rfpAnalysis.risks
-        : [];
+      return [
+        {
+          content:
+            trimmed,
+
+          createdAt:
+            rfpAnalysis.updatedAt ||
+            null
+        }
+      ];
+
+    }
 
 
-    const unknowns =
-      Array.isArray(
-        rfpAnalysis.unknowns
-      )
-        ? rfpAnalysis.unknowns
-        : [];
+    if (
+      !Array.isArray(
+        value
+      ) ||
+      value.length === 0
+    ) {
 
+      return [];
+
+    }
+
+
+    /*
+     * Already using the historical block format.
+     */
+
+    const isHistorical =
+      value.some(
+        (
+          block
+        ) => {
+
+          return (
+            block &&
+            typeof block ===
+              'object' &&
+            Object.prototype.hasOwnProperty.call(
+              block,
+              'content'
+            )
+          );
+
+        }
+      );
+
+
+    if (
+      isHistorical
+    ) {
+
+      return value
+        .filter(
+          (
+            block
+          ) => {
+
+            return (
+              block &&
+              typeof block ===
+                'object' &&
+              Object.prototype.hasOwnProperty.call(
+                block,
+                'content'
+              )
+            );
+
+          }
+        )
+        .slice(
+          -6
+        );
+
+    }
+
+
+    /*
+     * Legacy array.
+     *
+     * Risks, mandatory requirements,
+     * evaluation criteria and unknowns
+     * were previously stored directly
+     * as arrays.
+     */
+
+    return [
+      {
+        content:
+          value,
+
+        createdAt:
+          rfpAnalysis.updatedAt ||
+          null
+      }
+    ];
+
+  };
+
+
+const riskBlocks =
+  normalizeAnalysisBlocks(
+    rfpAnalysis.risks
+  );
+
+
+const mandatoryRequirementBlocks =
+  normalizeAnalysisBlocks(
+    rfpAnalysis.mandatoryRequirements
+  );
+
+
+const evaluationCriteriaBlocks =
+  normalizeAnalysisBlocks(
+    rfpAnalysis.evaluationCriteria
+  );
+
+
+const scopeBlocks =
+  normalizeAnalysisBlocks(
+    rfpAnalysis.scopeSummary
+  );
+
+
+const submissionRequirementBlocks =
+  normalizeAnalysisBlocks(
+    rfpAnalysis.submissionRequirements
+  );
+
+
+const clarificationBlocks =
+  normalizeAnalysisBlocks(
+    rfpAnalysis.unknowns
+  );
 
     /* =================================================
        PREPARE ANALYSIS CONVERSATION
@@ -236,13 +381,17 @@ const pursuitId =
 
         rfpAnalysis,
 
-        mandatoryRequirements,
+riskBlocks,
 
-        evaluationCriteria,
+mandatoryRequirementBlocks,
 
-        risks,
+evaluationCriteriaBlocks,
 
-        unknowns,
+scopeBlocks,
+
+submissionRequirementBlocks,
+
+clarificationBlocks,
 
         analysisMessages,
 
@@ -810,7 +959,7 @@ Set:
 analysis: true
 
 when materially useful information is available to improve
-the pursuit's RFP analysis.
+one or more of the pursuit's RFP-analysis work products.
 
 You do not need the user to explicitly request an analysis
 update.
@@ -820,27 +969,105 @@ client instructions, and other material pursuit documents
 should update the RFP analysis when they change or clarify
 information represented in the six analysis areas.
 
-The analysis object must contain the COMPLETE current working
-analysis after your update, not merely the changed fields.
 
-Preserve useful supported existing findings unless new
-evidence supersedes them.
+ANALYSIS HISTORY MODEL
 
-The six analysis areas are:
+The RFP Analysis preserves history.
 
-1. Risk and Contract Concerns
-2. Mandatory Requirements
-3. Evaluation Criteria
-4. Scope of Work
-5. Submission Requirements
-6. Clarifications and Unknowns
+Do NOT regenerate or replace the complete existing analysis.
 
-Keep each area concise.
+When analysis is true, return ONLY the new analysis content
+created or materially changed by the CURRENT request.
+
+Each affected analysis area becomes a new historical block.
+
+The existing analysis blocks remain stored in the pursuit
+record and remain available as context.
+
+A new block may:
+
+- add a new finding;
+- clarify an earlier finding;
+- revise an earlier interpretation;
+- supersede an earlier finding because of new RFP information;
+- record an addendum change; or
+- record another materially useful analysis development.
+
+When new information supersedes an earlier finding, state
+that clearly in the NEW block.
+
+Do not delete or rewrite the historical block merely because
+new information supersedes it.
+
+
+ANALYSIS CATEGORIES
+
+The six analysis categories are:
+
+1. risks
+   Risk and Contract Concerns
+
+2. mandatoryRequirements
+   Mandatory Requirements
+
+3. evaluationCriteria
+   Evaluation Criteria
+
+4. scopeSummary
+   Scope of Work
+
+5. submissionRequirements
+   Submission Requirements
+
+6. unknowns
+   Clarifications and Unknowns
+
+
+CATEGORY UPDATE RULE
+
+For each category:
+
+- return the new content for that category when the CURRENT
+  request materially affects it;
+
+- return null when that category is not affected.
+
+Do not repeat previous analysis blocks.
+
+Do not regenerate the complete RFP analysis.
+
+Do not copy unchanged material into a new block merely to
+provide context.
+
+Each subsequent analysis block is a DELTA: a concise record
+of what is new, changed, clarified, superseded or discovered
+during the current interaction.
+
+
+ANALYSIS BLOCK BREVITY
+
+Historical analysis blocks must remain concise and scannable.
+
+The user may eventually have up to six visible blocks in
+each category.
+
+For a narrow change, include only the material finding
+created by that change.
+
+Do not reproduce long RFP passages.
+
+Do not restate findings already contained in earlier blocks.
+
+For risks, requirements, evaluation criteria and
+clarifications, return only the new or materially changed
+items.
+
+For scope and submission requirements, return only the new
+or materially changed summary information.
 
 If analysis is false, return:
 
 analysis: null
-
 
 =====================================================
 DEADLINE UPDATE
@@ -1093,180 +1320,235 @@ updates: {
   ]
 },
 
-                analysis: {
-                  anyOf: [
-                    {
-                      type:
-                        'null'
-                    },
-                    {
-                      type:
-                        'object',
 
-                      additionalProperties:
-                        false,
+analysis: {
+  anyOf: [
+    {
+      type:
+        'null'
+    },
+    {
+      type:
+        'object',
 
-                      properties: {
+      additionalProperties:
+        false,
 
-                        risks: {
-                          type:
-                            'array',
+      properties: {
 
-                          items: {
-                            type:
-                              'object',
+        risks: {
+          anyOf: [
+            {
+              type:
+                'null'
+            },
+            {
+              type:
+                'array',
 
-                            additionalProperties:
-                              false,
+              items: {
+                type:
+                  'object',
 
-                            properties: {
+                additionalProperties:
+                  false,
 
-                              title: {
-                                type:
-                                  'string'
-                              },
+                properties: {
 
-                              description: {
-                                type:
-                                  'string'
-                              }
+                  title: {
+                    type:
+                      'string'
+                  },
 
-                            },
+                  description: {
+                    type:
+                      'string'
+                  }
 
-                            required: [
-                              'title',
-                              'description'
-                            ]
-                          }
-                        },
-
-                        mandatoryRequirements: {
-                          type:
-                            'array',
-
-                          items: {
-                            type:
-                              'object',
-
-                            additionalProperties:
-                              false,
-
-                            properties: {
-
-                              requirement: {
-                                type:
-                                  'string'
-                              },
-
-                              complete: {
-                                type:
-                                  'boolean'
-                              },
-
-                              notes: {
-                                type:
-                                  'string'
-                              }
-
-                            },
-
-                            required: [
-                              'requirement',
-                              'complete',
-                              'notes'
-                            ]
-                          }
-                        },
-
-                        evaluationCriteria: {
-                          type:
-                            'array',
-
-                          items: {
-                            type:
-                              'object',
-
-                            additionalProperties:
-                              false,
-
-                            properties: {
-
-                              criterion: {
-                                type:
-                                  'string'
-                              },
-
-                              weight: {
-                                type:
-                                  'string'
-                              }
-
-                            },
-
-                            required: [
-                              'criterion',
-                              'weight'
-                            ]
-                          }
-                        },
-
-                        scopeSummary: {
-                          type:
-                            'string'
-                        },
-
-                        submissionRequirements: {
-                          type:
-                            'string'
-                        },
-
-                        unknowns: {
-                          type:
-                            'array',
-
-                          items: {
-                            type:
-                              'object',
-
-                            additionalProperties:
-                              false,
-
-                            properties: {
-
-                              question: {
-                                type:
-                                  'string'
-                              },
-
-                              notes: {
-                                type:
-                                  'string'
-                              }
-
-                            },
-
-                            required: [
-                              'question',
-                              'notes'
-                            ]
-                          }
-                        }
-
-                      },
-
-                      required: [
-                        'risks',
-                        'mandatoryRequirements',
-                        'evaluationCriteria',
-                        'scopeSummary',
-                        'submissionRequirements',
-                        'unknowns'
-                      ]
-                    }
-                  ]
                 },
 
- outline: {
+                required: [
+                  'title',
+                  'description'
+                ]
+              }
+            }
+          ]
+        },
+
+
+        mandatoryRequirements: {
+          anyOf: [
+            {
+              type:
+                'null'
+            },
+            {
+              type:
+                'array',
+
+              items: {
+                type:
+                  'object',
+
+                additionalProperties:
+                  false,
+
+                properties: {
+
+                  requirement: {
+                    type:
+                      'string'
+                  },
+
+                  complete: {
+                    type:
+                      'boolean'
+                  },
+
+                  notes: {
+                    type:
+                      'string'
+                  }
+
+                },
+
+                required: [
+                  'requirement',
+                  'complete',
+                  'notes'
+                ]
+              }
+            }
+          ]
+        },
+
+
+        evaluationCriteria: {
+          anyOf: [
+            {
+              type:
+                'null'
+            },
+            {
+              type:
+                'array',
+
+              items: {
+                type:
+                  'object',
+
+                additionalProperties:
+                  false,
+
+                properties: {
+
+                  criterion: {
+                    type:
+                      'string'
+                  },
+
+                  weight: {
+                    type:
+                      'string'
+                  }
+
+                },
+
+                required: [
+                  'criterion',
+                  'weight'
+                ]
+              }
+            }
+          ]
+        },
+
+
+        scopeSummary: {
+          anyOf: [
+            {
+              type:
+                'null'
+            },
+            {
+              type:
+                'string'
+            }
+          ]
+        },
+
+
+        submissionRequirements: {
+          anyOf: [
+            {
+              type:
+                'null'
+            },
+            {
+              type:
+                'string'
+            }
+          ]
+        },
+
+
+        unknowns: {
+          anyOf: [
+            {
+              type:
+                'null'
+            },
+            {
+              type:
+                'array',
+
+              items: {
+                type:
+                  'object',
+
+                additionalProperties:
+                  false,
+
+                properties: {
+
+                  question: {
+                    type:
+                      'string'
+                  },
+
+                  notes: {
+                    type:
+                      'string'
+                  }
+
+                },
+
+                required: [
+                  'question',
+                  'notes'
+                ]
+              }
+            }
+          ]
+        }
+
+      },
+
+      required: [
+        'risks',
+        'mandatoryRequirements',
+        'evaluationCriteria',
+        'scopeSummary',
+        'submissionRequirements',
+        'unknowns'
+      ]
+    }
+  ]
+},
+
+
+outline: {
   anyOf: [
     {
       type:
@@ -1351,6 +1633,7 @@ updates: {
   ]
 },
 
+
 deadline: {
   anyOf: [
     {
@@ -1364,6 +1647,7 @@ deadline: {
   ]
 },
 
+
 deadlineChangeSummary: {
   anyOf: [
     {
@@ -1376,6 +1660,7 @@ deadlineChangeSummary: {
     }
   ]
 },
+
 
 changeImpact: {
   anyOf: [
@@ -1463,6 +1748,7 @@ changeImpact: {
   ]
 }
 
+/* THIS BRACE WAS MISSING */
 },
 
 required: [
@@ -1475,14 +1761,14 @@ required: [
   'changeImpact'
 ]
 
-}
-}
-},
+            }
+          }
+        },
 
-max_output_tokens:
-  3000
+        max_output_tokens:
+          3000
 
-});
+      });
 
 
     console.log(
@@ -1570,9 +1856,9 @@ console.log(
       null;
 
 
-    /* =================================================
-       APPLY RFP ANALYSIS UPDATE
-    ================================================== */
+/* =================================================
+   APPLY RFP ANALYSIS UPDATE
+================================================= */
 
 if (
   sashaResult.updates &&
@@ -1580,300 +1866,376 @@ if (
     true
 ) {
 
+  if (
+    !sashaResult.analysis ||
+    typeof sashaResult.analysis !==
+      'object'
+  ) {
+
+    throw new Error(
+      'Sasha requested an analysis update without valid analysis.'
+    );
+
+  }
+
+
+  const analysis =
+    sashaResult.analysis;
+
+
+  /* ===============================================
+     ENSURE RFP ANALYSIS EXISTS
+  =============================================== */
+
+  proposal.rfpAnalysis =
+    proposal.rfpAnalysis &&
+    typeof proposal.rfpAnalysis ===
+      'object'
+      ? proposal.rfpAnalysis
+      : {};
+
+
+  /* ===============================================
+     NORMALIZE LEGACY ANALYSIS VALUES
+  =============================================== */
+
+  const normalizeStoredAnalysisCategory =
+    (
+      value
+    ) => {
+
       if (
-        !sashaResult.analysis ||
-        typeof sashaResult.analysis !==
-          'object'
+        typeof value ===
+          'string'
       ) {
 
-        throw new Error(
-          'Sasha requested an analysis update without valid analysis.'
-        );
+        const trimmed =
+          value.trim();
+
+        if (
+          !trimmed
+        ) {
+
+          return [];
+
+        }
+
+
+        return [
+          {
+            content:
+              trimmed,
+
+            createdAt:
+              proposal.rfpAnalysis.updatedAt ||
+              new Date()
+          }
+        ];
 
       }
 
 
-      const analysis =
-        sashaResult.analysis;
-
-
-      /* ===============================================
-         NORMALIZE RISKS
-      =============================================== */
-
-      const risks =
-        Array.isArray(
-          analysis.risks
+      if (
+        !Array.isArray(
+          value
         )
-          ? analysis.risks
-              .map(
-                (
-                  risk
-                ) => {
+      ) {
 
-                  return {
-                    title:
-                      typeof risk.title ===
-                        'string'
-                        ? risk.title.trim()
-                        : '',
+        return [];
 
-                    description:
-                      typeof risk.description ===
-                        'string'
-                        ? risk.description.trim()
-                        : ''
-                  };
+      }
 
-                }
+
+      if (
+        value.length === 0
+      ) {
+
+        return [];
+
+      }
+
+
+      const isHistorical =
+        value.some(
+          (
+            block
+          ) => {
+
+            return (
+              block &&
+              typeof block ===
+                'object' &&
+              Object.prototype.hasOwnProperty.call(
+                block,
+                'content'
               )
-              .filter(
-                (
-                  risk
-                ) =>
-                  risk.title
-              )
-          : [];
+            );
+
+          }
+        );
 
 
-      /* ===============================================
-         NORMALIZE MANDATORY REQUIREMENTS
-      =============================================== */
+      if (
+        isHistorical
+      ) {
 
-      const mandatoryRequirements =
-        Array.isArray(
-          analysis.mandatoryRequirements
-        )
-          ? analysis.mandatoryRequirements
-              .map(
-                (
-                  item
-                ) => {
+        return value;
 
-                  return {
-                    requirement:
-                      typeof item.requirement ===
-                        'string'
-                        ? item.requirement.trim()
-                        : '',
-
-                    complete:
-                      item.complete ===
-                      true,
-
-                    notes:
-                      typeof item.notes ===
-                        'string'
-                        ? item.notes.trim()
-                        : ''
-                  };
-
-                }
-              )
-              .filter(
-                (
-                  item
-                ) =>
-                  item.requirement
-              )
-          : [];
-
-
-      /* ===============================================
-         NORMALIZE EVALUATION CRITERIA
-      =============================================== */
-
-      const evaluationCriteria =
-        Array.isArray(
-          analysis.evaluationCriteria
-        )
-          ? analysis.evaluationCriteria
-              .map(
-                (
-                  item
-                ) => {
-
-                  return {
-                    criterion:
-                      typeof item.criterion ===
-                        'string'
-                        ? item.criterion.trim()
-                        : '',
-
-                    weight:
-                      typeof item.weight ===
-                        'string'
-                        ? item.weight.trim()
-                        : ''
-                  };
-
-                }
-              )
-              .filter(
-                (
-                  item
-                ) =>
-                  item.criterion
-              )
-          : [];
-
-
-      /* ===============================================
-         NORMALIZE UNKNOWNS
-      =============================================== */
-
-      const unknowns =
-        Array.isArray(
-          analysis.unknowns
-        )
-          ? analysis.unknowns
-              .map(
-                (
-                  item
-                ) => {
-
-                  return {
-                    question:
-                                          typeof item.question ===
-                        'string'
-                        ? item.question.trim()
-                        : '',
-
-                    notes:
-                      typeof item.notes ===
-                        'string'
-                        ? item.notes.trim()
-                        : ''
-                  };
-
-                }
-              )
-              .filter(
-                (
-                  item
-                ) =>
-                  item.question
-              )
-          : [];
-
-
-      /* ===============================================
-         NORMALIZE SUMMARY FIELDS
-      =============================================== */
-
-      const scopeSummary =
-        typeof analysis.scopeSummary ===
-          'string'
-          ? analysis.scopeSummary.trim()
-          : '';
-
-
-      const submissionRequirements =
-        typeof analysis.submissionRequirements ===
-          'string'
-          ? analysis.submissionRequirements.trim()
-          : '';
-
-
-      /* ===============================================
-         RECORD RFP ANALYSIS
-      =============================================== */
-
-      proposal.rfpAnalysis = {
-        ...(
-          proposal.rfpAnalysis &&
-          typeof proposal.rfpAnalysis ===
-            'object'
-            ? proposal.rfpAnalysis
-            : {}
-        ),
-
-        risks,
-
-        mandatoryRequirements,
-
-        evaluationCriteria,
-
-        scopeSummary,
-
-        submissionRequirements,
-
-        unknowns,
-
-        updatedAt:
-          new Date()
-      };
+      }
 
 
       /*
-       * rfpAnalysis is a Mixed field in the Proposal
-       * schema, so explicitly tell Mongoose that it
-       * has changed.
+       * Legacy structured array becomes
+       * the original historical block.
        */
 
-      proposal.markModified(
-        'rfpAnalysis'
-      );
+      return [
+        {
+          content:
+            value,
 
-      /* ===============================================
-   COMPLETE ANALYZE WORKFLOW STAGE
-=============================================== */
+          createdAt:
+            proposal.rfpAnalysis.updatedAt ||
+            new Date()
+        }
+      ];
 
-const workflowStages =
-  Array.isArray(
-    proposal.workflowStages
-  )
-    ? proposal.workflowStages
-    : [];
+    };
 
 
-const analyzeStage =
-  workflowStages.find(
+  proposal.rfpAnalysis.risks =
+    normalizeStoredAnalysisCategory(
+      proposal.rfpAnalysis.risks
+    );
+
+
+  proposal.rfpAnalysis.mandatoryRequirements =
+    normalizeStoredAnalysisCategory(
+      proposal.rfpAnalysis.mandatoryRequirements
+    );
+
+
+  proposal.rfpAnalysis.evaluationCriteria =
+    normalizeStoredAnalysisCategory(
+      proposal.rfpAnalysis.evaluationCriteria
+    );
+
+
+  proposal.rfpAnalysis.scopeSummary =
+    normalizeStoredAnalysisCategory(
+      proposal.rfpAnalysis.scopeSummary
+    );
+
+
+  proposal.rfpAnalysis.submissionRequirements =
+    normalizeStoredAnalysisCategory(
+      proposal.rfpAnalysis.submissionRequirements
+    );
+
+
+  proposal.rfpAnalysis.unknowns =
+    normalizeStoredAnalysisCategory(
+      proposal.rfpAnalysis.unknowns
+    );
+
+
+  /* ===============================================
+     APPEND NEW ANALYSIS BLOCK
+  =============================================== */
+
+  const appendAnalysisBlock =
     (
-      stage
-    ) =>
-      stage.stage ===
-      'analyze'
+      category,
+      content
+    ) => {
+
+      if (
+        content ===
+          null ||
+        content ===
+          undefined
+      ) {
+
+        return;
+
+      }
+
+
+      if (
+        typeof content ===
+          'string'
+      ) {
+
+        const trimmed =
+          content.trim();
+
+        if (
+          !trimmed
+        ) {
+
+          return;
+
+        }
+
+
+        proposal.rfpAnalysis[
+          category
+        ].push({
+          content:
+            trimmed,
+
+          createdAt:
+            new Date()
+        });
+
+
+        return;
+
+      }
+
+
+      if (
+        Array.isArray(
+          content
+        )
+      ) {
+
+        if (
+          content.length === 0
+        ) {
+
+          return;
+
+        }
+
+
+        proposal.rfpAnalysis[
+          category
+        ].push({
+          content,
+
+          createdAt:
+            new Date()
+        });
+
+      }
+
+    };
+
+
+  appendAnalysisBlock(
+    'risks',
+    analysis.risks
   );
 
 
-if (
-  analyzeStage
-) {
+  appendAnalysisBlock(
+    'mandatoryRequirements',
+    analysis.mandatoryRequirements
+  );
 
-  analyzeStage.status =
-    'complete';
 
-  analyzeStage.completedAt =
+  appendAnalysisBlock(
+    'evaluationCriteria',
+    analysis.evaluationCriteria
+  );
+
+
+  appendAnalysisBlock(
+    'scopeSummary',
+    analysis.scopeSummary
+  );
+
+
+  appendAnalysisBlock(
+    'submissionRequirements',
+    analysis.submissionRequirements
+  );
+
+
+  appendAnalysisBlock(
+    'unknowns',
+    analysis.unknowns
+  );
+
+
+  proposal.rfpAnalysis.updatedAt =
     new Date();
 
-}
+
+  proposal.markModified(
+    'rfpAnalysis'
+  );
 
 
+  /* ===============================================
+     COMPLETE ANALYZE WORKFLOW STAGE
+  =============================================== */
+
+  const workflowStages =
+    Array.isArray(
+      proposal.workflowStages
+    )
+      ? proposal.workflowStages
+      : [];
 
 
+  const analyzeStage =
+    workflowStages.find(
+      (
+        stage
+      ) =>
+        stage.stage ===
+        'analyze'
+    );
 
-      console.log(
-        'SASHA UPDATED RFP ANALYSIS:',
-        {
-          pursuitId:
-            proposal._id.toString(),
 
-          riskCount:
-            risks.length,
+  if (
+    analyzeStage
+  ) {
 
-          mandatoryRequirementCount:
-            mandatoryRequirements.length,
+    analyzeStage.status =
+      'complete';
 
-          evaluationCriterionCount:
-            evaluationCriteria.length,
+    analyzeStage.completedAt =
+      new Date();
 
-          unknownCount:
-            unknowns.length
-        }
-      );
+  }
 
+
+  console.log(
+    'SASHA APPENDED RFP ANALYSIS:',
+    {
+      pursuitId:
+        proposal._id.toString(),
+
+      risks:
+        analysis.risks !==
+        null,
+
+      mandatoryRequirements:
+        analysis.mandatoryRequirements !==
+        null,
+
+      evaluationCriteria:
+        analysis.evaluationCriteria !==
+        null,
+
+      scopeSummary:
+        analysis.scopeSummary !==
+        null,
+
+      submissionRequirements:
+        analysis.submissionRequirements !==
+        null,
+
+      unknowns:
+        analysis.unknowns !==
+        null
     }
+  );
+
+}
 
 /* =================================================
    APPLY SUBMISSION DEADLINE UPDATE

@@ -12496,7 +12496,26 @@ select.is-sasha-suggested option {
 
 }
 
+/* =====================================================
+   ANALYSIS | CATEGORY HISTORY STACK
+===================================================== */
 
+.sasha-analysis-category-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+
+/* =====================================================
+   ANALYSIS | UPDATE CARD
+===================================================== */
+
+.sasha-analysis-update-card {
+  border-style: solid;
+  border-width: 1px;
+  opacity: 0.92;
+}
 /* =====================================================
    REDUCED MOTION
 ===================================================== */
