@@ -15340,3 +15340,275 @@ input[type="file"]::file-selector-button:hover {
   }
 
 }
+
+
+/* =====================================================
+   PRACTICE ACTIONS
+===================================================== */
+
+.sasha-practice-actions {
+  display: grid;
+
+  gap:
+    1rem;
+
+  margin-top:
+    1.15rem;
+
+  padding-top:
+    1rem;
+
+  border-top:
+    1px solid
+    var(--sasha-white-12);
+}
+
+
+/* =====================================================
+   PRACTICE LINKS
+===================================================== */
+
+.sasha-practice-action-links {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  align-items: center;
+
+  gap:
+    0.65rem;
+}
+
+
+.sasha-practice-resource-link,
+.sasha-practice-assistant-link {
+  display: inline-flex;
+
+  min-height:
+    38px;
+
+  align-items: center;
+  justify-content: center;
+
+  padding:
+    0.55rem
+    0.85rem;
+
+  border-radius:
+    999px;
+
+  font-size:
+    0.72rem;
+
+  font-weight:
+    800;
+
+  text-decoration:
+    none;
+
+  transition:
+    transform 180ms ease,
+    background-color 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease;
+}
+
+
+/* =====================================================
+   TWENNIE RESOURCE LINK
+===================================================== */
+
+.sasha-practice-resource-link {
+  color:
+    var(--sasha-pink);
+
+  background:
+    transparent;
+
+  border:
+    1px solid
+    var(--sasha-white-25);
+}
+
+
+.sasha-practice-resource-link:hover {
+  transform:
+    translateY(-1px);
+
+  color:
+    var(--sasha-navy);
+
+  background:
+    var(--sasha-white);
+
+  border-color:
+    var(--sasha-white);
+}
+
+
+/* =====================================================
+   ASSISTANT LINK
+===================================================== */
+
+.sasha-practice-assistant-link {
+  color:
+    var(--sasha-navy);
+
+  background:
+    var(--sasha-pink);
+
+  border:
+    1px solid
+    var(--sasha-pink);
+}
+
+
+.sasha-practice-assistant-link:hover {
+  transform:
+    translateY(-1px);
+
+  background:
+    var(--sasha-white);
+
+  border-color:
+    var(--sasha-white);
+}
+
+
+/* =====================================================
+   PRACTICE DECISION
+===================================================== */
+
+.sasha-practice-decision {
+  margin:
+    0;
+
+  padding:
+    0;
+
+  border:
+    0;
+}
+
+
+.sasha-practice-decision legend {
+  margin-bottom:
+    0.65rem;
+
+  padding:
+    0;
+
+  color:
+    rgba(255, 255, 255, 0.72);
+
+  font-size:
+    0.76rem;
+
+  font-weight:
+    700;
+
+  line-height:
+    1.4;
+}
+
+
+/* =====================================================
+   YES / NO
+===================================================== */
+
+.sasha-practice-decision-options {
+  display: flex;
+
+  gap:
+    0.6rem;
+}
+
+
+.sasha-practice-decision-options label {
+  position:
+    relative;
+
+  cursor:
+    pointer;
+}
+
+
+.sasha-practice-decision-options input {
+  position:
+    absolute;
+
+  opacity:
+    0;
+
+  pointer-events:
+    none;
+}
+
+
+.sasha-practice-decision-options span {
+  display:
+    inline-flex;
+
+  min-width:
+    64px;
+
+  min-height:
+    38px;
+
+  align-items:
+    center;
+  justify-content:
+    center;
+
+  padding:
+    0.55rem
+    0.9rem;
+
+  color:
+    var(--sasha-white);
+
+  background:
+    var(--sasha-white-04);
+
+  border:
+    1px solid
+    var(--sasha-white-25);
+
+  border-radius:
+    999px;
+
+  font-size:
+    0.74rem;
+
+  font-weight:
+    800;
+
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease;
+}
+
+
+.sasha-practice-decision-options
+input:checked + span {
+  color:
+    var(--sasha-navy);
+
+  background:
+    var(--sasha-pink);
+
+  border-color:
+    var(--sasha-pink);
+}
+
+
+.sasha-practice-decision-options
+input:focus-visible + span {
+  outline:
+    3px solid
+    var(--sasha-pink);
+
+  outline-offset:
+    3px;
+}
