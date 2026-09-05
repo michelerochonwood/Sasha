@@ -560,7 +560,7 @@
         {{/ifEquals}}
 
 
-        {{#ifEquals proposal.effortLevel "full"}}
+        {{#if isFullEffort}}
 
           <p>
             Sasha will treat this as a significant competitive pursuit
@@ -568,7 +568,7 @@
             customization, and review.
           </p>
 
-        {{/ifEquals}}
+        {{/if}}
 
       </div>
 
@@ -2317,342 +2317,1114 @@
     </section>
 
 
-    {{!-- =================================================
-         FULL EFFORT PRACTICES
-    ================================================== --}}
+{{!-- =================================================
+     FULL EFFORT PRACTICES
+================================================== --}}
 
-    {{#ifEquals proposal.effortLevel "full"}}
+{{#if isFullEffort}}
 
-    <section class="sasha-plan-section">
+  <section class="sasha-plan-section">
 
-  <header class="sasha-plan-section-heading">
+    <header class="sasha-plan-section-heading">
 
-    <div>
+      <div>
 
-      <p class="sasha-work-eyebrow">
-        Full effort process
+        <p class="sasha-work-eyebrow">
+          Full effort process
+        </p>
+
+        <h2>
+          Practices to Consider
+        </h2>
+
+      </div>
+
+      <p>
+        Explore the practices that may add value to this competition.
+        Open any practice to learn more and decide whether the pursuit
+        team wants to use it.
       </p>
 
-      <h2>
-        Practices to Consider
-      </h2>
-
-    </div>
-
-    <p>
-      Explore the practices that may add value to this competition.
-      Open any practice to learn more and decide whether the pursuit
-      team wants to use it.
-    </p>
-
-  </header>
+    </header>
 
 
-  <div class="sasha-practices-grid">
+    <div class="sasha-practices-grid">
 
-{{!-- =================================================
-     PROPOSAL KICKOFF
-================================================== --}}
 
-<details class="sasha-practice-card">
+      {{!-- =============================================
+           01 | PROPOSAL KICKOFF
+      ============================================== --}}
 
-  <summary class="sasha-practice-summary">
+      <details class="sasha-practice-card">
 
-    <span>
-      Proposal Kickoff
-    </span>
+        <summary class="sasha-practice-summary">
 
-    <span
-      class="sasha-practice-toggle"
-      aria-hidden="true"
-    >
-      +
-    </span>
+          <span>
+            Proposal Kickoff
+          </span>
 
-  </summary>
+          <span
+            class="sasha-practice-toggle"
+            aria-hidden="true"
+          >
+            +
+          </span>
 
-  <div class="sasha-practice-content">
+        </summary>
 
-    <p>
-      Bring the pursuit team together early to confirm the
-      opportunity, evaluation criteria, win strategy, roles,
-      schedule, key risks and expectations for the proposal.
-    </p>
+        <div class="sasha-practice-content">
 
-    <div class="sasha-practice-actions">
+          <p>
+            Bring the pursuit team together early to confirm the
+            opportunity, evaluation criteria, win strategy, roles,
+            schedule, key risks and expectations for the proposal.
+          </p>
 
-      <a
-        href="/resources/proposal-kickoff"
-        class="sasha-practice-resource-link"
-      >
-        View Twennie Resources →
-      </a>
+          <div class="sasha-practice-actions">
 
-      <fieldset class="sasha-practice-decision">
-
-        <legend>
-          Would you like to use this best practice?
-        </legend>
-
-        <div class="sasha-practice-decision-options">
-
-          <label>
-
-            <input
-              type="radio"
-              name="practice_kickoff"
-              value="yes"
+            <a
+              href="/resources/proposal-kickoff"
+              class="sasha-practice-resource-link"
             >
+              View Twennie Resources →
+            </a>
 
-            <span>
-              Yes
-            </span>
+            <fieldset class="sasha-practice-decision">
 
-          </label>
+              <legend>
+                Would you like to use this best practice?
+              </legend>
 
-          <label>
+              <div class="sasha-practice-decision-options">
 
-            <input
-              type="radio"
-              name="practice_kickoff"
-              value="no"
-            >
+                <label>
 
-            <span>
-              No
-            </span>
+                  <input
+                    type="radio"
+                    name="practice_kickoff"
+                    value="yes"
+                  >
 
-          </label>
+                  <span>
+                    Yes
+                  </span>
+
+                </label>
+
+                <label>
+
+                  <input
+                    type="radio"
+                    name="practice_kickoff"
+                    value="no"
+                  >
+
+                  <span>
+                    No
+                  </span>
+
+                </label>
+
+              </div>
+
+            </fieldset>
+
+          </div>
 
         </div>
 
-      </fieldset>
-
-    </div>
-
-  </div>
-
-</details>
+      </details>
 
 
-{{!-- =================================================
-     PROJECT EVIDENCE REVIEW | PHIL
-================================================== --}}
+      {{!-- =============================================
+           02 | DETAILED PROPOSAL SCHEDULE
+      ============================================== --}}
 
-<details class="sasha-practice-card sasha-practice-card--assistant">
+      <details class="sasha-practice-card">
 
-  <summary class="sasha-practice-summary">
+        <summary class="sasha-practice-summary">
 
-    <span>
-      Project Evidence Review
-    </span>
+          <span>
+            Detailed Proposal Schedule
+          </span>
 
-    <span
-      class="sasha-practice-toggle"
-      aria-hidden="true"
-    >
-      +
-    </span>
+          <span
+            class="sasha-practice-toggle"
+            aria-hidden="true"
+          >
+            +
+          </span>
 
-  </summary>
+        </summary>
 
-  <img
-    src="/images/phil.png"
-    alt="Phil"
-    class="sasha-practice-assistant-image"
-  >
+        <div class="sasha-practice-content">
 
-  <div class="sasha-practice-content">
+          <p>
+            Build a detailed internal schedule for writing,
+            coordination, graphics, reviews, approvals and final
+            production so the team is working toward clear deadlines.
+          </p>
 
-    <p>
-      Review available project experience against the RFP and
-      win strategy to identify the strongest examples, evidence,
-      outcomes and relevance for this specific competition.
-    </p>
+          <div class="sasha-practice-actions">
 
-    <p class="sasha-practice-assistant-note">
-      Phil can help identify and develop the strongest project
-      evidence for the proposal.
-    </p>
-
-    <div class="sasha-practice-actions">
-
-      <div class="sasha-practice-action-links">
-
-        <a
-          href="/phil"
-          class="sasha-practice-assistant-link"
-        >
-          Go to Phil →
-        </a>
-
-        <a
-          href="/resources/project-evidence"
-          class="sasha-practice-resource-link"
-        >
-          View Twennie Resources →
-        </a>
-
-      </div>
-
-      <fieldset class="sasha-practice-decision">
-
-        <legend>
-          Would you like to use this best practice?
-        </legend>
-
-        <div class="sasha-practice-decision-options">
-
-          <label>
-
-            <input
-              type="radio"
-              name="practice_project_evidence"
-              value="yes"
+            <a
+              href="/resources/proposal-schedule"
+              class="sasha-practice-resource-link"
             >
+              View Twennie Resources →
+            </a>
 
-            <span>
-              Yes
-            </span>
+            <fieldset class="sasha-practice-decision">
 
-          </label>
+              <legend>
+                Would you like to use this best practice?
+              </legend>
 
-          <label>
+              <div class="sasha-practice-decision-options">
 
-            <input
-              type="radio"
-              name="practice_project_evidence"
-              value="no"
-            >
+                <label>
 
-            <span>
-              No
-            </span>
+                  <input
+                    type="radio"
+                    name="practice_detailed_schedule"
+                    value="yes"
+                  >
 
-          </label>
+                  <span>
+                    Yes
+                  </span>
+
+                </label>
+
+                <label>
+
+                  <input
+                    type="radio"
+                    name="practice_detailed_schedule"
+                    value="no"
+                  >
+
+                  <span>
+                    No
+                  </span>
+
+                </label>
+
+              </div>
+
+            </fieldset>
+
+          </div>
 
         </div>
 
-      </fieldset>
-
-    </div>
-
-  </div>
-
-</details>
+      </details>
 
 
-{{!-- =================================================
-     PERSONNEL EVIDENCE REVIEW | ZOE
-================================================== --}}
+      {{!-- =============================================
+           03 | TEN STEPS TO A WIN THEME
+      ============================================== --}}
 
-<details class="sasha-practice-card sasha-practice-card--assistant">
+      <details class="sasha-practice-card">
 
-  <summary class="sasha-practice-summary">
+        <summary class="sasha-practice-summary">
 
-    <span>
-      Personnel Evidence Review
-    </span>
+          <span>
+            Ten Steps to a Win Theme
+          </span>
 
-    <span
-      class="sasha-practice-toggle"
-      aria-hidden="true"
-    >
-      +
-    </span>
+          <span
+            class="sasha-practice-toggle"
+            aria-hidden="true"
+          >
+            +
+          </span>
 
-  </summary>
+        </summary>
 
-  <img
-    src="/images/zoe.png"
-    alt="Zoe"
-    class="sasha-practice-assistant-image"
-  >
+        <div class="sasha-practice-content">
 
-  <div class="sasha-practice-content">
+          <p>
+            Develop the proposal's central win theme using the
+            Ten Steps to a Win process, connecting client needs,
+            competitive positioning, evidence and differentiators
+            into a clear reason to select the team.
+          </p>
 
-    <p>
-      Review proposed personnel against the evaluation criteria
-      and win strategy to identify the experience, credentials,
-      roles and individual evidence that best support the team.
-    </p>
+          <div class="sasha-practice-actions">
 
-    <p class="sasha-practice-assistant-note">
-      Zoe can help identify and develop the strongest personnel
-      evidence for the proposal.
-    </p>
-
-    <div class="sasha-practice-actions">
-
-      <div class="sasha-practice-action-links">
-
-        <a
-          href="/zoe"
-          class="sasha-practice-assistant-link"
-        >
-          Go to Zoe →
-        </a>
-
-        <a
-          href="/resources/personnel-evidence"
-          class="sasha-practice-resource-link"
-        >
-          View Twennie Resources →
-        </a>
-
-      </div>
-
-      <fieldset class="sasha-practice-decision">
-
-        <legend>
-          Would you like to use this best practice?
-        </legend>
-
-        <div class="sasha-practice-decision-options">
-
-          <label>
-
-            <input
-              type="radio"
-              name="practice_personnel_evidence"
-              value="yes"
+            <a
+              href="/resources/ten-steps-to-a-win"
+              class="sasha-practice-resource-link"
             >
+              View Twennie Resources →
+            </a>
 
-            <span>
-              Yes
-            </span>
+            <fieldset class="sasha-practice-decision">
 
-          </label>
+              <legend>
+                Would you like to use this best practice?
+              </legend>
 
-          <label>
+              <div class="sasha-practice-decision-options">
 
-            <input
-              type="radio"
-              name="practice_personnel_evidence"
-              value="no"
-            >
+                <label>
 
-            <span>
-              No
-            </span>
+                  <input
+                    type="radio"
+                    name="practice_win_strategy"
+                    value="yes"
+                  >
 
-          </label>
+                  <span>
+                    Yes
+                  </span>
+
+                </label>
+
+                <label>
+
+                  <input
+                    type="radio"
+                    name="practice_win_strategy"
+                    value="no"
+                  >
+
+                  <span>
+                    No
+                  </span>
+
+                </label>
+
+              </div>
+
+            </fieldset>
+
+          </div>
 
         </div>
 
-      </fieldset>
+      </details>
+
+
+      {{!-- =============================================
+           04 | METHODOLOGY STORYBOARDING
+      ============================================== --}}
+
+      <details class="sasha-practice-card">
+
+        <summary class="sasha-practice-summary">
+
+          <span>
+            Methodology Storyboarding
+          </span>
+
+          <span
+            class="sasha-practice-toggle"
+            aria-hidden="true"
+          >
+            +
+          </span>
+
+        </summary>
+
+        <div class="sasha-practice-content">
+
+          <p>
+            Plan the methodology visually before drafting so the team
+            can organize the work plan, key messages, proof points,
+            graphics and page space around what the evaluator needs
+            to understand.
+          </p>
+
+          <div class="sasha-practice-actions">
+
+            <a
+              href="/resources/methodology-storyboarding"
+              class="sasha-practice-resource-link"
+            >
+              View Twennie Resources →
+            </a>
+
+            <fieldset class="sasha-practice-decision">
+
+              <legend>
+                Would you like to use this best practice?
+              </legend>
+
+              <div class="sasha-practice-decision-options">
+
+                <label>
+
+                  <input
+                    type="radio"
+                    name="practice_storyboarding"
+                    value="yes"
+                  >
+
+                  <span>
+                    Yes
+                  </span>
+
+                </label>
+
+                <label>
+
+                  <input
+                    type="radio"
+                    name="practice_storyboarding"
+                    value="no"
+                  >
+
+                  <span>
+                    No
+                  </span>
+
+                </label>
+
+              </div>
+
+            </fieldset>
+
+          </div>
+
+        </div>
+
+      </details>
+
+
+      {{!-- =============================================
+           05 | PROJECT EVIDENCE REVIEW | PHIL
+      ============================================== --}}
+
+      <details class="sasha-practice-card sasha-practice-card--assistant">
+
+        <summary class="sasha-practice-summary">
+
+          <span>
+            Project Evidence Review
+          </span>
+
+          <span
+            class="sasha-practice-toggle"
+            aria-hidden="true"
+          >
+            +
+          </span>
+
+        </summary>
+
+        <img
+          src="/images/phil.png"
+          alt="Phil"
+          class="sasha-practice-assistant-image"
+        >
+
+        <div class="sasha-practice-content">
+
+          <p>
+            Review available project experience against the RFP and
+            win strategy to identify the strongest examples, evidence,
+            outcomes and relevance for this specific competition.
+          </p>
+
+          <p class="sasha-practice-assistant-note">
+            Phil can help identify and develop the strongest project
+            evidence for the proposal.
+          </p>
+
+          <div class="sasha-practice-actions">
+
+            <div class="sasha-practice-action-links">
+
+              <a
+                href="/phil"
+                class="sasha-practice-assistant-link"
+              >
+                Go to Phil →
+              </a>
+
+              <a
+                href="/resources/project-evidence"
+                class="sasha-practice-resource-link"
+              >
+                View Twennie Resources →
+              </a>
+
+            </div>
+
+            <fieldset class="sasha-practice-decision">
+
+              <legend>
+                Would you like to use this best practice?
+              </legend>
+
+              <div class="sasha-practice-decision-options">
+
+                <label>
+
+                  <input
+                    type="radio"
+                    name="practice_project_evidence"
+                    value="yes"
+                  >
+
+                  <span>
+                    Yes
+                  </span>
+
+                </label>
+
+                <label>
+
+                  <input
+                    type="radio"
+                    name="practice_project_evidence"
+                    value="no"
+                  >
+
+                  <span>
+                    No
+                  </span>
+
+                </label>
+
+              </div>
+
+            </fieldset>
+
+          </div>
+
+        </div>
+
+      </details>
+
+
+      {{!-- =============================================
+           06 | PERSONNEL EVIDENCE REVIEW | ZOE
+      ============================================== --}}
+
+      <details class="sasha-practice-card sasha-practice-card--assistant">
+
+        <summary class="sasha-practice-summary">
+
+          <span>
+            Personnel Evidence Review
+          </span>
+
+          <span
+            class="sasha-practice-toggle"
+            aria-hidden="true"
+          >
+            +
+          </span>
+
+        </summary>
+
+        <img
+          src="/images/zoe.png"
+          alt="Zoe"
+          class="sasha-practice-assistant-image"
+        >
+
+        <div class="sasha-practice-content">
+
+          <p>
+            Review proposed personnel against the evaluation criteria
+            and win strategy to identify the experience, credentials,
+            roles and individual evidence that best support the team.
+          </p>
+
+          <p class="sasha-practice-assistant-note">
+            Zoe can help identify and develop the strongest personnel
+            evidence for the proposal.
+          </p>
+
+          <div class="sasha-practice-actions">
+
+            <div class="sasha-practice-action-links">
+
+              <a
+                href="/zoe"
+                class="sasha-practice-assistant-link"
+              >
+                Go to Zoe →
+              </a>
+
+              <a
+                href="/resources/personnel-evidence"
+                class="sasha-practice-resource-link"
+              >
+                View Twennie Resources →
+              </a>
+
+            </div>
+
+            <fieldset class="sasha-practice-decision">
+
+              <legend>
+                Would you like to use this best practice?
+              </legend>
+
+              <div class="sasha-practice-decision-options">
+
+                <label>
+
+                  <input
+                    type="radio"
+                    name="practice_personnel_evidence"
+                    value="yes"
+                  >
+
+                  <span>
+                    Yes
+                  </span>
+
+                </label>
+
+                <label>
+
+                  <input
+                    type="radio"
+                    name="practice_personnel_evidence"
+                    value="no"
+                  >
+
+                  <span>
+                    No
+                  </span>
+
+                </label>
+
+              </div>
+
+            </fieldset>
+
+          </div>
+
+        </div>
+
+      </details>
+
+
+      {{!-- =============================================
+           07 | PRICING REVIEW
+      ============================================== --}}
+
+      <details class="sasha-practice-card">
+
+        <summary class="sasha-practice-summary">
+
+          <span>
+            Pricing Review
+          </span>
+
+          <span
+            class="sasha-practice-toggle"
+            aria-hidden="true"
+          >
+            +
+          </span>
+
+        </summary>
+
+        <div class="sasha-practice-content">
+
+          <p>
+            Review the proposed fee, level of effort and pricing
+            assumptions against the scope, delivery approach,
+            competitive position and commercial risks.
+          </p>
+
+          <div class="sasha-practice-actions">
+
+            <a
+              href="/resources/pricing-review"
+              class="sasha-practice-resource-link"
+            >
+              View Twennie Resources →
+            </a>
+
+            <fieldset class="sasha-practice-decision">
+
+              <legend>
+                Would you like to use this best practice?
+              </legend>
+
+              <div class="sasha-practice-decision-options">
+
+                <label>
+
+                  <input
+                    type="radio"
+                    name="practice_pricing_review"
+                    value="yes"
+                  >
+
+                  <span>
+                    Yes
+                  </span>
+
+                </label>
+
+                <label>
+
+                  <input
+                    type="radio"
+                    name="practice_pricing_review"
+                    value="no"
+                  >
+
+                  <span>
+                    No
+                  </span>
+
+                </label>
+
+              </div>
+
+            </fieldset>
+
+          </div>
+
+        </div>
+
+      </details>
+
+
+      {{!-- =============================================
+           08 | GRAPHIC PLANNING
+      ============================================== --}}
+
+      <details class="sasha-practice-card">
+
+        <summary class="sasha-practice-summary">
+
+          <span>
+            Graphic Planning
+          </span>
+
+          <span
+            class="sasha-practice-toggle"
+            aria-hidden="true"
+          >
+            +
+          </span>
+
+        </summary>
+
+        <div class="sasha-practice-content">
+
+          <p>
+            Identify where diagrams, maps, schedules, process
+            graphics, organizational charts and other visuals can
+            communicate important information more effectively
+            than text alone.
+          </p>
+
+          <div class="sasha-practice-actions">
+
+            <a
+              href="/resources/graphic-planning"
+              class="sasha-practice-resource-link"
+            >
+              View Twennie Resources →
+            </a>
+
+            <fieldset class="sasha-practice-decision">
+
+              <legend>
+                Would you like to use this best practice?
+              </legend>
+
+              <div class="sasha-practice-decision-options">
+
+                <label>
+
+                  <input
+                    type="radio"
+                    name="practice_graphic_planning"
+                    value="yes"
+                  >
+
+                  <span>
+                    Yes
+                  </span>
+
+                </label>
+
+                <label>
+
+                  <input
+                    type="radio"
+                    name="practice_graphic_planning"
+                    value="no"
+                  >
+
+                  <span>
+                    No
+                  </span>
+
+                </label>
+
+              </div>
+
+            </fieldset>
+
+          </div>
+
+        </div>
+
+      </details>
+
+
+      {{!-- =============================================
+           09 | BLUE TEAM REVIEW
+      ============================================== --}}
+
+      <details class="sasha-practice-card">
+
+        <summary class="sasha-practice-summary">
+
+          <span>
+            Blue Team Review
+          </span>
+
+          <span
+            class="sasha-practice-toggle"
+            aria-hidden="true"
+          >
+            +
+          </span>
+
+        </summary>
+
+        <div class="sasha-practice-content">
+
+          <p>
+            Review the proposal strategy, outline and planned response
+            before substantial writing begins to confirm that the team
+            is solving the right problem and pursuing a credible path
+            to a win.
+          </p>
+
+          <div class="sasha-practice-actions">
+
+            <a
+              href="/resources/blue-team-review"
+              class="sasha-practice-resource-link"
+            >
+              View Twennie Resources →
+            </a>
+
+            <fieldset class="sasha-practice-decision">
+
+              <legend>
+                Would you like to use this best practice?
+              </legend>
+
+              <div class="sasha-practice-decision-options">
+
+                <label>
+
+                  <input
+                    type="radio"
+                    name="practice_blue_team"
+                    value="yes"
+                  >
+
+                  <span>
+                    Yes
+                  </span>
+
+                </label>
+
+                <label>
+
+                  <input
+                    type="radio"
+                    name="practice_blue_team"
+                    value="no"
+                  >
+
+                  <span>
+                    No
+                  </span>
+
+                </label>
+
+              </div>
+
+            </fieldset>
+
+          </div>
+
+        </div>
+
+      </details>
+
+
+      {{!-- =============================================
+           10 | PINK TEAM REVIEW
+      ============================================== --}}
+
+      <details class="sasha-practice-card">
+
+        <summary class="sasha-practice-summary">
+
+          <span>
+            Pink Team Review
+          </span>
+
+          <span
+            class="sasha-practice-toggle"
+            aria-hidden="true"
+          >
+            +
+          </span>
+
+        </summary>
+
+        <div class="sasha-practice-content">
+
+          <p>
+            Review an early complete draft for responsiveness,
+            structure, strategy, evidence and major content gaps while
+            there is still enough time to make meaningful changes.
+          </p>
+
+          <div class="sasha-practice-actions">
+
+            <a
+              href="/resources/pink-team-review"
+              class="sasha-practice-resource-link"
+            >
+              View Twennie Resources →
+            </a>
+
+            <fieldset class="sasha-practice-decision">
+
+              <legend>
+                Would you like to use this best practice?
+              </legend>
+
+              <div class="sasha-practice-decision-options">
+
+                <label>
+
+                  <input
+                    type="radio"
+                    name="practice_pink_team"
+                    value="yes"
+                  >
+
+                  <span>
+                    Yes
+                  </span>
+
+                </label>
+
+                <label>
+
+                  <input
+                    type="radio"
+                    name="practice_pink_team"
+                    value="no"
+                  >
+
+                  <span>
+                    No
+                  </span>
+
+                </label>
+
+              </div>
+
+            </fieldset>
+
+          </div>
+
+        </div>
+
+      </details>
+
+
+      {{!-- =============================================
+           11 | RED TEAM REVIEW
+      ============================================== --}}
+
+      <details class="sasha-practice-card">
+
+        <summary class="sasha-practice-summary">
+
+          <span>
+            Red Team Review
+          </span>
+
+          <span
+            class="sasha-practice-toggle"
+            aria-hidden="true"
+          >
+            +
+          </span>
+
+        </summary>
+
+        <div class="sasha-practice-content">
+
+          <p>
+            Conduct a near-final evaluator-focused review to test
+            compliance, clarity, persuasiveness, evidence and scoring
+            strength before final production.
+          </p>
+
+          <div class="sasha-practice-actions">
+
+            <a
+              href="/resources/red-team-review"
+              class="sasha-practice-resource-link"
+            >
+              View Twennie Resources →
+            </a>
+
+            <fieldset class="sasha-practice-decision">
+
+              <legend>
+                Would you like to use this best practice?
+              </legend>
+
+              <div class="sasha-practice-decision-options">
+
+                <label>
+
+                  <input
+                    type="radio"
+                    name="practice_red_team"
+                    value="yes"
+                  >
+
+                  <span>
+                    Yes
+                  </span>
+
+                </label>
+
+                <label>
+
+                  <input
+                    type="radio"
+                    name="practice_red_team"
+                    value="no"
+                  >
+
+                  <span>
+                    No
+                  </span>
+
+                </label>
+
+              </div>
+
+            </fieldset>
+
+          </div>
+
+        </div>
+
+      </details>
+
+
+      {{!-- =============================================
+           12 | DEDICATED PROOFREADING
+      ============================================== --}}
+
+      <details class="sasha-practice-card">
+
+        <summary class="sasha-practice-summary">
+
+          <span>
+            Dedicated Proofreading
+          </span>
+
+          <span
+            class="sasha-practice-toggle"
+            aria-hidden="true"
+          >
+            +
+          </span>
+
+        </summary>
+
+        <div class="sasha-practice-content">
+
+          <p>
+            Reserve a dedicated final pass for spelling, grammar,
+            consistency, cross-references, formatting, names,
+            numbers and other production errors after substantive
+            editing is complete.
+          </p>
+
+          <div class="sasha-practice-actions">
+
+            <a
+              href="/resources/proofreading"
+              class="sasha-practice-resource-link"
+            >
+              View Twennie Resources →
+            </a>
+
+            <fieldset class="sasha-practice-decision">
+
+              <legend>
+                Would you like to use this best practice?
+              </legend>
+
+              <div class="sasha-practice-decision-options">
+
+                <label>
+
+                  <input
+                    type="radio"
+                    name="practice_proofreading"
+                    value="yes"
+                  >
+
+                  <span>
+                    Yes
+                  </span>
+
+                </label>
+
+                <label>
+
+                  <input
+                    type="radio"
+                    name="practice_proofreading"
+                    value="no"
+                  >
+
+                  <span>
+                    No
+                  </span>
+
+                </label>
+
+              </div>
+
+            </fieldset>
+
+          </div>
+
+        </div>
+
+      </details>
+
 
     </div>
 
-  </div>
+  </section>
 
-</details>
-
-  </div>
-
-</section>
-
-    {{/ifEquals}}
+{{/if}}
 
 
 
@@ -2834,3 +3606,8 @@ document.addEventListener(
 );
 
 </script>
+
+
+  </div>
+
+</section>
