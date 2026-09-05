@@ -2323,6 +2323,33 @@
 
     {{#ifEquals proposal.effortLevel "full"}}
 
+    <section class="sasha-plan-section">
+
+  <header class="sasha-plan-section-heading">
+
+    <div>
+
+      <p class="sasha-work-eyebrow">
+        Full effort process
+      </p>
+
+      <h2>
+        Practices to Consider
+      </h2>
+
+    </div>
+
+    <p>
+      Explore the practices that may add value to this competition.
+      Open any practice to learn more and decide whether the pursuit
+      team wants to use it.
+    </p>
+
+  </header>
+
+
+  <div class="sasha-practices-grid">
+
 {{!-- =================================================
      PROPOSAL KICKOFF
 ================================================== --}}
@@ -2621,15 +2648,94 @@
 
 </details>
 
+  </div>
+
+</section>
+
     {{/ifEquals}}
 
 
 
-
 <script>
+
 document.addEventListener(
   'DOMContentLoaded',
   () => {
+
+    /* =================================================
+       FULL EFFORT PRACTICE DROPDOWNS
+    ================================================== */
+
+    const practiceCards =
+      document.querySelectorAll(
+        '.sasha-practice-card'
+      );
+
+
+    practiceCards.forEach(
+      (
+        practiceCard
+      ) => {
+
+        const summary =
+          practiceCard.querySelector(
+            '.sasha-practice-summary'
+          );
+
+
+        if (
+          !summary
+        ) {
+
+          return;
+
+        }
+
+
+        /*
+         * Start every practice collapsed so the proposal
+         * manager sees the full list of available options.
+         *
+         * Each card remains independent. Opening one does
+         * NOT close another.
+         */
+
+        practiceCard.open =
+          false;
+
+
+        /*
+         * Keep aria-expanded synchronized with the
+         * native details element.
+         */
+
+        summary.setAttribute(
+          'aria-expanded',
+          'false'
+        );
+
+
+        practiceCard.addEventListener(
+          'toggle',
+          () => {
+
+            summary.setAttribute(
+              'aria-expanded',
+              practiceCard.open
+                ? 'true'
+                : 'false'
+            );
+
+          }
+        );
+
+      }
+    );
+
+
+    /* =================================================
+       SASHA PLAN CHAT FORM
+    ================================================== */
 
     const planForm =
       document.getElementById(
@@ -2726,4 +2832,5 @@ document.addEventListener(
 
   }
 );
+
 </script>
