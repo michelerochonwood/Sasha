@@ -264,6 +264,37 @@ router.get(
 );
 
 
+/* =====================================================
+   DETAILED PROPOSAL SCHEDULE PRACTICE
+===================================================== */
+
+router.get(
+  '/plan/proposal-schedule',
+  ensureOrganization,
+  (
+    req,
+    res
+  ) => {
+
+    return res.render(
+      'proposal_schedule_view',
+      {
+        layout:
+          'mainlayout',
+
+        pageTitle:
+          'Detailed Proposal Schedule | Sasha',
+
+        pursuitId:
+          req.query.pursuit ||
+          null
+      }
+    );
+
+  }
+);
+
+
 
 
 
