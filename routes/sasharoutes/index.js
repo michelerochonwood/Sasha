@@ -231,6 +231,8 @@ router.post(
   planController.postPlanChat
 );
 
+
+
 /* =====================================================
    PROPOSAL KICKOFF PRACTICE
 ===================================================== */
@@ -244,13 +246,17 @@ router.get(
   ) => {
 
     return res.render(
-      'proposal_kickoff',
+      'kickoff_view',
       {
         layout:
           'mainlayout',
 
         pageTitle:
-          'Proposal Kickoff | Sasha'
+          'Proposal Kickoff | Sasha',
+
+        pursuitId:
+          req.query.pursuit ||
+          null
       }
     );
 
