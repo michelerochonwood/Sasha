@@ -295,7 +295,35 @@ router.get(
 );
 
 
+/* =====================================================
+   TEN STEPS TO A WIN THEME PRACTICE
+===================================================== */
 
+router.get(
+  '/plan/ten-steps',
+  ensureOrganization,
+  (
+    req,
+    res
+  ) => {
+
+    return res.render(
+      'ten_steps_view',
+      {
+        layout:
+          'mainlayout',
+
+        pageTitle:
+          'Ten Steps to a Win Theme | Sasha',
+
+        pursuitId:
+          req.query.pursuit ||
+          null
+      }
+    );
+
+  }
+);
 
 
 
