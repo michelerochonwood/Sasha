@@ -231,6 +231,57 @@ router.post(
   planController.postPlanChat
 );
 
+/* =====================================================
+   PROPOSAL KICKOFF PRACTICE
+===================================================== */
+
+router.get(
+  '/plan/proposal-kickoff',
+  ensureOrganization,
+  (
+    req,
+    res
+  ) => {
+
+    return res.render(
+      'proposal_kickoff',
+      {
+        layout:
+          'mainlayout',
+
+        pageTitle:
+          'Proposal Kickoff | Sasha'
+      }
+    );
+
+  }
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* =====================================================
    REVIEW PLAN CHANGE IMPACT
