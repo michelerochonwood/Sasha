@@ -15353,6 +15353,12 @@ input[type="file"]::file-selector-button:hover {
 }
 
 
+.sasha-practice-summary > span:first-child {
+  color: var(--sasha-pink);
+  font-size: 1rem;
+  font-weight: 800;
+}
+
 /* =====================================================
    PRACTICE ACTIONS
 ===================================================== */
@@ -15520,10 +15526,7 @@ input[type="file"]::file-selector-button:hover {
     rgba(255, 153, 204, 0.22);
 }
 
-.sasha-practice-summary-span {
-  font-weight:800;
-  font-size: 0.9rem;
-}
+
 
 
 /* =====================================================
