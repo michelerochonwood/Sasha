@@ -15343,24 +15343,45 @@ input[type="file"]::file-selector-button:hover {
 
 
 /* =====================================================
+   PRACTICE CONTENT ALIGNMENT
+===================================================== */
+
+.sasha-practice-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+
+/* =====================================================
    PRACTICE ACTIONS
 ===================================================== */
 
 .sasha-practice-actions {
   display: grid;
 
+  grid-template-rows:
+    auto
+    auto;
+
   gap:
     1rem;
 
   margin-top:
+    auto;
+
+  padding:
     1.15rem;
 
-  padding-top:
-    1rem;
+  background:
+    rgba(255, 255, 255, 0.06);
 
-  border-top:
+  border:
     1px solid
     var(--sasha-white-12);
+
+  border-radius:
+    18px;
 }
 
 
@@ -15371,28 +15392,37 @@ input[type="file"]::file-selector-button:hover {
 .sasha-practice-action-links {
   display: flex;
 
-  flex-wrap: wrap;
+  flex-wrap:
+    wrap;
 
-  align-items: center;
+  align-items:
+    center;
 
   gap:
     0.65rem;
+
+  min-height:
+    40px;
 }
 
 
 .sasha-practice-resource-link,
 .sasha-practice-assistant-link {
-  display: inline-flex;
+  display:
+    inline-flex;
 
   min-height:
     38px;
 
-  align-items: center;
-  justify-content: center;
+  align-items:
+    center;
+
+  justify-content:
+    center;
 
   padding:
     0.55rem
-    0.85rem;
+    0.9rem;
 
   border-radius:
     999px;
@@ -15410,7 +15440,8 @@ input[type="file"]::file-selector-button:hover {
     transform 180ms ease,
     background-color 180ms ease,
     border-color 180ms ease,
-    color 180ms ease;
+    color 180ms ease,
+    box-shadow 180ms ease;
 }
 
 
@@ -15423,7 +15454,7 @@ input[type="file"]::file-selector-button:hover {
     var(--sasha-pink);
 
   background:
-    transparent;
+    rgba(255, 255, 255, 0.04);
 
   border:
     1px solid
@@ -15439,10 +15470,14 @@ input[type="file"]::file-selector-button:hover {
     var(--sasha-navy);
 
   background:
-    var(--sasha-white);
+    var(--sasha-pink);
 
   border-color:
-    var(--sasha-white);
+    var(--sasha-pink);
+
+  box-shadow:
+    0 6px 18px
+    rgba(255, 153, 204, 0.18);
 }
 
 
@@ -15467,11 +15502,22 @@ input[type="file"]::file-selector-button:hover {
   transform:
     translateY(-1px);
 
-  background:
+  color:
     var(--sasha-white);
 
+  background:
+    color-mix(
+      in srgb,
+      var(--sasha-pink) 65%,
+      var(--sasha-purple) 35%
+    );
+
   border-color:
-    var(--sasha-white);
+    var(--sasha-pink);
+
+  box-shadow:
+    0 6px 18px
+    rgba(255, 153, 204, 0.22);
 }
 
 
@@ -15488,6 +15534,9 @@ input[type="file"]::file-selector-button:hover {
 
   border:
     0;
+
+  min-height:
+    68px;
 }
 
 
@@ -15517,7 +15566,11 @@ input[type="file"]::file-selector-button:hover {
 ===================================================== */
 
 .sasha-practice-decision-options {
-  display: flex;
+  display:
+    flex;
+
+  align-items:
+    center;
 
   gap:
     0.6rem;
@@ -15557,6 +15610,7 @@ input[type="file"]::file-selector-button:hover {
 
   align-items:
     center;
+
   justify-content:
     center;
 
@@ -15568,7 +15622,7 @@ input[type="file"]::file-selector-button:hover {
     var(--sasha-white);
 
   background:
-    var(--sasha-white-04);
+    rgba(255, 255, 255, 0.05);
 
   border:
     1px solid
@@ -15584,11 +15638,44 @@ input[type="file"]::file-selector-button:hover {
     800;
 
   transition:
+    transform 180ms ease,
     background-color 180ms ease,
     border-color 180ms ease,
-    color 180ms ease;
+    color 180ms ease,
+    box-shadow 180ms ease;
 }
 
+
+/* =====================================================
+   YES / NO HOVER
+===================================================== */
+
+.sasha-practice-decision-options label:hover span {
+  transform:
+    translateY(-1px);
+
+  color:
+    var(--sasha-white);
+
+  background:
+    color-mix(
+      in srgb,
+      var(--sasha-pink) 22%,
+      transparent
+    );
+
+  border-color:
+    var(--sasha-pink);
+
+  box-shadow:
+    0 5px 14px
+    rgba(255, 153, 204, 0.14);
+}
+
+
+/* =====================================================
+   YES / NO SELECTED
+===================================================== */
 
 .sasha-practice-decision-options
 input:checked + span {
@@ -15600,8 +15687,34 @@ input:checked + span {
 
   border-color:
     var(--sasha-pink);
+
+  box-shadow:
+    0 5px 16px
+    rgba(255, 153, 204, 0.2);
 }
 
+
+.sasha-practice-decision-options
+label:hover
+input:checked + span {
+  color:
+    var(--sasha-white);
+
+  background:
+    color-mix(
+      in srgb,
+      var(--sasha-pink) 72%,
+      var(--sasha-purple) 28%
+    );
+
+  border-color:
+    var(--sasha-pink);
+}
+
+
+/* =====================================================
+   YES / NO FOCUS
+===================================================== */
 
 .sasha-practice-decision-options
 input:focus-visible + span {
