@@ -380,6 +380,32 @@ router.get(
   }
 );
 
+router.get(
+  '/plan/personnel-experience-review',
+  ensureOrganization,
+  (
+    req,
+    res
+  ) => {
+
+    return res.render(
+      'personnel_experience_review_view',
+      {
+        layout:
+          'mainlayout',
+
+        pageTitle:
+          'Personnel Experience Evidence Review | Sasha',
+
+        pursuitId:
+          req.query.pursuit ||
+          null
+      }
+    );
+
+  }
+);
+
 
 
 
