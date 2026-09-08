@@ -354,7 +354,31 @@ router.get(
 );
 
 
+router.get(
+  '/plan/project-evidence-review',
+  ensureOrganization,
+  (
+    req,
+    res
+  ) => {
 
+    return res.render(
+      'project_evidence_review_view',
+      {
+        layout:
+          'mainlayout',
+
+        pageTitle:
+          'Project Experience Evidence Review | Sasha',
+
+        pursuitId:
+          req.query.pursuit ||
+          null
+      }
+    );
+
+  }
+);
 
 
 
