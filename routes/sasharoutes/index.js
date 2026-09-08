@@ -327,7 +327,31 @@ router.get(
 
 
 
+router.get(
+  '/plan/methodology',
+  ensureOrganization,
+  (
+    req,
+    res
+  ) => {
 
+    return res.render(
+      'methodology_view',
+      {
+        layout:
+          'mainlayout',
+
+        pageTitle:
+          'Rapid Fire Methodology Storyboarding | Sasha',
+
+        pursuitId:
+          req.query.pursuit ||
+          null
+      }
+    );
+
+  }
+);
 
 
 
