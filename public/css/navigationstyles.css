@@ -360,13 +360,13 @@
   align-items: flex-end;
   justify-content: center;
 
+  min-height: 112px;
+
+  margin-left: 3rem;
 
   color: #ffffff;
 
   text-decoration: none;
-    min-height: 92px;
-
-  margin-left: 1rem;
 }
 
 
@@ -389,7 +389,7 @@
 
 
 .sasha-header-active-pursuit-name {
-  max-width: 110px;
+  max-width: 600px;
 
   margin-top: 0.2rem;
 
@@ -401,17 +401,9 @@
 
   font-size: 1rem;
   font-weight: 700;
+  line-height: 1.2;
 
-  overflow: hidden;
-
-  text-overflow: ellipsis;
-
-  white-space: nowrap;
-}
-
-
-.sasha-header-active-pursuit:hover {
-  opacity: 0.8;
+  text-align: right;
 }
 
 
