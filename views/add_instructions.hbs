@@ -1148,6 +1148,17 @@
           'instructionAnalysisToken'
         );
 
+        const workingContainer =
+  document.getElementById(
+    'sasha-instruction-working'
+  );
+
+
+const workingVideo =
+  document.getElementById(
+    'sasha-instruction-working-video'
+  );
+
 
       const csrfInput =
         document.querySelector(
@@ -1350,7 +1361,37 @@
 
         };
 
+/* =================================================
+   PREPARE SASHA WORKING VIDEO
+================================================== */
 
+if (
+  workingVideo
+) {
+
+  workingVideo.addEventListener(
+    'loadedmetadata',
+    () => {
+
+      workingVideo.currentTime =
+        0;
+
+      workingVideo.pause();
+
+    }
+  );
+
+
+  workingVideo.addEventListener(
+    'ended',
+    () => {
+
+      workingVideo.pause();
+
+    }
+  );
+
+}
       /* =================================================
          ASK SASHA TO ANALYZE FILES
       ================================================== */
@@ -1399,6 +1440,41 @@
 
             analysisStatusMessage.textContent =
               'Sasha is reviewing the uploaded document...';
+
+              if (
+  workingContainer &&
+  workingVideo
+) {
+
+  workingContainer.hidden =
+    false;
+
+  workingVideo.currentTime =
+    0;
+
+
+  const playPromise =
+    workingVideo.play();
+
+
+  if (
+    playPromise &&
+    typeof playPromise.catch ===
+      'function'
+  ) {
+
+    playPromise.catch(
+      () => {
+        /*
+         * Video playback should never prevent
+         * Sasha from analyzing the document.
+         */
+      }
+    );
+
+  }
+
+}
 
 
             analyzeButton.disabled =
@@ -1490,12 +1566,25 @@
                 '';
 
 
-              analysisStatus.hidden =
-                true;
+analysisStatus.hidden =
+  true;
 
 
-              analysisSuccess.hidden =
-                false;
+if (
+  workingContainer &&
+  workingVideo
+) {
+
+  workingVideo.pause();
+
+  workingContainer.hidden =
+    true;
+
+}
+
+
+analysisSuccess.hidden =
+  false;
 
 
               analysisSuccess.scrollIntoView(
@@ -1512,13 +1601,25 @@
               error
             ) {
 
-              analysisStatus.hidden =
-                true;
+analysisStatus.hidden =
+  true;
 
 
-              analysisSuccess.hidden =
-                true;
+if (
+  workingContainer &&
+  workingVideo
+) {
 
+  workingVideo.pause();
+
+  workingContainer.hidden =
+    true;
+
+}
+
+
+analysisSuccess.hidden =
+  true;
 
               analysisErrorMessage.textContent =
                 error.message ||

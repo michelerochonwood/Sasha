@@ -1249,3 +1249,38 @@ select.is-sasha-suggested option {
   }
 
 }
+
+
+
+/* =====================================================
+   SASHA REVIEWING INSTRUCTION RESOURCE
+===================================================== */
+
+.sasha-instruction-working {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  margin:
+    1.5rem
+    0;
+}
+
+
+.sasha-instruction-working[hidden] {
+  display: none;
+}
+
+
+.sasha-instruction-working-video {
+  display: block;
+
+  width:
+    min(
+      100%,
+      320px
+    );
+
+  height: auto;
+}
