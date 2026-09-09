@@ -370,14 +370,14 @@
 }
 
 .sasha-header-active-pursuit-client {
-  max-width: 420px;
+  max-width: 480px;
 
   color: #ffffff;
 
-  font-size: 0.72rem;
-  font-weight: 700;
+  font-size: 0.78rem;
+  font-weight: 800;
 
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
 
   text-align: right;
   text-transform: uppercase;
@@ -428,24 +428,6 @@
 
 
 
-
-.sasha-header-active-pursuit-name {
-  max-width: 600px;
-
-  margin-top: 0.2rem;
-
-  color:
-    var(
-      --sasha-pink,
-      #f282aa
-    );
-
-  font-size: 1rem;
-  font-weight: 700;
-  line-height: 1.2;
-
-  text-align: right;
-}
 
 
 /* =====================================================

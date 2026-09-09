@@ -638,6 +638,11 @@ app.use(
         .activePursuitName ||
       null;
 
+  res.locals.activePursuitClient =
+  req.session
+    .activePursuitClient ||
+  null;
+
     res.locals.currentYear =
       new Date()
         .getFullYear();
