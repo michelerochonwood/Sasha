@@ -406,6 +406,32 @@ router.get(
   }
 );
 
+router.get(
+  '/plan/pricing-review',
+  ensureOrganization,
+  (
+    req,
+    res
+  ) => {
+
+    return res.render(
+      'pricing_review_view',
+      {
+        layout:
+          'mainlayout',
+
+        pageTitle:
+          'Pricing Review | Sasha',
+
+        pursuitId:
+          req.query.pursuit ||
+          null
+      }
+    );
+
+  }
+);s
+
 
 
 
