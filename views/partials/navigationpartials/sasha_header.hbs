@@ -58,6 +58,29 @@
     {{/if}}
 
 
+    {{!-- ACTIVE PURSUIT --}}
+
+    {{#if activePursuitName}}
+
+      <a
+        href="/pursuit/{{activePursuitId}}"
+        class="sasha-header-active-pursuit"
+        aria-label="Return to active pursuit dashboard"
+      >
+
+        <span class="sasha-header-active-pursuit-label">
+          You are working on the
+        </span>
+
+        <span class="sasha-header-active-pursuit-name">
+          {{activePursuitName}} pursuit
+        </span>
+
+      </a>
+
+    {{/if}}
+
+
     {{!-- MOBILE MENU BUTTON --}}
 
     <button
@@ -252,28 +275,7 @@
 
   </nav>
 
-{{!-- ACTIVE PURSUIT --}}
 
-
-{{#if activePursuitName}}
-
-  <a
-    href="/pursuit/{{activePursuitId}}"
-    class="sasha-header-active-pursuit"
-    aria-label="Return to active pursuit dashboard"
-  >
-
-    <span class="sasha-header-active-pursuit-label">
-      You are working on the
-    </span>
-
-    <span class="sasha-header-active-pursuit-name">
-      {{activePursuitName}} pursuit
-    </span>
-
-  </a>
-
-{{/if}}
   {{!-- =================================================
        MOBILE NAVIGATION
   ================================================== --}}
@@ -323,6 +325,21 @@
     </a>
 
 
+    {{!-- ACTIVE PURSUIT --}}
+
+    {{#if activePursuitName}}
+
+      <a
+        href="/pursuit/{{activePursuitId}}"
+        aria-label="Return to active pursuit dashboard"
+      >
+        Active Pursuit:
+        {{activePursuitName}}
+      </a>
+
+    {{/if}}
+
+
     {{!-- ORGANIZATION ACCESS --}}
 
     {{#if isAuthenticated}}
@@ -361,5 +378,6 @@
     {{/if}}
 
   </nav>
+
 
 </header>
