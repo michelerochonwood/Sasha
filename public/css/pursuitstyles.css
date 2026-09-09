@@ -1864,19 +1864,24 @@ input[type="file"]::file-selector-button:hover {
 
 
 .sasha-pursuit-dashboard-container {
-  width:
-    min(
-      calc(
-        100% -
-        (var(--sasha-content-padding) * 2)
-      ),
-      var(--sasha-container-width)
-    );
+  width: 80vw;
+  max-width: none;
 
   margin:
     0 auto;
 }
 
+@media screen and (max-width: 1200px) {
+
+  .sasha-pursuit-dashboard-container {
+    width:
+      calc(
+        100% -
+        3rem
+      );
+  }
+
+}
 
 /* =====================================================
    BACK LINK
