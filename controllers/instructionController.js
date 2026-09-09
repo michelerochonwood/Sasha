@@ -824,7 +824,6 @@ function findCachedOpenAiFile(
   ) || null;
 
 }
-
 /* =====================================================
    GET OR CREATE VECTOR STORE
 ===================================================== */
@@ -834,22 +833,123 @@ async function getOrCreateVectorStore(
   organization
 ) {
 
-  if (
-    organization.aiSettings
-      ?.vectorStoreId
-  ) {
-
-    return organization
-      .aiSettings
-      .vectorStoreId;
-
-  }
-
-
   organization.aiSettings =
     organization.aiSettings ||
     {};
 
+
+  /* =====================================================
+     CHECK EXISTING VECTOR STORE
+  ===================================================== */
+
+  const existingVectorStoreId =
+    organization.aiSettings
+      .vectorStoreId ||
+    null;
+
+
+  if (
+    existingVectorStoreId
+  ) {
+
+    try {
+
+      console.log(
+        'CHECKING EXISTING VECTOR STORE:',
+        existingVectorStoreId
+      );
+
+
+      const existingVectorStore =
+        await client
+          .vectorStores
+          .retrieve(
+            existingVectorStoreId
+          );
+
+
+      if (
+        existingVectorStore &&
+        existingVectorStore.id
+      ) {
+
+        console.log(
+          'EXISTING VECTOR STORE VALID:',
+          existingVectorStore.id
+        );
+
+
+        organization.aiSettings
+          .vectorStoreStatus =
+            'ready';
+
+        organization.aiSettings
+          .vectorStoreError =
+            null;
+
+
+        await organization.save();
+
+
+        return existingVectorStore.id;
+
+      }
+
+    } catch (
+      error
+    ) {
+
+      /*
+       * A 404 means Mongo contains a vector-store ID
+       * that is no longer valid for the current
+       * OpenAI project.
+       */
+
+      if (
+        error.status ===
+          404
+      ) {
+
+        console.warn(
+          'STALE VECTOR STORE FOUND:',
+          existingVectorStoreId
+        );
+
+
+        organization.aiSettings
+          .vectorStoreId =
+            null;
+
+        organization.aiSettings
+          .vectorStoreStatus =
+            'missing';
+
+        organization.aiSettings
+          .vectorStoreError =
+            `Stored vector store ${existingVectorStoreId} was not available in the current OpenAI project. A replacement will be created.`;
+
+
+        await organization.save();
+
+      } else {
+
+        /*
+         * Do not hide authentication, permissions,
+         * network, or other OpenAI errors.
+         */
+
+        throw error;
+
+      }
+
+    }
+
+  }
+
+
+  /* =====================================================
+     CREATE NEW VECTOR STORE
+  ===================================================== */
 
   organization.aiSettings
     .vectorStoreStatus =
@@ -865,13 +965,21 @@ async function getOrCreateVectorStore(
 
   try {
 
+    console.log(
+      'CREATING NEW VECTOR STORE FOR:',
+      organization.organizationName
+    );
+
+
     const vectorStore =
-      await client.vectorStores.create(
-        {
-          name:
-            `Sasha Knowledge Base - ${organization.organizationName}`
-        }
-      );
+      await client
+        .vectorStores
+        .create(
+          {
+            name:
+              `Sasha Knowledge Base - ${organization.organizationName}`
+          }
+        );
 
 
     organization.aiSettings
@@ -896,6 +1004,12 @@ async function getOrCreateVectorStore(
 
 
     await organization.save();
+
+
+    console.log(
+      'NEW VECTOR STORE CREATED:',
+      vectorStore.id
+    );
 
 
     return vectorStore.id;
@@ -1155,7 +1269,20 @@ async (
         organizationId
       );
 
+console.log(
+  'INSTRUCTION ORGANIZATION:',
+  organization?._id?.toString()
+);
 
+console.log(
+  'INSTRUCTION ORGANIZATION NAME:',
+  organization?.organizationName
+);
+
+console.log(
+  'STORED VECTOR STORE:',
+  organization?.aiSettings?.vectorStoreId
+);
     if (!organization) {
 
       return res.status(404).render(
