@@ -432,6 +432,32 @@ router.get(
   }
 );
 
+router.get(
+  '/plan/proposal-graphics-review',
+  ensureOrganization,
+  (
+    req,
+    res
+  ) => {
+
+    return res.render(
+      'proposal_graphics_review_view',
+      {
+        layout:
+          'mainlayout',
+
+        pageTitle:
+          'Proposal Graphics Review | Sasha',
+
+        pursuitId:
+          req.query.pursuit ||
+          null
+      }
+    );
+
+  }
+);
+
 
 
 
