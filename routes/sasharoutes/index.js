@@ -512,6 +512,58 @@ router.get(
   }
 );
 
+router.get(
+  '/plan/red-team-review',
+  ensureOrganization,
+  (
+    req,
+    res
+  ) => {
+
+    return res.render(
+      'red_team_review_view',
+      {
+        layout:
+          'mainlayout',
+
+        pageTitle:
+          'Red Team Review | Sasha',
+
+        pursuitId:
+          req.query.pursuit ||
+          null
+      }
+    );
+
+  }
+);
+
+router.get(
+  '/plan/proofreading-process',
+  ensureOrganization,
+  (
+    req,
+    res
+  ) => {
+
+    return res.render(
+      'proofreading_process_view',
+      {
+        layout:
+          'mainlayout',
+
+        pageTitle:
+          'Proposal Proofreading Process | Sasha',
+
+        pursuitId:
+          req.query.pursuit ||
+          null
+      }
+    );
+
+  }
+);
+
 
 
 
