@@ -486,6 +486,33 @@ router.get(
 );
 
 
+router.get(
+  '/plan/pink-team-review',
+  ensureOrganization,
+  (
+    req,
+    res
+  ) => {
+
+    return res.render(
+      'pink_team_review_view',
+      {
+        layout:
+          'mainlayout',
+
+        pageTitle:
+          'Pink Team Review | Sasha',
+
+        pursuitId:
+          req.query.pursuit ||
+          null
+      }
+    );
+
+  }
+);
+
+
 
 
 
