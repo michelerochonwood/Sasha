@@ -89,6 +89,10 @@ req.session.activePursuitId =
 req.session.activePursuitName =
   proposal.proposalName;
 
+req.session.activePursuitClient =
+  proposal.clientName ||
+  '';
+
   /* =================================================
    PURSUIT DOCUMENTS
 ================================================== */

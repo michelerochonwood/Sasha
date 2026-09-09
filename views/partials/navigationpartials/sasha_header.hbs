@@ -58,27 +58,35 @@
     {{/if}}
 
 
-    {{!-- ACTIVE PURSUIT --}}
+{{!-- ACTIVE PURSUIT --}}
 
-    {{#if activePursuitName}}
+{{#if activePursuitName}}
 
-      <a
-        href="/pursuit/{{activePursuitId}}"
-        class="sasha-header-active-pursuit"
-        aria-label="Return to active pursuit dashboard"
-      >
+  <a
+    href="/pursuit/{{activePursuitId}}"
+    class="sasha-header-active-pursuit"
+    aria-label="Return to active pursuit dashboard"
+  >
 
-        <span class="sasha-header-active-pursuit-label">
-          You are working on the
-        </span>
+    {{#if activePursuitClient}}
 
-        <span class="sasha-header-active-pursuit-name">
-          {{activePursuitName}} pursuit
-        </span>
-
-      </a>
+      <span class="sasha-header-active-pursuit-client">
+        {{activePursuitClient}}
+      </span>
 
     {{/if}}
+
+    <span class="sasha-header-active-pursuit-label">
+      You are working on the
+    </span>
+
+    <span class="sasha-header-active-pursuit-name">
+      {{activePursuitName}} pursuit
+    </span>
+
+  </a>
+
+{{/if}}
 
 
     {{!-- MOBILE MENU BUTTON --}}
