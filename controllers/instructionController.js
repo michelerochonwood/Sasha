@@ -920,9 +920,6 @@ async function getOrCreateVectorStore(
           .vectorStoreId =
             null;
 
-        organization.aiSettings
-          .vectorStoreStatus =
-            'missing';
 
         organization.aiSettings
           .vectorStoreError =
