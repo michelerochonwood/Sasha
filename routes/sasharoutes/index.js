@@ -459,6 +459,33 @@ router.get(
 );
 
 
+router.get(
+  '/plan/blue-team-review',
+  ensureOrganization,
+  (
+    req,
+    res
+  ) => {
+
+    return res.render(
+      'blue_team_review_view',
+      {
+        layout:
+          'mainlayout',
+
+        pageTitle:
+          'Blue Team Review | Sasha',
+
+        pursuitId:
+          req.query.pursuit ||
+          null
+      }
+    );
+
+  }
+);
+
+
 
 
 
