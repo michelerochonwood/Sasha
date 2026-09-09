@@ -252,7 +252,28 @@
 
   </nav>
 
+{{!-- ACTIVE PURSUIT --}}
 
+
+{{#if activePursuitName}}
+
+  <a
+    href="/pursuit/{{activePursuitId}}"
+    class="sasha-header-active-pursuit"
+    aria-label="Return to active pursuit dashboard"
+  >
+
+    <span class="sasha-header-active-pursuit-label">
+      You are working on the
+    </span>
+
+    <span class="sasha-header-active-pursuit-name">
+      {{activePursuitName}} pursuit
+    </span>
+
+  </a>
+
+{{/if}}
   {{!-- =================================================
        MOBILE NAVIGATION
   ================================================== --}}

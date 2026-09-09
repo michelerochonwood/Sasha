@@ -623,17 +623,24 @@ app.use(
           .organizationId
       );
 
-
     res.locals.organizationName =
       req.session
         .organizationName ||
       null;
 
+    res.locals.activePursuitId =
+      req.session
+        .activePursuitId ||
+      null;
+
+    res.locals.activePursuitName =
+      req.session
+        .activePursuitName ||
+      null;
 
     res.locals.currentYear =
       new Date()
         .getFullYear();
-
 
     next();
 

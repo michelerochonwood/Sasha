@@ -339,12 +339,81 @@
 .sasha-header-home:focus-visible,
 .sasha-header-login:focus-visible,
 .sasha-header-organization:focus-visible,
+.sasha-header-active-pursuit:focus-visible,
 .sasha-mobile-menu-button:focus-visible {
   outline:
     3px solid
     var(--sasha-pink, #f282aa);
 
   outline-offset: 4px;
+}
+
+
+/* =====================================================
+   ACTIVE PURSUIT
+===================================================== */
+
+.sasha-header-active-pursuit {
+  display: flex;
+
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+
+
+  color: #ffffff;
+
+  text-decoration: none;
+    min-height: 92px;
+
+  margin-left: 1rem;
+}
+
+
+.sasha-header-active-pursuit-label {
+  margin: 0;
+
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.72
+    );
+
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.sasha-header-active-pursuit-label {
+  display: none;
+}
+
+
+.sasha-header-active-pursuit-name {
+  max-width: 110px;
+
+  margin-top: 0.2rem;
+
+  color:
+    var(
+      --sasha-pink,
+      #f282aa
+    );
+
+  font-size: 1rem;
+  font-weight: 700;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+
+.sasha-header-active-pursuit:hover {
+  opacity: 0.8;
 }
 
 
