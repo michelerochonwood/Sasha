@@ -369,20 +369,61 @@
   text-decoration: none;
 }
 
+.sasha-header-active-pursuit-client {
+  max-width: 420px;
+
+  color: #ffffff;
+
+  font-size: 0.72rem;
+  font-weight: 700;
+
+  letter-spacing: 0.05em;
+
+  text-align: right;
+  text-transform: uppercase;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sasha-header-active-pursuit-name {
+  max-width: 420px;
+
+  margin-top: 0.15rem;
+
+  color:
+    var(
+      --sasha-pink,
+      #f282aa
+    );
+
+  font-size: 1rem;
+  font-weight: 700;
+
+  text-align: right;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 
 .sasha-header-active-pursuit-label {
-  margin: 0;
+  margin-top: 0.15rem;
 
   color:
     rgba(
       255,
       255,
       255,
-      0.72
+      0.65
     );
 
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   font-weight: 600;
+
+  text-transform: uppercase;
 }
 
 
