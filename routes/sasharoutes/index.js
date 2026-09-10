@@ -219,6 +219,12 @@ router.get(
   planController.getPlanPursuit
 );
 
+router.post(
+  '/plan/practice-decision',
+  ensureOrganization,
+  planController.postPracticeDecision
+);
+
 
 /* =====================================================
    PLAN | WIN STRATEGY CHAT

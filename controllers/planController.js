@@ -17,6 +17,305 @@ const sashaAiService = require(
 
 
 
+const PRACTICE_KEYS = [
+  'ten-steps',
+  'pink-team',
+  'red-team',
+  'blue-team',
+  'graphics',
+  'evidence-review',
+  'personnel-review',
+  'pricing-review',
+  'proofreading',
+  'methodology',
+  'kickoff',
+  'detail-schedule'
+];
+
+
+/* =====================================================
+   BUILD PRACTICE DECISIONS FOR PLAN VIEW
+===================================================== */
+
+const buildPracticeDecisions = (
+  proposal
+) => {
+
+  const savedPractices =
+    proposal &&
+    proposal.plan &&
+    proposal.plan.practices &&
+    typeof proposal.plan.practices ===
+      'object'
+      ? proposal.plan.practices
+      : {};
+
+
+  return {
+
+    tenSteps:
+      savedPractices[
+        'ten-steps'
+      ] === true,
+
+    pinkTeam:
+      savedPractices[
+        'pink-team'
+      ] === true,
+
+    redTeam:
+      savedPractices[
+        'red-team'
+      ] === true,
+
+    blueTeam:
+      savedPractices[
+        'blue-team'
+      ] === true,
+
+    graphics:
+      savedPractices[
+        'graphics'
+      ] === true,
+
+    evidenceReview:
+      savedPractices[
+        'evidence-review'
+      ] === true,
+
+    personnelReview:
+      savedPractices[
+        'personnel-review'
+      ] === true,
+
+    pricingReview:
+      savedPractices[
+        'pricing-review'
+      ] === true,
+
+    proofreading:
+      savedPractices[
+        'proofreading'
+      ] === true,
+
+    methodology:
+      savedPractices[
+        'methodology'
+      ] === true,
+
+    kickoff:
+      savedPractices[
+        'kickoff'
+      ] === true,
+
+    detailSchedule:
+      savedPractices[
+        'detail-schedule'
+      ] === true
+
+  };
+
+};
+
+/* =====================================================
+   SAVE PRACTICE DECISION
+===================================================== */
+
+exports.postPracticeDecision =
+async (
+  req,
+  res,
+  next
+) => {
+
+  try {
+
+    /* =================================================
+       REQUEST VALUES
+    ================================================== */
+
+    const pursuitId =
+      typeof req.body.pursuitId ===
+        'string'
+        ? req.body.pursuitId.trim()
+        : '';
+
+
+    const practiceKey =
+      typeof req.body.practiceKey ===
+        'string'
+        ? req.body.practiceKey.trim()
+        : '';
+
+
+    const decision =
+      typeof req.body.decision ===
+        'string'
+        ? req.body.decision.trim().toLowerCase()
+        : 'no';
+
+
+    /* =================================================
+       VALIDATE REQUEST
+    ================================================== */
+
+    if (
+      !pursuitId
+    ) {
+
+      return res.redirect(
+        '/pursuits'
+      );
+
+    }
+
+
+    if (
+      !PRACTICE_KEYS.includes(
+        practiceKey
+      )
+    ) {
+
+      return res.status(400).send(
+        'Invalid proposal practice.'
+      );
+
+    }
+
+
+    if (
+      decision !== 'yes' &&
+      decision !== 'no'
+    ) {
+
+      return res.status(400).send(
+        'Invalid practice decision.'
+      );
+
+    }
+
+
+    /* =================================================
+       FIND PURSUIT
+    ================================================== */
+
+    const proposal =
+      await Proposal.findOne({
+        _id:
+          pursuitId,
+
+        organization:
+          req.session.organizationId
+      });
+
+
+    if (
+      !proposal
+    ) {
+
+      return res.status(404).send(
+        'Pursuit not found.'
+      );
+
+    }
+
+
+    /* =================================================
+       ENSURE PLAN EXISTS
+    ================================================== */
+
+    if (
+      !proposal.plan ||
+      typeof proposal.plan !==
+        'object'
+    ) {
+
+      proposal.plan =
+        {};
+
+    }
+
+
+    /* =================================================
+       ENSURE PRACTICES EXISTS
+    ================================================== */
+
+    if (
+      !proposal.plan.practices ||
+      typeof proposal.plan.practices !==
+        'object'
+    ) {
+
+      proposal.plan.practices =
+        {};
+
+    }
+
+
+    /* =================================================
+       SAVE PRACTICE DECISION
+
+       true  = selected
+       false = not selected
+    ================================================== */
+
+    proposal.plan.practices[
+      practiceKey
+    ] =
+      decision === 'yes';
+
+
+    proposal.markModified(
+      'plan.practices'
+    );
+
+
+    await proposal.save();
+
+
+    /* =================================================
+       RETURN TO SUBMITTING PAGE
+    ================================================== */
+
+    const referringPage =
+      req.get(
+        'referer'
+      );
+
+
+    if (
+      referringPage
+    ) {
+
+      return res.redirect(
+        referringPage
+      );
+
+    }
+
+
+    return res.redirect(
+      `/plan?pursuit=${proposal._id}`
+    );
+
+  }
+  catch (
+    error
+  ) {
+
+    console.error(
+      'SAVE PRACTICE DECISION FAILED:',
+      error
+    );
+
+
+    return next(
+      error
+    );
+
+  }
+
+};
 
 /* =====================================================
    GET PLAN | WIN STRATEGY
@@ -382,6 +681,15 @@ const planMessages =
   )
     ? proposal.planMessages
     : [];
+
+    /* =================================================
+   PREPARE PRACTICE DECISIONS
+================================================= */
+
+const practiceDecisions =
+  buildPracticeDecisions(
+    proposal
+  );
     /* =================================================
        RENDER
     ================================================== */
@@ -417,7 +725,9 @@ const planMessages =
 
         isUsualEffort,
 
-        isFullEffort,
+  isFullEffort,
+
+practiceDecisions,
 
         planMessages
       }
@@ -6205,9 +6515,6 @@ proposal.markModified(
 
 };
 
-/* =====================================================
-   DISMISS CHANGE IMPACT
-===================================================== */
 
 exports.dismissChangeImpact =
 async (

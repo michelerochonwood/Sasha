@@ -1411,6 +1411,125 @@
 
     </section>
 
+    {{!-- =================================================
+     DECISION
+================================================== --}}
+
+<section
+  class="sasha-practice-page-section
+         sasha-practice-page-decision"
+  aria-labelledby="red-team-review-decision"
+>
+
+  <div class="sasha-practice-decision-panel">
+
+    <div>
+
+      <p class="sasha-practice-page-kicker">
+        ADD TO THIS PURSUIT?
+      </p>
+
+      <h2 id="tred-team-decision">
+        Would you like to use a Red Team review?
+      </h2>
+
+      <p>
+        Sasha will use this choice when creating the proposal
+        schedule and will include this practice if you select Yes.
+      </p>
+
+    </div>
+
+
+    <form
+      method="POST"
+      action="/plan/practice-decision"
+      class="sasha-practice-decision-form"
+    >
+
+      {{#if csrfToken}}
+
+        <input
+          type="hidden"
+          name="_csrf"
+          value="{{csrfToken}}"
+        >
+
+      {{/if}}
+
+
+      <input
+        type="hidden"
+        name="pursuitId"
+        value="{{proposal._id}}"
+      >
+
+
+      <input
+        type="hidden"
+        name="practiceKey"
+        value="red_team"
+      >
+
+
+      <fieldset class="sasha-practice-page-options">
+
+        <legend class="visually-hidden">
+          Use a Red Team Review
+        </legend>
+
+
+<label>
+
+  <input
+    type="radio"
+    name="decision"
+    value="yes"
+    {{#if practiceSelected}}
+      checked
+    {{/if}}
+  >
+
+  <span>
+    Yes
+  </span>
+
+</label>
+
+
+<label>
+
+  <input
+    type="radio"
+    name="decision"
+    value="no"
+    {{#unless practiceSelected}}
+      checked
+    {{/unless}}
+  >
+
+  <span>
+    No
+  </span>
+
+</label>
+
+      </fieldset>
+
+
+      <button
+        type="submit"
+        class="sasha-plan-card-action"
+      >
+        Save Choice
+      </button>
+
+    </form>
+
+  </div>
+
+</section>
+
 
     <!-- ============================================
          RETURN
