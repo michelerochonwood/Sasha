@@ -393,26 +393,100 @@ function removeExpiredAnalyses(
 ===================================================== */
 
 exports.getAddInstructions =
-(
+async (
   req,
-  res
+  res,
+  next
 ) => {
 
-  return res.render(
-    'add_instructions',
-    {
-      layout:
-        'mainlayout',
+  try {
 
-      pageTitle:
-        'Add Instructions | Sasha',
+    /* =================================================
+       ORGANIZATION
+    ================================================== */
 
-      csrfToken:
-        req.csrfToken
-          ? req.csrfToken()
-          : null
+    const organizationId =
+      req.session.organizationId;
+
+
+    if (
+      !organizationId
+    ) {
+
+      return res.status(401).render(
+        'add_instructions',
+        {
+          layout:
+            'mainlayout',
+
+          pageTitle:
+            'Add Instructions | Sasha',
+
+          errorMessage:
+            'Please log in before viewing organizational resources.',
+
+          resources:
+            []
+        }
+      );
+
     }
-  );
+
+
+    /* =================================================
+       LOAD EXISTING RESOURCES
+    ================================================== */
+
+    const resources =
+      await InstructionResource.find({
+        organization:
+          organizationId
+      })
+        .sort({
+          createdAt:
+            -1
+        })
+        .lean();
+
+
+    /* =================================================
+       RENDER
+    ================================================== */
+
+    return res.render(
+      'add_instructions',
+      {
+        layout:
+          'mainlayout',
+
+        pageTitle:
+          'Add Instructions | Sasha',
+
+        csrfToken:
+          req.csrfToken
+            ? req.csrfToken()
+            : null,
+
+        resources
+      }
+    );
+
+  }
+  catch (
+    error
+  ) {
+
+    console.error(
+      'LOAD INSTRUCTION RESOURCES FAILED:',
+      error
+    );
+
+
+    return next(
+      error
+    );
+
+  }
 
 };
 

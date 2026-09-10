@@ -60,6 +60,287 @@
 
 
     {{!-- =================================================
+     EXISTING RESOURCES
+================================================== --}}
+
+<section
+  class="sasha-instruction-library"
+  aria-labelledby="sasha-instruction-library-heading"
+>
+
+  <header class="sasha-instruction-library-header">
+
+    <div>
+
+      <p class="sasha-form-eyebrow">
+        Existing knowledge
+      </p>
+
+      <h2 id="sasha-instruction-library-heading">
+        Resources Already Added
+      </h2>
+
+      <p>
+        Review the instructions and reference materials already
+        available to Sasha for your organization.
+      </p>
+
+    </div>
+
+
+    {{#if resources.length}}
+
+      <span class="sasha-instruction-library-count">
+        {{resources.length}} resources
+      </span>
+
+    {{/if}}
+
+  </header>
+
+
+  {{#if resources.length}}
+
+    <div class="sasha-instruction-library-list">
+
+      {{#each resources}}
+
+        <details class="sasha-instruction-library-item">
+
+          <summary class="sasha-instruction-library-summary">
+
+            <div>
+
+              <strong>
+                {{this.resourceTitle}}
+              </strong>
+
+              <span>
+                {{this.resourceCategory}}
+              </span>
+
+            </div>
+
+
+            <span class="sasha-instruction-library-status">
+              {{this.status}}
+            </span>
+
+          </summary>
+
+
+          <div class="sasha-instruction-library-content">
+
+            {{#if this.resourceDescription}}
+
+              <div class="sasha-instruction-library-field">
+
+                <strong>
+                  Description
+                </strong>
+
+                <p>
+                  {{this.resourceDescription}}
+                </p>
+
+              </div>
+
+            {{/if}}
+
+
+            <div class="sasha-instruction-library-meta">
+
+              {{#if this.useType}}
+
+                <div>
+
+                  <span>
+                    Use
+                  </span>
+
+                  <strong>
+                    {{this.useType}}
+                  </strong>
+
+                </div>
+
+              {{/if}}
+
+
+              {{#if this.authorityLevel}}
+
+                <div>
+
+                  <span>
+                    Authority
+                  </span>
+
+                  <strong>
+                    {{this.authorityLevel}}
+                  </strong>
+
+                </div>
+
+              {{/if}}
+
+
+              {{#if this.confidentiality}}
+
+                <div>
+
+                  <span>
+                    Confidentiality
+                  </span>
+
+                  <strong>
+                    {{this.confidentiality}}
+                  </strong>
+
+                </div>
+
+              {{/if}}
+
+
+              {{#if this.documentOwner}}
+
+                <div>
+
+                  <span>
+                    Owner
+                  </span>
+
+                  <strong>
+                    {{this.documentOwner}}
+                  </strong>
+
+                </div>
+
+              {{/if}}
+
+            </div>
+
+
+            {{#if this.usageInstructions}}
+
+              <div class="sasha-instruction-library-field">
+
+                <strong>
+                  Instructions for Sasha
+                </strong>
+
+                <p>
+                  {{this.usageInstructions}}
+                </p>
+
+              </div>
+
+            {{/if}}
+
+
+            {{#if this.limitations}}
+
+              <div class="sasha-instruction-library-field">
+
+                <strong>
+                  Limitations
+                </strong>
+
+                <p>
+                  {{this.limitations}}
+                </p>
+
+              </div>
+
+            {{/if}}
+
+
+            {{#if this.resourceKeywords.length}}
+
+              <div class="sasha-instruction-library-keywords">
+
+                <strong>
+                  Keywords
+                </strong>
+
+                <div>
+
+                  {{#each this.resourceKeywords}}
+
+                    <span>
+                      {{this}}
+                    </span>
+
+                  {{/each}}
+
+                </div>
+
+              </div>
+
+            {{/if}}
+
+
+            {{#if this.resourceFiles.length}}
+
+              <div class="sasha-instruction-library-files">
+
+                <strong>
+                  Files
+                </strong>
+
+                <div class="sasha-instruction-library-file-list">
+
+                  {{#each this.resourceFiles}}
+
+                    <a
+                      href="{{this.url}}"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="sasha-instruction-library-file"
+                    >
+                      {{#if this.originalFilename}}
+                        {{this.originalFilename}}
+                      {{else}}
+                        {{this.filename}}
+                      {{/if}}
+                    </a>
+
+                  {{/each}}
+
+                </div>
+
+              </div>
+
+            {{/if}}
+
+          </div>
+
+        </details>
+
+      {{/each}}
+
+    </div>
+
+  {{else}}
+
+    <div class="sasha-instruction-library-empty">
+
+      <p>
+        No organizational resources have been added yet.
+      </p>
+
+      <p>
+        Add the first resource below to begin building Sasha's
+        proposal knowledge base.
+      </p>
+
+    </div>
+
+  {{/if}}
+
+</section>
+
+
+    {{!-- =================================================
          MAIN FORM
     ================================================== --}}
 
