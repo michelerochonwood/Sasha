@@ -1284,3 +1284,406 @@ select.is-sasha-suggested option {
 
   height: auto;
 }
+
+
+/* =====================================================
+   SASHA | EXISTING INSTRUCTION RESOURCE LIBRARY
+===================================================== */
+
+.sasha-instruction-library {
+  margin: 3rem 0 4rem;
+}
+
+
+.sasha-instruction-library-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+
+.sasha-instruction-library-header > div {
+  max-width: 760px;
+}
+
+
+.sasha-instruction-library-header h2 {
+  margin: 0.35rem 0 0.75rem;
+}
+
+
+.sasha-instruction-library-header p {
+  margin-bottom: 0;
+}
+
+
+.sasha-instruction-library-count {
+  flex-shrink: 0;
+  padding: 0.45rem 0.85rem;
+
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 999px;
+
+  background: rgba(255, 255, 255, 0.1);
+
+  font-size: 0.85rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+
+/* =====================================================
+   RESOURCE LIST
+===================================================== */
+
+.sasha-instruction-library-list {
+  display: grid;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+
+/* =====================================================
+   RESOURCE CARD
+===================================================== */
+
+.sasha-instruction-library-item {
+  overflow: hidden;
+
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 12px;
+
+  background: rgba(255, 255, 255, 0.08);
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+
+.sasha-instruction-library-item:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+
+.sasha-instruction-library-item[open] {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.38);
+}
+
+
+/* =====================================================
+   RESOURCE SUMMARY
+===================================================== */
+
+.sasha-instruction-library-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+
+  padding: 1rem 1.25rem;
+
+  cursor: pointer;
+  list-style: none;
+}
+
+
+.sasha-instruction-library-summary::-webkit-details-marker {
+  display: none;
+}
+
+
+.sasha-instruction-library-summary::before {
+  content: "+";
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 26px;
+
+  width: 26px;
+  height: 26px;
+
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 50%;
+
+  font-size: 1.15rem;
+  font-weight: 600;
+  line-height: 1;
+}
+
+
+.sasha-instruction-library-item[open]
+.sasha-instruction-library-summary::before {
+  content: "−";
+}
+
+
+.sasha-instruction-library-summary > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1;
+  min-width: 0;
+}
+
+
+.sasha-instruction-library-summary strong {
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+
+.sasha-instruction-library-summary > div > span {
+  font-size: 0.8rem;
+  opacity: 0.75;
+  text-transform: capitalize;
+}
+
+
+/* =====================================================
+   STATUS
+===================================================== */
+
+.sasha-instruction-library-status {
+  flex-shrink: 0;
+
+  padding: 0.3rem 0.7rem;
+
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 999px;
+
+  background: rgba(255, 255, 255, 0.1);
+
+  font-size: 0.72rem;
+  font-weight: 700;
+
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+
+/* =====================================================
+   EXPANDED RESOURCE CONTENT
+===================================================== */
+
+.sasha-instruction-library-content {
+  padding: 0 1.25rem 1.5rem 4.5rem;
+
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+
+.sasha-instruction-library-field {
+  margin-top: 1.25rem;
+}
+
+
+.sasha-instruction-library-field > strong {
+  display: block;
+  margin-bottom: 0.35rem;
+
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  opacity: 0.75;
+}
+
+
+.sasha-instruction-library-field p {
+  margin: 0;
+  line-height: 1.6;
+}
+
+
+/* =====================================================
+   RESOURCE METADATA
+===================================================== */
+
+.sasha-instruction-library-meta {
+  display: grid;
+  grid-template-columns:
+    repeat(
+      auto-fit,
+      minmax(150px, 1fr)
+    );
+
+  gap: 0.75rem;
+
+  margin-top: 1.25rem;
+}
+
+
+.sasha-instruction-library-meta > div {
+  padding: 0.75rem;
+
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+
+  background: rgba(0, 0, 0, 0.08);
+}
+
+
+.sasha-instruction-library-meta span {
+  display: block;
+  margin-bottom: 0.25rem;
+
+  font-size: 0.68rem;
+  font-weight: 700;
+
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+
+  opacity: 0.65;
+}
+
+
+.sasha-instruction-library-meta strong {
+  font-size: 0.85rem;
+  line-height: 1.35;
+  text-transform: capitalize;
+}
+
+
+/* =====================================================
+   KEYWORDS
+===================================================== */
+
+.sasha-instruction-library-keywords {
+  margin-top: 1.25rem;
+}
+
+
+.sasha-instruction-library-keywords > strong {
+  display: block;
+  margin-bottom: 0.5rem;
+
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  opacity: 0.75;
+}
+
+
+.sasha-instruction-library-keywords > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+
+.sasha-instruction-library-keywords span {
+  padding: 0.3rem 0.6rem;
+
+  border-radius: 999px;
+
+  background: rgba(255, 255, 255, 0.12);
+
+  font-size: 0.75rem;
+}
+
+
+/* =====================================================
+   RESOURCE FILES
+===================================================== */
+
+.sasha-instruction-library-files {
+  margin-top: 1.25rem;
+}
+
+
+.sasha-instruction-library-files > strong {
+  display: block;
+  margin-bottom: 0.5rem;
+
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  opacity: 0.75;
+}
+
+
+.sasha-instruction-library-file-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+
+.sasha-instruction-library-file {
+  display: inline-flex;
+  align-items: center;
+
+  padding: 0.45rem 0.7rem;
+
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 7px;
+
+  background: rgba(255, 255, 255, 0.08);
+
+  font-size: 0.8rem;
+  font-weight: 600;
+
+  text-decoration: none;
+}
+
+
+.sasha-instruction-library-file:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+
+/* =====================================================
+   EMPTY LIBRARY
+===================================================== */
+
+.sasha-instruction-library-empty {
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+
+  border: 1px dashed rgba(255, 255, 255, 0.3);
+  border-radius: 12px;
+
+  text-align: center;
+}
+
+
+.sasha-instruction-library-empty p {
+  margin: 0.25rem 0;
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media (max-width: 700px) {
+
+  .sasha-instruction-library-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+
+  .sasha-instruction-library-summary {
+    gap: 0.75rem;
+  }
+
+
+  .sasha-instruction-library-content {
+    padding-left: 1.25rem;
+  }
+
+
+  .sasha-instruction-library-status {
+    display: none;
+  }
+
+}
