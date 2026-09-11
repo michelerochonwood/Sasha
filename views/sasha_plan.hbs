@@ -2184,6 +2184,211 @@
   {{/if}}
 
 </section>
+
+
+{{!-- =================================================
+     SUGGESTED SUPPORTING MATERIALS
+================================================= --}}
+
+<section class="sasha-plan-section">
+
+  <header class="sasha-plan-section-heading">
+
+    <div>
+
+      <p class="sasha-work-eyebrow">
+        Supporting proposal materials
+      </p>
+
+      <h2>
+        Suggested Supporting Materials
+      </h2>
+
+    </div>
+
+    <p>
+      Appendices, graphics, separate submissions, portal items
+      and other supporting materials are planned separately from
+      the main proposal outline.
+    </p>
+
+  </header>
+
+
+  {{#if supportingMaterials.length}}
+
+    <div class="sasha-supporting-materials-list">
+
+      {{#each supportingMaterials}}
+
+        <article class="sasha-supporting-material-card">
+
+          <header class="sasha-supporting-material-heading">
+
+            <div>
+
+              <span class="sasha-supporting-material-category">
+
+                {{#ifEquals this.category "required_appendix"}}
+                  Required Appendix
+                {{/ifEquals}}
+
+                {{#ifEquals this.category "recommended_appendix"}}
+                  Recommended Appendix
+                {{/ifEquals}}
+
+                {{#ifEquals this.category "conditional_appendix"}}
+                  Conditional Appendix
+                {{/ifEquals}}
+
+                {{#ifEquals this.category "separate_submission"}}
+                  Separate Submission
+                {{/ifEquals}}
+
+                {{#ifEquals this.category "portal_submission"}}
+                  Portal Submission
+                {{/ifEquals}}
+
+                {{#ifEquals this.category "pre_award"}}
+                  Pre-Award Requirement
+                {{/ifEquals}}
+
+                {{#ifEquals this.category "post_award"}}
+                  Post-Award Requirement
+                {{/ifEquals}}
+
+              </span>
+
+              <h3>
+                {{this.title}}
+              </h3>
+
+            </div>
+
+
+            {{#if this.status}}
+
+              <span
+                class="
+                  sasha-supporting-material-status
+                  is-{{this.status}}
+                "
+              >
+                {{this.status}}
+              </span>
+
+            {{/if}}
+
+          </header>
+
+
+          {{#if this.reason}}
+
+            <p class="sasha-supporting-material-reason">
+              {{this.reason}}
+            </p>
+
+          {{/if}}
+
+
+          <div class="sasha-supporting-material-meta">
+
+            {{#if this.relatedSection}}
+
+              <div>
+
+                <span>
+                  Related proposal section
+                </span>
+
+                <strong>
+                  {{this.relatedSection}}
+                </strong>
+
+              </div>
+
+            {{/if}}
+
+
+            {{#if this.rfpBasis}}
+
+              <div>
+
+                <span>
+                  RFP basis
+                </span>
+
+                <strong>
+                  {{this.rfpBasis}}
+                </strong>
+
+              </div>
+
+            {{/if}}
+
+
+            {{#if this.pageCountTreatment}}
+
+              <div>
+
+                <span>
+                  Page-count treatment
+                </span>
+
+                <strong>
+                  {{this.pageCountTreatment}}
+                </strong>
+
+              </div>
+
+            {{/if}}
+
+          </div>
+
+
+          {{#if this.pageCountBasis}}
+
+            <p class="sasha-supporting-material-note">
+              <strong>
+                Page-count basis:
+              </strong>
+
+              {{this.pageCountBasis}}
+            </p>
+
+          {{/if}}
+
+
+          {{#if this.notes}}
+
+            <p class="sasha-supporting-material-note">
+              {{this.notes}}
+            </p>
+
+          {{/if}}
+
+        </article>
+
+      {{/each}}
+
+    </div>
+
+  {{else}}
+
+    <div class="sasha-plan-tasks-empty">
+
+      <p>
+        Sasha has not identified any supporting materials yet.
+        Appendices, graphics, separate submissions and portal
+        requirements will appear here without becoming part of
+        the main proposal outline.
+      </p>
+
+    </div>
+
+  {{/if}}
+
+</section>
     {{!-- =================================================
          EVIDENCE
     ================================================== --}}

@@ -568,6 +568,17 @@ const outline =
 
     }
 
+    /* =================================================
+   PREPARE SUPPORTING MATERIALS
+================================================= */
+
+const supportingMaterials =
+  Array.isArray(
+    proposal.supportingMaterials
+  )
+    ? proposal.supportingMaterials
+    : [];
+
 /* =================================================
    PREPARE CHANGE IMPACTS
 ================================================= */
@@ -708,6 +719,7 @@ const practiceDecisions =
         plan,
 
         winStrategy,
+        supportingMaterials,
 
         outline,
 
@@ -939,11 +951,18 @@ const pursuitContext = {
     proposal.winStrategy ||
     {},
 
-  outline:
-    proposal.outline ||
-    {},
+outline:
+  proposal.outline ||
+  {},
 
-  userOverrides:
+supportingMaterials:
+  Array.isArray(
+    proposal.supportingMaterials
+  )
+    ? proposal.supportingMaterials
+    : [],
+
+userOverrides:
     activeUserOverrides,
 
   proposalManager:

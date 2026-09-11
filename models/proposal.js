@@ -556,10 +556,109 @@ goNoGo: {
 
 
 
-    outline: {
-      type: mongoose.Schema.Types.Mixed,
-      default: {}
+outline: {
+  type: mongoose.Schema.Types.Mixed,
+  default: {}
+},
+
+
+/* =====================================================
+   SUPPORTING MATERIALS
+===================================================== */
+
+supportingMaterials: [
+  {
+
+    title: {
+      type: String,
+      trim: true,
+      default: ''
     },
+
+
+    category: {
+      type: String,
+
+      enum: [
+        'required_appendix',
+        'recommended_appendix',
+        'conditional_appendix',
+        'separate_submission',
+        'portal_submission',
+        'pre_award',
+        'post_award'
+      ],
+
+      required: true
+    },
+
+
+    reason: {
+      type: String,
+      trim: true,
+      default: ''
+    },
+
+
+    rfpBasis: {
+      type: String,
+      trim: true,
+      default: ''
+    },
+
+
+    relatedSection: {
+      type: String,
+      trim: true,
+      default: ''
+    },
+
+
+    pageCountTreatment: {
+      type: String,
+
+      enum: [
+        'counted',
+        'excluded',
+        'not_applicable',
+        'unknown'
+      ],
+
+      default: 'unknown'
+    },
+
+
+    pageCountBasis: {
+      type: String,
+      trim: true,
+      default: ''
+    },
+
+
+    status: {
+      type: String,
+
+      enum: [
+        'suggested',
+        'accepted',
+        'rejected',
+        'required',
+        'completed'
+      ],
+
+      default: 'suggested'
+    },
+
+
+    notes: {
+      type: String,
+      trim: true,
+      default: ''
+    }
+
+  }
+],
+
 
     winStrategy: {
       type: mongoose.Schema.Types.Mixed,
