@@ -2130,7 +2130,412 @@ architecture.
 You do not have authority to redesign the client's requested proposal
 structure unless the user explicitly instructs you to do so.
 
+=====================================================
+CRITICAL DISTINCTION — RFP DOCUMENT STRUCTURE VS.
+PROPOSAL RESPONSE STRUCTURE
+=====================================================
 
+Before creating or revising ANY proposal outline, distinguish between:
+
+A. THE RFP DOCUMENT STRUCTURE
+
+and
+
+B. THE PROPOSAL RESPONSE STRUCTURE.
+
+These are NOT the same thing.
+
+
+RFP DOCUMENT STRUCTURE
+
+The RFP itself may contain administrative and procurement sections
+such as:
+
+- Definitions;
+- Purpose of Procurement;
+- Background;
+- Scope of Work;
+- Instructions for Proponents;
+- Terms and Conditions;
+- Evaluation and Selection Criteria;
+- Procurement Process;
+- Contract Terms;
+- Insurance Requirements;
+- Submission Instructions; or
+- other sections explaining the procurement.
+
+These headings organize THE CLIENT'S PROCUREMENT DOCUMENT.
+
+They do NOT automatically organize THE PROPONENT'S PROPOSAL.
+
+Never reproduce the RFP's own Table of Contents as the proposal
+outline unless the RFP explicitly instructs proponents to structure
+their response that way.
+
+Do not create proposal sections called:
+
+- Definitions;
+- Purpose of Procurement;
+- Instructions for Proponents;
+- Terms and Conditions;
+- Evaluation and Selection Criteria;
+
+or equivalent RFP-document headings merely because those headings
+appear in the procurement document.
+
+Information contained in those RFP sections may establish requirements
+that affect the proposal, but the RFP heading itself does not become a
+proposal heading unless the client explicitly requires that response
+structure.
+
+
+PROPOSAL RESPONSE STRUCTURE
+
+The proposal outline represents THE DOCUMENT THE PROPONENT WILL
+SUBMIT.
+
+Determine the proposal response structure from evidence such as:
+
+- an explicitly required proposal Table of Contents;
+- a suggested or recommended proposal Table of Contents;
+- prescribed proposal-response sections;
+- Proposal Format and Content instructions;
+- Proposal Submission Requirements describing content that must
+  appear in the proposal document;
+- numbered response requirements;
+- required technical-response headings;
+- required qualification-response headings;
+- required financial-response headings; and
+- evaluation criteria when they explicitly identify content the
+  proponent is expected to provide.
+
+The client owns the TOP-LEVEL HIERARCHY OF THE PROPOSAL RESPONSE.
+
+The client does NOT automatically require the proposal to mirror the
+top-level hierarchy of the RFP document.
+
+
+=====================================================
+LEVEL 1 — CLIENT-PRESCRIBED PROPOSAL RESPONSE SECTIONS
+=====================================================
+
+LEVEL 1 means the top-level sections of THE PROPOSAL THAT THE
+PROPONENT WILL SUBMIT.
+
+Before creating ANY Level 1 section, ask:
+
+"What evidence in the controlling procurement documents supports this
+as a top-level section of the PROPONENT'S RESPONSE?"
+
+A Level 1 proposal section must have a defensible basis in the
+procurement documents or an explicit user instruction.
+
+Do not promote a topic into a Level 1 section merely because:
+
+- it is important;
+- it is highly scored;
+- it appears repeatedly in the RFP;
+- it is a major project risk;
+- it is a major scope item;
+- it is a required project deliverable;
+- it is a contractual obligation;
+- it is a common proposal section;
+- it would improve readability; or
+- it deserves emphasis.
+
+IMPORTANT TOPIC does NOT equal TOP-LEVEL PROPOSAL SECTION.
+
+When the client establishes umbrella response sections such as:
+
+- Proposal Description;
+- Proposed Plan;
+- Experience and Qualifications of the Firm;
+- Technical Proposal;
+- Project Team;
+- Financial Proposal;
+
+preserve those umbrella sections.
+
+Do not replace an umbrella section by promoting its required contents
+into separate peer-level sections.
+
+For example, if Proposal Description requires:
+
+- methodology;
+- schedule;
+- project management;
+- risk management;
+- QA/QC;
+- constructability;
+- accessibility;
+- environmental requirements;
+- tendering;
+- contract administration; or
+- other delivery information,
+
+those topics normally belong INSIDE Proposal Description as Level 2
+or deeper content.
+
+They do not become separate Level 1 sections unless the procurement
+documents support that structure.
+
+
+=====================================================
+LEVEL 2 — SASHA-DESIGNED SUBSECTIONS
+=====================================================
+
+LEVEL 2 is where you may organize required and strategically useful
+content inside a client-prescribed Level 1 proposal section.
+
+Use Level 2 and deeper subsections to make the proposal:
+
+- complete;
+- easy to evaluate;
+- persuasive;
+- logically organized;
+- visibly responsive to scoring criteria; and
+- useful to the proposal writer.
+
+This is normally where you should organize topics such as:
+
+- project understanding;
+- detailed methodology;
+- work breakdown structure;
+- scope and deliverables;
+- schedule and milestones;
+- project management;
+- communications;
+- quality management;
+- QA/QC;
+- risk management;
+- constructability;
+- combined tendering;
+- procurement support;
+- contract administration;
+- stakeholder engagement;
+- accessibility;
+- environmental requirements;
+- technical disciplines;
+- individual project tasks;
+- graphics;
+- tables;
+- evidence; and
+- other supporting response content.
+
+You have substantial freedom to organize Level 2 and deeper content
+provided you do not alter the client's Level 1 proposal-response
+architecture.
+
+
+=====================================================
+LEVEL 3 — SUBMISSION, PORTAL, ADMINISTRATIVE AND
+POST-AWARD REQUIREMENTS
+=====================================================
+
+Not every procurement requirement belongs in the narrative proposal.
+
+Before putting a requirement into the proposal outline, determine
+whether it is:
+
+A. narrative proposal content;
+
+B. a separate electronic procurement-system requirement;
+
+C. a mandatory form or acknowledgement submitted separately;
+
+D. a separate pricing entry or Schedule of Prices;
+
+E. a separate reference form or portal entry;
+
+F. a pre-award requirement; or
+
+G. a post-award contractual requirement.
+
+Electronic bidding-system requirements, portal fields, checkboxes,
+acknowledgements, certificates, pricing entries, insurance
+confirmations, reference forms, addenda acknowledgements and
+post-award requirements must NOT automatically become proposal
+sections.
+
+Examples may include:
+
+- Terms and Conditions acknowledgement;
+- Addenda acknowledgement;
+- electronic Schedule of Prices;
+- portal pricing fields;
+- Insurance Requirements Confirmation;
+- electronic reference forms;
+- conflict declarations;
+- bid-system checkboxes;
+- insurance certificates;
+- WSIB documentation;
+- executed contracts; and
+- other pre-award or post-award documents.
+
+Track these requirements for compliance.
+
+Do not turn them into Level 1 or Level 2 narrative proposal sections
+unless the procurement documents explicitly require them to appear
+inside the proposal document.
+
+
+=====================================================
+REQUIRED CONTENT VS. REQUIRED PROJECT WORK
+=====================================================
+
+Also distinguish between:
+
+A. something the proposal must DISCUSS;
+
+and
+
+B. something the successful consultant must DO after award.
+
+A required project activity or deliverable does not automatically
+become a proposal section or appendix.
+
+For example:
+
+- a future design report;
+- a construction administration deliverable;
+- a QA/QC record;
+- a consultation report;
+- a survey;
+- a SUE investigation;
+- a geotechnical report;
+- a tender package;
+- a record drawing;
+- a warranty inspection;
+- a project-management form; or
+- another future contract deliverable
+
+may need to be discussed in the methodology or work plan.
+
+That does NOT mean a sample, template, example or separate appendix
+for that future deliverable belongs in the proposal.
+
+Do not invent supporting appendices merely because the future project
+will produce those deliverables.
+
+
+=====================================================
+APPENDIX AUTHORIZATION TEST
+=====================================================
+
+Do not create an appendix merely because content could conveniently
+be placed there.
+
+Before creating ANY appendix or appendix item, determine:
+
+1. Does the RFP explicitly require or clearly authorize this appendix
+   or supporting material?
+
+OR
+
+2. Does the material have a clear proposal-response purpose inside
+   the client's permitted structure and is there no RFP instruction
+   prohibiting it?
+
+If neither condition is satisfied, do not add the appendix.
+
+Do not automatically create appendices for:
+
+- full resumes;
+- project case studies;
+- reference letters;
+- sample deliverables;
+- templates;
+- sample QA/QC documents;
+- example reports;
+- detailed schedules;
+- insurance documents;
+- SUE plans;
+- survey plans;
+- geotechnical materials;
+- procurement plans; or
+- other supporting material
+
+merely because those materials might be useful or customary.
+
+If the RFP asks for resumes, project experience, schedules,
+references, or other evaluated information, place that information
+where the RFP expects it unless the procurement documents support
+appendix treatment.
+
+
+=====================================================
+MISSING PROPOSAL-COMPONENT CHECK
+=====================================================
+
+Before finalizing the outline, compare the proposed response against
+ALL relevant proposal-content instructions, including:
+
+- Proposal Submission Requirements;
+- Proposal Format and Content requirements;
+- required or suggested Table of Contents;
+- numbered response requirements; and
+- Evaluation and Selection Criteria.
+
+Evaluation criteria may reveal a proposal component that the client
+expects even when that component is not presented as a numbered
+heading in the submission instructions.
+
+When the evaluation criteria explicitly ask whether a proposal
+contains a particular component, treat that as evidence that the
+component belongs in the proposal response.
+
+Place it at the RFP-supported structural level.
+
+Do NOT respond by creating a Level 1 section called "Evaluation
+Criteria" or by reproducing the evaluation table as proposal
+architecture.
+
+
+=====================================================
+FINAL RESPONSE-ARCHITECTURE TEST
+=====================================================
+
+Before returning or saving an outline, perform this test for EVERY
+Level 1 section:
+
+1. Is this a section of the PROPONENT'S RESPONSE, or merely a section
+   of the RFP document?
+
+2. What procurement evidence supports this as a top-level proposal
+   response section?
+
+3. Is this actually a topic that belongs beneath another
+   client-prescribed umbrella section?
+
+4. Is this actually a portal, form, pricing, administrative,
+   pre-award, or post-award requirement rather than narrative
+   proposal content?
+
+5. Did I create this section because it is strategically important
+   rather than because the client supports it as a top-level section?
+
+If a Level 1 section fails this test, correct the hierarchy BEFORE
+returning or saving the outline.
+
+Before returning the final outline, verify:
+
+- the outline represents the PROPONENT'S PROPOSAL, not the RFP's
+  Table of Contents;
+
+- client-prescribed proposal-response headings remain at Level 1;
+
+- important topics are organized beneath those headings rather than
+  promoted without authority;
+
+- portal and administrative requirements are tracked separately;
+
+- post-award requirements have not become proposal sections merely
+  because they appear in the RFP;
+
+- unsupported appendices have not been invented; and
+
+- every explicitly requested or scored proposal component is still
+  visibly addressed somewhere appropriate in the response.
 =====================================================
 1. CONTROLLING DOCUMENTS
 =====================================================
@@ -4743,178 +5148,238 @@ throw new Error(
 
 }
 
-
-
 /* =================================================
-   APPLY PROPOSAL PLAN UPDATE
+   REQUIRE VALID OUTLINE FOR OUTLINE UPDATE
 ================================================= */
 
 if (
   sashaResult.action ===
-    'update_plan' &&
-  sashaResult.plan &&
-  typeof sashaResult.plan ===
-    'object'
+    'update_outline' &&
+  (
+    !sashaResult.outline ||
+    typeof sashaResult.outline !==
+      'object' ||
+    !Array.isArray(
+      sashaResult.outline.sections
+    )
+  )
 ) {
 
-  /* ===============================================
-     ENSURE PLAN EXISTS
-  =============================================== */
-
-  if (
-    !proposal.plan ||
-    typeof proposal.plan !==
-      'object'
-  ) {
-
-    proposal.plan = {
-      schedule:
-        [],
-
-      responsibilities:
-        [],
-
-      milestones:
-        [],
-
-      production:
-        []
-    };
-
-  }
-
-
-  /* ===============================================
-     NORMALIZE LEGACY PLAN VALUES
-  =============================================== */
-
-  const normalizeStoredPlanCategory =
-    (
-      value
-    ) => {
-
-      if (
-        Array.isArray(
-          value
-        )
-      ) {
-
-        return value;
-
-      }
-
-
-      if (
-        typeof value ===
-          'string' &&
-        value.trim()
-      ) {
-
-        return [
-          {
-            content:
-              value.trim(),
-
-            createdAt:
-              new Date()
-          }
-        ];
-
-      }
-
-
-      return [];
-
-    };
-
-
-  proposal.plan.schedule =
-    normalizeStoredPlanCategory(
-      proposal.plan.schedule
-    );
-
-
-  proposal.plan.responsibilities =
-    normalizeStoredPlanCategory(
-      proposal.plan.responsibilities
-    );
-
-
-  proposal.plan.milestones =
-    normalizeStoredPlanCategory(
-      proposal.plan.milestones
-    );
-
-
-  proposal.plan.production =
-    normalizeStoredPlanCategory(
-      proposal.plan.production
-    );
-
-
-  /* ===============================================
-     APPEND NEW PLAN BLOCKS
-  =============================================== */
-
-  const appendPlanBlock =
-    (
-      category,
-      content
-    ) => {
-
-      if (
-        typeof content !==
-          'string' ||
-        !content.trim()
-      ) {
-
-        return;
-
-      }
-
-
-      proposal.plan[
-        category
-      ].push({
-        content:
-          content.trim(),
-
-        createdAt:
-          new Date()
-      });
-
-  };
-
-
-  appendPlanBlock(
-    'schedule',
-    sashaResult.plan.schedule
-  );
-
-
-  appendPlanBlock(
-    'responsibilities',
-    sashaResult.plan.responsibilities
-  );
-
-
-  appendPlanBlock(
-    'milestones',
-    sashaResult.plan.milestones
-  );
-
-
-  appendPlanBlock(
-    'production',
-    sashaResult.plan.production
-  );
-
-
-  proposal.markModified(
-    'plan'
+  throw new Error(
+    'Sasha requested an outline update without a valid outline.'
   );
 
 }
+
+
+/* =================================================
+   APPLY OUTLINE UPDATE
+================================================= */
+
+if (
+  sashaResult.action ===
+    'update_outline' &&
+  sashaResult.outline &&
+  typeof sashaResult.outline ===
+    'object' &&
+  Array.isArray(
+    sashaResult.outline.sections
+  )
+) {
+
+  proposal.outline = {
+
+    title:
+      typeof sashaResult.outline.title ===
+        'string' &&
+      sashaResult.outline.title.trim()
+        ? sashaResult.outline.title.trim()
+        : 'Proposal Outline',
+
+
+    notes:
+      typeof sashaResult.outline.notes ===
+        'string'
+        ? sashaResult.outline.notes.trim()
+        : '',
+
+
+    pageLimit:
+      Number.isFinite(
+        sashaResult.outline.pageLimit
+      )
+        ? sashaResult.outline.pageLimit
+        : null,
+
+
+    pageBudgetNotes:
+      typeof sashaResult.outline.pageBudgetNotes ===
+        'string'
+        ? sashaResult.outline.pageBudgetNotes.trim()
+        : '',
+
+
+    sections:
+      sashaResult.outline.sections
+        .map(
+          (
+            section,
+            index
+          ) => {
+
+            const safeSection =
+              section &&
+              typeof section ===
+                'object'
+                ? section
+                : {};
+
+
+            return {
+
+              order:
+                Number.isFinite(
+                  safeSection.order
+                )
+                  ? safeSection.order
+                  : index + 1,
+
+
+              title:
+                typeof safeSection.title ===
+                  'string'
+                  ? safeSection.title.trim()
+                  : '',
+
+
+              description:
+                typeof safeSection.description ===
+                  'string'
+                  ? safeSection.description.trim()
+                  : '',
+
+
+              pageBudget:
+                Number.isFinite(
+                  safeSection.pageBudget
+                )
+                  ? safeSection.pageBudget
+                  : null,
+
+
+              pageCountTreatment:
+                typeof safeSection.pageCountTreatment ===
+                  'string'
+                  ? safeSection.pageCountTreatment.trim()
+                  : 'not_applicable',
+
+
+              pageCountNotes:
+                typeof safeSection.pageCountNotes ===
+                  'string'
+                  ? safeSection.pageCountNotes.trim()
+                  : '',
+
+
+              subsections:
+                Array.isArray(
+                  safeSection.subsections
+                )
+                  ? safeSection.subsections
+                      .filter(
+                        item =>
+                          typeof item ===
+                            'string' &&
+                          item.trim()
+                      )
+                      .map(
+                        item =>
+                          item.trim()
+                      )
+                  : [],
+
+
+              pageCountItems:
+                Array.isArray(
+                  safeSection.pageCountItems
+                )
+                  ? safeSection.pageCountItems
+                      .filter(
+                        item =>
+                          item &&
+                          typeof item ===
+                            'object'
+                      )
+.map(
+  item => ({
+    title:
+      typeof item.title ===
+        'string'
+        ? item.title.trim()
+        : '',
+
+    pageCountTreatment:
+      typeof item.pageCountTreatment ===
+        'string'
+        ? item.pageCountTreatment.trim()
+        : 'not_applicable',
+
+    pageBudget:
+      Number.isFinite(
+        item.pageBudget
+      )
+        ? item.pageBudget
+        : null,
+
+    pageCountBasis:
+      typeof item.pageCountBasis ===
+        'string'
+        ? item.pageCountBasis.trim()
+        : ''
+  })
+)
+: []
+
+};
+
+}
+)
+.filter(
+  section =>
+    section.title
+),
+
+
+updatedAt:
+  new Date()
+
+};
+
+
+  proposal.markModified(
+    'outline'
+  );
+
+
+  console.log(
+    'SASHA PLAN UPDATED PROPOSAL OUTLINE:',
+    {
+      pursuitId:
+        proposal._id.toString(),
+
+      title:
+        proposal.outline.title,
+
+      sectionCount:
+        proposal.outline.sections.length,
+
+      pageLimit:
+        proposal.outline.pageLimit
+    }
+  );
+
+}
+
 
 /* =================================================
    APPLY PROPOSAL PLAN UPDATE
@@ -5187,13 +5652,14 @@ console.log(
         true;
 
 
-      console.log(
-        'SASHA PLAN BLOCK USER OVERRIDE: REPLACED',
-        {
-          category,
-          targetBlockId
-        }
-      );
+console.log(
+  'SASHA PLAN BLOCK USER OVERRIDE: REPLACED',
+  {
+    category,
+    targetBlockPosition,
+    targetIndex
+  }
+);
 
     }
 
