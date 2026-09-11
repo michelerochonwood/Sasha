@@ -488,7 +488,244 @@ const prepareOutlineForWrite = (
 
 };
 
+/* =====================================================
+   PROPOSAL WRITING RESOURCE MAP
+===================================================== */
 
+const PROPOSAL_WRITING_RESOURCES = {
+
+  methodology_work_plan:
+    'winning_methodology_work_plan',
+
+  project_experience:
+    'winning_project_experience',
+
+  personnel_project_team:
+    'winning_personnel_project_team',
+
+  schedule:
+    'winning_schedule',
+
+  project_management:
+    'winning_project_management'
+
+};
+
+/* =====================================================
+   CLASSIFY PROPOSAL WRITING SECTION
+===================================================== */
+
+const classifyProposalWritingSection = (
+  outlineSection
+) => {
+
+  const safeSection =
+    outlineSection &&
+    typeof outlineSection ===
+      'object'
+      ? outlineSection
+      : {};
+
+
+  const safeSubsections =
+    Array.isArray(
+      safeSection.subsections
+    )
+      ? safeSection.subsections
+      : [];
+
+
+  const safePageCountItems =
+    Array.isArray(
+      safeSection.pageCountItems
+    )
+      ? safeSection.pageCountItems
+      : [];
+
+
+  const pageCountItemTitles =
+    safePageCountItems
+      .map(
+        item =>
+          item &&
+          typeof item.title ===
+            'string'
+            ? item.title
+            : ''
+      )
+      .filter(Boolean);
+
+
+  const searchableText = [
+
+    safeSection.title || '',
+
+    safeSection.description || '',
+
+    ...safeSubsections,
+
+    ...pageCountItemTitles
+
+  ]
+    .filter(Boolean)
+    .join(' ')
+    .toLowerCase();
+
+
+  const writingTypes =
+    new Set();
+
+
+  /* =================================================
+     METHODOLOGY / WORK PLAN
+  ================================================= */
+
+  if (
+    /methodology|work plan|technical approach|technical methodology|scope approach|delivery approach|work program|work programme|execution plan|project understanding/.test(
+      searchableText
+    )
+  ) {
+
+    writingTypes.add(
+      'methodology_work_plan'
+    );
+
+  }
+
+
+  /* =================================================
+     PROJECT EXPERIENCE
+  ================================================= */
+
+  if (
+    /project experience|relevant experience|similar projects|comparable projects|corporate experience|firm experience|past projects|reference projects|representative projects|project evidence/.test(
+      searchableText
+    )
+  ) {
+
+    writingTypes.add(
+      'project_experience'
+    );
+
+  }
+
+
+  /* =================================================
+     PERSONNEL / PROJECT TEAM
+  ================================================= */
+
+  if (
+    /personnel|project team|key personnel|key staff|team qualifications|staff qualifications|resume|résumé|biograph|staff experience|organization chart|organisational chart|organizational chart|organogram|team structure|staffing plan|backup personnel|personnel evidence/.test(
+      searchableText
+    )
+  ) {
+
+    writingTypes.add(
+      'personnel_project_team'
+    );
+
+  }
+
+
+  /* =================================================
+     SCHEDULE
+  ================================================= */
+
+  if (
+    /schedule|gantt|timeline|milestone|project duration|delivery date|critical path|completion date|implementation schedule|work schedule/.test(
+      searchableText
+    )
+  ) {
+
+    writingTypes.add(
+      'schedule'
+    );
+
+  }
+
+
+  /* =================================================
+     PROJECT MANAGEMENT
+  ================================================= */
+
+  if (
+    /project management|management approach|management plan|project controls|risk management|cost control|cost management|change management|decision management|communication plan|communications plan|quality management|quality control|qa\/qc|quality assurance|issue management|project reporting|constructability/.test(
+      searchableText
+    )
+  ) {
+
+    writingTypes.add(
+      'project_management'
+    );
+
+  }
+
+
+  return Array.from(
+    writingTypes
+  );
+
+};
+
+/* =====================================================
+   SELECT PROPOSAL WRITING RESOURCES
+===================================================== */
+
+const selectProposalWritingResources = (
+  writingTypes
+) => {
+
+  if (
+    !Array.isArray(
+      writingTypes
+    )
+  ) {
+
+    return [];
+
+  }
+
+
+  return writingTypes
+    .map(
+      writingType =>
+        PROPOSAL_WRITING_RESOURCES[
+          writingType
+        ]
+    )
+    .filter(Boolean);
+
+};
+
+/* =====================================================
+   PREPARE WRITING GUIDANCE FOR OUTLINE SECTION
+===================================================== */
+
+const prepareWritingGuidanceForSection = (
+  outlineSection
+) => {
+
+  const writingTypes =
+    classifyProposalWritingSection(
+      outlineSection
+    );
+
+
+  const instructionResourceKeys =
+    selectProposalWritingResources(
+      writingTypes
+    );
+
+
+  return {
+
+    writingTypes,
+
+    instructionResourceKeys
+
+  };
+
+};
 /* =====================================================
    GET WRITE
 ===================================================== */
@@ -747,6 +984,100 @@ async (
         ? proposalForView.winStrategy
         : {};
 
+/* =================================================
+   FIND FULL ACTIVE OUTLINE SECTION
+================================================= */
+
+const fullOutlineSections =
+  proposalForView.outline &&
+  Array.isArray(
+    proposalForView.outline.sections
+  )
+    ? proposalForView.outline.sections
+    : [];
+
+
+const activeOutlineSection =
+  activeSection
+    ? fullOutlineSections.find(
+        outlineSection => {
+
+          if (
+            !outlineSection
+          ) {
+
+            return false;
+
+          }
+
+
+          const sameTitle =
+            typeof outlineSection.title ===
+              'string' &&
+            outlineSection.title ===
+              activeSection.title;
+
+
+          const sameOrder =
+            Number.isFinite(
+              outlineSection.order
+            ) &&
+            outlineSection.order ===
+              activeSection.order;
+
+
+          return (
+            sameTitle ||
+            sameOrder
+          );
+
+        }
+      ) ||
+      null
+    : null;
+
+ /* =================================================
+   PREPARE ACTIVE SECTION WRITING GUIDANCE
+================================================= */
+
+const activeWritingGuidance =
+  activeOutlineSection
+    ? prepareWritingGuidanceForSection(
+        activeOutlineSection
+      )
+    : {
+        writingTypes:
+          [],
+
+        instructionResourceKeys:
+          []
+      };
+
+
+ /* =================================================
+   TEMPORARY CLASSIFICATION LOG
+================================================= */
+
+if (
+  activeOutlineSection
+) {
+
+  console.log(
+    'SASHA WRITE SECTION CLASSIFICATION:',
+    {
+      sectionTitle:
+        activeOutlineSection.title,
+
+      writingTypes:
+        activeWritingGuidance.writingTypes,
+
+      instructionResourceKeys:
+        activeWritingGuidance
+          .instructionResourceKeys
+    }
+  );
+
+}
 
     const outline =
       prepareOutlineForWrite(
@@ -793,6 +1124,10 @@ async (
         winStrategy,
 
         outline,
+
+        activeOutlineSection,
+
+        activeWritingGuidance,
 
         /*
          * Write conversation will be wired next.
