@@ -6242,7 +6242,90 @@ if (
   )
 ) {
 
-  // ... the supporting materials update code I gave you ...
+  proposal.supportingMaterials =
+    sashaResult.supportingMaterials
+      .filter(
+        item =>
+          item &&
+          typeof item ===
+            'object' &&
+          typeof item.title ===
+            'string' &&
+          item.title.trim()
+      )
+      .map(
+        item => ({
+
+          title:
+            item.title.trim(),
+
+          category:
+            typeof item.category ===
+              'string'
+              ? item.category.trim()
+              : 'conditional_appendix',
+
+          reason:
+            typeof item.reason ===
+              'string'
+              ? item.reason.trim()
+              : '',
+
+          rfpBasis:
+            typeof item.rfpBasis ===
+              'string'
+              ? item.rfpBasis.trim()
+              : '',
+
+          relatedSection:
+            typeof item.relatedSection ===
+              'string'
+              ? item.relatedSection.trim()
+              : '',
+
+          pageCountTreatment:
+            typeof item.pageCountTreatment ===
+              'string'
+              ? item.pageCountTreatment.trim()
+              : 'unknown',
+
+          pageCountBasis:
+            typeof item.pageCountBasis ===
+              'string'
+              ? item.pageCountBasis.trim()
+              : '',
+
+          status:
+            typeof item.status ===
+              'string'
+              ? item.status.trim()
+              : 'suggested',
+
+          notes:
+            typeof item.notes ===
+              'string'
+              ? item.notes.trim()
+              : ''
+
+        })
+      );
+
+
+  proposal.markModified(
+    'supportingMaterials'
+  );
+
+
+  console.log(
+    'SASHA PLAN UPDATED SUPPORTING MATERIALS:',
+    {
+      pursuitId:
+        proposal._id.toString(),
+
+      itemCount:
+        proposal.supportingMaterials.length
+    }
+  );
 
 }
 
