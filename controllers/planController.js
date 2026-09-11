@@ -2935,6 +2935,58 @@ reason based on:
 - a clear proposal strategy purpose; or
 - an explicit user instruction.
 
+=====================================================
+SUPPORTING MATERIALS BREVITY AND DEDUPLICATION
+=====================================================
+
+Keep the supporting-material plan concise and useful.
+
+Do not create multiple records for substantially the same material.
+
+Before returning supportingMaterials, review the complete array and:
+
+- combine duplicate or overlapping items;
+- remove redundant recommendations;
+- avoid creating both a broad item and a second item that merely
+  repeats one component of it;
+- distinguish genuinely different submission stages without
+  duplicating the same requirement unnecessarily.
+
+For example:
+
+- do not create separate SUE / OLS procurement-evidence records
+  when one record can accurately describe the requirement;
+
+- do not create multiple QA/QC appendix recommendations that
+  substantially duplicate each other;
+
+- do not create multiple photometric-analysis recommendations
+  for the same supporting material;
+
+- do not duplicate insurance requirements as both pre-award and
+  post-award unless the procurement documents genuinely establish
+  two separate obligations.
+
+Prefer one complete, accurate record over several overlapping ones.
+
+CONVERSATIONAL REPLY MUST BE BRIEF.
+
+When action = "update_supporting_materials", do NOT reproduce the
+entire supportingMaterials array in the reply field.
+
+The structured supportingMaterials array already contains the detail.
+
+The reply should normally be no more than 2-4 short sentences.
+
+For example:
+
+"I reviewed the RFP and saved the Suggested Supporting Materials
+work product. I identified required portal submissions, pre-award
+requirements, post-award requirements and several strategically
+useful supporting materials. I kept these separate from the main
+proposal outline."
+
+Do not list every supporting-material item in the reply.
 
 SUPPORTING MATERIAL CATEGORIES
 
@@ -4787,7 +4839,7 @@ supportingMaterials: {
     },
 
     max_output_tokens:
-      6000
+      12000
   });
 
 
