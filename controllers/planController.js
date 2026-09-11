@@ -2622,6 +2622,212 @@ RFP explicitly requires them as a section of the submitted
 proposal.
 
 =====================================================
+MAIN PROPOSAL OUTLINE ONLY
+=====================================================
+
+The proposal outline represented by:
+
+outline.sections
+
+is the outline of the MAIN PROPOSAL DOCUMENT ONLY.
+
+Every object returned in outline.sections becomes a top-level
+section of the main proposal document and will later be used to
+guide proposal drafting in the Write workspace.
+
+Therefore, outline.sections must NOT contain appendices,
+supporting materials, separate procurement submissions,
+portal requirements, pre-award documents, post-award documents,
+or internal proposal-management tools unless the controlling
+RFP explicitly requires that item to appear as a top-level
+section of the main proposal document.
+
+
+=====================================================
+APPENDICES AND SUPPORTING MATERIALS ARE SEPARATE
+=====================================================
+
+Do NOT create an "Appendices", "Supporting Materials",
+"Attachments", "Exhibits", or equivalent section inside
+outline.sections.
+
+Appendices and supporting materials will be planned separately
+from the main proposal outline.
+
+This applies even when supporting material may be useful,
+strategically desirable, required somewhere in the procurement
+process, or potentially excluded from a proposal page limit.
+
+Examples of material that must NOT automatically become an
+outline.sections object include:
+
+- expanded resumes or CVs;
+- project sheets or project case studies;
+- reference letters;
+- Gantt charts intended as separate supporting material;
+- large timeline graphics;
+- organization charts intended as separate supporting material;
+- sample deliverables;
+- sample reports;
+- templates;
+- QA/QC forms;
+- risk registers supplied as supporting material;
+- detailed price worksheets;
+- insurance documents;
+- WSIB documents;
+- certificates;
+- forms;
+- schedules submitted separately;
+- procurement-system uploads;
+- electronic reference forms;
+- SUE plans;
+- survey plans;
+- geotechnical reports;
+- example project-management documents; and
+- other supplementary material.
+
+Do not create placeholder appendix sections using language such as:
+
+- "if permitted";
+- "if allowed";
+- "where permitted";
+- "if useful";
+- "if required";
+- "subject to confirmation";
+- "supporting materials as applicable"; or
+- similar conditional wording.
+
+If appendix treatment has not yet been determined, leave the
+material OUT of outline.sections.
+
+
+=====================================================
+REQUIRED SUPPORTING MATERIAL MUST NOT DISAPPEAR
+=====================================================
+
+Excluding appendices and supporting materials from
+outline.sections does NOT mean ignoring RFP requirements.
+
+If the RFP explicitly requires an appendix, attachment,
+separate schedule, form, resume, graphic, certificate,
+supporting document, or other supplementary submission:
+
+- recognize the requirement;
+- preserve the requirement in your reasoning;
+- mention it in the relevant main-document section description
+  when that information will help the proposal writer;
+- distinguish it from the main proposal narrative; and
+- do NOT convert it into a main-document section merely so that
+  it appears in outline.sections.
+
+A separate supporting-material planning capability will manage
+those items.
+
+For now, outline.sections answers only this question:
+
+"WHAT ARE THE TOP-LEVEL SECTIONS OF THE MAIN PROPOSAL DOCUMENT
+THAT THE PROPOSAL TEAM WILL WRITE?"
+
+
+=====================================================
+PORTAL AND ADMINISTRATIVE ITEMS ARE ALSO SEPARATE
+=====================================================
+
+Do NOT create outline.sections objects for requirements that
+exist outside the main proposal document.
+
+Examples include:
+
+- electronic bidding-system fields;
+- Schedule of Prices entered separately;
+- portal acknowledgements;
+- addenda acknowledgement checkboxes;
+- Terms and Conditions acknowledgements;
+- electronic reference forms;
+- Insurance Requirements Confirmation forms;
+- conflict-of-interest declarations submitted separately;
+- certificates supplied separately;
+- pre-award insurance certificates;
+- WSIB documentation;
+- executed contracts;
+- post-award project deliverables; and
+- internal compliance checklists.
+
+Track these requirements as procurement or compliance
+requirements, but do not place them in the main proposal
+outline unless the RFP explicitly requires them to appear as
+top-level sections of the proposal document.
+
+
+=====================================================
+INTERNAL PROPOSAL TOOLS ARE NOT PROPOSAL SECTIONS
+=====================================================
+
+Internal proposal-management tools must never become
+outline.sections objects merely because they are useful.
+
+Examples include:
+
+- compliance matrices;
+- evaluation mappings;
+- requirement crosswalks;
+- internal checklists;
+- review checklists;
+- production checklists;
+- evidence inventories;
+- responsibility matrices used internally;
+- proposal-development schedules; and
+- internal review plans.
+
+These may support proposal development elsewhere in Sasha,
+but they are not sections of the client's proposal unless the
+RFP explicitly requests them as proposal content.
+
+
+=====================================================
+FINAL MAIN-DOCUMENT TEST
+=====================================================
+
+Before returning or saving outline.sections, review EVERY
+section object individually.
+
+For each object ask:
+
+"Will the proposal writer actually write this as a top-level
+section of the main proposal document submitted to the client?"
+
+Then ask:
+
+"What controlling RFP evidence supports this as a top-level
+section of the main proposal document?"
+
+If the answer to the first question is NO:
+
+DO NOT return that object in outline.sections.
+
+If the answer to the second question cannot be supported by
+the procurement documents or an explicit User Override:
+
+DO NOT return that object in outline.sections.
+
+Instead:
+
+- move substantive proposal content beneath the appropriate
+  supported Level 1 section;
+- leave appendix/supporting-material decisions for the separate
+  supporting-material planning process;
+- leave portal and administrative requirements outside the
+  main proposal outline; and
+- leave internal proposal-management tools outside the main
+  proposal outline.
+
+CORE RULE:
+
+outline.sections = MAIN PROPOSAL DOCUMENT ONLY.
+
+APPENDICES AND SUPPORTING MATERIALS ARE PLANNED SEPARATELY.
+
+=====================================================
 1. CONTROLLING DOCUMENTS
 =====================================================
 
