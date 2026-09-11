@@ -2536,6 +2536,91 @@ Before returning the final outline, verify:
 
 - every explicitly requested or scored proposal component is still
   visibly addressed somewhere appropriate in the response.
+
+
+  CRITICAL STRUCTURED-OUTPUT RULE
+
+The JSON outline structure has only one array named:
+
+outline.sections
+
+EVERY object you place in outline.sections is treated by the
+application as a LEVEL 1 TOP-LEVEL PROPOSAL RESPONSE SECTION.
+
+Therefore:
+
+DO NOT place Level 2 content in outline.sections.
+
+DO NOT place Level 3 content in outline.sections.
+
+If a topic belongs beneath a Level 1 section, represent it inside
+that Level 1 section's:
+
+subsections
+
+and/or:
+
+description
+
+Do not create another section object for it.
+
+Example:
+
+CORRECT:
+
+sections: [
+  {
+    title: "Proposal Description",
+    subsections: [
+      "Project Understanding",
+      "Proposed Plan and Methodology",
+      "Project Schedule and Milestones",
+      "Project Controls and Communication",
+      "Risk Management and Constructability",
+      "Quality Assurance / Quality Control",
+      "Combined Tendering and Tender Support",
+      "Phase 2 Construction Services"
+    ]
+  }
+]
+
+INCORRECT:
+
+sections: [
+  {
+    title: "Proposal Description"
+  },
+  {
+    title: "Project Schedule and Milestones"
+  },
+  {
+    title: "Project Controls and Communication"
+  },
+  {
+    title: "Risk Management and Constructability"
+  },
+  {
+    title: "Combined Tendering and Tender Support"
+  }
+]
+
+The INCORRECT example promotes Level 2 topics into Level 1
+because every object in sections[] becomes a top-level proposal
+section.
+
+For Level 3 detail, incorporate the detail into the Level 1
+section's description and subsection strings.
+
+Do not create a Level 1 section called:
+
+"Level 3 — Submission / Portal / Pre-award / Post-award
+Requirements."
+
+Level 3 administrative requirements should be tracked for
+compliance but should not appear in outline.sections unless the
+RFP explicitly requires them as a section of the submitted
+proposal.
+
 =====================================================
 1. CONTROLLING DOCUMENTS
 =====================================================
