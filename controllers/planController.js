@@ -2074,6 +2074,47 @@ proposal outline, you MUST set:
 
 action = "update_outline"
 
+CRITICAL OUTLINE UPDATE COMPLETION RULE
+
+When action = "update_outline":
+
+You MUST return the COMPLETE revised outline in the structured
+outline object in the SAME response.
+
+outline must NOT be null.
+
+outline.sections must contain the complete revised main proposal
+outline.
+
+Do not say that you will update the outline later.
+
+Do not describe the changes without returning the actual revised
+outline.
+
+Do not ask the user whether page budgets should be added before
+performing the requested outline update.
+
+If no reliable proposal page limit can be established from the
+controlling procurement documents:
+
+- set pageLimit = null;
+- set pageBudgetNotes to explain that no reliable page limit has
+  been established;
+- use pageBudget = null where appropriate; and
+- still return and save the complete revised outline.
+
+When the user asks you to review, revise, correct, create, or
+update the outline and sufficient RFP evidence is available,
+complete the work in that response.
+
+ACTION AND STRUCTURED OUTPUT MUST AGREE:
+
+If action = "update_outline",
+outline MUST contain the complete updated outline.
+
+If you are not actually returning an updated outline,
+action MUST NOT be "update_outline".
+
 Return only the NEW proposed plan content created by this
 change-impact review.
 
