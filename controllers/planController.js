@@ -1402,6 +1402,8 @@ Help the user develop and maintain, where relevant:
 - differentiation
 - the overall win argument
 - the proposal outline
+- supporting materials, appendices, separate submissions,
+  portal requirements, pre-award requirements, and post-award requirements
 - planning tasks and next steps
 
 Use the pursuit record, RFP analysis, source documents,
@@ -2887,6 +2889,207 @@ outline.sections = MAIN PROPOSAL DOCUMENT ONLY.
 
 APPENDICES AND SUPPORTING MATERIALS ARE PLANNED SEPARATELY.
 
+=====================================================
+SUPPORTING MATERIALS WORK PRODUCT
+=====================================================
+
+Supporting materials are a SEPARATE Sasha work product from the
+main proposal outline.
+
+Use supportingMaterials to identify and track material that is
+required, useful, conditional, separately submitted, or required
+before or after award but does NOT belong as a Level 1 section of
+the main proposal document.
+
+Examples include:
+
+- required appendices;
+- recommended appendices;
+- conditional appendices;
+- Gantt charts supplied separately;
+- large timeline graphics;
+- organization charts supplied separately;
+- expanded resumes or CVs;
+- project sheets;
+- reference letters;
+- sample deliverables;
+- separate forms;
+- separate schedules;
+- portal pricing submissions;
+- electronic reference forms;
+- insurance confirmations;
+- certificates;
+- pre-award documents; and
+- post-award documents.
+
+Do not invent supporting material merely because it is common
+proposal practice.
+
+Every supporting-material recommendation must have a defensible
+reason based on:
+
+- an RFP requirement;
+- an evaluation consideration;
+- a submission mechanism;
+- a page-count rule;
+- a clear proposal strategy purpose; or
+- an explicit user instruction.
+
+
+SUPPORTING MATERIAL CATEGORIES
+
+Use exactly one category for each item:
+
+required_appendix
+Use when the procurement documents explicitly require the item as
+an appendix or equivalent supporting attachment.
+
+recommended_appendix
+Use when the item is not explicitly required but has clear strategic
+value and the procurement documents do not prohibit its use.
+
+conditional_appendix
+Use when the item could be useful but its permission, value, format,
+or page-count treatment still requires verification.
+
+separate_submission
+Use when the procurement documents require the item to be submitted
+separately from the main proposal document.
+
+portal_submission
+Use when the requirement is entered, uploaded, acknowledged, or
+completed directly through the electronic procurement system.
+
+pre_award
+Use for material required from the preferred or successful proponent
+before contract award.
+
+post_award
+Use for material required only after award or during project delivery.
+
+
+PAGE-COUNT TREATMENT
+
+For every supporting material item return one of:
+
+counted
+excluded
+not_applicable
+unknown
+
+COUNTED:
+Use only when the item consumes pages from the stated proposal page
+limit.
+
+EXCLUDED:
+Use only when the controlling procurement documents explicitly
+exclude the item from the stated page limit.
+
+NOT_APPLICABLE:
+Use when the item clearly exists outside the page-limited proposal,
+such as a separate portal submission or post-award document.
+
+UNKNOWN:
+Use when supporting material has been identified but the procurement
+documents do not establish its page-count treatment.
+
+UNKNOWN does NOT mean excluded.
+
+Do not infer page-count exclusions from normal proposal practice.
+
+
+STATUS
+
+Use:
+
+required
+when the procurement documents require the item.
+
+suggested
+when Sasha recommends the item but the user has not yet accepted it.
+
+accepted
+when the user has explicitly agreed to include it.
+
+rejected
+when the user explicitly rejects it.
+
+completed
+when the required supporting material has been prepared or otherwise
+satisfied.
+
+
+RELATED SECTION
+
+When supporting material supports part of the main proposal, identify
+the relevant main-document section in relatedSection.
+
+Examples:
+
+Detailed Gantt Chart
+relatedSection = "Proposal Description"
+
+Organization Chart
+relatedSection = "Experience and Qualifications of the Firm"
+
+Expanded Project Sheets
+relatedSection = "Experience and Qualifications of the Firm"
+
+Schedule of Prices
+relatedSection = "Financial Proposal"
+
+If the item is purely administrative and does not support narrative
+proposal content, relatedSection may be an empty string.
+
+
+RFP BASIS
+
+rfpBasis must briefly identify WHY the item belongs in the supporting
+materials plan.
+
+Use the most specific reliable procurement basis available.
+
+Do not fabricate section numbers or citations.
+
+If the item is a Sasha strategic recommendation rather than an
+explicit client requirement, say so clearly in reason and do not
+present it as mandatory.
+
+
+ACTION RULE — SUPPORTING MATERIALS
+
+If the current request creates, reviews, revises, removes, accepts,
+rejects, or materially changes the supporting-material plan, return
+the COMPLETE current supportingMaterials array.
+
+If supporting materials are the primary work product changed by the
+current request, set:
+
+action = "update_supporting_materials"
+
+Do not merely describe what could be added.
+
+Return the actual supportingMaterials structured data.
+
+When reviewing an RFP for supporting materials, distinguish carefully
+between:
+
+- what belongs in the main proposal;
+- what belongs in an appendix;
+- what is submitted separately;
+- what belongs in the procurement portal;
+- what is required before award; and
+- what is required after award.
+
+Do not move these items back into outline.sections.
+
+CORE RULE:
+
+outline.sections = MAIN PROPOSAL DOCUMENT.
+
+supportingMaterials = EVERYTHING SUPPLEMENTARY THAT NEEDS TO BE
+PLANNED, TRACKED, OR CONSIDERED SEPARATELY.
+
 FINAL SECTION-ARRAY ENFORCEMENT RULE
 
 Before returning outline.sections, inspect EVERY object in the array.
@@ -3985,12 +4188,13 @@ ${outlineComplianceInstructions}`,
 
 
 
-              enum: [
-                'none',
-                'update_plan',
-                'update_win_strategy',
-                'update_outline'
-              ]
+enum: [
+  'none',
+  'update_plan',
+  'update_win_strategy',
+  'update_outline',
+  'update_supporting_materials'
+]
             },
 
                             userOverride: {
@@ -4459,6 +4663,112 @@ outline: {
       ]
     }
   ]
+},
+supportingMaterials: {
+  anyOf: [
+    {
+      type:
+        'null'
+    },
+    {
+      type:
+        'array',
+
+      items: {
+        type:
+          'object',
+
+        additionalProperties:
+          false,
+
+        properties: {
+
+          title: {
+            type:
+              'string'
+          },
+
+          category: {
+            type:
+              'string',
+
+            enum: [
+              'required_appendix',
+              'recommended_appendix',
+              'conditional_appendix',
+              'separate_submission',
+              'portal_submission',
+              'pre_award',
+              'post_award'
+            ]
+          },
+
+          reason: {
+            type:
+              'string'
+          },
+
+          rfpBasis: {
+            type:
+              'string'
+          },
+
+          relatedSection: {
+            type:
+              'string'
+          },
+
+          pageCountTreatment: {
+            type:
+              'string',
+
+            enum: [
+              'counted',
+              'excluded',
+              'not_applicable',
+              'unknown'
+            ]
+          },
+
+          pageCountBasis: {
+            type:
+              'string'
+          },
+
+          status: {
+            type:
+              'string',
+
+            enum: [
+              'suggested',
+              'accepted',
+              'rejected',
+              'required',
+              'completed'
+            ]
+          },
+
+          notes: {
+            type:
+              'string'
+          }
+
+        },
+
+        required: [
+          'title',
+          'category',
+          'reason',
+          'rfpBasis',
+          'relatedSection',
+          'pageCountTreatment',
+          'pageCountBasis',
+          'status',
+          'notes'
+        ]
+      }
+    }
+  ]
 }
 
           },
@@ -4469,7 +4779,8 @@ outline: {
   'userOverride',
   'plan',
   'winStrategy',
-  'outline'
+  'outline',
+  'supportingMaterials'
           ]
         }
       }
@@ -5885,6 +6196,57 @@ updatedAt:
   );
 
 }
+
+/* =================================================
+   APPLY OUTLINE UPDATE
+================================================= */
+
+if (
+  sashaResult.action ===
+    'update_outline'
+) {
+
+  // ... your existing outline update code ...
+
+}
+
+
+/* =================================================
+   REQUIRE VALID SUPPORTING MATERIALS UPDATE
+================================================= */
+
+if (
+  sashaResult.action ===
+    'update_supporting_materials' &&
+  !Array.isArray(
+    sashaResult.supportingMaterials
+  )
+) {
+
+  throw new Error(
+    'Sasha requested a supporting materials update without a valid supportingMaterials array.'
+  );
+
+}
+
+
+/* =================================================
+   APPLY SUPPORTING MATERIALS UPDATE
+================================================= */
+
+if (
+  sashaResult.action ===
+    'update_supporting_materials' &&
+  Array.isArray(
+    sashaResult.supportingMaterials
+  )
+) {
+
+  // ... the supporting materials update code I gave you ...
+
+}
+
+
 
 
 /* =================================================
