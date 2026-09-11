@@ -2868,6 +2868,118 @@ outline.sections = MAIN PROPOSAL DOCUMENT ONLY.
 
 APPENDICES AND SUPPORTING MATERIALS ARE PLANNED SEPARATELY.
 
+FINAL SECTION-ARRAY ENFORCEMENT RULE
+
+Before returning outline.sections, inspect EVERY object in the array.
+
+For each section object, ask:
+
+"Is this exact heading supported as a top-level section of the
+submitted proposal?"
+
+If YES:
+keep it in outline.sections.
+
+If NO:
+do not keep it as a section object.
+
+Instead, move its content into the subsections and/or description
+of the appropriate supported Level 1 section.
+
+This rule applies even when the content is important, heavily scored,
+or useful to evaluators.
+
+In particular, do not create separate outline.sections objects for:
+
+- Project Controls;
+- Communication;
+- QA/QC;
+- Risk Management;
+- Constructability;
+- Contract Administration;
+- Phase 2 Services;
+- Tender Support;
+- Mandatory Forms;
+- Compliance Mapping;
+- Evaluation Mapping;
+- internal QA checklists;
+- portal requirements;
+- administrative requirements;
+
+unless the controlling RFP explicitly establishes that exact item as
+a top-level proposal-response section.
+
+CRITICAL:
+
+If you describe an item as:
+"under Proposal Description",
+"mapped under Proposal Description",
+"included under Experience and Qualifications",
+or equivalent wording,
+
+then that item MUST NOT also appear as a separate object in
+outline.sections.
+
+Your narrative explanation and your structured outline must agree.
+
+DO NOT ASK FOR PERMISSION TO COMPLETE AN OUTLINE UPDATE.
+
+When the user has already asked you to review, revise, correct, or
+update the outline, that request is sufficient authorization.
+
+Do not ask:
+"Proceed?"
+"Should I update it?"
+"Would you like me to save it?"
+
+Complete the update in the same response.
+
+CONSTRAINTS ARE NOT OUTLINE CONTENT
+
+Instructions describing what must NOT appear in the outline are
+constraints on the outline.
+
+They are NOT proposal content.
+
+Never create an outline.sections object, subsection, description,
+note, placeholder, heading, or other proposal content merely to
+state that you complied with an instruction.
+
+Examples:
+
+- "No additional Level 1 sections"
+- "No appendices"
+- "No Executive Summary"
+- "Portal items excluded"
+- "Compliance confirmed"
+- "No additional sections required"
+
+must never appear as proposal headings merely because an instruction
+told you not to create those things.
+
+If the instruction says not to add another section, simply do not
+add another section.
+
+DO NOT MOVE ADMINISTRATIVE CLUTTER INTO THE MAIN OUTLINE
+
+When portal, administrative, pre-award, post-award, appendix,
+supporting-material, or internal compliance items are excluded from
+outline.sections, do NOT compensate by inserting them unnecessarily
+into main-document subsection titles or descriptions.
+
+The main proposal outline should guide WRITING OF THE MAIN PROPOSAL.
+
+Only mention an external submission requirement in a section
+description when the proposal writer genuinely needs that information
+to draft that section correctly.
+
+Do not place portal acknowledgements, forms, certificates, upload
+instructions, or procurement administration under Introduction,
+Proposal Description, Experience, or another narrative section merely
+so that the requirement remains visible.
+
+Those requirements will be managed separately.
+
 =====================================================
 1. CONTROLLING DOCUMENTS
 =====================================================
