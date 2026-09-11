@@ -5440,6 +5440,49 @@ throw new Error(
 }
 
 /* =================================================
+   DEBUG OUTLINE UPDATE RESPONSE
+================================================= */
+
+if (
+  sashaResult.action ===
+    'update_outline'
+) {
+
+  console.log(
+    'SASHA UPDATE OUTLINE RESPONSE:',
+    {
+      action:
+        sashaResult.action,
+
+      hasOutline:
+        Boolean(
+          sashaResult.outline
+        ),
+
+      outlineType:
+        typeof sashaResult.outline,
+
+      hasSections:
+        Boolean(
+          sashaResult.outline &&
+          Array.isArray(
+            sashaResult.outline.sections
+          )
+        ),
+
+      sectionCount:
+        sashaResult.outline &&
+        Array.isArray(
+          sashaResult.outline.sections
+        )
+          ? sashaResult.outline.sections.length
+          : null
+    }
+  );
+
+}
+
+/* =================================================
    REQUIRE VALID OUTLINE FOR OUTLINE UPDATE
 ================================================= */
 
