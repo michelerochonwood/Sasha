@@ -404,6 +404,329 @@
       </details>
 
 
+{{!-- =====================================================
+     PURSUIT ACCOUNTABILITY + INTERNAL CUTOFFS
+====================================================== --}}
+
+<details
+  class="sasha-form-section"
+  open
+>
+
+  <summary>
+    Proposal Leadership & Internal Cutoffs
+  </summary>
+
+  <div class="sasha-form-section-content">
+
+    <p class="sasha-form-section-intro">
+      A pursuit needs an owner. Opportunities can lose valuable time when
+      everyone assumes someone else is taking the lead. Before creating this
+      pursuit, identify the proposal manager who will be accountable for
+      moving it forward.
+    </p>
+
+
+    {{!-- =================================================
+         PROPOSAL MANAGER
+    ================================================== --}}
+
+    <div class="sasha-form-grid sasha-form-grid-two">
+
+      <div class="sasha-form-field">
+
+        <label for="proposalManagerName">
+          Proposal manager
+
+          <span
+            class="sasha-form-required"
+            aria-hidden="true"
+          >
+            *
+          </span>
+        </label>
+
+        <input
+          type="text"
+          id="proposalManagerName"
+          name="proposalManagerName"
+          required
+          maxlength="200"
+          autocomplete="name"
+          placeholder="Name of the person responsible for this pursuit"
+        >
+
+        <p class="sasha-form-help">
+          Sasha will not choose the proposal manager. Someone needs to
+          explicitly take responsibility for moving the pursuit forward.
+        </p>
+
+      </div>
+
+
+      <div class="sasha-form-field">
+
+        <label for="proposalManagerEmail">
+          Proposal manager email
+
+          <span class="sasha-form-optional">
+            optional
+          </span>
+        </label>
+
+        <input
+          type="email"
+          id="proposalManagerEmail"
+          name="proposalManagerEmail"
+          maxlength="250"
+          autocomplete="email"
+          placeholder="name@company.com"
+        >
+
+        <p class="sasha-form-help">
+          Required only if you want Sasha to send milestone reminders.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    {{!-- =================================================
+         REMINDER PREFERENCE
+    ================================================== --}}
+
+    <div class="sasha-form-field">
+
+      <label>
+        Milestone reminders
+      </label>
+
+      <div class="sasha-form-choice-group">
+
+        <label class="sasha-form-choice">
+
+          <input
+            type="radio"
+            name="milestoneReminderPreference"
+            value="dashboard"
+            checked
+          >
+
+          <span>
+            Dashboard only
+          </span>
+
+        </label>
+
+
+        <label class="sasha-form-choice">
+
+          <input
+            type="radio"
+            name="milestoneReminderPreference"
+            value="email"
+          >
+
+          <span>
+            Email me milestone reminders
+          </span>
+
+        </label>
+
+      </div>
+
+      <p class="sasha-form-help">
+        You can change this preference later.
+      </p>
+
+    </div>
+
+
+    {{!-- =================================================
+         SASHA RECOMMENDED INTERNAL CUTOFFS
+    ================================================== --}}
+
+    <div class="sasha-cutoff-block">
+
+      <div class="sasha-cutoff-header">
+
+        <div>
+
+          <p class="sasha-form-eyebrow">
+            Sasha's recommended cutoffs
+          </p>
+
+          <h3>
+            Protect enough time to finish the proposal properly
+          </h3>
+
+        </div>
+
+        <button
+          type="button"
+          id="resetRecommendedCutoffs"
+          class="sasha-form-secondary-button"
+        >
+          Reset to Sasha's recommendations
+        </button>
+
+      </div>
+
+
+      <p class="sasha-form-help">
+        Sasha divides the time remaining before submission into five
+        equal working periods. The first four establish internal cutoffs
+        for key pursuit decisions. The final 20% is reserved for writing,
+        review, production and submission.
+      </p>
+
+      <p class="sasha-form-help">
+        These are recommendations, not hard stops. If a cutoff is missed,
+        Sasha may recommend reconsidering the pursuit, but the proposal
+        manager always makes the final decision.
+      </p>
+
+
+      <div class="sasha-form-grid sasha-form-grid-two">
+
+
+        {{!-- GO / NO GO --}}
+
+        <div class="sasha-form-field">
+
+          <label for="goNoGoCutoff">
+            Go / No Go cutoff
+
+            <span
+              class="sasha-form-required"
+              aria-hidden="true"
+            >
+              *
+            </span>
+          </label>
+
+          <input
+            type="datetime-local"
+            id="goNoGoCutoff"
+            name="goNoGoCutoff"
+            required
+          >
+
+          <p class="sasha-form-help">
+            Recommended at 20% of the time remaining.
+          </p>
+
+        </div>
+
+
+        {{!-- EFFORT LEVEL --}}
+
+        <div class="sasha-form-field">
+
+          <label for="effortLevelCutoff">
+            Effort level decided
+
+            <span
+              class="sasha-form-required"
+              aria-hidden="true"
+            >
+              *
+            </span>
+          </label>
+
+          <input
+            type="datetime-local"
+            id="effortLevelCutoff"
+            name="effortLevelCutoff"
+            required
+          >
+
+          <p class="sasha-form-help">
+            Recommended at 40% of the time remaining.
+          </p>
+
+        </div>
+
+
+        {{!-- OUTLINE --}}
+
+        <div class="sasha-form-field">
+
+          <label for="outlineCutoff">
+            Outline complete
+
+            <span
+              class="sasha-form-required"
+              aria-hidden="true"
+            >
+              *
+            </span>
+          </label>
+
+          <input
+            type="datetime-local"
+            id="outlineCutoff"
+            name="outlineCutoff"
+            required
+          >
+
+          <p class="sasha-form-help">
+            Recommended at 60% of the time remaining.
+          </p>
+
+        </div>
+
+
+        {{!-- WIN STRATEGY --}}
+
+        <div class="sasha-form-field">
+
+          <label for="winStrategyCutoff">
+            Win strategy complete
+
+            <span
+              class="sasha-form-required"
+              aria-hidden="true"
+            >
+              *
+            </span>
+          </label>
+
+          <input
+            type="datetime-local"
+            id="winStrategyCutoff"
+            name="winStrategyCutoff"
+            required
+          >
+
+          <p class="sasha-form-help">
+            Recommended at 80% of the time remaining.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="sasha-cutoff-final-period">
+
+        <strong>
+          Final 20%
+        </strong>
+
+        <span>
+          Reserved for writing, review, final production and submission.
+        </span>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</details>
+
       {{!-- =====================================================
            SEARCH INFORMATION
       ====================================================== --}}

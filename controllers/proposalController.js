@@ -1459,16 +1459,25 @@ async (
 
   try {
 
-    const {
-      proposalName,
-      clientName,
-      rfpNumber,
-      submissionDeadline,
-      proposalStatus,
-      searchKeywords,
-      aiSummary
-    } =
-      req.body;
+const {
+  proposalName,
+  clientName,
+  rfpNumber,
+  submissionDeadline,
+  proposalStatus,
+  searchKeywords,
+  aiSummary,
+
+  proposalManagerName,
+  proposalManagerEmail,
+  milestoneReminderPreference,
+
+  goNoGoCutoff,
+  effortLevelCutoff,
+  outlineCutoff,
+  winStrategyCutoff
+} =
+  req.body;
 
 
     /* =================================================
@@ -1517,6 +1526,60 @@ async (
 
 
 /* =================================================
+   PREPARE INTERNAL CUTOFFS
+================================================== */
+
+const parsedSubmissionDeadline =
+  submissionDeadline
+    ? new Date(
+        submissionDeadline
+      )
+    : null;
+
+
+const parsedGoNoGoCutoff =
+  goNoGoCutoff
+    ? new Date(
+        goNoGoCutoff
+      )
+    : null;
+
+
+const parsedEffortLevelCutoff =
+  effortLevelCutoff
+    ? new Date(
+        effortLevelCutoff
+      )
+    : null;
+
+
+const parsedOutlineCutoff =
+  outlineCutoff
+    ? new Date(
+        outlineCutoff
+      )
+    : null;
+
+
+const parsedWinStrategyCutoff =
+  winStrategyCutoff
+    ? new Date(
+        winStrategyCutoff
+      )
+    : null;
+
+/* =================================================
+   PREPARE REMINDER PREFERENCE
+================================================== */
+
+const reminderPreference =
+  milestoneReminderPreference ===
+    'email'
+    ? 'email'
+    : 'dashboard';
+
+    
+/* =================================================
    PREPARE UPLOADED FILES
 ================================================== */
 
@@ -1526,6 +1589,7 @@ const uploadedFiles =
   )
     ? req.files
     : [];
+
 
 
 /* =================================================
@@ -1559,9 +1623,8 @@ const proposal =
         ? rfpNumber.trim()
         : '',
 
-    submissionDeadline:
-      submissionDeadline ||
-      null,
+submissionDeadline:
+  parsedSubmissionDeadline,
 
     proposalStatus:
       proposalStatus ||
@@ -1570,9 +1633,55 @@ const proposal =
     searchKeywords:
       keywords,
 
-    aiSummary:
-      aiSummary ||
-      '',
+aiSummary:
+  aiSummary ||
+  '',
+
+
+proposalManager: {
+
+  name:
+    proposalManagerName.trim(),
+
+  email:
+    proposalManagerEmail
+      ? proposalManagerEmail
+          .trim()
+          .toLowerCase()
+      : '',
+
+  milestoneReminderPreference:
+    reminderPreference
+
+},
+
+
+/* =================================================
+   INTERNAL CUTOFFS
+================================================== */
+
+internalCutoffs: {
+
+  goNoGo:
+    parsedGoNoGoCutoff,
+
+  effortLevel:
+    parsedEffortLevelCutoff,
+
+  outline:
+    parsedOutlineCutoff,
+
+  winStrategy:
+    parsedWinStrategyCutoff,
+
+  recommendationBasis:
+    'remaining_time_20_percent',
+
+  committedAt:
+    new Date()
+
+},
+
 
 sourceDocuments:
   [],

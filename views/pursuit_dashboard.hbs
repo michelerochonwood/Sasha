@@ -141,106 +141,141 @@
     </header>
 
 
-    {{!-- =================================================
-         AT A GLANCE
-    ================================================== --}}
+{{!-- =================================================
+     PURSUIT ACCOUNTABILITY + INTERNAL CUTOFFS
+================================================== --}}
 
-    <section
-      class="sasha-pursuit-dashboard-summary"
-      aria-label="Pursuit summary"
-    >
-
-
-      {{!-- PROPOSAL MANAGER --}}
-
-      <article class="sasha-pursuit-summary-card">
-
-        <span class="sasha-pursuit-summary-label">
-          Proposal Manager
-        </span>
-
-        {{#if dashboard.proposalManager.name}}
-
-          <strong>
-            {{dashboard.proposalManager.name}}
-          </strong>
-
-        {{else}}
-
-          <strong class="is-empty">
-            Not assigned
-          </strong>
-
-        {{/if}}
-
-      </article>
+<section
+  class="sasha-pursuit-dashboard-summary"
+  aria-label="Pursuit accountability and internal cutoffs"
+>
 
 
-      {{!-- TEAM --}}
+  {{!-- PROPOSAL MANAGER --}}
 
-      <article class="sasha-pursuit-summary-card">
+  <article class="sasha-pursuit-summary-card">
 
-        <span class="sasha-pursuit-summary-label">
-          Proposal Team
-        </span>
+    <span class="sasha-pursuit-summary-label">
+      Proposal Manager
+    </span>
 
-        <strong>
-          {{dashboard.proposalTeamCount}}
-          team members
-        </strong>
+    {{#if dashboard.proposalManager.name}}
 
-      </article>
+      <strong>
+        {{dashboard.proposalManager.name}}
+      </strong>
 
+    {{else}}
 
-      {{!-- EFFORT LEVEL --}}
+      <strong class="is-empty">
+        Not assigned
+      </strong>
 
-      <article class="sasha-pursuit-summary-card">
+    {{/if}}
 
-        <span class="sasha-pursuit-summary-label">
-          Effort Level
-        </span>
-
-        <strong class="sasha-pursuit-capitalize">
-          {{dashboard.effortLevel}}
-        </strong>
-
-      </article>
+  </article>
 
 
-      {{!-- STAGES --}}
+  {{!-- GO / NO GO CUTOFF --}}
 
-      <article class="sasha-pursuit-summary-card">
+  <article class="sasha-pursuit-summary-card">
 
-        <span class="sasha-pursuit-summary-label">
-          Stages Complete
-        </span>
+    <span class="sasha-pursuit-summary-label">
+      Go / No Go
+    </span>
 
-        <strong>
-          {{dashboard.completedStageCount}}
-          of
-          {{dashboard.totalStageCount}}
-        </strong>
+    {{#if proposal.internalCutoffs.goNoGo}}
 
-      </article>
+      <strong>
+        {{formatDateTime proposal.internalCutoffs.goNoGo}}
+      </strong>
+
+    {{else}}
+
+      <strong class="is-empty">
+        Not set
+      </strong>
+
+    {{/if}}
+
+  </article>
 
 
-      {{!-- TASKS --}}
+  {{!-- EFFORT LEVEL CUTOFF --}}
 
-      <article class="sasha-pursuit-summary-card">
+  <article class="sasha-pursuit-summary-card">
 
-        <span class="sasha-pursuit-summary-label">
-          Tasks Complete
-        </span>
+    <span class="sasha-pursuit-summary-label">
+      Effort Level
+    </span>
 
-        <strong>
-          {{dashboard.completedTaskCount}}
-          of
-          {{dashboard.totalTaskCount}}
-        </strong>
+    {{#if proposal.internalCutoffs.effortLevel}}
 
-      </article>
+      <strong>
+        {{formatDateTime proposal.internalCutoffs.effortLevel}}
+      </strong>
 
-    </section>
+    {{else}}
+
+      <strong class="is-empty">
+        Not set
+      </strong>
+
+    {{/if}}
+
+  </article>
+
+
+  {{!-- OUTLINE CUTOFF --}}
+
+  <article class="sasha-pursuit-summary-card">
+
+    <span class="sasha-pursuit-summary-label">
+      Outline
+    </span>
+
+    {{#if proposal.internalCutoffs.outline}}
+
+      <strong>
+        {{formatDateTime proposal.internalCutoffs.outline}}
+      </strong>
+
+    {{else}}
+
+      <strong class="is-empty">
+        Not set
+      </strong>
+
+    {{/if}}
+
+  </article>
+
+
+  {{!-- WIN STRATEGY CUTOFF --}}
+
+  <article class="sasha-pursuit-summary-card">
+
+    <span class="sasha-pursuit-summary-label">
+      Win Strategy
+    </span>
+
+    {{#if proposal.internalCutoffs.winStrategy}}
+
+      <strong>
+        {{formatDateTime proposal.internalCutoffs.winStrategy}}
+      </strong>
+
+    {{else}}
+
+      <strong class="is-empty">
+        Not set
+      </strong>
+
+    {{/if}}
+
+  </article>
+
+</section>
 
 
     {{!-- =================================================
