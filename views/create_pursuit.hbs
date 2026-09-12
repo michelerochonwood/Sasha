@@ -1080,16 +1080,21 @@
       }
 
 
-      if (
-        submissionDeadlineInput
-      ) {
+if (
+  submissionDeadlineInput
+) {
 
-        submissionDeadlineInput.addEventListener(
-          'change',
-          calculateRecommendedCutoffs
-        );
+  submissionDeadlineInput.addEventListener(
+    'change',
+    calculateRecommendedCutoffs
+  );
 
-      }
+  submissionDeadlineInput.addEventListener(
+    'input',
+    calculateRecommendedCutoffs
+  );
+
+}
 
 
       if (
@@ -1151,7 +1156,11 @@
 
       updateReminderEmailRequirement();
 
+/* =====================================================
+   INITIAL CUTOFF CALCULATION
+===================================================== */
 
+calculateRecommendedCutoffs();
       /* =====================================================
          STOP HERE IF AI IMPORT IS UNAVAILABLE
       ====================================================== */
@@ -1168,7 +1177,41 @@
 
       }
 
+/* =====================================================
+   NORMALIZE DATETIME-LOCAL VALUE
+===================================================== */
 
+function normalizeDateTimeLocalValue(
+  value
+) {
+
+  if (!value) {
+    return '';
+  }
+
+
+  const date =
+    new Date(
+      value
+    );
+
+
+  if (
+    Number.isNaN(
+      date.getTime()
+    )
+  ) {
+
+    return '';
+
+  }
+
+
+  return formatDateTimeLocal(
+    date
+  );
+
+}
       /* =====================================================
          SET ONE FORM FIELD
       ====================================================== */
@@ -1356,13 +1399,20 @@
             );
 
 
-            setFieldValue(
-              'submissionDeadline',
-              suggestions.submissionDeadline
-            );
+if (
+  suggestions.submissionDeadline
+) {
 
+  setFieldValue(
+    'submissionDeadline',
+    normalizeDateTimeLocalValue(
+      suggestions.submissionDeadline
+    )
+  );
 
-            calculateRecommendedCutoffs();
+  calculateRecommendedCutoffs();
+
+}
 
 
             setFieldValue(
