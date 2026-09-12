@@ -948,6 +948,89 @@ if (
     'Go and Get';
 
 }
+
+/* =================================================
+   FORMAT INTERNAL CUTOFF DATES FOR DASHBOARD
+================================================== */
+
+const formatDashboardDateTime =
+  (
+    dateValue
+  ) => {
+
+    if (
+      !dateValue
+    ) {
+
+      return null;
+
+    }
+
+
+    const date =
+      new Date(
+        dateValue
+      );
+
+
+    if (
+      Number.isNaN(
+        date.getTime()
+      )
+    ) {
+
+      return null;
+
+    }
+
+
+    return date.toLocaleString(
+      'en-CA',
+      {
+        month:
+          'short',
+
+        day:
+          'numeric',
+
+        year:
+          'numeric',
+
+        hour:
+          'numeric',
+
+        minute:
+          '2-digit'
+      }
+    );
+
+  };
+
+
+const dashboardInternalCutoffs = {
+
+  goNoGo:
+    formatDashboardDateTime(
+      proposal.internalCutoffs?.goNoGo
+    ),
+
+  effortLevel:
+    formatDashboardDateTime(
+      proposal.internalCutoffs?.effortLevel
+    ),
+
+  outline:
+    formatDashboardDateTime(
+      proposal.internalCutoffs?.outline
+    ),
+
+  winStrategy:
+    formatDashboardDateTime(
+      proposal.internalCutoffs?.winStrategy
+    )
+
+};
+
     /* =================================================
        DASHBOARD DATA
     ================================================== */
@@ -1000,7 +1083,10 @@ goNoGoDecision:
   goNoGo.decision ||
   '',
 
-goNoGoDecisionLabel
+goNoGoDecisionLabel,
+
+internalCutoffs:
+  dashboardInternalCutoffs
 
     };
 
