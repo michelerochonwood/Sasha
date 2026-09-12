@@ -2,17 +2,18 @@
      CREATE A PURSUIT
 ====================================================== --}}
 
-<section class="sasha-form-page">
+<section class="sasha-create-pursuit-page">
 
-  <div class="sasha-form-container">
+  <div class="sasha-create-pursuit-container">
+
 
     {{!-- =================================================
          PAGE INTRODUCTION
     ================================================== --}}
 
-    <header class="sasha-form-header">
+    <header class="sasha-create-pursuit-header">
 
-      <p class="sasha-form-eyebrow">
+      <p class="sasha-create-pursuit-eyebrow">
         create a pursuit
       </p>
 
@@ -20,7 +21,7 @@
         Start a New Pursuit
       </h1>
 
-      <p class="sasha-form-intro">
+      <p class="sasha-create-pursuit-intro">
         Give Sasha whatever information you have. Upload the RFP,
         procurement documents, notes, emails, or other pursuit material
         and Sasha will complete as much of the initial record as possible.
@@ -31,30 +32,29 @@
     </header>
 
 
-    {{!-- =====================================================
+    {{!-- =================================================
          CREATE PURSUIT FORM
-    ====================================================== --}}
+    ================================================== --}}
 
-<form
-  class="sasha-pursuit-form"
-  action="/create_pursuit"
-  method="POST"
-  enctype="multipart/form-data"
->
+    <form
+      class="sasha-create-pursuit-form"
+      action="/create_pursuit"
+      method="POST"
+      enctype="multipart/form-data"
+    >
 
-  <input
-    type="hidden"
-    name="_csrf"
-    value="{{csrfToken}}"
-  >
+      <input
+        type="hidden"
+        name="_csrf"
+        value="{{csrfToken}}"
+      >
 
-
-  <input
-    type="hidden"
-    id="aiSummary"
-    name="aiSummary"
-    value=""
-  >
+      <input
+        type="hidden"
+        id="aiSummary"
+        name="aiSummary"
+        value=""
+      >
 
 
       {{!-- =================================================
@@ -62,17 +62,17 @@
       ================================================== --}}
 
       <section
-        class="sasha-ai-import-block"
-        aria-labelledby="sasha-ai-import-heading"
+        class="sasha-create-pursuit-import"
+        aria-labelledby="sasha-create-pursuit-import-heading"
       >
 
-        <div class="sasha-ai-import-header">
+        <div class="sasha-create-pursuit-import-header">
 
-          <p class="sasha-form-eyebrow">
+          <p class="sasha-create-pursuit-eyebrow">
             let Sasha get started
           </p>
 
-          <h2 id="sasha-ai-import-heading">
+          <h2 id="sasha-create-pursuit-import-heading">
             Give Sasha What You Have
           </h2>
 
@@ -86,13 +86,12 @@
         </div>
 
 
-        <div class="sasha-ai-import-grid">
+        <div class="sasha-create-pursuit-import-grid">
 
-          {{!-- =================================================
-               PROMPT
-          ================================================== --}}
 
-          <div class="sasha-form-field">
+          {{!-- PROMPT --}}
+
+          <div class="sasha-create-pursuit-field">
 
             <label for="sashaPursuitPrompt">
               Tell Sasha anything that might help
@@ -108,132 +107,119 @@
           </div>
 
 
-          {{!-- =================================================
-               SOURCE DOCUMENTS
-          ================================================== --}}
+          {{!-- SOURCE DOCUMENTS --}}
 
-<div class="sasha-form-field">
+          <div class="sasha-create-pursuit-field">
 
-  <label for="sourceDocuments">
-    Upload pursuit documents
-    <span class="sasha-form-optional">
-      optional
-    </span>
-  </label>
+            <label for="sourceDocuments">
+              Upload pursuit documents
 
-  <input
-    type="file"
-    id="sourceDocuments"
-    name="sourceDocuments"
-    accept=".pdf,.docx,.txt"
-    multiple
-  >
+              <span class="sasha-create-pursuit-optional">
+                optional
+              </span>
+            </label>
 
-  <p class="sasha-form-help">
-    Upload the RFP, procurement notice, addenda, client
-    correspondence, opportunity notes, scope documents, or
-    other material related to the pursuit.
-  </p>
+            <input
+              type="file"
+              id="sourceDocuments"
+              name="sourceDocuments"
+              accept=".pdf,.docx,.txt"
+              multiple
+            >
 
-</div>
+            <p class="sasha-create-pursuit-help">
+              Upload the RFP, procurement notice, addenda, client
+              correspondence, opportunity notes, scope documents, or
+              other material related to the pursuit.
+            </p>
 
-
-        {{!-- =================================================
-             WHAT SASHA WILL DO
-        ================================================== --}}
-
-        <div class="sasha-ai-import-note">
-
-          <strong>
-            What Sasha will do
-          </strong>
-
-          <ul>
-
-            <li>
-              Identify the pursuit name, client, RFP number,
-              submission deadline, and other available information.
-            </li>
-
-            <li>
-              Use your instructions to understand any context that
-              may not appear in the source documents.
-            </li>
-
-            <li>
-              Leave information blank when the source material does
-              not support a reliable answer.
-            </li>
-
-            <li>
-              Keep the uploaded documents with the pursuit so Sasha
-              can use them throughout the proposal process.
-            </li>
-
-          </ul>
-
-        </div>
+          </div>
 
 
-        {{!-- =================================================
-             AI ACTION
-        ================================================== --}}
+          {{!-- WHAT SASHA WILL DO --}}
 
-        <div class="sasha-ai-import-actions">
+          <div class="sasha-create-pursuit-import-note">
 
-          <button
-            type="button"
-            id="sashaPursuitImportButton"
-            class="sasha-form-submit-button"
+            <strong>
+              What Sasha will do
+            </strong>
+
+            <ul>
+
+              <li>
+                Identify the pursuit name, client, RFP number,
+                submission deadline, and other available information.
+              </li>
+
+              <li>
+                Use your instructions to understand any context that
+                may not appear in the source documents.
+              </li>
+
+              <li>
+                Leave information blank when the source material does
+                not support a reliable answer.
+              </li>
+
+              <li>
+                Keep the uploaded documents with the pursuit so Sasha
+                can use them throughout the proposal process.
+              </li>
+
+            </ul>
+
+          </div>
+
+
+          {{!-- AI ACTION --}}
+
+          <div class="sasha-create-pursuit-import-actions">
+
+            <button
+              type="button"
+              id="sashaPursuitImportButton"
+              class="sasha-create-pursuit-primary-button"
+            >
+              Let Sasha Start the Form
+            </button>
+
+          </div>
+
+
+          {{!-- SASHA WORKING --}}
+
+          <div
+            class="sasha-create-pursuit-loading"
+            id="sashaPursuitImportLoading"
+            hidden
+            aria-live="polite"
           >
-            Let Sasha Start the Form
-          </button>
 
+            <video
+              class="sasha-create-pursuit-loading-video"
+              autoplay
+              muted
+              loop
+              playsinline
+              preload="auto"
+              aria-hidden="true"
+            >
+              <source
+                src="/images/sasha-working.mp4"
+                type="video/mp4"
+              >
+            </video>
 
+            <p>
+              Sasha is reviewing the pursuit...
+            </p>
 
-{{!-- =================================================
-     SASHA WORKING
-================================================== --}}
-
-<div
-  class="sasha-ai-import-loading"
-  id="sashaPursuitImportLoading"
-  hidden
-  aria-live="polite"
->
-
-  <video
-    class="sasha-ai-import-loading-video"
-    autoplay
-    muted
-    loop
-    playsinline
-    preload="auto"
-    aria-hidden="true"
-  >
-
-    <source
-      src="/images/sasha-working.mp4"
-      type="video/mp4"
-    >
-
-  </video>
-
-
-  <p>
-    Sasha is reviewing the pursuit...
-  </p>
-
-</div>
-
-
-
-</div>
+          </div>
 
 
           <p
             id="sashaPursuitImportStatus"
-            class="sasha-form-help sasha-ai-import-status"
+            class="sasha-create-pursuit-import-status"
             aria-live="polite"
           ></p>
 
@@ -242,12 +228,12 @@
       </section>
 
 
-      {{!-- =====================================================
+      {{!-- =================================================
            PURSUIT BASICS
-      ====================================================== --}}
+      ================================================== --}}
 
       <details
-        class="sasha-form-section"
+        class="sasha-create-pursuit-section"
         open
       >
 
@@ -255,26 +241,31 @@
           Pursuit Basics
         </summary>
 
-        <div class="sasha-form-section-content">
+        <div class="sasha-create-pursuit-section-content">
 
-          <p class="sasha-form-section-intro">
+          <p class="sasha-create-pursuit-section-intro">
             Review the basic information Sasha found and make any
             changes before creating the pursuit.
           </p>
 
 
-          <div class="sasha-form-grid sasha-form-grid-two">
+          <div class="sasha-create-pursuit-grid sasha-create-pursuit-grid-two">
 
 
             {{!-- PROPOSAL NAME --}}
 
-            <div class="sasha-form-field sasha-form-field-wide">
+            <div
+              class="
+                sasha-create-pursuit-field
+                sasha-create-pursuit-field-wide
+              "
+            >
 
               <label for="proposalName">
                 Pursuit name
 
                 <span
-                  class="sasha-form-required"
+                  class="sasha-create-pursuit-required"
                   aria-hidden="true"
                 >
                   *
@@ -295,11 +286,12 @@
 
             {{!-- CLIENT --}}
 
-            <div class="sasha-form-field">
+            <div class="sasha-create-pursuit-field">
 
               <label for="clientName">
                 Client
-                <span class="sasha-form-optional">
+
+                <span class="sasha-create-pursuit-optional">
                   optional
                 </span>
               </label>
@@ -317,11 +309,12 @@
 
             {{!-- RFP NUMBER --}}
 
-            <div class="sasha-form-field">
+            <div class="sasha-create-pursuit-field">
 
               <label for="rfpNumber">
                 RFP or procurement number
-                <span class="sasha-form-optional">
+
+                <span class="sasha-create-pursuit-optional">
                   optional
                 </span>
               </label>
@@ -339,12 +332,16 @@
 
             {{!-- SUBMISSION DEADLINE --}}
 
-            <div class="sasha-form-field">
+            <div class="sasha-create-pursuit-field">
 
               <label for="submissionDeadline">
                 Submission deadline
-                <span class="sasha-form-optional">
-                  optional
+
+                <span
+                  class="sasha-create-pursuit-required"
+                  aria-hidden="true"
+                >
+                  *
                 </span>
               </label>
 
@@ -352,6 +349,7 @@
                 type="datetime-local"
                 id="submissionDeadline"
                 name="submissionDeadline"
+                required
               >
 
             </div>
@@ -359,7 +357,7 @@
 
             {{!-- STATUS --}}
 
-            <div class="sasha-form-field">
+            <div class="sasha-create-pursuit-field">
 
               <label for="proposalStatus">
                 Pursuit status
@@ -404,354 +402,390 @@
       </details>
 
 
-{{!-- =====================================================
-     PURSUIT ACCOUNTABILITY + INTERNAL CUTOFFS
-====================================================== --}}
+      {{!-- =================================================
+           PROPOSAL LEADERSHIP + INTERNAL CUTOFFS
+      ================================================== --}}
 
-<details
-  class="sasha-form-section"
-  open
->
+      <details
+        class="sasha-create-pursuit-section"
+        open
+      >
 
-  <summary>
-    Proposal Leadership & Internal Cutoffs
-  </summary>
+        <summary>
+          Proposal Leadership &amp; Internal Cutoffs
+        </summary>
 
-  <div class="sasha-form-section-content">
-
-    <p class="sasha-form-section-intro">
-      A pursuit needs an owner. Opportunities can lose valuable time when
-      everyone assumes someone else is taking the lead. Before creating this
-      pursuit, identify the proposal manager who will be accountable for
-      moving it forward.
-    </p>
+        <div class="sasha-create-pursuit-section-content">
 
 
-    {{!-- =================================================
-         PROPOSAL MANAGER
-    ================================================== --}}
-
-    <div class="sasha-form-grid sasha-form-grid-two">
-
-      <div class="sasha-form-field">
-
-        <label for="proposalManagerName">
-          Proposal manager
-
-          <span
-            class="sasha-form-required"
-            aria-hidden="true"
-          >
-            *
-          </span>
-        </label>
-
-        <input
-          type="text"
-          id="proposalManagerName"
-          name="proposalManagerName"
-          required
-          maxlength="200"
-          autocomplete="name"
-          placeholder="Name of the person responsible for this pursuit"
-        >
-
-        <p class="sasha-form-help">
-          Sasha will not choose the proposal manager. Someone needs to
-          explicitly take responsibility for moving the pursuit forward.
-        </p>
-
-      </div>
-
-
-      <div class="sasha-form-field">
-
-        <label for="proposalManagerEmail">
-          Proposal manager email
-
-          <span class="sasha-form-optional">
-            optional
-          </span>
-        </label>
-
-        <input
-          type="email"
-          id="proposalManagerEmail"
-          name="proposalManagerEmail"
-          maxlength="250"
-          autocomplete="email"
-          placeholder="name@company.com"
-        >
-
-        <p class="sasha-form-help">
-          Required only if you want Sasha to send milestone reminders.
-        </p>
-
-      </div>
-
-    </div>
-
-
-    {{!-- =================================================
-         REMINDER PREFERENCE
-    ================================================== --}}
-
-    <div class="sasha-form-field">
-
-      <label>
-        Milestone reminders
-      </label>
-
-      <div class="sasha-form-choice-group">
-
-        <label class="sasha-form-choice">
-
-          <input
-            type="radio"
-            name="milestoneReminderPreference"
-            value="dashboard"
-            checked
-          >
-
-          <span>
-            Dashboard only
-          </span>
-
-        </label>
-
-
-        <label class="sasha-form-choice">
-
-          <input
-            type="radio"
-            name="milestoneReminderPreference"
-            value="email"
-          >
-
-          <span>
-            Email me milestone reminders
-          </span>
-
-        </label>
-
-      </div>
-
-      <p class="sasha-form-help">
-        You can change this preference later.
-      </p>
-
-    </div>
-
-
-    {{!-- =================================================
-         SASHA RECOMMENDED INTERNAL CUTOFFS
-    ================================================== --}}
-
-    <div class="sasha-cutoff-block">
-
-      <div class="sasha-cutoff-header">
-
-        <div>
-
-          <p class="sasha-form-eyebrow">
-            Sasha's recommended cutoffs
+          <p class="sasha-create-pursuit-section-intro">
+            A pursuit needs an owner. Opportunities can lose valuable time
+            when everyone assumes someone else is taking the lead. Before
+            creating this pursuit, identify the proposal manager who will
+            be accountable for moving it forward.
           </p>
 
-          <h3>
-            Protect enough time to finish the proposal properly
-          </h3>
+
+          {{!-- =================================================
+               PROPOSAL MANAGER
+          ================================================== --}}
+
+          <div class="sasha-create-pursuit-grid sasha-create-pursuit-grid-two">
+
+
+            <div class="sasha-create-pursuit-field">
+
+              <label for="proposalManagerName">
+                Proposal manager
+
+                <span
+                  class="sasha-create-pursuit-required"
+                  aria-hidden="true"
+                >
+                  *
+                </span>
+              </label>
+
+              <input
+                type="text"
+                id="proposalManagerName"
+                name="proposalManagerName"
+                required
+                maxlength="200"
+                autocomplete="name"
+                placeholder="Name of the person responsible for this pursuit"
+              >
+
+              <p class="sasha-create-pursuit-help">
+                Sasha will not choose the proposal manager. Someone needs
+                to explicitly take responsibility for moving the pursuit
+                forward.
+              </p>
+
+            </div>
+
+
+            <div class="sasha-create-pursuit-field">
+
+              <label for="proposalManagerEmail">
+                Proposal manager email
+
+                <span class="sasha-create-pursuit-optional">
+                  optional
+                </span>
+              </label>
+
+              <input
+                type="email"
+                id="proposalManagerEmail"
+                name="proposalManagerEmail"
+                maxlength="250"
+                autocomplete="email"
+                placeholder="name@company.com"
+              >
+
+              <p class="sasha-create-pursuit-help">
+                Required only if you want Sasha to send milestone reminders.
+              </p>
+
+            </div>
+
+          </div>
+
+
+          {{!-- =================================================
+               REMINDER PREFERENCE
+          ================================================== --}}
+
+          <fieldset class="sasha-create-pursuit-reminders">
+
+            <legend>
+              Milestone reminders
+            </legend>
+
+
+            <div class="sasha-create-pursuit-reminder-grid">
+
+
+              <label class="sasha-create-pursuit-reminder-option">
+
+                <input
+                  type="radio"
+                  name="milestoneReminderPreference"
+                  value="dashboard"
+                  checked
+                >
+
+                <span class="sasha-create-pursuit-reminder-control"></span>
+
+                <span class="sasha-create-pursuit-reminder-copy">
+
+                  <strong>
+                    Dashboard only
+                  </strong>
+
+                  <small>
+                    Sasha will show the cutoff status on the pursuit dashboard.
+                  </small>
+
+                </span>
+
+              </label>
+
+
+              <label class="sasha-create-pursuit-reminder-option">
+
+                <input
+                  type="radio"
+                  name="milestoneReminderPreference"
+                  value="email"
+                >
+
+                <span class="sasha-create-pursuit-reminder-control"></span>
+
+                <span class="sasha-create-pursuit-reminder-copy">
+
+                  <strong>
+                    Email milestone reminders
+                  </strong>
+
+                  <small>
+                    Sasha can also nudge the proposal manager as cutoffs
+                    approach.
+                  </small>
+
+                </span>
+
+              </label>
+
+            </div>
+
+
+            <p class="sasha-create-pursuit-help">
+              You can change this preference later.
+            </p>
+
+          </fieldset>
+
+
+          {{!-- =================================================
+               SASHA RECOMMENDED CUTOFFS
+          ================================================== --}}
+
+          <section class="sasha-create-pursuit-cutoffs">
+
+            <header class="sasha-create-pursuit-cutoff-header">
+
+              <div>
+
+                <p class="sasha-create-pursuit-cutoff-eyebrow">
+                  Sasha's recommended cutoffs
+                </p>
+
+                <h3>
+                  Protect enough time to finish the proposal properly
+                </h3>
+
+              </div>
+
+
+              <button
+                type="button"
+                id="resetRecommendedCutoffs"
+                class="sasha-create-pursuit-reset-button"
+              >
+                Reset to Sasha's recommendations
+              </button>
+
+            </header>
+
+
+            <div class="sasha-create-pursuit-cutoff-explanation">
+
+              <p>
+                Sasha divides the time remaining before submission into
+                five equal working periods. The first four establish
+                internal cutoffs for key pursuit decisions.
+              </p>
+
+              <p>
+                The final 20% is reserved for writing, review, production
+                and submission. These are recommendations, not hard stops.
+                If a cutoff is missed, Sasha may recommend reconsidering
+                the pursuit, but the proposal manager always makes the
+                final decision.
+              </p>
+
+            </div>
+
+
+            <div class="sasha-create-pursuit-grid sasha-create-pursuit-grid-two">
+
+
+              {{!-- GO / NO GO --}}
+
+              <div class="sasha-create-pursuit-field">
+
+                <label for="goNoGoCutoff">
+                  Go / No Go cutoff
+
+                  <span
+                    class="sasha-create-pursuit-required"
+                    aria-hidden="true"
+                  >
+                    *
+                  </span>
+                </label>
+
+                <input
+                  type="datetime-local"
+                  id="goNoGoCutoff"
+                  name="goNoGoCutoff"
+                  required
+                >
+
+                <p class="sasha-create-pursuit-help">
+                  Recommended at 20% of the time remaining.
+                </p>
+
+              </div>
+
+
+              {{!-- EFFORT LEVEL --}}
+
+              <div class="sasha-create-pursuit-field">
+
+                <label for="effortLevelCutoff">
+                  Effort level decided
+
+                  <span
+                    class="sasha-create-pursuit-required"
+                    aria-hidden="true"
+                  >
+                    *
+                  </span>
+                </label>
+
+                <input
+                  type="datetime-local"
+                  id="effortLevelCutoff"
+                  name="effortLevelCutoff"
+                  required
+                >
+
+                <p class="sasha-create-pursuit-help">
+                  Recommended at 40% of the time remaining.
+                </p>
+
+              </div>
+
+
+              {{!-- OUTLINE --}}
+
+              <div class="sasha-create-pursuit-field">
+
+                <label for="outlineCutoff">
+                  Outline complete
+
+                  <span
+                    class="sasha-create-pursuit-required"
+                    aria-hidden="true"
+                  >
+                    *
+                  </span>
+                </label>
+
+                <input
+                  type="datetime-local"
+                  id="outlineCutoff"
+                  name="outlineCutoff"
+                  required
+                >
+
+                <p class="sasha-create-pursuit-help">
+                  Recommended at 60% of the time remaining.
+                </p>
+
+              </div>
+
+
+              {{!-- WIN STRATEGY --}}
+
+              <div class="sasha-create-pursuit-field">
+
+                <label for="winStrategyCutoff">
+                  Win strategy complete
+
+                  <span
+                    class="sasha-create-pursuit-required"
+                    aria-hidden="true"
+                  >
+                    *
+                  </span>
+                </label>
+
+                <input
+                  type="datetime-local"
+                  id="winStrategyCutoff"
+                  name="winStrategyCutoff"
+                  required
+                >
+
+                <p class="sasha-create-pursuit-help">
+                  Recommended at 80% of the time remaining.
+                </p>
+
+              </div>
+
+            </div>
+
+
+            <div class="sasha-create-pursuit-final-period">
+
+              <strong>
+                Final 20%
+              </strong>
+
+              <span>
+                Reserved for writing, review, final production and
+                submission.
+              </span>
+
+            </div>
+
+          </section>
 
         </div>
 
-        <button
-          type="button"
-          id="resetRecommendedCutoffs"
-          class="sasha-form-secondary-button"
-        >
-          Reset to Sasha's recommendations
-        </button>
-
-      </div>
+      </details>
 
 
-      <p class="sasha-form-help">
-        Sasha divides the time remaining before submission into five
-        equal working periods. The first four establish internal cutoffs
-        for key pursuit decisions. The final 20% is reserved for writing,
-        review, production and submission.
-      </p>
-
-      <p class="sasha-form-help">
-        These are recommendations, not hard stops. If a cutoff is missed,
-        Sasha may recommend reconsidering the pursuit, but the proposal
-        manager always makes the final decision.
-      </p>
-
-
-      <div class="sasha-form-grid sasha-form-grid-two">
-
-
-        {{!-- GO / NO GO --}}
-
-        <div class="sasha-form-field">
-
-          <label for="goNoGoCutoff">
-            Go / No Go cutoff
-
-            <span
-              class="sasha-form-required"
-              aria-hidden="true"
-            >
-              *
-            </span>
-          </label>
-
-          <input
-            type="datetime-local"
-            id="goNoGoCutoff"
-            name="goNoGoCutoff"
-            required
-          >
-
-          <p class="sasha-form-help">
-            Recommended at 20% of the time remaining.
-          </p>
-
-        </div>
-
-
-        {{!-- EFFORT LEVEL --}}
-
-        <div class="sasha-form-field">
-
-          <label for="effortLevelCutoff">
-            Effort level decided
-
-            <span
-              class="sasha-form-required"
-              aria-hidden="true"
-            >
-              *
-            </span>
-          </label>
-
-          <input
-            type="datetime-local"
-            id="effortLevelCutoff"
-            name="effortLevelCutoff"
-            required
-          >
-
-          <p class="sasha-form-help">
-            Recommended at 40% of the time remaining.
-          </p>
-
-        </div>
-
-
-        {{!-- OUTLINE --}}
-
-        <div class="sasha-form-field">
-
-          <label for="outlineCutoff">
-            Outline complete
-
-            <span
-              class="sasha-form-required"
-              aria-hidden="true"
-            >
-              *
-            </span>
-          </label>
-
-          <input
-            type="datetime-local"
-            id="outlineCutoff"
-            name="outlineCutoff"
-            required
-          >
-
-          <p class="sasha-form-help">
-            Recommended at 60% of the time remaining.
-          </p>
-
-        </div>
-
-
-        {{!-- WIN STRATEGY --}}
-
-        <div class="sasha-form-field">
-
-          <label for="winStrategyCutoff">
-            Win strategy complete
-
-            <span
-              class="sasha-form-required"
-              aria-hidden="true"
-            >
-              *
-            </span>
-          </label>
-
-          <input
-            type="datetime-local"
-            id="winStrategyCutoff"
-            name="winStrategyCutoff"
-            required
-          >
-
-          <p class="sasha-form-help">
-            Recommended at 80% of the time remaining.
-          </p>
-
-        </div>
-
-      </div>
-
-
-      <div class="sasha-cutoff-final-period">
-
-        <strong>
-          Final 20%
-        </strong>
-
-        <span>
-          Reserved for writing, review, final production and submission.
-        </span>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</details>
-
-      {{!-- =====================================================
+      {{!-- =================================================
            SEARCH INFORMATION
-      ====================================================== --}}
+      ================================================== --}}
 
-      <details class="sasha-form-section">
+      <details class="sasha-create-pursuit-section">
 
         <summary>
           Search Information
         </summary>
 
-        <div class="sasha-form-section-content">
+        <div class="sasha-create-pursuit-section-content">
 
-          <p class="sasha-form-section-intro">
+          <p class="sasha-create-pursuit-section-intro">
             Sasha can add useful search terms based on the opportunity.
             You can change or add to them if you wish.
           </p>
 
 
-          <div class="sasha-form-grid">
+          <div class="sasha-create-pursuit-grid">
 
-            <div class="sasha-form-field">
+            <div class="sasha-create-pursuit-field">
 
               <label for="searchKeywords">
                 Search keywords
-                <span class="sasha-form-optional">
+
+                <span class="sasha-create-pursuit-optional">
                   optional
                 </span>
               </label>
@@ -763,7 +797,7 @@
                 placeholder="Water treatment, municipal, detailed design, contract administration..."
               >
 
-              <p class="sasha-form-help">
+              <p class="sasha-create-pursuit-help">
                 Separate multiple keywords with commas.
               </p>
 
@@ -776,21 +810,21 @@
       </details>
 
 
-      {{!-- =====================================================
+      {{!-- =================================================
            FORM ACTIONS
-      ====================================================== --}}
+      ================================================== --}}
 
-      <div class="sasha-form-actions">
+      <div class="sasha-create-pursuit-actions">
 
         <a
-          class="sasha-form-cancel-button"
+          class="sasha-create-pursuit-cancel-button"
           href="/pursuits"
         >
           Cancel
         </a>
 
         <button
-          class="sasha-form-submit-button"
+          class="sasha-create-pursuit-primary-button"
           type="submit"
         >
           Create pursuit
@@ -806,7 +840,7 @@
 
 
 {{!-- =====================================================
-     SASHA AI IMPORT SCRIPT
+     CREATE PURSUIT SCRIPT
 ====================================================== --}}
 
 <script>
@@ -814,6 +848,11 @@
   document.addEventListener(
     'DOMContentLoaded',
     () => {
+
+
+      /* =====================================================
+         AI IMPORT ELEMENTS
+      ====================================================== */
 
       const importButton =
         document.getElementById(
@@ -846,6 +885,277 @@
         );
 
 
+      /* =====================================================
+         CUTOFF ELEMENTS
+      ====================================================== */
+
+      const submissionDeadlineInput =
+        document.getElementById(
+          'submissionDeadline'
+        );
+
+      const goNoGoCutoffInput =
+        document.getElementById(
+          'goNoGoCutoff'
+        );
+
+      const effortLevelCutoffInput =
+        document.getElementById(
+          'effortLevelCutoff'
+        );
+
+      const outlineCutoffInput =
+        document.getElementById(
+          'outlineCutoff'
+        );
+
+      const winStrategyCutoffInput =
+        document.getElementById(
+          'winStrategyCutoff'
+        );
+
+      const resetRecommendedCutoffsButton =
+        document.getElementById(
+          'resetRecommendedCutoffs'
+        );
+
+      const proposalManagerEmailInput =
+        document.getElementById(
+          'proposalManagerEmail'
+        );
+
+
+      /* =====================================================
+         FORMAT DATE FOR DATETIME-LOCAL
+      ====================================================== */
+
+      function formatDateTimeLocal(
+        date
+      ) {
+
+        if (
+          !date ||
+          Number.isNaN(
+            date.getTime()
+          )
+        ) {
+
+          return '';
+
+        }
+
+
+        const pad =
+          (value) =>
+            String(value).padStart(
+              2,
+              '0'
+            );
+
+
+        return (
+          date.getFullYear() +
+          '-' +
+          pad(
+            date.getMonth() + 1
+          ) +
+          '-' +
+          pad(
+            date.getDate()
+          ) +
+          'T' +
+          pad(
+            date.getHours()
+          ) +
+          ':' +
+          pad(
+            date.getMinutes()
+          )
+        );
+
+      }
+
+
+      /* =====================================================
+         CALCULATE RECOMMENDED CUTOFFS
+      ====================================================== */
+
+      function calculateRecommendedCutoffs() {
+
+        if (
+          !submissionDeadlineInput ||
+          !submissionDeadlineInput.value
+        ) {
+
+          return;
+
+        }
+
+
+        const now =
+          new Date();
+
+
+        const deadline =
+          new Date(
+            submissionDeadlineInput.value
+          );
+
+
+        if (
+          Number.isNaN(
+            deadline.getTime()
+          ) ||
+          deadline <= now
+        ) {
+
+          return;
+
+        }
+
+
+        const remainingMilliseconds =
+          deadline.getTime() -
+          now.getTime();
+
+
+        const calculateCutoff =
+          (percentage) =>
+            new Date(
+              now.getTime() +
+              (
+                remainingMilliseconds *
+                percentage
+              )
+            );
+
+
+        if (goNoGoCutoffInput) {
+
+          goNoGoCutoffInput.value =
+            formatDateTimeLocal(
+              calculateCutoff(
+                0.20
+              )
+            );
+
+        }
+
+
+        if (effortLevelCutoffInput) {
+
+          effortLevelCutoffInput.value =
+            formatDateTimeLocal(
+              calculateCutoff(
+                0.40
+              )
+            );
+
+        }
+
+
+        if (outlineCutoffInput) {
+
+          outlineCutoffInput.value =
+            formatDateTimeLocal(
+              calculateCutoff(
+                0.60
+              )
+            );
+
+        }
+
+
+        if (winStrategyCutoffInput) {
+
+          winStrategyCutoffInput.value =
+            formatDateTimeLocal(
+              calculateCutoff(
+                0.80
+              )
+            );
+
+        }
+
+      }
+
+
+      if (
+        submissionDeadlineInput
+      ) {
+
+        submissionDeadlineInput.addEventListener(
+          'change',
+          calculateRecommendedCutoffs
+        );
+
+      }
+
+
+      if (
+        resetRecommendedCutoffsButton
+      ) {
+
+        resetRecommendedCutoffsButton.addEventListener(
+          'click',
+          calculateRecommendedCutoffs
+        );
+
+      }
+
+
+      /* =====================================================
+         EMAIL REMINDER REQUIREMENT
+      ====================================================== */
+
+      function updateReminderEmailRequirement() {
+
+        const selectedPreference =
+          document.querySelector(
+            'input[name="milestoneReminderPreference"]:checked'
+          );
+
+
+        if (
+          !proposalManagerEmailInput ||
+          !selectedPreference
+        ) {
+
+          return;
+
+        }
+
+
+        proposalManagerEmailInput.required =
+          selectedPreference.value ===
+          'email';
+
+      }
+
+
+      document
+        .querySelectorAll(
+          'input[name="milestoneReminderPreference"]'
+        )
+        .forEach(
+          (input) => {
+
+            input.addEventListener(
+              'change',
+              updateReminderEmailRequirement
+            );
+
+          }
+        );
+
+
+      updateReminderEmailRequirement();
+
+
+      /* =====================================================
+         STOP HERE IF AI IMPORT IS UNAVAILABLE
+      ====================================================== */
+
       if (
         !importButton ||
         !promptInput ||
@@ -853,7 +1163,9 @@
         !status ||
         !loading
       ) {
+
         return;
+
       }
 
 
@@ -871,7 +1183,9 @@
           value === undefined ||
           value === ''
         ) {
+
           return;
+
         }
 
 
@@ -882,21 +1196,31 @@
 
 
         if (!field) {
+
           return;
+
         }
 
 
-        if (Array.isArray(value)) {
+        if (
+          Array.isArray(
+            value
+          )
+        ) {
 
           field.value =
-            value.join(', ');
+            value.join(
+              ', '
+            );
 
           return;
+
         }
 
 
         field.value =
           value;
+
       }
 
 
@@ -910,7 +1234,8 @@
 
           const files =
             Array.from(
-              fileInput.files || []
+              fileInput.files ||
+              []
             );
 
 
@@ -927,6 +1252,7 @@
               'Upload a pursuit document or tell Sasha something about the opportunity first.';
 
             return;
+
           }
 
 
@@ -981,8 +1307,11 @@
               await fetch(
                 '/create_pursuit/analyze',
                 {
-                  method: 'POST',
-                  body: formData
+                  method:
+                    'POST',
+
+                  body:
+                    formData
                 }
               );
 
@@ -1005,7 +1334,8 @@
 
 
             const suggestions =
-              result.suggestions || {};
+              result.suggestions ||
+              {};
 
 
             setFieldValue(
@@ -1032,6 +1362,9 @@
             );
 
 
+            calculateRecommendedCutoffs();
+
+
             setFieldValue(
               'proposalStatus',
               suggestions.proposalStatus
@@ -1056,12 +1389,17 @@
 
             const pursuitBasics =
               document.querySelector(
-                '.sasha-form-section'
+                '.sasha-create-pursuit-section'
               );
 
 
-            if (pursuitBasics) {
-              pursuitBasics.open = true;
+            if (
+              pursuitBasics
+            ) {
+
+              pursuitBasics.open =
+                true;
+
             }
 
 
@@ -1071,16 +1409,26 @@
               );
 
 
-            if (proposalName) {
+            if (
+              proposalName
+            ) {
 
-              proposalName.scrollIntoView({
-                behavior: 'smooth',
-                block: 'center'
-              });
+              proposalName.scrollIntoView(
+                {
+                  behavior:
+                    'smooth',
+
+                  block:
+                    'center'
+                }
+              );
 
             }
 
-          } catch (error) {
+
+          } catch (
+            error
+          ) {
 
             console.error(
               'PURSUIT ANALYSIS REQUEST FAILED:',
@@ -1091,6 +1439,7 @@
             status.textContent =
               error.message ||
               'Sasha could not review the pursuit material.';
+
 
           } finally {
 
