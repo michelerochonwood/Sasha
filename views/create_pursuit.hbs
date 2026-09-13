@@ -426,71 +426,76 @@
           </p>
 
 
-          {{!-- =================================================
-               PROPOSAL MANAGER
-          ================================================== --}}
+{{!-- =================================================
+     PROPOSAL MANAGER
+================================================== --}}
 
-          <div class="sasha-create-pursuit-grid sasha-create-pursuit-grid-two">
-
-
-            <div class="sasha-create-pursuit-field">
-
-              <label for="proposalManagerName">
-                Proposal manager
-
-                <span
-                  class="sasha-create-pursuit-required"
-                  aria-hidden="true"
-                >
-                  *
-                </span>
-              </label>
-
-              <input
-                type="text"
-                id="proposalManagerName"
-                name="proposalManagerName"
-                required
-                maxlength="200"
-                autocomplete="name"
-                placeholder="Name of the person responsible for this pursuit"
-              >
-
-              <p class="sasha-create-pursuit-help">
-                Sasha will not choose the proposal manager. Someone needs
-                to explicitly take responsibility for moving the pursuit
-                forward.
-              </p>
-
-            </div>
+<div class="sasha-create-pursuit-grid sasha-create-pursuit-grid-two">
 
 
-            <div class="sasha-create-pursuit-field">
+  {{!-- PROPOSAL MANAGER NAME --}}
 
-              <label for="proposalManagerEmail">
-                Proposal manager email
+  <div class="sasha-create-pursuit-field">
 
-                <span class="sasha-create-pursuit-optional">
-                  optional
-                </span>
-              </label>
+    <label for="proposalManagerName">
+      Proposal manager
 
-              <input
-                type="email"
-                id="proposalManagerEmail"
-                name="proposalManagerEmail"
-                maxlength="250"
-                autocomplete="email"
-                placeholder="name@company.com"
-              >
+      <span
+        class="sasha-create-pursuit-required"
+        aria-hidden="true"
+      >
+        *
+      </span>
+    </label>
 
-              <p class="sasha-create-pursuit-help">
-                Required only if you want Sasha to send milestone reminders.
-              </p>
+    <input
+      type="text"
+      id="proposalManagerName"
+      name="proposalManagerName"
+      required
+      maxlength="200"
+      autocomplete="name"
+      placeholder="Name of the person responsible for this pursuit"
+    >
 
-            </div>
+    <p class="sasha-create-pursuit-help">
+      Identify the person accountable for moving this pursuit forward.
+    </p>
 
-          </div>
+  </div>
+
+
+  {{!-- PROPOSAL MANAGER EMAIL --}}
+
+  <div class="sasha-create-pursuit-field">
+
+    <label for="proposalManagerEmail">
+      Proposal manager email
+
+      <span class="sasha-create-pursuit-optional">
+        optional
+      </span>
+    </label>
+
+    <input
+      type="email"
+      id="proposalManagerEmail"
+      name="proposalManagerEmail"
+      maxlength="250"
+      autocomplete="email"
+      placeholder="name@company.com"
+    >
+
+    <p class="sasha-create-pursuit-help">
+      Add an email address if you would like Sasha to contact
+      the proposal manager about this pursuit. An email address
+      is required if email milestone reminders are selected below.
+    </p>
+
+  </div>
+
+
+</div>
 
 
           {{!-- =================================================
