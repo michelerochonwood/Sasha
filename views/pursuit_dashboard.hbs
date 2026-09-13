@@ -151,7 +151,9 @@
 >
 
 
-  {{!-- PROPOSAL MANAGER --}}
+  {{!-- =================================================
+       PROPOSAL MANAGER
+  ================================================== --}}
 
   <article class="sasha-pursuit-summary-card">
 
@@ -165,6 +167,14 @@
         {{dashboard.proposalManager.name}}
       </strong>
 
+      {{#if dashboard.proposalManager.email}}
+
+        <span class="sasha-pursuit-summary-secondary">
+          {{dashboard.proposalManager.email}}
+        </span>
+
+      {{/if}}
+
     {{else}}
 
       <strong class="is-empty">
@@ -176,102 +186,146 @@
   </article>
 
 
-  {{!-- GO / NO GO CUTOFF --}}
+  {{!-- =================================================
+       GO / NO GO CUTOFF
+  ================================================== --}}
 
-  <article class="sasha-pursuit-summary-card">
+  <article
+    class="sasha-pursuit-summary-card sasha-pursuit-deadline-card"
+    {{#if proposal.internalCutoffs.goNoGo}}
+      data-internal-deadline="{{proposal.internalCutoffs.goNoGo}}"
+    {{/if}}
+  >
 
-<span class="sasha-pursuit-summary-label">
-  Go / No Go
-</span>
+    <span class="sasha-pursuit-summary-label">
+      Go / No Go
+    </span>
 
-{{#if dashboard.internalCutoffs.goNoGo}}
+    {{#if dashboard.internalCutoffs.goNoGo}}
 
-  <strong>
-    {{dashboard.internalCutoffs.goNoGo}}
-  </strong>
+      <strong>
+        {{dashboard.internalCutoffs.goNoGo}}
+      </strong>
 
-{{else}}
+      <span class="sasha-pursuit-deadline-remaining">
+        Calculating time remaining...
+      </span>
 
-  <strong class="is-empty">
-    Not set
-  </strong>
+    {{else}}
 
-{{/if}}
+      <strong class="is-empty">
+        Not set
+      </strong>
 
-  </article>
-
-
-  {{!-- EFFORT LEVEL CUTOFF --}}
-
-  <article class="sasha-pursuit-summary-card">
-
-<span class="sasha-pursuit-summary-label">
-  Effort Level
-</span>
-
-{{#if dashboard.internalCutoffs.effortLevel}}
-
-  <strong>
-    {{dashboard.internalCutoffs.effortLevel}}
-  </strong>
-
-{{else}}
-
-  <strong class="is-empty">
-    Not set
-  </strong>
-
-{{/if}}
+    {{/if}}
 
   </article>
 
 
-  {{!-- OUTLINE CUTOFF --}}
+  {{!-- =================================================
+       EFFORT LEVEL CUTOFF
+  ================================================== --}}
 
-  <article class="sasha-pursuit-summary-card">
+  <article
+    class="sasha-pursuit-summary-card sasha-pursuit-deadline-card"
+    {{#if proposal.internalCutoffs.effortLevel}}
+      data-internal-deadline="{{proposal.internalCutoffs.effortLevel}}"
+    {{/if}}
+  >
 
-<span class="sasha-pursuit-summary-label">
-  Outline
-</span>
+    <span class="sasha-pursuit-summary-label">
+      Effort Level
+    </span>
 
-{{#if dashboard.internalCutoffs.outline}}
+    {{#if dashboard.internalCutoffs.effortLevel}}
 
-  <strong>
-    {{dashboard.internalCutoffs.outline}}
-  </strong>
+      <strong>
+        {{dashboard.internalCutoffs.effortLevel}}
+      </strong>
 
-{{else}}
+      <span class="sasha-pursuit-deadline-remaining">
+        Calculating time remaining...
+      </span>
 
-  <strong class="is-empty">
-    Not set
-  </strong>
+    {{else}}
 
-{{/if}}
+      <strong class="is-empty">
+        Not set
+      </strong>
+
+    {{/if}}
 
   </article>
 
 
-  {{!-- WIN STRATEGY CUTOFF --}}
+  {{!-- =================================================
+       OUTLINE CUTOFF
+  ================================================== --}}
 
-  <article class="sasha-pursuit-summary-card">
+  <article
+    class="sasha-pursuit-summary-card sasha-pursuit-deadline-card"
+    {{#if proposal.internalCutoffs.outline}}
+      data-internal-deadline="{{proposal.internalCutoffs.outline}}"
+    {{/if}}
+  >
 
-<span class="sasha-pursuit-summary-label">
-  Win Strategy
-</span>
+    <span class="sasha-pursuit-summary-label">
+      Outline
+    </span>
 
-{{#if dashboard.internalCutoffs.winStrategy}}
+    {{#if dashboard.internalCutoffs.outline}}
 
-  <strong>
-    {{dashboard.internalCutoffs.winStrategy}}
-  </strong>
+      <strong>
+        {{dashboard.internalCutoffs.outline}}
+      </strong>
 
-{{else}}
+      <span class="sasha-pursuit-deadline-remaining">
+        Calculating time remaining...
+      </span>
 
-  <strong class="is-empty">
-    Not set
-  </strong>
+    {{else}}
 
-{{/if}}
+      <strong class="is-empty">
+        Not set
+      </strong>
+
+    {{/if}}
+
+  </article>
+
+
+  {{!-- =================================================
+       WIN STRATEGY CUTOFF
+  ================================================== --}}
+
+  <article
+    class="sasha-pursuit-summary-card sasha-pursuit-deadline-card"
+    {{#if proposal.internalCutoffs.winStrategy}}
+      data-internal-deadline="{{proposal.internalCutoffs.winStrategy}}"
+    {{/if}}
+  >
+
+    <span class="sasha-pursuit-summary-label">
+      Win Strategy
+    </span>
+
+    {{#if dashboard.internalCutoffs.winStrategy}}
+
+      <strong>
+        {{dashboard.internalCutoffs.winStrategy}}
+      </strong>
+
+      <span class="sasha-pursuit-deadline-remaining">
+        Calculating time remaining...
+      </span>
+
+    {{else}}
+
+      <strong class="is-empty">
+        Not set
+      </strong>
+
+    {{/if}}
 
   </article>
 
@@ -1093,5 +1147,272 @@
 
     }
   );
+
+
+
+  document.addEventListener(
+    'DOMContentLoaded',
+    () => {
+
+      const deadlineCards =
+        document.querySelectorAll(
+          '.sasha-pursuit-deadline-card[data-internal-deadline]'
+        );
+
+
+      if (
+        !deadlineCards.length
+      ) {
+
+        return;
+
+      }
+
+
+      const HOUR =
+        60 * 60 * 1000;
+
+      const DAY =
+        24 * HOUR;
+
+
+      /* =====================================================
+         FORMAT REMAINING TIME
+      ====================================================== */
+
+      function formatRemainingTime(
+        milliseconds
+      ) {
+
+        const totalHours =
+          Math.max(
+            0,
+            Math.floor(
+              milliseconds / HOUR
+            )
+          );
+
+
+        const days =
+          Math.floor(
+            totalHours / 24
+          );
+
+
+        const hours =
+          totalHours % 24;
+
+
+        if (
+          days > 0 &&
+          hours > 0
+        ) {
+
+          return (
+            `${days} ${days === 1 ? 'day' : 'days'}, ` +
+            `${hours} ${hours === 1 ? 'hour' : 'hours'} remaining`
+          );
+
+        }
+
+
+        if (
+          days > 0
+        ) {
+
+          return (
+            `${days} ${days === 1 ? 'day' : 'days'} remaining`
+          );
+
+        }
+
+
+        if (
+          hours > 0
+        ) {
+
+          return (
+            `${hours} ${hours === 1 ? 'hour' : 'hours'} remaining`
+          );
+
+        }
+
+
+        const minutes =
+          Math.max(
+            1,
+            Math.floor(
+              milliseconds /
+              (60 * 1000)
+            )
+          );
+
+
+        return (
+          `${minutes} ${minutes === 1 ? 'minute' : 'minutes'} remaining`
+        );
+
+      }
+
+
+      /* =====================================================
+         UPDATE DEADLINE CARDS
+      ====================================================== */
+
+      function updateInternalDeadlineCards() {
+
+        const now =
+          new Date();
+
+
+        deadlineCards.forEach(
+          (card) => {
+
+            const deadlineValue =
+              card.dataset.internalDeadline;
+
+
+            const deadline =
+              new Date(
+                deadlineValue
+              );
+
+
+            const remainingLabel =
+              card.querySelector(
+                '.sasha-pursuit-deadline-remaining'
+              );
+
+
+            if (
+              Number.isNaN(
+                deadline.getTime()
+              )
+            ) {
+
+              return;
+
+            }
+
+
+            card.classList.remove(
+              'is-deadline-green',
+              'is-deadline-yellow',
+              'is-deadline-red',
+              'is-deadline-passed'
+            );
+
+
+            const remaining =
+              deadline.getTime() -
+              now.getTime();
+
+
+            /* =============================================
+               DEADLINE PASSED
+            ============================================== */
+
+            if (
+              remaining <= 0
+            ) {
+
+              card.classList.add(
+                'is-deadline-passed'
+              );
+
+
+              if (
+                remainingLabel
+              ) {
+
+                remainingLabel.textContent =
+                  'Consider not pursuing.';
+
+              }
+
+
+              return;
+
+            }
+
+
+            /* =============================================
+               LESS THAN 1 DAY
+            ============================================== */
+
+            if (
+              remaining < DAY
+            ) {
+
+              card.classList.add(
+                'is-deadline-red'
+              );
+
+            }
+
+
+            /* =============================================
+               1 TO 3 DAYS
+            ============================================== */
+
+            else if (
+              remaining <=
+              (3 * DAY)
+            ) {
+
+              card.classList.add(
+                'is-deadline-yellow'
+              );
+
+            }
+
+
+            /* =============================================
+               MORE THAN 3 DAYS
+            ============================================== */
+
+            else {
+
+              card.classList.add(
+                'is-deadline-green'
+              );
+
+            }
+
+
+            if (
+              remainingLabel
+            ) {
+
+              remainingLabel.textContent =
+                formatRemainingTime(
+                  remaining
+                );
+
+            }
+
+          }
+        );
+
+      }
+
+
+      updateInternalDeadlineCards();
+
+
+      /*
+       * Refresh once per minute so the dashboard can remain
+       * open and still change state when a threshold is crossed.
+       */
+
+      window.setInterval(
+        updateInternalDeadlineCards,
+        60 * 1000
+      );
+
+    }
+  );
+
+
 
 </script>

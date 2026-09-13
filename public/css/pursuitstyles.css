@@ -17739,3 +17739,260 @@ summary:focus-visible {
   }
 
 }
+
+/* =====================================================
+   PURSUIT DASHBOARD | INTERNAL DEADLINE STATUS
+===================================================== */
+
+
+.sasha-pursuit-deadline-card {
+  position: relative;
+
+  transition:
+    border-color 220ms ease,
+    box-shadow 220ms ease,
+    background-color 220ms ease;
+}
+
+
+/* =====================================================
+   TIME REMAINING
+===================================================== */
+
+
+.sasha-pursuit-deadline-remaining {
+  display: block;
+
+  margin-top:
+    0.45rem;
+
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.68
+    );
+
+  font-size:
+    0.76rem;
+
+  font-weight:
+    700;
+
+  line-height:
+    1.35;
+}
+
+
+/* =====================================================
+   GREEN | MORE THAN 3 DAYS
+===================================================== */
+
+
+.sasha-pursuit-deadline-card.is-deadline-green {
+  border-color:
+    rgba(
+      110,
+      232,
+      162,
+      0.9
+    );
+
+  box-shadow:
+    0
+    0
+    12px
+    rgba(
+      110,
+      232,
+      162,
+      0.22
+    ),
+    inset
+    0
+    0
+    0
+    1px
+    rgba(
+      110,
+      232,
+      162,
+      0.08
+    );
+}
+
+
+.sasha-pursuit-deadline-card.is-deadline-green
+.sasha-pursuit-deadline-remaining {
+  color:
+    rgb(
+      170,
+      245,
+      200
+    );
+}
+
+
+/* =====================================================
+   YELLOW | 1 TO 3 DAYS
+===================================================== */
+
+
+.sasha-pursuit-deadline-card.is-deadline-yellow {
+  border-color:
+    rgba(
+      255,
+      213,
+      94,
+      0.95
+    );
+
+  box-shadow:
+    0
+    0
+    14px
+    rgba(
+      255,
+      213,
+      94,
+      0.26
+    ),
+    inset
+    0
+    0
+    0
+    1px
+    rgba(
+      255,
+      213,
+      94,
+      0.08
+    );
+}
+
+
+.sasha-pursuit-deadline-card.is-deadline-yellow
+.sasha-pursuit-deadline-remaining {
+  color:
+    rgb(
+      255,
+      224,
+      132
+    );
+}
+
+
+/* =====================================================
+   RED | LESS THAN 1 DAY
+===================================================== */
+
+
+.sasha-pursuit-deadline-card.is-deadline-red {
+  border-color:
+    rgba(
+      255,
+      105,
+      105,
+      0.98
+    );
+
+  box-shadow:
+    0
+    0
+    16px
+    rgba(
+      255,
+      80,
+      80,
+      0.32
+    ),
+    inset
+    0
+    0
+    0
+    1px
+    rgba(
+      255,
+      105,
+      105,
+      0.1
+    );
+}
+
+
+.sasha-pursuit-deadline-card.is-deadline-red
+.sasha-pursuit-deadline-remaining {
+  color:
+    rgb(
+      255,
+      168,
+      168
+    );
+}
+
+
+/* =====================================================
+   DEADLINE PASSED
+===================================================== */
+
+
+.sasha-pursuit-deadline-card.is-deadline-passed {
+  background:
+    rgba(
+      130,
+      25,
+      45,
+      0.18
+    );
+
+  border-color:
+    rgba(
+      255,
+      84,
+      105,
+      1
+    );
+
+  box-shadow:
+    0
+    0
+    18px
+    rgba(
+      255,
+      68,
+      90,
+      0.38
+    ),
+    inset
+    0
+    0
+    0
+    1px
+    rgba(
+      255,
+      105,
+      120,
+      0.12
+    );
+}
+
+
+.sasha-pursuit-deadline-card.is-deadline-passed
+.sasha-pursuit-deadline-remaining {
+  color:
+    rgb(
+      255,
+      175,
+      185
+    );
+
+  font-weight:
+    800;
+
+  text-transform:
+    uppercase;
+
+  letter-spacing:
+    0.025em;
+}
