@@ -96,6 +96,7 @@ const proposalSchema = new mongoose.Schema(
 
 
 proposalManager: {
+
   name: {
     type: String,
     trim: true,
@@ -107,7 +108,19 @@ proposalManager: {
     trim: true,
     lowercase: true,
     default: ""
+  },
+
+  milestoneReminderPreference: {
+    type: String,
+
+    enum: [
+      "dashboard",
+      "email"
+    ],
+
+    default: "dashboard"
   }
+
 },
 
 
@@ -147,7 +160,44 @@ effortLevel: {
   default: "usual"
 },
 
+/* =====================================================
+   INTERNAL PURSUIT CUTOFFS
+===================================================== */
 
+internalCutoffs: {
+
+  goNoGo: {
+    type: Date,
+    default: null
+  },
+
+  effortLevel: {
+    type: Date,
+    default: null
+  },
+
+  outline: {
+    type: Date,
+    default: null
+  },
+
+  winStrategy: {
+    type: Date,
+    default: null
+  },
+
+  recommendationBasis: {
+    type: String,
+    trim: true,
+    default: 'remaining_time_20_percent'
+  },
+
+  committedAt: {
+    type: Date,
+    default: null
+  }
+
+},
 /* =====================================================
    PURSUIT WORKFLOW
 ===================================================== */
