@@ -18185,3 +18185,192 @@ summary:focus-visible {
   }
 
 }
+
+
+/* =====================================================
+   COMPLETE RFP ANALYSIS — READY STATE
+===================================================== */
+
+.sasha-rfp-analysis-ready {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 100%;
+
+  gap: 3rem;
+}
+
+
+/* =====================================================
+   COMPLETE RFP ANALYSIS — WORKING STATE
+===================================================== */
+
+.sasha-rfp-analysis-working {
+  align-items: center;
+
+  width: 100%;
+
+  gap: 2rem;
+}
+
+
+.sasha-rfp-analysis-working:not([hidden]) {
+  display: flex;
+}
+
+
+/* =====================================================
+   WORKING VIDEO
+===================================================== */
+
+.sasha-rfp-analysis-working-media {
+  flex: 0 0 190px;
+
+  width: 190px;
+
+  overflow: hidden;
+
+  border:
+    1px solid
+    rgba(242, 130, 170, 0.48);
+
+  border-radius: 16px;
+
+  background:
+    rgba(255, 255, 255, 0.05);
+}
+
+
+.sasha-rfp-analysis-working-video {
+  display: block;
+
+  width: 100%;
+  height: auto;
+
+  margin: 0;
+}
+
+
+/* =====================================================
+   WORKING COPY
+===================================================== */
+
+.sasha-rfp-analysis-working-copy {
+  flex: 1;
+
+  min-width: 0;
+}
+
+
+.sasha-rfp-analysis-working-copy h3 {
+  margin:
+    0
+    0
+    0.55rem;
+
+  color: #ffffff;
+
+  font-size: 1.35rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+
+.sasha-rfp-analysis-working-copy p {
+  max-width: 720px;
+
+  margin:
+    0
+    0
+    0.8rem;
+
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.76
+    );
+
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+
+.sasha-rfp-analysis-working-copy strong {
+  display: block;
+
+  color:
+    var(
+      --sasha-pink,
+      #f282aa
+    );
+
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+
+/* =====================================================
+   WORKING STATE — SUBTLE ACTIVITY
+===================================================== */
+
+.sasha-rfp-analysis-working-media {
+  animation:
+    sasha-rfp-analysis-pulse
+    2s
+    ease-in-out
+    infinite;
+}
+
+
+@keyframes sasha-rfp-analysis-pulse {
+
+  0%,
+  100% {
+    box-shadow:
+      0
+      0
+      0
+      rgba(242, 130, 170, 0);
+  }
+
+  50% {
+    box-shadow:
+      0
+      0
+      24px
+      rgba(242, 130, 170, 0.22);
+  }
+
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media screen and (max-width: 800px) {
+
+  .sasha-rfp-analysis-ready {
+    align-items: flex-start;
+    flex-direction: column;
+
+    gap: 1.4rem;
+  }
+
+
+  .sasha-rfp-analysis-working:not([hidden]) {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+
+  .sasha-rfp-analysis-working-media {
+    flex-basis: auto;
+
+    width: 160px;
+  }
+
+}
