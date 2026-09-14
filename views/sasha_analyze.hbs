@@ -1616,6 +1616,10 @@
     'DOMContentLoaded',
     function () {
 
+      /* =================================================
+         ANALYZE CHAT
+      ================================================== */
+
       const form =
         document.getElementById(
           'sasha-analysis-chat-form'
@@ -1628,79 +1632,199 @@
 
 
       if (
-        !form ||
-        !video
+        form &&
+        video
       ) {
-        return;
+
+        /*
+         * Show Sasha's first frame while idle.
+         */
+
+        video.addEventListener(
+          'loadedmetadata',
+          function () {
+
+            video.currentTime = 0;
+
+            video.pause();
+
+          }
+        );
+
+
+        /*
+         * Start Sasha working when chat is submitted.
+         */
+
+        form.addEventListener(
+          'submit',
+          function () {
+
+            video.currentTime = 0;
+
+
+            const playPromise =
+              video.play();
+
+
+            if (
+              playPromise &&
+              typeof playPromise.catch ===
+                'function'
+            ) {
+
+              playPromise.catch(
+                function () {
+                  /*
+                   * Playback failure must not
+                   * interfere with submission.
+                   */
+                }
+              );
+
+            }
+
+          }
+        );
+
+
+        /*
+         * Stop on final frame.
+         */
+
+        video.addEventListener(
+          'ended',
+          function () {
+
+            video.pause();
+
+          }
+        );
+
       }
 
 
-      /*
-       * Show Sasha's first frame while she is idle.
-       */
+      /* =================================================
+         COMPLETE RFP ANALYSIS
+      ================================================== */
 
-      video.addEventListener(
-        'loadedmetadata',
-        function () {
+      const rfpAnalysisForm =
+        document.getElementById(
+          'sasha-rfp-analysis-action-form'
+        );
 
-          video.currentTime = 0;
+      const rfpAnalysisReady =
+        document.getElementById(
+          'sasha-rfp-analysis-ready'
+        );
 
-          video.pause();
+      const rfpAnalysisWorking =
+        document.getElementById(
+          'sasha-rfp-analysis-working'
+        );
 
-        }
-      );
+      const rfpAnalysisVideo =
+        document.getElementById(
+          'sasha-rfp-analysis-working-video'
+        );
 
-
-      /*
-       * When the user sends a message, start Sasha
-       * working and then allow the form submission.
-       */
-
-      form.addEventListener(
-        'submit',
-        function () {
-
-          video.currentTime = 0;
-
-          const playPromise =
-            video.play();
+      const rfpAnalysisButton =
+        document.getElementById(
+          'sasha-rfp-analysis-action-button'
+        );
 
 
-          if (
-            playPromise &&
-            typeof playPromise.catch ===
-              'function'
-          ) {
+      if (
+        rfpAnalysisForm &&
+        rfpAnalysisReady &&
+        rfpAnalysisWorking &&
+        rfpAnalysisVideo
+      ) {
 
-            playPromise.catch(
-              function () {
-                /*
-                 * If playback is blocked for any
-                 * reason, do not interfere with
-                 * the form submission.
-                 */
-              }
-            );
+        /*
+         * Show first frame while idle.
+         */
+
+        rfpAnalysisVideo.addEventListener(
+          'loadedmetadata',
+          function () {
+
+            rfpAnalysisVideo.currentTime = 0;
+
+            rfpAnalysisVideo.pause();
 
           }
-
-        }
-      );
+        );
 
 
-      /*
-       * Do not loop. Stop on the final frame if
-       * the request is still processing.
-       */
+        /*
+         * Switch to working state when submitted.
+         */
 
-      video.addEventListener(
-        'ended',
-        function () {
+        rfpAnalysisForm.addEventListener(
+          'submit',
+          function () {
 
-          video.pause();
+            if (
+              rfpAnalysisButton
+            ) {
 
-        }
-      );
+              rfpAnalysisButton.disabled =
+                true;
+
+            }
+
+
+            rfpAnalysisReady.hidden =
+              true;
+
+            rfpAnalysisWorking.hidden =
+              false;
+
+
+            rfpAnalysisVideo.currentTime =
+              0;
+
+
+            const playPromise =
+              rfpAnalysisVideo.play();
+
+
+            if (
+              playPromise &&
+              typeof playPromise.catch ===
+                'function'
+            ) {
+
+              playPromise.catch(
+                function () {
+                  /*
+                   * Keep the working message visible
+                   * even if video playback fails.
+                   */
+                }
+              );
+
+            }
+
+          }
+        );
+
+
+        /*
+         * Stop on final frame.
+         */
+
+        rfpAnalysisVideo.addEventListener(
+          'ended',
+          function () {
+
+            rfpAnalysisVideo.pause();
+
+          }
+        );
+
+      }
 
     }
   );
