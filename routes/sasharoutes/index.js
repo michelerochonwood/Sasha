@@ -155,6 +155,16 @@ router.get(
   proposalController.getPursuitDashboard
 );
 
+/* =====================================================
+   ACTIVATE PURSUIT FROM HEADER
+===================================================== */
+
+router.get(
+  '/pursuit/:id/activate',
+  ensureOrganization,
+  proposalController.activatePursuit
+);
+
 
 /* =====================================================
    ADD DOCUMENTS TO EXISTING PURSUIT

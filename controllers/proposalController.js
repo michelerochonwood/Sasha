@@ -85,6 +85,111 @@ async (
   }
 
 };
+
+
+/* =====================================================
+   ACTIVATE PURSUIT FROM GLOBAL HEADER
+===================================================== */
+
+exports.activatePursuit =
+async (
+  req,
+  res,
+  next
+) => {
+
+  try {
+
+    const pursuitId =
+      req.params.id;
+
+
+    const proposal =
+      await Proposal.findOne(
+        {
+          _id:
+            pursuitId,
+
+          organization:
+            req.session.organizationId
+        }
+      )
+        .select(
+          '_id proposalName clientName'
+        )
+        .lean();
+
+
+    if (
+      !proposal
+    ) {
+
+      return res.redirect(
+        '/pursuits'
+      );
+
+    }
+
+
+    /* =================================================
+       SET ACTIVE PURSUIT
+    ================================================== */
+
+    req.session.activePursuitId =
+      proposal._id.toString();
+
+    req.session.activePursuitName =
+      proposal.proposalName;
+
+    req.session.activePursuitClient =
+      proposal.clientName ||
+      '';
+
+
+    /* =================================================
+       SAVE SESSION BEFORE REDIRECT
+    ================================================== */
+
+    return req.session.save(
+      (
+        error
+      ) => {
+
+        if (
+          error
+        ) {
+
+          return next(
+            error
+          );
+
+        }
+
+
+        return res.redirect(
+          `/pursuit/${proposal._id}`
+        );
+
+      }
+    );
+
+  } catch (
+    error
+  ) {
+
+    console.error(
+      'ACTIVATE PURSUIT FAILED:',
+      error
+    );
+
+
+    return next(
+      error
+    );
+
+  }
+
+};
 /* =====================================================
 GET CREATE PURSUIT
 ===================================================== */
