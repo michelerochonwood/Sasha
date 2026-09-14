@@ -1474,60 +1474,132 @@
      COMPLETE RFP ANALYSIS
 ================================================== --}}
 
-<section class="sasha-rfp-analysis-action">
+<section
+  class="sasha-rfp-analysis-action"
+  id="sasha-rfp-analysis-action"
+>
 
-  <div class="sasha-rfp-analysis-action-copy">
+  {{!-- ===============================================
+       READY STATE
+  ================================================ --}}
 
-    <span class="sasha-rfp-analysis-action-eyebrow">
-      Complete the analysis
-    </span>
+  <div
+    class="sasha-rfp-analysis-ready"
+    id="sasha-rfp-analysis-ready"
+  >
 
-    <h3>
-      Complete the RFP Analysis
-    </h3>
+    <div class="sasha-rfp-analysis-action-copy">
 
-    <p>
-      Ask Sasha to review the pursuit documents and complete
-      the proposal record for risks and contract concerns,
-      mandatory requirements, evaluation criteria, scope of work,
-      submission requirements, and clarifications or unknowns.
-    </p>
+      <span class="sasha-rfp-analysis-action-eyebrow">
+        Complete the analysis
+      </span>
+
+      <h3>
+        Complete the RFP Analysis
+      </h3>
+
+      <p>
+        Ask Sasha to review the pursuit documents and complete
+        the proposal record for risks and contract concerns,
+        mandatory requirements, evaluation criteria, scope of work,
+        submission requirements, and clarifications or unknowns.
+      </p>
+
+    </div>
+
+
+    <form
+      method="POST"
+      action="/analyze/complete-rfp-analysis"
+      class="sasha-rfp-analysis-action-form"
+      id="sasha-rfp-analysis-action-form"
+    >
+
+      {{#if csrfToken}}
+
+        <input
+          type="hidden"
+          name="_csrf"
+          value="{{csrfToken}}"
+        >
+
+      {{/if}}
+
+
+      <input
+        type="hidden"
+        name="pursuitId"
+        value="{{proposal._id}}"
+      >
+
+
+      <button
+        type="submit"
+        class="sasha-rfp-analysis-action-button"
+        id="sasha-rfp-analysis-action-button"
+      >
+        Complete RFP Analysis
+      </button>
+
+    </form>
 
   </div>
 
 
-  <form
-    method="POST"
-    action="/analyze/complete-rfp-analysis"
-    class="sasha-rfp-analysis-action-form"
+  {{!-- ===============================================
+       WORKING STATE
+  ================================================ --}}
+
+  <div
+    class="sasha-rfp-analysis-working"
+    id="sasha-rfp-analysis-working"
+    hidden
+    aria-live="polite"
   >
 
-    {{#if csrfToken}}
+    <div class="sasha-rfp-analysis-working-media">
 
-      <input
-        type="hidden"
-        name="_csrf"
-        value="{{csrfToken}}"
+      <video
+        class="sasha-rfp-analysis-working-video"
+        id="sasha-rfp-analysis-working-video"
+        muted
+        playsinline
+        preload="auto"
       >
 
-    {{/if}}
+        <source
+          src="/images/sasha-working.mp4"
+          type="video/mp4"
+        >
+
+      </video>
+
+    </div>
 
 
-    <input
-      type="hidden"
-      name="pursuitId"
-      value="{{proposal._id}}"
-    >
+    <div class="sasha-rfp-analysis-working-copy">
 
+      <span class="sasha-rfp-analysis-action-eyebrow">
+        Sasha is working
+      </span>
 
-    <button
-      type="submit"
-      class="sasha-rfp-analysis-action-button"
-    >
-      Complete RFP Analysis
-    </button>
+      <h3>
+        Analyzing the RFP
+      </h3>
 
-  </form>
+      <p>
+        Sasha is reviewing the pursuit documents for risks,
+        mandatory requirements, evaluation criteria, scope of work,
+        submission requirements, and clarifications.
+      </p>
+
+      <strong>
+        This may take a moment. Please keep this page open.
+      </strong>
+
+    </div>
+
+  </div>
 
 </section>
 
