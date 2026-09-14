@@ -1044,3 +1044,606 @@
   }
 
 }
+
+
+/* =====================================================
+   HEADER PURSUIT DRAWER
+===================================================== */
+
+.sasha-header-pursuit-drawer {
+  position: fixed;
+  z-index: 110;
+
+  top: 270px;
+  left: 0;
+
+  margin: 0;
+  padding: 0;
+}
+
+
+/* =====================================================
+   COLLAPSED TAB
+===================================================== */
+
+.sasha-header-pursuit-drawer-tab {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 54px;
+  height: 145px;
+
+  margin: 0;
+  padding: 0;
+
+  color: #ffffff;
+
+  background:
+    rgba(79, 80, 162, 0.97);
+
+  border-top:
+    1px solid
+    rgba(255, 255, 255, 0.28);
+
+  border-right:
+    1px solid
+    rgba(255, 255, 255, 0.28);
+
+  border-bottom:
+    1px solid
+    rgba(255, 255, 255, 0.28);
+
+  border-left: 0;
+
+  border-radius:
+    0
+    10px
+    10px
+    0;
+
+  box-shadow:
+    8px
+    8px
+    30px
+    rgba(15, 12, 55, 0.18);
+
+  list-style: none;
+
+  cursor: pointer;
+
+  transition:
+    width 180ms ease,
+    background-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+
+.sasha-header-pursuit-drawer-tab::-webkit-details-marker {
+  display: none;
+}
+
+
+.sasha-header-pursuit-drawer-tab::marker {
+  display: none;
+  content: "";
+}
+
+
+.sasha-header-pursuit-drawer-tab:hover {
+  width: 60px;
+
+  background: #5e5fb0;
+
+  box-shadow:
+    10px
+    10px
+    34px
+    rgba(15, 12, 55, 0.24);
+}
+
+
+/* =====================================================
+   VERTICAL TAB LABEL
+===================================================== */
+
+.sasha-header-pursuit-drawer-tab-label {
+  display: block;
+
+  color: #ffffff;
+
+  font-family:
+    "Figtree",
+    sans-serif;
+
+  font-size: 0.76rem;
+  font-weight: 800;
+
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+
+  writing-mode: vertical-rl;
+
+  transform: rotate(180deg);
+}
+
+
+.sasha-header-pursuit-drawer-tab-arrow {
+  position: absolute;
+
+  right: 6px;
+  bottom: 9px;
+
+  color:
+    var(
+      --sasha-pink,
+      #f282aa
+    );
+
+  font-size: 1.35rem;
+  font-weight: 800;
+
+  line-height: 1;
+
+  transition:
+    transform 180ms ease;
+}
+
+
+.sasha-header-pursuit-drawer[open]
+.sasha-header-pursuit-drawer-tab-arrow {
+  transform: rotate(180deg);
+}
+
+
+/* =====================================================
+   DRAWER PANEL
+===================================================== */
+
+.sasha-header-pursuit-drawer-panel {
+  position: absolute;
+
+  top: 0;
+  left: 54px;
+
+  width: min(
+    360px,
+    calc(100vw - 80px)
+  );
+
+  max-height:
+    calc(100vh - 300px);
+
+  overflow-y: auto;
+
+  padding: 1.4rem;
+
+  color: #ffffff;
+
+  background:
+    rgba(54, 49, 130, 0.985);
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.18);
+
+  border-left: 0;
+
+  border-radius:
+    0
+    18px
+    18px
+    0;
+
+  box-shadow:
+    16px
+    18px
+    45px
+    rgba(14, 12, 51, 0.32);
+}
+
+
+/* =====================================================
+   DRAWER HEADING
+===================================================== */
+
+.sasha-header-pursuit-drawer-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 1rem;
+
+  margin-bottom: 1.2rem;
+}
+
+
+.sasha-header-pursuit-drawer-eyebrow {
+  display: block;
+
+  margin-bottom: 0.25rem;
+
+  color:
+    var(
+      --sasha-pink,
+      #f282aa
+    );
+
+  font-size: 0.68rem;
+  font-weight: 800;
+
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+
+.sasha-header-pursuit-drawer-heading h2 {
+  margin: 0;
+
+  color: #ffffff;
+
+  font-size: 1.55rem;
+  font-weight: 800;
+  line-height: 1.05;
+}
+
+
+.sasha-header-pursuit-drawer-create {
+  flex: 0 0 auto;
+
+  padding:
+    0.55rem
+    0.75rem;
+
+  color: #262262;
+
+  background:
+    var(
+      --sasha-pink,
+      #f282aa
+    );
+
+  border-radius: 999px;
+
+  font-size: 0.72rem;
+  font-weight: 800;
+
+  text-decoration: none;
+}
+
+
+.sasha-header-pursuit-drawer-create:hover {
+  background: #ffffff;
+}
+
+
+/* =====================================================
+   ACTIVE PURSUIT
+===================================================== */
+
+.sasha-header-pursuit-drawer-active {
+  margin-bottom: 1rem;
+
+  padding:
+    0.9rem
+    1rem;
+
+  background:
+    rgba(242, 130, 170, 0.11);
+
+  border:
+    1px solid
+    rgba(242, 130, 170, 0.48);
+
+  border-radius: 12px;
+}
+
+
+.sasha-header-pursuit-drawer-active > span {
+  display: block;
+
+  margin-bottom: 0.35rem;
+
+  color:
+    var(
+      --sasha-pink,
+      #f282aa
+    );
+
+  font-size: 0.66rem;
+  font-weight: 800;
+
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+
+.sasha-header-pursuit-drawer-active a {
+  display: flex;
+  flex-direction: column;
+
+  color: #ffffff;
+
+  text-decoration: none;
+}
+
+
+.sasha-header-pursuit-drawer-active small {
+  margin-bottom: 0.15rem;
+
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.68
+    );
+
+  font-size: 0.72rem;
+}
+
+
+.sasha-header-pursuit-drawer-active strong {
+  font-size: 0.92rem;
+  line-height: 1.3;
+}
+
+
+/* =====================================================
+   PURSUIT LIST
+===================================================== */
+
+.sasha-header-pursuit-drawer-list {
+  display: flex;
+  flex-direction: column;
+
+  gap: 0.55rem;
+}
+
+
+.sasha-header-pursuit-drawer-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 0.9rem;
+
+  min-height: 58px;
+
+  padding:
+    0.7rem
+    0.8rem;
+
+  color: #ffffff;
+
+  background:
+    rgba(255, 255, 255, 0.055);
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.14);
+
+  border-radius: 10px;
+
+  text-decoration: none;
+
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    transform 150ms ease;
+}
+
+
+.sasha-header-pursuit-drawer-item:hover {
+  background:
+    rgba(255, 255, 255, 0.11);
+
+  border-color:
+    rgba(255, 255, 255, 0.32);
+
+  transform: translateX(3px);
+}
+
+
+.sasha-header-pursuit-drawer-item.is-active {
+  border-color:
+    rgba(242, 130, 170, 0.65);
+
+  background:
+    rgba(242, 130, 170, 0.1);
+}
+
+
+/* =====================================================
+   PURSUIT ITEM TEXT
+===================================================== */
+
+.sasha-header-pursuit-drawer-item-copy {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+
+  min-width: 0;
+}
+
+
+.sasha-header-pursuit-drawer-item-copy small {
+  margin-bottom: 0.15rem;
+
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.6
+    );
+
+  font-size: 0.67rem;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+.sasha-header-pursuit-drawer-item-copy strong {
+  color: #ffffff;
+
+  font-size: 0.82rem;
+  font-weight: 700;
+  line-height: 1.25;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+/* =====================================================
+   PURSUIT STATUS
+===================================================== */
+
+.sasha-header-pursuit-drawer-status {
+  flex: 0 0 auto;
+
+  max-width: 88px;
+
+  padding:
+    0.3rem
+    0.45rem;
+
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.8
+    );
+
+  background:
+    rgba(255, 255, 255, 0.08);
+
+  border-radius: 999px;
+
+  font-size: 0.59rem;
+  font-weight: 800;
+
+  line-height: 1.15;
+
+  text-align: center;
+  text-transform: uppercase;
+}
+
+
+/* =====================================================
+   EMPTY STATE
+===================================================== */
+
+.sasha-header-pursuit-drawer-empty {
+  padding:
+    1rem;
+
+  background:
+    rgba(255, 255, 255, 0.05);
+
+  border-radius: 10px;
+}
+
+
+.sasha-header-pursuit-drawer-empty p {
+  margin:
+    0
+    0
+    0.65rem;
+
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.72
+    );
+
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+
+.sasha-header-pursuit-drawer-empty a {
+  color:
+    var(
+      --sasha-pink,
+      #f282aa
+    );
+
+  font-size: 0.78rem;
+  font-weight: 700;
+
+  text-decoration: none;
+}
+
+
+/* =====================================================
+   DRAWER FOOTER
+===================================================== */
+
+.sasha-header-pursuit-drawer-footer {
+  margin-top: 1rem;
+
+  padding-top: 0.9rem;
+
+  border-top:
+    1px solid
+    rgba(255, 255, 255, 0.14);
+}
+
+
+.sasha-header-pursuit-drawer-footer a {
+  color:
+    var(
+      --sasha-pink,
+      #f282aa
+    );
+
+  font-size: 0.78rem;
+  font-weight: 800;
+
+  text-decoration: none;
+}
+
+
+.sasha-header-pursuit-drawer-footer a:hover {
+  color: #ffffff;
+}
+
+
+/* =====================================================
+   FOCUS
+===================================================== */
+
+.sasha-header-pursuit-drawer-tab:focus-visible,
+.sasha-header-pursuit-drawer a:focus-visible {
+  outline:
+    3px solid
+    var(
+      --sasha-pink,
+      #f282aa
+    );
+
+  outline-offset: 3px;
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media screen and (max-width: 1100px) {
+
+  .sasha-header-pursuit-drawer {
+    display: none;
+  }
+
+}

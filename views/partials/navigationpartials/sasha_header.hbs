@@ -137,7 +137,184 @@
 
   </div>
 
+{{!-- =================================================
+     COLLAPSIBLE PURSUIT DRAWER
+================================================== --}}
 
+{{#if isAuthenticated}}
+
+  <details class="sasha-header-pursuit-drawer">
+
+    <summary
+      class="sasha-header-pursuit-drawer-tab"
+      aria-label="Open pursuit navigation"
+    >
+
+      <span class="sasha-header-pursuit-drawer-tab-label">
+        Pursuits
+      </span>
+
+      <span
+        class="sasha-header-pursuit-drawer-tab-arrow"
+        aria-hidden="true"
+      >
+        ›
+      </span>
+
+    </summary>
+
+
+    <div class="sasha-header-pursuit-drawer-panel">
+
+
+      {{!-- =============================================
+           PANEL HEADER
+      ============================================== --}}
+
+      <div class="sasha-header-pursuit-drawer-heading">
+
+        <div>
+
+          <span class="sasha-header-pursuit-drawer-eyebrow">
+            pursuit navigation
+          </span>
+
+          <h2>
+            Your Pursuits
+          </h2>
+
+        </div>
+
+
+        <a
+          href="/create_pursuit"
+          class="sasha-header-pursuit-drawer-create"
+        >
+          + New
+        </a>
+
+      </div>
+
+
+      {{!-- =============================================
+           ACTIVE PURSUIT
+      ============================================== --}}
+
+      {{#if activePursuitName}}
+
+        <div class="sasha-header-pursuit-drawer-active">
+
+          <span>
+            Active pursuit
+          </span>
+
+          <a href="/pursuit/{{activePursuitId}}">
+
+            {{#if activePursuitClient}}
+
+              <small>
+                {{activePursuitClient}}
+              </small>
+
+            {{/if}}
+
+            <strong>
+              {{activePursuitName}}
+            </strong>
+
+          </a>
+
+        </div>
+
+      {{/if}}
+
+
+      {{!-- =============================================
+           PURSUIT LIST
+      ============================================== --}}
+
+      <div class="sasha-header-pursuit-drawer-list">
+
+        {{#if proposals.length}}
+
+          {{#each proposals}}
+
+            <a
+              href="/pursuit/{{this._id}}"
+              class="
+                sasha-header-pursuit-drawer-item
+                {{#ifEquals ../activePursuitId this._id}}
+                  is-active
+                {{/ifEquals}}
+              "
+            >
+
+              <span class="sasha-header-pursuit-drawer-item-copy">
+
+                {{#if this.clientName}}
+
+                  <small>
+                    {{this.clientName}}
+                  </small>
+
+                {{/if}}
+
+                <strong>
+                  {{this.proposalName}}
+                </strong>
+
+              </span>
+
+
+              <span
+                class="
+                  sasha-header-pursuit-drawer-status
+                  is-{{this.proposalStatus}}
+                "
+              >
+                {{this.proposalStatus}}
+              </span>
+
+            </a>
+
+          {{/each}}
+
+        {{else}}
+
+          <div class="sasha-header-pursuit-drawer-empty">
+
+            <p>
+              No pursuits are available yet.
+            </p>
+
+            <a href="/create_pursuit">
+              Create your first pursuit →
+            </a>
+
+          </div>
+
+        {{/if}}
+
+      </div>
+
+
+      {{!-- =============================================
+           FOOTER
+      ============================================== --}}
+
+      <div class="sasha-header-pursuit-drawer-footer">
+
+        <a href="/pursuits">
+          View all pursuits →
+        </a>
+
+      </div>
+
+    </div>
+
+  </details>
+
+{{/if}}
   {{!-- =================================================
        DESKTOP SIDE NAVIGATION
   ================================================== --}}
