@@ -17996,3 +17996,192 @@ summary:focus-visible {
   letter-spacing:
     0.025em;
 }
+
+
+
+/* =====================================================
+   COMPLETE RFP ANALYSIS ACTION
+===================================================== */
+
+.sasha-rfp-analysis-action {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 3rem;
+
+  margin-top: 2rem;
+
+  padding:
+    2rem
+    2.2rem;
+
+  background:
+    rgba(255, 255, 255, 0.07);
+
+  border:
+    1px solid
+    rgba(242, 130, 170, 0.48);
+
+  border-radius: 22px;
+}
+
+
+/* =====================================================
+   ACTION COPY
+===================================================== */
+
+.sasha-rfp-analysis-action-copy {
+  flex: 1;
+
+  max-width: 760px;
+}
+
+
+.sasha-rfp-analysis-action-eyebrow {
+  display: block;
+
+  margin-bottom: 0.45rem;
+
+  color:
+    var(
+      --sasha-pink,
+      #f282aa
+    );
+
+  font-size: 0.72rem;
+  font-weight: 800;
+
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+
+.sasha-rfp-analysis-action-copy h3 {
+  margin:
+    0
+    0
+    0.55rem;
+
+  color: #ffffff;
+
+  font-size: 1.35rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+
+.sasha-rfp-analysis-action-copy p {
+  max-width: 700px;
+
+  margin: 0;
+
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.74
+    );
+
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+
+/* =====================================================
+   ACTION FORM
+===================================================== */
+
+.sasha-rfp-analysis-action-form {
+  flex: 0 0 auto;
+
+  margin: 0;
+}
+
+
+/* =====================================================
+   ACTION BUTTON
+===================================================== */
+
+.sasha-rfp-analysis-action-button {
+  min-width: 220px;
+
+  padding:
+    0.95rem
+    1.35rem;
+
+  color: #262262;
+
+  background:
+    var(
+      --sasha-pink,
+      #f282aa
+    );
+
+  border: 0;
+  border-radius: 999px;
+
+  font-family:
+    "Figtree",
+    sans-serif;
+
+  font-size: 0.82rem;
+  font-weight: 800;
+
+  cursor: pointer;
+
+  transition:
+    transform 160ms ease,
+    background-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+
+.sasha-rfp-analysis-action-button:hover {
+  background: #ffffff;
+
+  transform:
+    translateY(-2px);
+
+  box-shadow:
+    0
+    8px
+    22px
+    rgba(14, 12, 51, 0.2);
+}
+
+
+.sasha-rfp-analysis-action-button:focus-visible {
+  outline:
+    3px solid
+    rgba(242, 130, 170, 0.55);
+
+  outline-offset: 4px;
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media screen and (max-width: 800px) {
+
+  .sasha-rfp-analysis-action {
+    align-items: flex-start;
+    flex-direction: column;
+
+    gap: 1.4rem;
+  }
+
+
+  .sasha-rfp-analysis-action-form {
+    width: 100%;
+  }
+
+
+  .sasha-rfp-analysis-action-button {
+    width: 100%;
+  }
+
+}
