@@ -1662,13 +1662,13 @@
   position: fixed;
   z-index: 110;
 
-  top: 198px;
+  top: 192px;
   left: 0;
 
   display: flex;
 
   width: 54px;
-  height: 74px;
+  height: 94px;
 
   align-items: center;
   justify-content: center;
