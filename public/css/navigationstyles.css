@@ -1637,10 +1637,15 @@
 
 
 /* =====================================================
-   RESPONSIVE
+   PURSUIT DRAWER VISIBILITY
 ===================================================== */
 
-@media screen and (max-width: 1100px) {
+.sasha-header-pursuit-drawer {
+  display: block;
+}
+
+
+@media screen and (max-width: 680px) {
 
   .sasha-header-pursuit-drawer {
     display: none;
