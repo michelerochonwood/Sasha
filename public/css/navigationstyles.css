@@ -1652,3 +1652,154 @@
   }
 
 }
+
+
+/* =====================================================
+   ACTIVE PURSUIT DASHBOARD TAB
+===================================================== */
+
+.sasha-header-dashboard-tab {
+  position: fixed;
+  z-index: 110;
+
+  top: 198px;
+  left: 0;
+
+  display: flex;
+
+  width: 54px;
+  height: 64px;
+
+  align-items: center;
+  justify-content: center;
+
+  color: #ffffff;
+
+  background:
+    rgba(79, 80, 162, 0.97);
+
+  border-top:
+    1px solid
+    rgba(255, 255, 255, 0.28);
+
+  border-right:
+    1px solid
+    rgba(255, 255, 255, 0.28);
+
+  border-bottom:
+    1px solid
+    rgba(255, 255, 255, 0.28);
+
+  border-left: 0;
+
+  border-radius:
+    0
+    10px
+    10px
+    0;
+
+  box-shadow:
+    8px
+    8px
+    30px
+    rgba(15, 12, 55, 0.18);
+
+  text-decoration: none;
+
+  transition:
+    width 180ms ease,
+    background-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+
+.sasha-header-dashboard-tab:hover {
+  width: 60px;
+
+  background: #5e5fb0;
+
+  box-shadow:
+    10px
+    10px
+    34px
+    rgba(15, 12, 55, 0.24);
+}
+
+
+/* =====================================================
+   DASHBOARD TAB LABEL
+===================================================== */
+
+.sasha-header-dashboard-tab-label {
+  display: block;
+
+  color: #ffffff;
+
+  font-family:
+    "Figtree",
+    sans-serif;
+
+  font-size: 0.66rem;
+  font-weight: 800;
+
+  letter-spacing: 0.06em;
+
+  text-transform: uppercase;
+
+  writing-mode: vertical-rl;
+
+  transform:
+    rotate(180deg);
+}
+
+
+/* =====================================================
+   DASHBOARD TAB ARROW
+===================================================== */
+
+.sasha-header-dashboard-tab-arrow {
+  position: absolute;
+
+  right: 5px;
+  bottom: 5px;
+
+  color:
+    var(
+      --sasha-pink,
+      #f282aa
+    );
+
+  font-size: 1.05rem;
+  font-weight: 800;
+
+  line-height: 1;
+}
+
+
+/* =====================================================
+   DASHBOARD TAB FOCUS
+===================================================== */
+
+.sasha-header-dashboard-tab:focus-visible {
+  outline:
+    3px solid
+    var(
+      --sasha-pink,
+      #f282aa
+    );
+
+  outline-offset: 3px;
+}
+
+
+/* =====================================================
+   DASHBOARD TAB | MOBILE
+===================================================== */
+
+@media screen and (max-width: 680px) {
+
+  .sasha-header-dashboard-tab {
+    display: none;
+  }
+
+}

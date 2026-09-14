@@ -137,6 +137,35 @@
 
   </div>
 
+
+{{!-- =================================================
+     ACTIVE PURSUIT DASHBOARD TAB
+================================================== --}}
+
+{{#if activePursuitId}}
+
+  <a
+    href="/pursuit/{{activePursuitId}}"
+    class="sasha-header-dashboard-tab"
+    aria-label="Open active pursuit dashboard"
+    title="Active Pursuit Dashboard"
+  >
+
+    <span class="sasha-header-dashboard-tab-label">
+      Dashboard
+    </span>
+
+    <span
+      class="sasha-header-dashboard-tab-arrow"
+      aria-hidden="true"
+    >
+      ›
+    </span>
+
+  </a>
+
+{{/if}}
+
 {{!-- =================================================
      COLLAPSIBLE PURSUIT DRAWER
 ================================================== --}}
