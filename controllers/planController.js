@@ -6811,23 +6811,7 @@ if (
       proposal.plan.production
     );
 
-    /* =================================================
-   PROPOSAL PLAN HAS WORK
-================================================= */
 
-const proposalPlanHasWork =
-  [
-    plan.schedule,
-    plan.responsibilities,
-    plan.milestones,
-    plan.production
-  ].some(
-    category =>
-      Array.isArray(
-        category
-      ) &&
-      category.length > 0
-  );
 
 
   /* ===============================================
