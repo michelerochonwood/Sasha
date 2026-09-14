@@ -950,6 +950,105 @@ if (
 }
 
 /* =================================================
+   GO / NO GO COMPLETION
+================================================= */
+
+const goNoGoIsComplete =
+  [
+    'go',
+    'no_go',
+    'go_and_get'
+  ].includes(
+    goNoGo.decision
+  );
+
+
+  /* =================================================
+   EFFORT LEVEL COMPLETION
+================================================= */
+
+const effortLevelWorkflowStage =
+  rawWorkflowStages.find(
+    stage =>
+      stage.stage ===
+      'analyze'
+  );
+
+
+const effortLevelIsComplete =
+  Boolean(
+    effortLevelWorkflowStage &&
+    effortLevelWorkflowStage.status ===
+      'complete'
+  );
+
+  const effortLevelCompletedAt =
+  effortLevelIsComplete &&
+  effortLevelWorkflowStage &&
+  effortLevelWorkflowStage.completedAt
+    ? formatDashboardDateTime(
+        effortLevelWorkflowStage.completedAt
+      )
+    : null;
+
+    /* =================================================
+   OUTLINE COMPLETION
+================================================= */
+
+const outlineWorkflowStage =
+  rawWorkflowStages.find(
+    stage =>
+      stage.stage ===
+      'outline'
+  );
+
+
+const outlineIsComplete =
+  Boolean(
+    outlineWorkflowStage &&
+    outlineWorkflowStage.status ===
+      'complete'
+  );
+
+
+  const outlineCompletedAt =
+  outlineIsComplete &&
+  outlineWorkflowStage &&
+  outlineWorkflowStage.completedAt
+    ? formatDashboardDateTime(
+        outlineWorkflowStage.completedAt
+      )
+    : null;
+
+
+    /* =================================================
+   WIN STRATEGY COMPLETION
+================================================= */
+
+const winStrategyWorkflowStage =
+  rawWorkflowStages.find(
+    stage =>
+      stage.stage ===
+      'win_strategy'
+  );
+
+
+const winStrategyIsComplete =
+  Boolean(
+    winStrategyWorkflowStage &&
+    winStrategyWorkflowStage.status ===
+      'complete'
+  );
+
+  const winStrategyCompletedAt =
+  winStrategyIsComplete &&
+  winStrategyWorkflowStage &&
+  winStrategyWorkflowStage.completedAt
+    ? formatDashboardDateTime(
+        winStrategyWorkflowStage.completedAt
+      )
+    : null;
+/* =================================================
    FORMAT INTERNAL CUTOFF DATES FOR DASHBOARD
 ================================================== */
 
@@ -1005,6 +1104,27 @@ const formatDashboardDateTime =
     );
 
   };
+
+/* =================================================
+   GO / NO GO COMPLETION DATE
+================================================= */
+
+const goNoGoWorkflowStage =
+  rawWorkflowStages.find(
+    stage =>
+      stage.stage ===
+      'go_no_go'
+  );
+
+
+const goNoGoCompletedAt =
+  goNoGoIsComplete &&
+  goNoGoWorkflowStage &&
+  goNoGoWorkflowStage.completedAt
+    ? formatDashboardDateTime(
+        goNoGoWorkflowStage.completedAt
+      )
+    : null;
 
 
 const dashboardInternalCutoffs = {
@@ -1077,7 +1197,23 @@ effortLevel:
   proposal.effortLevel ||
   'usual',
 
+ effortLevelIsComplete,
+
+effortLevelCompletedAt, 
+
+outlineIsComplete,
+
+outlineCompletedAt,
+
+winStrategyIsComplete,
+
+winStrategyCompletedAt,
+
 goNoGo,
+
+goNoGoIsComplete,
+
+goNoGoCompletedAt,
 
 goNoGoDecision:
   goNoGo.decision ||
@@ -2436,6 +2572,8 @@ async (
     const effortLevel =
       proposal.effortLevel ||
       'usual';
+
+      
 
 
     const isMinimalEffort =

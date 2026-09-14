@@ -160,6 +160,11 @@ effortLevel: {
   default: "usual"
 },
 
+effortLevelDecidedAt: {
+  type: Date,
+  default: null
+},
+
 /* =====================================================
    INTERNAL PURSUIT CUTOFFS
 ===================================================== */

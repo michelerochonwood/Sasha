@@ -186,20 +186,52 @@
   </article>
 
 
-  {{!-- =================================================
-       GO / NO GO CUTOFF
-  ================================================== --}}
+{{!-- =================================================
+     GO / NO GO CUTOFF
+================================================== --}}
 
-  <article
-    class="sasha-pursuit-summary-card sasha-pursuit-deadline-card"
+<article
+  class="
+    sasha-pursuit-summary-card
+    sasha-pursuit-deadline-card
+    {{#if dashboard.goNoGoIsComplete}}
+      is-complete
+    {{/if}}
+  "
+  {{#unless dashboard.goNoGoIsComplete}}
     {{#if proposal.internalCutoffs.goNoGo}}
       data-internal-deadline="{{proposal.internalCutoffs.goNoGo}}"
     {{/if}}
-  >
+  {{/unless}}
+>
 
-    <span class="sasha-pursuit-summary-label">
-      Go / No Go
-    </span>
+  <span class="sasha-pursuit-summary-label">
+    Go / No Go
+  </span>
+
+
+  {{#if dashboard.goNoGoIsComplete}}
+
+    <strong>
+      Completed
+    </strong>
+
+    {{#if dashboard.goNoGoCompletedAt}}
+
+      <span class="sasha-pursuit-deadline-remaining">
+        Completed on {{dashboard.goNoGoCompletedAt}}
+      </span>
+
+    {{else}}
+
+      <span class="sasha-pursuit-deadline-remaining">
+        Decision recorded
+      </span>
+
+    {{/if}}
+
+
+  {{else}}
 
     {{#if dashboard.internalCutoffs.goNoGo}}
 
@@ -219,23 +251,57 @@
 
     {{/if}}
 
-  </article>
+  {{/if}}
+
+</article>
 
 
-  {{!-- =================================================
-       EFFORT LEVEL CUTOFF
-  ================================================== --}}
+{{!-- =================================================
+     EFFORT LEVEL CUTOFF
+================================================== --}}
 
-  <article
-    class="sasha-pursuit-summary-card sasha-pursuit-deadline-card"
+<article
+  class="
+    sasha-pursuit-summary-card
+    sasha-pursuit-deadline-card
+    {{#if dashboard.effortLevelIsComplete}}
+      is-complete
+    {{/if}}
+  "
+  {{#unless dashboard.effortLevelIsComplete}}
     {{#if proposal.internalCutoffs.effortLevel}}
       data-internal-deadline="{{proposal.internalCutoffs.effortLevel}}"
     {{/if}}
-  >
+  {{/unless}}
+>
 
-    <span class="sasha-pursuit-summary-label">
-      Effort Level
-    </span>
+  <span class="sasha-pursuit-summary-label">
+    Effort Level
+  </span>
+
+
+  {{#if dashboard.effortLevelIsComplete}}
+
+    <strong>
+      Completed
+    </strong>
+
+    {{#if dashboard.effortLevelCompletedAt}}
+
+      <span class="sasha-pursuit-deadline-remaining">
+        Completed on {{dashboard.effortLevelCompletedAt}}
+      </span>
+
+    {{else}}
+
+      <span class="sasha-pursuit-deadline-remaining">
+        Effort level recorded
+      </span>
+
+    {{/if}}
+
+
+  {{else}}
 
     {{#if dashboard.internalCutoffs.effortLevel}}
 
@@ -255,23 +321,57 @@
 
     {{/if}}
 
-  </article>
+  {{/if}}
+
+</article>
 
 
-  {{!-- =================================================
-       OUTLINE CUTOFF
-  ================================================== --}}
+{{!-- =================================================
+     OUTLINE CUTOFF
+================================================== --}}
 
-  <article
-    class="sasha-pursuit-summary-card sasha-pursuit-deadline-card"
+<article
+  class="
+    sasha-pursuit-summary-card
+    sasha-pursuit-deadline-card
+    {{#if dashboard.outlineIsComplete}}
+      is-complete
+    {{/if}}
+  "
+  {{#unless dashboard.outlineIsComplete}}
     {{#if proposal.internalCutoffs.outline}}
       data-internal-deadline="{{proposal.internalCutoffs.outline}}"
     {{/if}}
-  >
+  {{/unless}}
+>
 
-    <span class="sasha-pursuit-summary-label">
-      Outline
-    </span>
+  <span class="sasha-pursuit-summary-label">
+    Outline
+  </span>
+
+
+  {{#if dashboard.outlineIsComplete}}
+
+    <strong>
+      Completed
+    </strong>
+
+    {{#if dashboard.outlineCompletedAt}}
+
+      <span class="sasha-pursuit-deadline-remaining">
+        Completed on {{dashboard.outlineCompletedAt}}
+      </span>
+
+    {{else}}
+
+      <span class="sasha-pursuit-deadline-remaining">
+        Outline completed
+      </span>
+
+    {{/if}}
+
+
+  {{else}}
 
     {{#if dashboard.internalCutoffs.outline}}
 
@@ -291,23 +391,57 @@
 
     {{/if}}
 
-  </article>
+  {{/if}}
+
+</article>
 
 
-  {{!-- =================================================
-       WIN STRATEGY CUTOFF
-  ================================================== --}}
+{{!-- =================================================
+     WIN STRATEGY CUTOFF
+================================================== --}}
 
-  <article
-    class="sasha-pursuit-summary-card sasha-pursuit-deadline-card"
+<article
+  class="
+    sasha-pursuit-summary-card
+    sasha-pursuit-deadline-card
+    {{#if dashboard.winStrategyIsComplete}}
+      is-complete
+    {{/if}}
+  "
+  {{#unless dashboard.winStrategyIsComplete}}
     {{#if proposal.internalCutoffs.winStrategy}}
       data-internal-deadline="{{proposal.internalCutoffs.winStrategy}}"
     {{/if}}
-  >
+  {{/unless}}
+>
 
-    <span class="sasha-pursuit-summary-label">
-      Win Strategy
-    </span>
+  <span class="sasha-pursuit-summary-label">
+    Win Strategy
+  </span>
+
+
+  {{#if dashboard.winStrategyIsComplete}}
+
+    <strong>
+      Completed
+    </strong>
+
+    {{#if dashboard.winStrategyCompletedAt}}
+
+      <span class="sasha-pursuit-deadline-remaining">
+        Completed on {{dashboard.winStrategyCompletedAt}}
+      </span>
+
+    {{else}}
+
+      <span class="sasha-pursuit-deadline-remaining">
+        Win strategy completed
+      </span>
+
+    {{/if}}
+
+
+  {{else}}
 
     {{#if dashboard.internalCutoffs.winStrategy}}
 
@@ -327,9 +461,9 @@
 
     {{/if}}
 
-  </article>
+  {{/if}}
 
-</section>
+</article>
 
 
     {{!-- =================================================
