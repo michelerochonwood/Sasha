@@ -914,6 +914,175 @@ Materials, or another work product as part of this request.
 };
 
 /* =====================================================
+   COMPLETE / REFRESH PROPOSAL OUTLINE
+===================================================== */
+
+exports.completeProposalOutline =
+async (
+  req,
+  res,
+  next
+) => {
+
+  try {
+
+    /* =================================================
+       PURSUIT ID
+    ================================================== */
+
+    const pursuitId =
+      typeof req.body.pursuitId ===
+        'string'
+        ? req.body.pursuitId.trim()
+        : '';
+
+
+    if (
+      !pursuitId
+    ) {
+
+      return res.redirect(
+        '/pursuits'
+      );
+
+    }
+
+
+    /* =================================================
+       STANDARD OUTLINE INSTRUCTION
+    ================================================== */
+
+    req.body.message = `
+Review the current pursuit record and all current uploaded
+procurement documents and complete or refresh the Proposal Outline.
+
+Use the controlling procurement documents as the authority for
+proposal structure and compliance.
+
+Review, where available:
+
+- the RFP;
+- addenda;
+- amendments;
+- clarifications;
+- required or suggested proposal structure;
+- proposal submission requirements;
+- proposal format and content instructions;
+- evaluation criteria;
+- mandatory requirements;
+- page limits and page-count rules;
+- the current RFP analysis;
+- the current pursuit record;
+- the current proposal outline; and
+- any active User Overrides.
+
+Build the strongest compliant MAIN PROPOSAL OUTLINE supported by
+the current procurement record.
+
+Determine the actual proposal response structure.
+
+Do not reproduce the RFP document's own table of contents merely
+because headings appear in the procurement document.
+
+Preserve client-prescribed Level 1 proposal-response sections.
+
+Use useful Level 2 subsections inside those sections to organize
+required and strategically important content.
+
+Do not invent conventional proposal sections.
+
+In particular, do not add an Executive Summary, Introduction,
+Cover Letter, Why Us, Closing, Conclusion, or similar standalone
+section unless the controlling procurement documents or an
+explicit User Override support it.
+
+Do not place appendices, supporting materials, portal requirements,
+pre-award requirements, post-award requirements, or internal
+proposal-management tools inside outline.sections.
+
+If the procurement documents establish a proposal page limit:
+
+- determine exactly what counts toward the limit;
+- determine only documented exclusions;
+- assign pageCountTreatment correctly;
+- assign numeric pageBudget values to counted content;
+- include pageCountItems where required;
+- ensure the complete counted page budget is mathematically valid;
+- ensure counted allocations do not exceed the pageLimit; and
+- allocate the available counted pages strategically.
+
+Use evaluation criteria to determine emphasis and page allocation,
+but do not automatically create one proposal section for every
+evaluation criterion.
+
+Explicitly account for material proposal-response requirements,
+required deliverables, scored content, addendum changes, and
+submission constraints.
+
+If an existing outline contains Sasha-generated structural or
+page-budget errors, correct them.
+
+If an existing decision is an active User Override, preserve the
+override and identify any procurement conflict rather than silently
+reversing it.
+
+Return the COMPLETE revised Proposal Outline, not merely the changes.
+
+This request applies ONLY to the Proposal Outline.
+
+Set:
+
+action = "update_outline"
+
+Return:
+
+plan = null
+winStrategy = null
+supportingMaterials = null
+userOverride = null
+
+unless the current request independently and explicitly constitutes
+a genuine User Override.
+`.trim();
+
+
+    /* =================================================
+       COMPLETE OUTLINE MODE
+    ================================================== */
+
+    req.body.isCompleteProposalOutline =
+      true;
+
+
+    /* =================================================
+       USE EXISTING PLAN PIPELINE
+    ================================================== */
+
+    return exports.postPlanChat(
+      req,
+      res,
+      next
+    );
+
+  } catch (
+    error
+  ) {
+
+    console.error(
+      'COMPLETE PROPOSAL OUTLINE FAILED:',
+      error
+    );
+
+
+    return next(
+      error
+    );
+
+  }
+
+};
+
+/* =====================================================
    PLAN | WIN STRATEGY CHAT
 ===================================================== */
 
@@ -4527,6 +4696,127 @@ unless the current request independently and explicitly constitutes
 a genuine User Override.
 `
   : ''}
+
+${req.body.isCompleteProposalOutline
+  ? `
+=====================================================
+COMPLETE PROPOSAL OUTLINE MODE
+=====================================================
+
+The user explicitly requested a complete Proposal Outline pass.
+
+For this request:
+
+- review all attached current procurement documents;
+- review the current pursuit record;
+- review the current RFP analysis;
+- review the existing Proposal Outline;
+- review applicable addenda, amendments, and clarifications;
+- review any active User Overrides affecting the outline.
+
+You must return the COMPLETE current Proposal Outline.
+
+Set:
+
+action = "update_outline"
+
+The outline must represent the MAIN PROPOSAL DOCUMENT only.
+
+Do not return merely a list of changes.
+
+Do not return only the sections that changed.
+
+Return the complete revised:
+
+- title;
+- notes;
+- pageLimit;
+- pageBudgetNotes; and
+- sections array.
+
+For every top-level section:
+
+- preserve client-required proposal-response structure;
+- use the strongest supported section title;
+- include useful drafting guidance in description;
+- include appropriate subsections;
+- assign pageCountTreatment;
+- assign pageBudget where applicable;
+- include pageCountNotes;
+- include pageCountItems when required.
+
+Do not create unsupported top-level sections.
+
+Do not add:
+
+- Executive Summary;
+- Introduction;
+- Cover Letter;
+- Why Us;
+- Closing;
+- Conclusion; or
+- another conventional standalone proposal section
+
+unless explicitly supported by the controlling procurement documents
+or a genuine active User Override.
+
+Do not place the following inside outline.sections unless the client
+explicitly requires them as top-level sections of the main proposal:
+
+- appendices;
+- supporting materials;
+- portal submissions;
+- separate procurement-system requirements;
+- pre-award documents;
+- post-award documents;
+- internal proposal-management tools.
+
+If the procurement documents establish a page limit:
+
+- apply the documented page-count rules exactly;
+- do not infer exclusions from normal proposal practice;
+- treat uncertainty conservatively;
+- ensure counted content has valid positive numeric budgets;
+- ensure mixed sections use pageCountItems correctly;
+- ensure the complete counted allocation does not exceed pageLimit;
+- where the full page limit is being allocated, ensure the counted
+  total equals pageLimit exactly.
+
+Use evaluation criteria to determine emphasis, depth, and page
+allocation.
+
+Do not automatically create one section for every evaluation
+criterion.
+
+Correct Sasha-generated outline errors when the current procurement
+evidence supports correction.
+
+Preserve active User Overrides.
+
+If an active User Override conflicts with an explicit procurement
+requirement, preserve the override and identify the compliance
+conflict rather than silently reversing the user's decision.
+
+This special mode applies ONLY to the Proposal Outline.
+
+The structured response must use:
+
+action = "update_outline"
+
+and:
+
+plan = null
+winStrategy = null
+supportingMaterials = null
+userOverride = null
+
+unless the current request independently and explicitly constitutes
+a genuine User Override.
+`
+  : ''}
+
+
+  
 
 ${outlineComplianceInstructions}`,
 

@@ -278,6 +278,17 @@ router.post(
 );
 
 /* =====================================================
+   COMPLETE / REFRESH PROPOSAL OUTLINE
+===================================================== */
+
+router.post(
+  '/plan/complete-proposal-outline',
+  ensureOrganization,
+  verifyCsrfToken,
+  planController.completeProposalOutline
+);
+
+/* =====================================================
    PROPOSAL KICKOFF PRACTICE
 ===================================================== */
 

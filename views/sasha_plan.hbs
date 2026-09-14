@@ -2315,6 +2315,144 @@
 
 </section>
 
+{{!-- =================================================
+     COMPLETE / REFRESH PROPOSAL OUTLINE
+================================================== --}}
+
+<section
+  class="sasha-proposal-outline-action"
+  id="sasha-proposal-outline-action"
+>
+
+  {{!-- ===============================================
+       READY STATE
+  ================================================ --}}
+
+  <div
+    class="sasha-proposal-outline-ready"
+    id="sasha-proposal-outline-ready"
+  >
+
+    <div class="sasha-proposal-outline-action-copy">
+
+      <span class="sasha-proposal-outline-action-eyebrow">
+        Build the proposal structure
+      </span>
+
+      <h3>
+        Proposal Outline
+      </h3>
+
+      <p>
+        Ask Sasha to review the current RFP, addenda, proposal
+        requirements, evaluation criteria, submission instructions,
+        page limits, and pursuit record and build the proposal outline.
+      </p>
+
+    </div>
+
+
+    <form
+      method="POST"
+      action="/plan/complete-proposal-outline"
+      class="sasha-proposal-outline-action-form"
+      id="sasha-proposal-outline-action-form"
+    >
+
+      {{#if csrfToken}}
+
+        <input
+          type="hidden"
+          name="_csrf"
+          value="{{csrfToken}}"
+        >
+
+      {{/if}}
+
+
+      <input
+        type="hidden"
+        name="pursuitId"
+        value="{{proposal._id}}"
+      >
+
+
+      <button
+        type="submit"
+        class="sasha-proposal-outline-action-button"
+        id="sasha-proposal-outline-action-button"
+      >
+
+        {{#if outline.sections.length}}
+          Refresh Proposal Outline
+        {{else}}
+          Complete Proposal Outline
+        {{/if}}
+
+      </button>
+
+    </form>
+
+  </div>
+
+
+  {{!-- ===============================================
+       WORKING STATE
+  ================================================ --}}
+
+  <div
+    class="sasha-proposal-outline-working"
+    id="sasha-proposal-outline-working"
+    hidden
+    aria-live="polite"
+  >
+
+    <div class="sasha-proposal-outline-working-media">
+
+      <video
+        class="sasha-proposal-outline-working-video"
+        id="sasha-proposal-outline-working-video"
+        muted
+        playsinline
+        preload="auto"
+      >
+
+        <source
+          src="/images/sasha-working.mp4"
+          type="video/mp4"
+        >
+
+      </video>
+
+    </div>
+
+
+    <div class="sasha-proposal-outline-working-copy">
+
+      <span class="sasha-proposal-outline-action-eyebrow">
+        Sasha is working
+      </span>
+
+      <h3>
+        Building the Proposal Outline
+      </h3>
+
+      <p>
+        Sasha is reviewing the controlling procurement documents,
+        proposal requirements, evaluation criteria, submission
+        structure, page-count rules, and current pursuit information.
+      </p>
+
+      <strong>
+        This may take a moment. Please keep this page open.
+      </strong>
+
+    </div>
+
+  </div>
+
+</section>
+
 
 {{!-- =================================================
      SUGGESTED APPENDICES & SUPPORTING MATERIALS
@@ -4322,22 +4460,9 @@ document.addEventListener(
         }
 
 
-        /*
-         * Start every practice collapsed so the proposal
-         * manager sees the full list of available options.
-         *
-         * Each card remains independent. Opening one does
-         * NOT close another.
-         */
-
         practiceCard.open =
           false;
 
-
-        /*
-         * Keep aria-expanded synchronized with the
-         * native details element.
-         */
 
         summary.setAttribute(
           'aria-expanded',
@@ -4389,10 +4514,6 @@ document.addEventListener(
       workingVideo
     ) {
 
-      /* =============================================
-         PREPARE IDLE VIDEO
-      ============================================= */
-
       workingVideo.addEventListener(
         'loadedmetadata',
         () => {
@@ -4405,10 +4526,6 @@ document.addEventListener(
         }
       );
 
-
-      /* =============================================
-         SHOW WORKING STATE ON CHAT SUBMIT
-      ============================================= */
 
       planForm.addEventListener(
         'submit',
@@ -4444,8 +4561,8 @@ document.addEventListener(
               () => {
 
                 /*
-                 * The form submission should continue
-                 * even if the browser refuses playback.
+                 * Submission continues even if
+                 * playback is blocked.
                  */
 
               }
@@ -4465,10 +4582,6 @@ document.addEventListener(
         }
       );
 
-
-      /* =============================================
-         STOP ON FINAL FRAME
-      ============================================= */
 
       workingVideo.addEventListener(
         'ended',
@@ -4519,10 +4632,6 @@ document.addEventListener(
       proposalPlanVideo
     ) {
 
-      /* =============================================
-         PREPARE IDLE VIDEO
-      ============================================= */
-
       proposalPlanVideo.addEventListener(
         'loadedmetadata',
         () => {
@@ -4535,10 +4644,6 @@ document.addEventListener(
         }
       );
 
-
-      /* =============================================
-         SHOW WORKING STATE ON SUBMIT
-      ============================================= */
 
       proposalPlanForm.addEventListener(
         'submit',
@@ -4587,8 +4692,8 @@ document.addEventListener(
               () => {
 
                 /*
-                 * Keep the working message visible
-                 * even if playback is blocked.
+                 * Keep the working state visible
+                 * even if video playback fails.
                  */
 
               }
@@ -4609,15 +4714,142 @@ document.addEventListener(
       );
 
 
-      /* =============================================
-         STOP ON FINAL FRAME
-      ============================================= */
-
       proposalPlanVideo.addEventListener(
         'ended',
         () => {
 
           proposalPlanVideo.pause();
+
+        }
+      );
+
+    }
+
+
+    /* =================================================
+       COMPLETE / REFRESH PROPOSAL OUTLINE
+    ================================================== */
+
+    const proposalOutlineForm =
+      document.getElementById(
+        'sasha-proposal-outline-action-form'
+      );
+
+    const proposalOutlineReady =
+      document.getElementById(
+        'sasha-proposal-outline-ready'
+      );
+
+    const proposalOutlineWorking =
+      document.getElementById(
+        'sasha-proposal-outline-working'
+      );
+
+    const proposalOutlineVideo =
+      document.getElementById(
+        'sasha-proposal-outline-working-video'
+      );
+
+    const proposalOutlineButton =
+      document.getElementById(
+        'sasha-proposal-outline-action-button'
+      );
+
+
+    if (
+      proposalOutlineForm &&
+      proposalOutlineReady &&
+      proposalOutlineWorking &&
+      proposalOutlineVideo
+    ) {
+
+      proposalOutlineVideo.addEventListener(
+        'loadedmetadata',
+        () => {
+
+          proposalOutlineVideo.currentTime =
+            0;
+
+          proposalOutlineVideo.pause();
+
+        }
+      );
+
+
+      proposalOutlineForm.addEventListener(
+        'submit',
+        () => {
+
+          if (
+            proposalOutlineButton
+          ) {
+
+            proposalOutlineButton.disabled =
+              true;
+
+          }
+
+
+          proposalOutlineReady.hidden =
+            true;
+
+          proposalOutlineWorking.hidden =
+            false;
+
+          proposalOutlineWorking.setAttribute(
+            'aria-hidden',
+            'false'
+          );
+
+
+          proposalOutlineVideo.loop =
+            false;
+
+          proposalOutlineVideo.currentTime =
+            0;
+
+
+          const playPromise =
+            proposalOutlineVideo.play();
+
+
+          if (
+            playPromise &&
+            typeof playPromise.catch ===
+              'function'
+          ) {
+
+            playPromise.catch(
+              () => {
+
+                /*
+                 * Keep the working state visible
+                 * even if video playback fails.
+                 */
+
+              }
+            );
+
+          }
+
+
+          proposalOutlineWorking.scrollIntoView({
+            behavior:
+              'smooth',
+
+            block:
+              'nearest'
+          });
+
+        }
+      );
+
+
+      proposalOutlineVideo.addEventListener(
+        'ended',
+        () => {
+
+          proposalOutlineVideo.pause();
 
         }
       );
