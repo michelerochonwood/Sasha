@@ -19534,3 +19534,407 @@ summary:focus-visible {
   }
 
 }
+
+/* =====================================================
+   PROPOSAL OUTLINE ACTION | FINAL STYLES
+===================================================== */
+
+.sasha-proposal-outline-action {
+  display: flex;
+  align-items: center;
+
+  width: 100%;
+  max-width: 100%;
+
+  margin:
+    2rem
+    0
+    4rem;
+
+  padding:
+    2rem
+    2.2rem;
+
+  background:
+    rgba(255, 255, 255, 0.07);
+
+  border:
+    1px solid
+    rgba(242, 130, 170, 0.48);
+
+  border-radius: 22px;
+
+  box-sizing: border-box;
+}
+
+
+/* =====================================================
+   READY STATE
+===================================================== */
+
+.sasha-proposal-outline-ready {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 3rem;
+
+  width: 100%;
+  min-width: 0;
+}
+
+
+/* =====================================================
+   COPY
+===================================================== */
+
+.sasha-proposal-outline-action-copy {
+  flex:
+    1
+    1
+    auto;
+
+  min-width: 0;
+  max-width: 760px;
+}
+
+
+.sasha-proposal-outline-action-eyebrow {
+  display: block;
+
+  margin:
+    0
+    0
+    0.45rem;
+
+  color:
+    var(
+      --sasha-pink,
+      #f282aa
+    );
+
+  font-size: 0.72rem;
+  font-weight: 800;
+
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+
+.sasha-proposal-outline-action-copy h3 {
+  margin:
+    0
+    0
+    0.55rem;
+
+  color: #ffffff;
+
+  font-size: 1.35rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+
+.sasha-proposal-outline-action-copy p {
+  max-width: 720px;
+
+  margin: 0;
+
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.76
+    );
+
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+
+/* =====================================================
+   FORM
+===================================================== */
+
+.sasha-proposal-outline-action-form {
+  flex:
+    0
+    0
+    auto;
+
+  margin: 0;
+  padding: 0;
+}
+
+
+/* =====================================================
+   BUTTON
+===================================================== */
+
+.sasha-proposal-outline-action-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 230px;
+
+  margin: 0;
+
+  padding:
+    0.95rem
+    1.4rem;
+
+  color: #262262;
+
+  background:
+    var(
+      --sasha-pink,
+      #f282aa
+    );
+
+  border: 0;
+  border-radius: 999px;
+
+  font-family:
+    "Figtree",
+    sans-serif;
+
+  font-size: 0.82rem;
+  font-weight: 800;
+  line-height: 1;
+
+  text-align: center;
+
+  cursor: pointer;
+
+  appearance: none;
+  -webkit-appearance: none;
+
+  transition:
+    transform 160ms ease,
+    background-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+
+.sasha-proposal-outline-action-button:hover {
+  background: #ffffff;
+
+  transform:
+    translateY(-2px);
+
+  box-shadow:
+    0
+    8px
+    22px
+    rgba(14, 12, 51, 0.2);
+}
+
+
+.sasha-proposal-outline-action-button:focus-visible {
+  outline:
+    3px solid
+    rgba(242, 130, 170, 0.55);
+
+  outline-offset: 4px;
+}
+
+
+.sasha-proposal-outline-action-button:disabled {
+  opacity: 0.65;
+
+  cursor: wait;
+
+  transform: none;
+}
+
+
+/* =====================================================
+   WORKING STATE
+===================================================== */
+
+.sasha-proposal-outline-working {
+  align-items: center;
+
+  gap: 2rem;
+
+  width: 100%;
+  min-width: 0;
+}
+
+
+.sasha-proposal-outline-working[hidden] {
+  display: none;
+}
+
+
+.sasha-proposal-outline-working:not([hidden]) {
+  display: flex;
+}
+
+
+/* =====================================================
+   WORKING VIDEO
+===================================================== */
+
+.sasha-proposal-outline-working-media {
+  flex:
+    0
+    0
+    190px;
+
+  width: 190px;
+
+  overflow: hidden;
+
+  background:
+    rgba(255, 255, 255, 0.05);
+
+  border:
+    1px solid
+    rgba(242, 130, 170, 0.48);
+
+  border-radius: 16px;
+
+  animation:
+    sasha-proposal-outline-pulse
+    2s
+    ease-in-out
+    infinite;
+}
+
+
+.sasha-proposal-outline-working-video {
+  display: block;
+
+  width: 100%;
+  height: auto;
+
+  margin: 0;
+}
+
+
+/* =====================================================
+   WORKING COPY
+===================================================== */
+
+.sasha-proposal-outline-working-copy {
+  flex: 1;
+
+  min-width: 0;
+}
+
+
+.sasha-proposal-outline-working-copy h3 {
+  margin:
+    0
+    0
+    0.55rem;
+
+  color: #ffffff;
+
+  font-size: 1.35rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+
+.sasha-proposal-outline-working-copy p {
+  max-width: 720px;
+
+  margin:
+    0
+    0
+    0.8rem;
+
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.76
+    );
+
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+
+.sasha-proposal-outline-working-copy strong {
+  display: block;
+
+  color:
+    var(
+      --sasha-pink,
+      #f282aa
+    );
+
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+
+/* =====================================================
+   WORKING PULSE
+===================================================== */
+
+@keyframes sasha-proposal-outline-pulse {
+
+  0%,
+  100% {
+    box-shadow:
+      0
+      0
+      0
+      rgba(242, 130, 170, 0);
+  }
+
+  50% {
+    box-shadow:
+      0
+      0
+      24px
+      rgba(242, 130, 170, 0.22);
+  }
+
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media screen and (max-width: 800px) {
+
+  .sasha-proposal-outline-ready {
+    align-items: flex-start;
+    flex-direction: column;
+
+    gap: 1.4rem;
+  }
+
+
+  .sasha-proposal-outline-action-form {
+    width: 100%;
+  }
+
+
+  .sasha-proposal-outline-action-button {
+    width: 100%;
+  }
+
+
+  .sasha-proposal-outline-working:not([hidden]) {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+
+  .sasha-proposal-outline-working-media {
+    flex-basis: auto;
+
+    width: 160px;
+  }
+
+}
