@@ -18374,3 +18374,37 @@ summary:focus-visible {
   }
 
 }
+
+/* =====================================================
+   COMPLETE RFP ANALYSIS | CONTAINER ALIGNMENT FIX
+===================================================== */
+
+.sasha-analysis-page
+.sasha-rfp-analysis-action {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+
+.sasha-analysis-page
+.sasha-rfp-analysis-ready,
+.sasha-analysis-page
+.sasha-rfp-analysis-working {
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.sasha-analysis-page
+.sasha-analysis-section {
+  margin-bottom: 2rem;
+}
+
+
+.sasha-analysis-page
+.sasha-rfp-analysis-action {
+  margin-top: 0;
+}
