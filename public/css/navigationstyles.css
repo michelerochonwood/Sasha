@@ -1662,13 +1662,13 @@
   position: fixed;
   z-index: 110;
 
-  top: 192px;
+  top: 142px;
   left: 0;
 
   display: flex;
 
   width: 54px;
-  height: 94px;
+  height: 120px;
 
   align-items: center;
   justify-content: center;
@@ -1739,10 +1739,10 @@
     "Figtree",
     sans-serif;
 
-  font-size: 0.66rem;
+  font-size: 0.72rem;
   font-weight: 800;
 
-  letter-spacing: 0.06em;
+  letter-spacing: 0.07em;
 
   text-transform: uppercase;
 
@@ -1760,8 +1760,8 @@
 .sasha-header-dashboard-tab-arrow {
   position: absolute;
 
-  right: 5px;
-  bottom: 5px;
+  right: 6px;
+  bottom: 8px;
 
   color:
     var(
