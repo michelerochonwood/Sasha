@@ -148,6 +148,35 @@ async (
 
     }
 
+    /* =================================================
+   SET ACTIVE PURSUIT
+================================================== */
+
+req.session.activePursuitId =
+  proposal._id.toString();
+
+req.session.activePursuitName =
+  proposal.proposalName;
+
+req.session.activePursuitClient =
+  proposal.clientName ||
+  '';
+
+
+/* =================================================
+   UPDATE HEADER ACTIVE PURSUIT FOR THIS REQUEST
+================================================== */
+
+res.locals.activePursuitId =
+  proposal._id.toString();
+
+res.locals.activePursuitName =
+  proposal.proposalName;
+
+res.locals.activePursuitClient =
+  proposal.clientName ||
+  '';
+
 /* =================================================
    SET ACTIVE PURSUIT
 ================================================== */
