@@ -63,6 +63,13 @@ const writeController = require(
 const router =
   express.Router();
 
+/* =====================================================
+   GLOBAL HEADER PURSUITS
+===================================================== */
+
+router.use(
+  proposalController.loadHeaderPursuits
+);
 
 /* =====================================================
    HOME

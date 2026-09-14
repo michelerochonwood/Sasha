@@ -15,7 +15,76 @@ const planController =
   );
 
 
+/* =====================================================
+   LOAD PURSUITS FOR GLOBAL HEADER
+===================================================== */
 
+exports.loadHeaderPursuits =
+async (
+  req,
+  res,
+  next
+) => {
+
+  try {
+
+    if (
+      !req.session ||
+      !req.session.organizationId
+    ) {
+
+      res.locals.proposals =
+        [];
+
+      return next();
+
+    }
+
+
+    const proposals =
+      await Proposal.find(
+        {
+          organization:
+            req.session.organizationId
+        }
+      )
+        .sort(
+          {
+            createdAt:
+              -1
+          }
+        )
+        .select(
+          '_id proposalName clientName proposalStatus submissionDeadline updatedAt'
+        )
+        .lean();
+
+
+    res.locals.proposals =
+      proposals;
+
+
+    return next();
+
+  } catch (
+    error
+  ) {
+
+    console.error(
+      'LOAD HEADER PURSUITS FAILED:',
+      error
+    );
+
+
+    res.locals.proposals =
+      [];
+
+
+    return next();
+
+  }
+
+};
 /* =====================================================
 GET CREATE PURSUIT
 ===================================================== */
@@ -950,6 +1019,62 @@ if (
 }
 
 /* =================================================
+   FORMAT INTERNAL CUTOFF DATES FOR DASHBOARD
+================================================== */
+
+const formatDashboardDateTime =
+  (
+    dateValue
+  ) => {
+
+    if (
+      !dateValue
+    ) {
+
+      return null;
+
+    }
+
+
+    const date =
+      new Date(
+        dateValue
+      );
+
+
+    if (
+      Number.isNaN(
+        date.getTime()
+      )
+    ) {
+
+      return null;
+
+    }
+
+
+    return date.toLocaleString(
+      'en-CA',
+      {
+        month:
+          'short',
+
+        day:
+          'numeric',
+
+        year:
+          'numeric',
+
+        hour:
+          'numeric',
+
+        minute:
+          '2-digit'
+      }
+    );
+
+  };
+/* =================================================
    GO / NO GO COMPLETION
 ================================================= */
 
@@ -962,7 +1087,51 @@ const goNoGoIsComplete =
     goNoGo.decision
   );
 
+/* =================================================
+   GO / NO GO COMPLETION DATE
+================================================= */
 
+const goNoGoWorkflowStage =
+  rawWorkflowStages.find(
+    stage =>
+      stage.stage ===
+      'go_no_go'
+  );
+
+
+const goNoGoCompletedAt =
+  goNoGoIsComplete &&
+  goNoGoWorkflowStage &&
+  goNoGoWorkflowStage.completedAt
+    ? formatDashboardDateTime(
+        goNoGoWorkflowStage.completedAt
+      )
+    : null;
+
+
+const dashboardInternalCutoffs = {
+
+  goNoGo:
+    formatDashboardDateTime(
+      proposal.internalCutoffs?.goNoGo
+    ),
+
+  effortLevel:
+    formatDashboardDateTime(
+      proposal.internalCutoffs?.effortLevel
+    ),
+
+  outline:
+    formatDashboardDateTime(
+      proposal.internalCutoffs?.outline
+    ),
+
+  winStrategy:
+    formatDashboardDateTime(
+      proposal.internalCutoffs?.winStrategy
+    )
+
+};
   /* =================================================
    EFFORT LEVEL COMPLETION
 ================================================= */
@@ -1048,108 +1217,9 @@ const winStrategyIsComplete =
         winStrategyWorkflowStage.completedAt
       )
     : null;
-/* =================================================
-   FORMAT INTERNAL CUTOFF DATES FOR DASHBOARD
-================================================== */
-
-const formatDashboardDateTime =
-  (
-    dateValue
-  ) => {
-
-    if (
-      !dateValue
-    ) {
-
-      return null;
-
-    }
 
 
-    const date =
-      new Date(
-        dateValue
-      );
 
-
-    if (
-      Number.isNaN(
-        date.getTime()
-      )
-    ) {
-
-      return null;
-
-    }
-
-
-    return date.toLocaleString(
-      'en-CA',
-      {
-        month:
-          'short',
-
-        day:
-          'numeric',
-
-        year:
-          'numeric',
-
-        hour:
-          'numeric',
-
-        minute:
-          '2-digit'
-      }
-    );
-
-  };
-
-/* =================================================
-   GO / NO GO COMPLETION DATE
-================================================= */
-
-const goNoGoWorkflowStage =
-  rawWorkflowStages.find(
-    stage =>
-      stage.stage ===
-      'go_no_go'
-  );
-
-
-const goNoGoCompletedAt =
-  goNoGoIsComplete &&
-  goNoGoWorkflowStage &&
-  goNoGoWorkflowStage.completedAt
-    ? formatDashboardDateTime(
-        goNoGoWorkflowStage.completedAt
-      )
-    : null;
-
-
-const dashboardInternalCutoffs = {
-
-  goNoGo:
-    formatDashboardDateTime(
-      proposal.internalCutoffs?.goNoGo
-    ),
-
-  effortLevel:
-    formatDashboardDateTime(
-      proposal.internalCutoffs?.effortLevel
-    ),
-
-  outline:
-    formatDashboardDateTime(
-      proposal.internalCutoffs?.outline
-    ),
-
-  winStrategy:
-    formatDashboardDateTime(
-      proposal.internalCutoffs?.winStrategy
-    )
-
-};
 
     /* =================================================
        DASHBOARD DATA
