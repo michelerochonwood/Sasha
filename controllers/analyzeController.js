@@ -419,6 +419,106 @@ clarificationBlocks,
 };
 
 /* =====================================================
+   COMPLETE RFP ANALYSIS
+===================================================== */
+
+exports.completeRfpAnalysis =
+async (
+  req,
+  res,
+  next
+) => {
+
+  try {
+
+    /* =================================================
+       PURSUIT ID
+    ================================================== */
+
+    const pursuitId =
+      typeof req.body.pursuitId ===
+        'string'
+        ? req.body.pursuitId.trim()
+        : '';
+
+
+    if (
+      !pursuitId
+    ) {
+
+      return res.redirect(
+        '/pursuits'
+      );
+
+    }
+
+
+    /* =================================================
+       STANDARD RFP ANALYSIS INSTRUCTION
+    ================================================== */
+
+    req.body.message = `
+Analyze the current RFP and pursuit source documents and
+complete the RFP analysis work product.
+
+Review and populate, where supported by the source material:
+
+1. Risk and Contract Concerns
+2. Mandatory Requirements
+3. Evaluation Criteria
+4. Scope of Work
+5. Submission Requirements
+6. Clarifications and Unknowns
+
+Base every finding on the pursuit documents.
+
+Do not invent missing requirements, dates, weights, contract
+terms, scope, submission instructions, or clarifications.
+
+If a category has no supported finding, leave it empty.
+
+If useful supported findings already exist in the proposal
+record, preserve them. Do not repeat unchanged findings in a
+new historical block.
+
+Fill missing analysis areas and add only materially new,
+changed, clarified, or previously unrecorded findings.
+
+Keep the analysis concise and useful to the pursuit team.
+`.trim();
+
+
+    /* =================================================
+       USE EXISTING ANALYZE PIPELINE
+    ================================================== */
+req.body.isCompleteRfpAnalysis =
+  true;
+
+    return exports.postAnalyzeChat(
+      req,
+      res,
+      next
+    );
+
+  } catch (
+    error
+  ) {
+
+    console.error(
+      'COMPLETE RFP ANALYSIS FAILED:',
+      error
+    );
+
+
+    return next(
+      error
+    );
+
+  }
+
+};
+
+/* =====================================================
    ANALYZE PURSUIT CHAT
 ===================================================== */
 
@@ -927,6 +1027,35 @@ const openai =
 
         instructions: `
 ${analysisInstructions}
+
+${req.body.isCompleteRfpAnalysis
+  ? `
+=====================================================
+COMPLETE RFP ANALYSIS MODE
+=====================================================
+
+The user explicitly requested a complete RFP analysis pass.
+
+For this request:
+
+- review all attached current pursuit documents;
+- set updates.analysis to true;
+- examine all six RFP analysis categories;
+- populate every category supported by the source material;
+- return null only for an individual category when the source
+  material genuinely provides no supported finding for it;
+- do not invent information to fill an empty category;
+- preserve existing supported analysis;
+- do not repeat unchanged existing findings;
+- fill gaps in the existing analysis and add materially useful
+  findings that have not previously been recorded.
+
+This instruction applies only to the RFP analysis work product.
+Do not automatically update the outline, deadline, or create a
+change impact unless the normal rules for those updates are
+independently satisfied.
+`
+  : ''}
 
 IMPORTANT UPDATE RULES
 
@@ -1765,8 +1894,10 @@ required: [
           }
         },
 
-        max_output_tokens:
-          3000
+max_output_tokens:
+  req.body.isCompleteRfpAnalysis
+    ? 6000
+    : 3000
 
       });
 

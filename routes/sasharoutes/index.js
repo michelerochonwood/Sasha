@@ -227,6 +227,18 @@ router.post(
 
 
 /* =====================================================
+   COMPLETE RFP ANALYSIS
+===================================================== */
+
+router.post(
+  '/analyze/complete-rfp-analysis',
+  ensureOrganization,
+  verifyCsrfToken,
+  analyzeController.completeRfpAnalysis
+);
+
+
+/* =====================================================
    PLAN | WIN STRATEGY
 ===================================================== */
 
