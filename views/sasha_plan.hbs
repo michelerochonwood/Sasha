@@ -2549,6 +2549,147 @@
   {{/if}}
 
 </section>
+
+{{!-- =================================================
+     COMPLETE / REFRESH SUPPORTING MATERIALS
+================================================== --}}
+
+<section
+  class="sasha-supporting-materials-action"
+  id="sasha-supporting-materials-action"
+>
+
+  {{!-- ===============================================
+       READY STATE
+  ================================================ --}}
+
+  <div
+    class="sasha-supporting-materials-ready"
+    id="sasha-supporting-materials-ready"
+  >
+
+    <div class="sasha-supporting-materials-action-copy">
+
+      <span class="sasha-supporting-materials-action-eyebrow">
+        Complete the submission structure
+      </span>
+
+      <h3>
+        Appendices & Supporting Materials
+      </h3>
+
+      <p>
+        Ask Sasha to review the current procurement documents
+        and identify the appendices, forms, attachments, separate
+        submissions, portal requirements, and other supporting
+        materials that should be tracked outside the main proposal.
+      </p>
+
+    </div>
+
+
+    <form
+      method="POST"
+      action="/plan/complete-supporting-materials"
+      class="sasha-supporting-materials-action-form"
+      id="sasha-supporting-materials-action-form"
+    >
+
+      {{#if csrfToken}}
+
+        <input
+          type="hidden"
+          name="_csrf"
+          value="{{csrfToken}}"
+        >
+
+      {{/if}}
+
+
+      <input
+        type="hidden"
+        name="pursuitId"
+        value="{{proposal._id}}"
+      >
+
+
+      <button
+        type="submit"
+        class="sasha-supporting-materials-action-button"
+        id="sasha-supporting-materials-action-button"
+      >
+
+        {{#if supportingMaterials.length}}
+          Refresh Supporting Materials
+        {{else}}
+          Complete Supporting Materials
+        {{/if}}
+
+      </button>
+
+    </form>
+
+  </div>
+
+
+  {{!-- ===============================================
+       WORKING STATE
+  ================================================ --}}
+
+  <div
+    class="sasha-supporting-materials-working"
+    id="sasha-supporting-materials-working"
+    hidden
+    aria-live="polite"
+  >
+
+    <div class="sasha-supporting-materials-working-media">
+
+      <video
+        class="sasha-supporting-materials-working-video"
+        id="sasha-supporting-materials-working-video"
+        muted
+        playsinline
+        preload="auto"
+      >
+
+        <source
+          src="/images/sasha-working.mp4"
+          type="video/mp4"
+        >
+
+      </video>
+
+    </div>
+
+
+    <div class="sasha-supporting-materials-working-copy">
+
+      <span class="sasha-supporting-materials-action-eyebrow">
+        Sasha is working
+      </span>
+
+      <h3>
+        Reviewing Supporting Materials
+      </h3>
+
+      <p>
+        Sasha is reviewing the procurement documents and separating
+        required forms, appendices, attachments, portal submissions,
+        later-stage requirements, and other supporting materials from
+        the main proposal content.
+      </p>
+
+      <strong>
+        This may take a moment. Please keep this page open.
+      </strong>
+
+    </div>
+
+  </div>
+
+</section>
+
     {{!-- =================================================
          EVIDENCE
     ================================================== --}}
@@ -4850,6 +4991,137 @@ document.addEventListener(
         () => {
 
           proposalOutlineVideo.pause();
+
+        }
+      );
+
+    }
+
+
+    /* =================================================
+       COMPLETE / REFRESH SUPPORTING MATERIALS
+    ================================================== */
+
+    const supportingMaterialsForm =
+      document.getElementById(
+        'sasha-supporting-materials-action-form'
+      );
+
+    const supportingMaterialsReady =
+      document.getElementById(
+        'sasha-supporting-materials-ready'
+      );
+
+    const supportingMaterialsWorking =
+      document.getElementById(
+        'sasha-supporting-materials-working'
+      );
+
+    const supportingMaterialsVideo =
+      document.getElementById(
+        'sasha-supporting-materials-working-video'
+      );
+
+    const supportingMaterialsButton =
+      document.getElementById(
+        'sasha-supporting-materials-action-button'
+      );
+
+
+    if (
+      supportingMaterialsForm &&
+      supportingMaterialsReady &&
+      supportingMaterialsWorking &&
+      supportingMaterialsVideo
+    ) {
+
+      supportingMaterialsVideo.addEventListener(
+        'loadedmetadata',
+        () => {
+
+          supportingMaterialsVideo.currentTime =
+            0;
+
+          supportingMaterialsVideo.pause();
+
+        }
+      );
+
+
+      supportingMaterialsForm.addEventListener(
+        'submit',
+        () => {
+
+          if (
+            supportingMaterialsButton
+          ) {
+
+            supportingMaterialsButton.disabled =
+              true;
+
+          }
+
+
+          supportingMaterialsReady.hidden =
+            true;
+
+          supportingMaterialsWorking.hidden =
+            false;
+
+          supportingMaterialsWorking.setAttribute(
+            'aria-hidden',
+            'false'
+          );
+
+
+          supportingMaterialsVideo.loop =
+            false;
+
+          supportingMaterialsVideo.currentTime =
+            0;
+
+
+          const playPromise =
+            supportingMaterialsVideo.play();
+
+
+          if (
+            playPromise &&
+            typeof playPromise.catch ===
+              'function'
+          ) {
+
+            playPromise.catch(
+              () => {
+
+                /*
+                 * Keep the working state visible
+                 * even if video playback fails.
+                 */
+
+              }
+            );
+
+          }
+
+
+          supportingMaterialsWorking.scrollIntoView({
+            behavior:
+              'smooth',
+
+            block:
+              'nearest'
+          });
+
+        }
+      );
+
+
+      supportingMaterialsVideo.addEventListener(
+        'ended',
+        () => {
+
+          supportingMaterialsVideo.pause();
 
         }
       );

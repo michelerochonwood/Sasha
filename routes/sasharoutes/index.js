@@ -289,6 +289,17 @@ router.post(
 );
 
 /* =====================================================
+   COMPLETE / REFRESH SUPPORTING MATERIALS
+===================================================== */
+
+router.post(
+  '/plan/complete-supporting-materials',
+  ensureOrganization,
+  verifyCsrfToken,
+  planController.completeSupportingMaterials
+);
+
+/* =====================================================
    PROPOSAL KICKOFF PRACTICE
 ===================================================== */
 
