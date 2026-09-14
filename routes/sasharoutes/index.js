@@ -266,7 +266,16 @@ router.post(
   planController.postPlanChat
 );
 
+/* =====================================================
+   COMPLETE PROPOSAL PLAN
+===================================================== */
 
+router.post(
+  '/plan/complete-proposal-plan',
+  ensureOrganization,
+  verifyCsrfToken,
+  planController.completeProposalPlan
+);
 
 /* =====================================================
    PROPOSAL KICKOFF PRACTICE

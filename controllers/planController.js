@@ -717,6 +717,7 @@ const practiceDecisions =
         proposal,
 
         plan,
+        proposalPlanHasWork,
 
         winStrategy,
         supportingMaterials,
@@ -741,6 +742,7 @@ const practiceDecisions =
 
 practiceDecisions,
 
+
         planMessages
       }
     );
@@ -752,6 +754,136 @@ practiceDecisions,
 
     console.error(
       'LOAD PURSUIT PLAN FAILED:',
+      error
+    );
+
+
+    return next(
+      error
+    );
+
+  }
+
+};
+
+/* =====================================================
+   COMPLETE PROPOSAL PLAN
+===================================================== */
+
+exports.completeProposalPlan =
+async (
+  req,
+  res,
+  next
+) => {
+
+  try {
+
+    /* =================================================
+       PURSUIT ID
+    ================================================== */
+
+    const pursuitId =
+      typeof req.body.pursuitId ===
+        'string'
+        ? req.body.pursuitId.trim()
+        : '';
+
+
+    if (
+      !pursuitId
+    ) {
+
+      return res.redirect(
+        '/pursuits'
+      );
+
+    }
+
+
+    /* =================================================
+       STANDARD PROPOSAL PLAN INSTRUCTION
+    ================================================== */
+
+    req.body.message = `
+Review the current pursuit record and all uploaded current
+pursuit documents and complete the Proposal Plan.
+
+Use only information already available in the pursuit record,
+RFP analysis, and uploaded pursuit documents.
+
+Complete or update all four Proposal Plan work products:
+
+1. Proposal Schedule
+2. Responsibilities
+3. Milestones
+4. Final Production
+
+For the Proposal Schedule, create a practical proposal-development
+schedule using known submission deadlines, internal deadlines,
+available proposal time, required reviews, and other supported
+timing information.
+
+For Responsibilities, assign work only where a responsible person,
+role, proposal manager, or team responsibility can be supported by
+the current pursuit information. Do not invent team members.
+
+For Milestones, identify useful internal proposal-development
+checkpoints, reviews, approvals, and completion targets supported
+by the available timing and pursuit information.
+
+For Final Production, identify the final assembly, QA, forms,
+signatures, packaging, upload, and submission activities supported
+by the procurement documents and pursuit record.
+
+Do not invent client requirements, dates, people, assignments,
+submission requirements, or production requirements.
+
+Where a useful planning decision can reasonably be derived from
+known deadlines and requirements, make a professional planning
+recommendation and distinguish it from a client requirement.
+
+If Proposal Plan content already exists, preserve useful supported
+planning decisions.
+
+Do not repeat unchanged existing Plan blocks.
+
+Add only materially new, changed, clarified, or previously
+unrecorded planning information.
+
+This request applies ONLY to the Proposal Plan.
+
+Set action = "update_plan".
+
+Do not update the Win Strategy, Proposal Outline, Supporting
+Materials, or another work product as part of this request.
+`.trim();
+
+
+    /* =================================================
+       COMPLETE PROPOSAL PLAN MODE
+    ================================================== */
+
+    req.body.isCompleteProposalPlan =
+      true;
+
+
+    /* =================================================
+       USE EXISTING PLAN PIPELINE
+    ================================================== */
+
+    return exports.postPlanChat(
+      req,
+      res,
+      next
+    );
+
+  } catch (
+    error
+  ) {
+
+    console.error(
+      'COMPLETE PROPOSAL PLAN FAILED:',
       error
     );
 
@@ -4293,6 +4425,92 @@ instructions:
 
 ${planInstructions}
 
+${req.body.isCompleteProposalPlan
+  ? `
+=====================================================
+COMPLETE PROPOSAL PLAN MODE
+=====================================================
+
+The user explicitly requested a complete Proposal Plan pass.
+
+For this request:
+
+- review the complete current pursuit record;
+- review all attached current pursuit documents;
+- review the existing RFP analysis;
+- review the existing Proposal Plan;
+- consider the current effort level;
+- consider the submission deadline and any known internal deadlines;
+- consider the proposal manager and known proposal team information.
+
+You must evaluate ALL FOUR Proposal Plan categories:
+
+1. schedule
+2. responsibilities
+3. milestones
+4. production
+
+Set:
+
+action = "update_plan"
+
+Return a useful plan block for each category when supported by the
+available pursuit information.
+
+For the FIRST Proposal Plan pass, establish a practical baseline for
+all categories that can reasonably be developed from the available
+evidence.
+
+For a REFRESH pass:
+
+- preserve valid existing planning decisions;
+- do not repeat unchanged existing blocks;
+- return only materially new, revised, clarified, superseding, or
+  previously missing planning content.
+
+Do not invent:
+
+- people;
+- assignments;
+- client requirements;
+- deadlines;
+- submission requirements;
+- review requirements; or
+- production requirements.
+
+Professional proposal-management recommendations are permitted when
+they are reasonable planning decisions based on known pursuit facts.
+Do not present Sasha recommendations as client requirements.
+
+If a category genuinely cannot be developed from the available
+information, return null for that category rather than inventing
+content.
+
+This special mode applies ONLY to the Proposal Plan.
+
+Do not update:
+
+- Win Strategy;
+- Proposal Outline;
+- Supporting Materials; or
+- another work product.
+
+The structured response must use:
+
+action = "update_plan"
+
+and:
+
+winStrategy = null
+outline = null
+supportingMaterials = null
+userOverride = null
+
+unless the current request independently and explicitly constitutes
+a genuine User Override.
+`
+  : ''}
+
 ${outlineComplianceInstructions}`,
 
     input:
@@ -6575,6 +6793,24 @@ if (
     normalizeStoredPlanCategory(
       proposal.plan.production
     );
+
+    /* =================================================
+   PROPOSAL PLAN HAS WORK
+================================================= */
+
+const proposalPlanHasWork =
+  [
+    plan.schedule,
+    plan.responsibilities,
+    plan.milestones,
+    plan.production
+  ].some(
+    category =>
+      Array.isArray(
+        category
+      ) &&
+      category.length > 0
+  );
 
 
   /* ===============================================

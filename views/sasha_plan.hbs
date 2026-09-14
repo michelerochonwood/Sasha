@@ -1417,7 +1417,137 @@
 </div>
 </section>
 
+{{!-- =================================================
+     COMPLETE PROPOSAL PLAN
+================================================== --}}
 
+<section
+  class="sasha-proposal-plan-action"
+  id="sasha-proposal-plan-action"
+>
+
+  <div
+    class="sasha-proposal-plan-ready"
+    id="sasha-proposal-plan-ready"
+  >
+
+    <div class="sasha-proposal-plan-action-copy">
+
+      <span class="sasha-proposal-plan-action-eyebrow">
+        Complete the plan
+      </span>
+
+      <h3>
+        Proposal Plan
+      </h3>
+
+      <p>
+        Ask Sasha to review the current pursuit record and uploaded
+        source documents and complete the proposal schedule,
+        responsibilities, milestones, and final production plan.
+      </p>
+
+    </div>
+
+
+    <form
+      method="POST"
+      action="/plan/complete-proposal-plan"
+      class="sasha-proposal-plan-action-form"
+      id="sasha-proposal-plan-action-form"
+    >
+
+      {{#if csrfToken}}
+
+        <input
+          type="hidden"
+          name="_csrf"
+          value="{{csrfToken}}"
+        >
+
+      {{/if}}
+
+
+      <input
+        type="hidden"
+        name="pursuitId"
+        value="{{proposal._id}}"
+      >
+
+
+      <button
+        type="submit"
+        class="sasha-proposal-plan-action-button"
+        id="sasha-proposal-plan-action-button"
+      >
+        {{#if proposalPlanHasWork}}
+          Refresh Proposal Plan
+        {{else}}
+          Complete Proposal Plan
+        {{/if}}
+      </button>
+
+    </form>
+
+  </div>
+
+
+  {{!-- ===============================================
+       WORKING STATE
+  ================================================ --}}
+
+  <div
+    class="sasha-proposal-plan-working"
+    id="sasha-proposal-plan-working"
+    hidden
+    aria-live="polite"
+  >
+
+    <div class="sasha-proposal-plan-working-media">
+
+      <video
+        class="sasha-proposal-plan-working-video"
+        id="sasha-proposal-plan-working-video"
+        muted
+        playsinline
+        preload="auto"
+      >
+
+        <source
+          src="/images/sasha-working.mp4"
+          type="video/mp4"
+        >
+
+      </video>
+
+    </div>
+
+
+    <div class="sasha-proposal-plan-working-copy">
+
+      <span class="sasha-proposal-plan-action-eyebrow">
+        Sasha is working
+      </span>
+
+      <h3>
+        Building the Proposal Plan
+      </h3>
+
+      <p>
+        Sasha is reviewing the pursuit documents and current proposal
+        record to prepare the schedule, responsibilities, milestones,
+        and final production plan.
+      </p>
+
+      <strong>
+        This may take a moment. Please keep this page open.
+      </strong>
+
+    </div>
+
+  </div>
+
+</section>
     {{!-- =================================================
          WIN STRATEGY
     ================================================== --}}
@@ -4254,81 +4384,245 @@ document.addEventListener(
 
 
     if (
-      !planForm ||
-      !workingBlock ||
-      !workingVideo
+      planForm &&
+      workingBlock &&
+      workingVideo
     ) {
 
-      return;
+      /* =============================================
+         PREPARE IDLE VIDEO
+      ============================================= */
+
+      workingVideo.addEventListener(
+        'loadedmetadata',
+        () => {
+
+          workingVideo.currentTime =
+            0;
+
+          workingVideo.pause();
+
+        }
+      );
+
+
+      /* =============================================
+         SHOW WORKING STATE ON CHAT SUBMIT
+      ============================================= */
+
+      planForm.addEventListener(
+        'submit',
+        () => {
+
+          workingBlock.hidden =
+            false;
+
+          workingBlock.setAttribute(
+            'aria-hidden',
+            'false'
+          );
+
+
+          workingVideo.loop =
+            false;
+
+          workingVideo.currentTime =
+            0;
+
+
+          const playPromise =
+            workingVideo.play();
+
+
+          if (
+            playPromise &&
+            typeof playPromise.catch ===
+              'function'
+          ) {
+
+            playPromise.catch(
+              () => {
+
+                /*
+                 * The form submission should continue
+                 * even if the browser refuses playback.
+                 */
+
+              }
+            );
+
+          }
+
+
+          workingBlock.scrollIntoView({
+            behavior:
+              'smooth',
+
+            block:
+              'nearest'
+          });
+
+        }
+      );
+
+
+      /* =============================================
+         STOP ON FINAL FRAME
+      ============================================= */
+
+      workingVideo.addEventListener(
+        'ended',
+        () => {
+
+          workingVideo.pause();
+
+        }
+      );
 
     }
 
 
-    planForm.addEventListener(
-      'submit',
-      () => {
+    /* =================================================
+       COMPLETE / REFRESH PROPOSAL PLAN
+    ================================================== */
 
-        /* =============================================
-           SHOW WORKING STATE
-        ============================================= */
+    const proposalPlanForm =
+      document.getElementById(
+        'sasha-proposal-plan-action-form'
+      );
 
-        workingBlock.hidden =
-          false;
+    const proposalPlanReady =
+      document.getElementById(
+        'sasha-proposal-plan-ready'
+      );
 
-        workingBlock.setAttribute(
-          'aria-hidden',
-          'false'
-        );
+    const proposalPlanWorking =
+      document.getElementById(
+        'sasha-proposal-plan-working'
+      );
 
+    const proposalPlanVideo =
+      document.getElementById(
+        'sasha-proposal-plan-working-video'
+      );
 
-        /* =============================================
-           START VIDEO FROM BEGINNING
-        ============================================= */
-
-        workingVideo.loop =
-          false;
-
-        workingVideo.currentTime =
-          0;
-
-
-        const playPromise =
-          workingVideo.play();
+    const proposalPlanButton =
+      document.getElementById(
+        'sasha-proposal-plan-action-button'
+      );
 
 
-        if (
-          playPromise !==
-          undefined
-        ) {
+    if (
+      proposalPlanForm &&
+      proposalPlanReady &&
+      proposalPlanWorking &&
+      proposalPlanVideo
+    ) {
 
-          playPromise.catch(
-            () => {
+      /* =============================================
+         PREPARE IDLE VIDEO
+      ============================================= */
 
-              /*
-               * The form submission should continue
-               * even if the browser refuses playback.
-               */
+      proposalPlanVideo.addEventListener(
+        'loadedmetadata',
+        () => {
 
-            }
-          );
+          proposalPlanVideo.currentTime =
+            0;
+
+          proposalPlanVideo.pause();
 
         }
+      );
 
 
-        /* =============================================
-           BRING WORKING STATE INTO VIEW
-        ============================================= */
+      /* =============================================
+         SHOW WORKING STATE ON SUBMIT
+      ============================================= */
 
-        workingBlock.scrollIntoView({
-          behavior:
-            'smooth',
+      proposalPlanForm.addEventListener(
+        'submit',
+        () => {
 
-          block:
-            'nearest'
-        });
+          if (
+            proposalPlanButton
+          ) {
 
-      }
-    );
+            proposalPlanButton.disabled =
+              true;
+
+          }
+
+
+          proposalPlanReady.hidden =
+            true;
+
+          proposalPlanWorking.hidden =
+            false;
+
+          proposalPlanWorking.setAttribute(
+            'aria-hidden',
+            'false'
+          );
+
+
+          proposalPlanVideo.loop =
+            false;
+
+          proposalPlanVideo.currentTime =
+            0;
+
+
+          const playPromise =
+            proposalPlanVideo.play();
+
+
+          if (
+            playPromise &&
+            typeof playPromise.catch ===
+              'function'
+          ) {
+
+            playPromise.catch(
+              () => {
+
+                /*
+                 * Keep the working message visible
+                 * even if playback is blocked.
+                 */
+
+              }
+            );
+
+          }
+
+
+          proposalPlanWorking.scrollIntoView({
+            behavior:
+              'smooth',
+
+            block:
+              'nearest'
+          });
+
+        }
+      );
+
+
+      /* =============================================
+         STOP ON FINAL FRAME
+      ============================================= */
+
+      proposalPlanVideo.addEventListener(
+        'ended',
+        () => {
+
+          proposalPlanVideo.pause();
+
+        }
+      );
+
+    }
 
   }
 );

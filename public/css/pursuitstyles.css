@@ -18408,3 +18408,347 @@ summary:focus-visible {
 .sasha-rfp-analysis-action {
   margin-top: 0;
 }
+
+
+/* =====================================================
+   PROPOSAL PLAN ACTION
+===================================================== */
+
+.sasha-proposal-plan-action {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 3rem;
+
+  width: 100%;
+
+  margin-top: 2rem;
+
+  padding:
+    2rem
+    2.2rem;
+
+  background:
+    rgba(255, 255, 255, 0.07);
+
+  border:
+    1px solid
+    rgba(242, 130, 170, 0.48);
+
+  border-radius: 22px;
+
+  box-sizing: border-box;
+}
+
+
+/* =====================================================
+   READY STATE
+===================================================== */
+
+.sasha-proposal-plan-ready {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 100%;
+
+  gap: 3rem;
+}
+
+
+/* =====================================================
+   ACTION COPY
+===================================================== */
+
+.sasha-proposal-plan-action-copy {
+  flex: 1;
+
+  min-width: 0;
+  max-width: 760px;
+}
+
+
+.sasha-proposal-plan-action-eyebrow {
+  display: block;
+
+  margin-bottom: 0.45rem;
+
+  color:
+    var(
+      --sasha-pink,
+      #f282aa
+    );
+
+  font-size: 0.72rem;
+  font-weight: 800;
+
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+
+.sasha-proposal-plan-action-copy h3,
+.sasha-proposal-plan-working-copy h3 {
+  margin:
+    0
+    0
+    0.55rem;
+
+  color: #ffffff;
+
+  font-size: 1.35rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+
+.sasha-proposal-plan-action-copy p,
+.sasha-proposal-plan-working-copy p {
+  max-width: 720px;
+
+  margin: 0;
+
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.76
+    );
+
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+
+/* =====================================================
+   ACTION FORM
+===================================================== */
+
+.sasha-proposal-plan-action-form {
+  flex: 0 0 auto;
+
+  margin: 0;
+}
+
+
+/* =====================================================
+   ACTION BUTTON
+===================================================== */
+
+.sasha-proposal-plan-action-button {
+  min-width: 220px;
+
+  padding:
+    0.95rem
+    1.35rem;
+
+  color: #262262;
+
+  background:
+    var(
+      --sasha-pink,
+      #f282aa
+    );
+
+  border: 0;
+  border-radius: 999px;
+
+  font-family:
+    "Figtree",
+    sans-serif;
+
+  font-size: 0.82rem;
+  font-weight: 800;
+
+  cursor: pointer;
+
+  transition:
+    transform 160ms ease,
+    background-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+
+.sasha-proposal-plan-action-button:hover {
+  background: #ffffff;
+
+  transform:
+    translateY(-2px);
+
+  box-shadow:
+    0
+    8px
+    22px
+    rgba(14, 12, 51, 0.2);
+}
+
+
+.sasha-proposal-plan-action-button:focus-visible {
+  outline:
+    3px solid
+    rgba(242, 130, 170, 0.55);
+
+  outline-offset: 4px;
+}
+
+
+.sasha-proposal-plan-action-button:disabled {
+  opacity: 0.65;
+
+  cursor: wait;
+
+  transform: none;
+}
+
+
+/* =====================================================
+   WORKING STATE
+===================================================== */
+
+.sasha-proposal-plan-working {
+  align-items: center;
+
+  width: 100%;
+
+  gap: 2rem;
+}
+
+
+.sasha-proposal-plan-working:not([hidden]) {
+  display: flex;
+}
+
+
+/* =====================================================
+   WORKING VIDEO
+===================================================== */
+
+.sasha-proposal-plan-working-media {
+  flex: 0 0 190px;
+
+  width: 190px;
+
+  overflow: hidden;
+
+  background:
+    rgba(255, 255, 255, 0.05);
+
+  border:
+    1px solid
+    rgba(242, 130, 170, 0.48);
+
+  border-radius: 16px;
+
+  animation:
+    sasha-proposal-plan-pulse
+    2s
+    ease-in-out
+    infinite;
+}
+
+
+.sasha-proposal-plan-working-video {
+  display: block;
+
+  width: 100%;
+  height: auto;
+
+  margin: 0;
+}
+
+
+/* =====================================================
+   WORKING COPY
+===================================================== */
+
+.sasha-proposal-plan-working-copy {
+  flex: 1;
+
+  min-width: 0;
+}
+
+
+.sasha-proposal-plan-working-copy p {
+  margin-bottom: 0.8rem;
+}
+
+
+.sasha-proposal-plan-working-copy strong {
+  display: block;
+
+  color:
+    var(
+      --sasha-pink,
+      #f282aa
+    );
+
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+
+/* =====================================================
+   WORKING PULSE
+===================================================== */
+
+@keyframes sasha-proposal-plan-pulse {
+
+  0%,
+  100% {
+    box-shadow:
+      0
+      0
+      0
+      rgba(242, 130, 170, 0);
+  }
+
+  50% {
+    box-shadow:
+      0
+      0
+      24px
+      rgba(242, 130, 170, 0.22);
+  }
+
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media screen and (max-width: 800px) {
+
+  .sasha-proposal-plan-ready {
+    align-items: flex-start;
+    flex-direction: column;
+
+    gap: 1.4rem;
+  }
+
+
+  .sasha-proposal-plan-action-form {
+    width: 100%;
+  }
+
+
+  .sasha-proposal-plan-action-button {
+    width: 100%;
+  }
+
+
+  .sasha-proposal-plan-working:not([hidden]) {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+
+  .sasha-proposal-plan-working-media {
+    flex-basis: auto;
+
+    width: 160px;
+  }
+
+}
