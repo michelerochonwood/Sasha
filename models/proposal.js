@@ -834,37 +834,277 @@ planMessages: [
     ],
 
 
-    /* =====================================================
-       OUTCOME
-    ===================================================== */
+/* =====================================================
+   OUTCOME
+===================================================== */
 
-    outcome: {
-      status: {
+outcome: {
+
+  /* =================================================
+     RESULT
+  ================================================= */
+
+  status: {
+    type: String,
+
+    enum: [
+      "pending",
+      "won",
+      "lost",
+      "withdrawn",
+      "cancelled",
+      "unknown"
+    ],
+
+    default: "pending"
+  },
+
+
+  decisionDate: {
+    type: Date,
+    default: null
+  },
+
+
+  successfulProponent: {
+    type: String,
+    trim: true,
+    default: ""
+  },
+
+
+  winningPrice: {
+    type: Number,
+    default: null
+  },
+
+
+  ourPrice: {
+    type: Number,
+    default: null
+  },
+
+
+  contractValue: {
+    type: Number,
+    default: null
+  },
+
+  /* =================================================
+     INTERNAL OBSERVATIONS
+  ================================================= */
+
+  internalObservations: {
+    type: String,
+    trim: true,
+    default: ""
+  },
+  
+  /* =================================================
+     CLIENT DEBRIEF
+  ================================================= */
+
+  debrief: {
+
+    date: {
+      type: Date,
+      default: null
+    },
+
+
+    providedBy: {
+      type: String,
+      trim: true,
+      default: ""
+    },
+
+
+    sourceType: {
+      type: String,
+
+      enum: [
+        "",
+        "written",
+        "verbal",
+        "formal_debrief",
+        "evaluation_scores",
+        "internal"
+      ],
+
+      default: ""
+    },
+
+
+    rawNotes: {
+      type: String,
+      trim: true,
+      default: ""
+    }
+
+  },
+
+
+  /* =================================================
+     EVALUATION RESULTS
+  ================================================= */
+
+  evaluationResults: [
+    {
+
+      criterion: {
         type: String,
-
-        enum: [
-          "pending",
-          "won",
-          "lost",
-          "withdrawn",
-          "cancelled",
-          "unknown"
-        ],
-
-        default: "pending"
+        trim: true,
+        default: ""
       },
 
-      decisionDate: {
-        type: Date,
+
+      ourScore: {
+        type: Number,
         default: null
       },
 
-      notes: {
+
+      maxScore: {
+        type: Number,
+        default: null
+      },
+
+
+      winningScore: {
+        type: Number,
+        default: null
+      },
+
+
+      comments: {
         type: String,
         trim: true,
         default: ""
       }
-    },
+
+    }
+  ],
+
+
+  /* =================================================
+     OUTCOME FACTORS
+  ================================================= */
+
+  outcomeFactors: [
+    {
+
+      category: {
+        type: String,
+
+        enum: [
+          "team",
+          "experience",
+          "project_understanding",
+          "methodology",
+          "schedule",
+          "price",
+          "presentation",
+          "compliance",
+          "relationship",
+          "interview",
+          "technical_approach",
+          "other"
+        ],
+
+        required: true
+      },
+
+
+      impact: {
+        type: String,
+
+        enum: [
+          "positive",
+          "negative",
+          "neutral"
+        ],
+
+        required: true
+      },
+
+
+      summary: {
+        type: String,
+        trim: true,
+        default: ""
+      },
+
+
+      sourceType: {
+        type: String,
+
+        enum: [
+          "client_debrief",
+          "evaluation_scores",
+          "award_information",
+          "internal_assessment",
+          "other"
+        ],
+
+        default: "internal_assessment"
+      },
+
+
+      sourceDetail: {
+        type: String,
+        trim: true,
+        default: ""
+      }
+
+    }
+  ],
+
+
+  /* =================================================
+     LESSONS LEARNED
+  ================================================= */
+
+  lessons: {
+
+    repeat: [
+      {
+        type: String,
+        trim: true
+      }
+    ],
+
+
+    change: [
+      {
+        type: String,
+        trim: true
+      }
+    ],
+
+
+    watchFor: [
+      {
+        type: String,
+        trim: true
+      }
+    ]
+
+  },
+
+
+  /* =================================================
+     GENERAL NOTES
+  ================================================= */
+
+  notes: {
+    type: String,
+    trim: true,
+    default: ""
+  }
+
+},
+
+    
 
 
     /* =====================================================

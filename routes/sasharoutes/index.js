@@ -714,6 +714,16 @@ router.get(
   proposalController.getReviewPursuit
 );
 
+/* =====================================================
+   OUTCOMES
+===================================================== */
+
+router.get(
+  '/outcomes',
+  ensureOrganization,
+  outcomeController.getOutcomePursuit
+);
+
 
 /* =====================================================
    SASHA INSTRUCTIONS
