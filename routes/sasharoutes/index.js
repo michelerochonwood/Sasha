@@ -59,6 +59,10 @@ const writeController = require(
   '../../controllers/writeController'
 );
 
+const outcomeController = require(
+  '../../controllers/outcomeController'
+);
+
 
 const router =
   express.Router();
