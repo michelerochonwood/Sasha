@@ -728,6 +728,41 @@ router.get(
   outcomeController.getOutcomePursuit
 );
 
+/* =====================================================
+   SAVE OUTCOME RESULT
+===================================================== */
+
+router.post(
+  '/outcome/result',
+  ensureOrganization,
+  verifyCsrfToken,
+  outcomeController.postOutcomeResult
+);
+
+
+/* =====================================================
+   SAVE OUTCOME DETAILS
+===================================================== */
+
+router.post(
+  '/outcome/details',
+  ensureOrganization,
+  verifyCsrfToken,
+  outcomeController.postOutcomeDetails
+);
+
+
+/* =====================================================
+   OUTCOME CHAT
+===================================================== */
+
+router.post(
+  '/outcome/chat',
+  ensureOrganization,
+  verifyCsrfToken,
+  outcomeController.postOutcomeChat
+);
+
 
 /* =====================================================
    SASHA INSTRUCTIONS
