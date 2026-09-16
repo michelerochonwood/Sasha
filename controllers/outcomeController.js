@@ -6,6 +6,10 @@ const sashaAiService = require(
   '../services/sashaAiService'
 );
 
+const cloudinary =
+  require(
+    '../config/cloudinary'
+  );
 
 /* =====================================================
    GET OUTCOME PURSUIT
@@ -191,6 +195,330 @@ async (
       'GET OUTCOME PURSUIT ERROR:',
       error
     );
+
+    return next(
+      error
+    );
+
+  }
+
+};
+
+/* =====================================================
+   POST FINAL SUBMITTED PROPOSAL
+===================================================== */
+
+exports.postFinalProposal =
+async (
+  req,
+  res,
+  next
+) => {
+
+  try {
+
+    /* =================================================
+       REQUIRE ORGANIZATION
+    ================================================== */
+
+    const organizationId =
+      req.session.organizationId ||
+      null;
+
+
+    if (
+      !organizationId
+    ) {
+
+      return res.status(
+        401
+      ).json(
+        {
+          error:
+            'Organization session not found.'
+        }
+      );
+
+    }
+
+
+    /* =================================================
+       DETERMINE PURSUIT
+    ================================================== */
+
+    const pursuitId =
+      typeof req.body.pursuitId ===
+      'string'
+        ? req.body.pursuitId.trim()
+        : (
+            req.session.activePursuitId ||
+            ''
+          );
+
+
+    if (
+      !pursuitId
+    ) {
+
+      return res.status(
+        400
+      ).json(
+        {
+          error:
+            'Pursuit ID is required.'
+        }
+      );
+
+    }
+
+
+    /* =================================================
+       REQUIRE FINAL PROPOSAL FILE
+    ================================================== */
+
+    const uploadedFiles =
+      Array.isArray(
+        req.files
+      )
+        ? req.files
+        : [];
+
+
+    if (
+      uploadedFiles.length ===
+      0
+    ) {
+
+      return res.status(
+        400
+      ).json(
+        {
+          error:
+            'Choose a final proposal PDF to upload.'
+        }
+      );
+
+    }
+
+
+    const file =
+      uploadedFiles[0];
+
+
+    /* =================================================
+       REQUIRE PDF
+    ================================================== */
+
+    if (
+      file.mimetype !==
+      'application/pdf'
+    ) {
+
+      return res.status(
+        400
+      ).json(
+        {
+          error:
+            'The final submitted proposal must be a PDF.'
+        }
+      );
+
+    }
+
+
+    /* =================================================
+       FIND PURSUIT
+    ================================================== */
+
+    const proposal =
+      await Proposal.findOne(
+        {
+          _id:
+            pursuitId,
+
+          organization:
+            organizationId
+        }
+      );
+
+
+    if (
+      !proposal
+    ) {
+
+      return res.status(
+        404
+      ).json(
+        {
+          error:
+            'Pursuit not found.'
+        }
+      );
+
+    }
+
+
+    /* =================================================
+       UPLOAD FINAL PROPOSAL TO CLOUDINARY
+    ================================================== */
+
+    const uploadResult =
+      await new Promise(
+        (
+          resolve,
+          reject
+        ) => {
+
+          const uploadStream =
+            cloudinary.uploader.upload_stream(
+              {
+                resource_type:
+                  'raw',
+
+                folder:
+                  `sasha/${organizationId}/final-proposals`,
+
+                public_id:
+                  `${Date.now()}-${file.originalname}`,
+
+                use_filename:
+                  true,
+
+                unique_filename:
+                  true
+              },
+
+              (
+                error,
+                result
+              ) => {
+
+                if (
+                  error
+                ) {
+
+                  return reject(
+                    error
+                  );
+
+                }
+
+
+                return resolve(
+                  result
+                );
+
+              }
+            );
+
+
+          uploadStream.end(
+            file.buffer
+          );
+
+        }
+      );
+
+
+    /* =================================================
+       ENSURE PROPOSAL DOCUMENTS EXISTS
+    ================================================== */
+
+    if (
+      !Array.isArray(
+        proposal.proposalDocuments
+      )
+    ) {
+
+      proposal.proposalDocuments =
+        [];
+
+    }
+
+
+    /* =================================================
+       SAVE FINAL PROPOSAL RECORD
+    ================================================== */
+
+    proposal.proposalDocuments.push(
+      {
+        title:
+          'Final Submitted Proposal',
+
+        fileName:
+          file.originalname,
+
+        fileUrl:
+          uploadResult.secure_url ||
+          uploadResult.url ||
+          '',
+
+        uploadedAt:
+          new Date()
+      }
+    );
+
+
+    /* =================================================
+       KEEP PURSUIT ACTIVE
+    ================================================== */
+
+    req.session.activePursuitId =
+      proposal._id.toString();
+
+    req.session.activePursuitName =
+      proposal.proposalName;
+
+
+    /* =================================================
+       SAVE PURSUIT
+    ================================================== */
+
+    await proposal.save();
+
+
+    console.log(
+      'FINAL SUBMITTED PROPOSAL UPLOADED:',
+      {
+        pursuitId:
+          proposal._id.toString(),
+
+        fileName:
+          file.originalname,
+
+        cloudinaryPublicId:
+          uploadResult.public_id ||
+          ''
+      }
+    );
+
+
+    /* =================================================
+       SUCCESS
+    ================================================== */
+
+    return res.json(
+      {
+        success:
+          true,
+
+        proposalDocument:
+          proposal.proposalDocuments[
+            proposal.proposalDocuments.length -
+            1
+          ]
+      }
+    );
+
+  } catch (
+    error
+  ) {
+
+    console.error(
+      'FINAL PROPOSAL UPLOAD FAILED:',
+      error
+    );
+
 
     return next(
       error

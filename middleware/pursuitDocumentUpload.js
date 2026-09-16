@@ -218,12 +218,19 @@ function pursuitDocumentUpload(
        * with fetch and expects JSON.
        */
 
-      const isAnalysisRequest =
-        req.originalUrl.includes(
-          '/create_pursuit/analyze'
-        );
+const isAnalysisRequest =
+  req.originalUrl.includes(
+    '/create_pursuit/analyze'
+  );
 
-        const isPursuitDashboardRequest =
+
+const isOutcomeFinalProposalRequest =
+  req.originalUrl.includes(
+    '/outcome/final-proposal'
+  );
+
+
+const isPursuitDashboardRequest =
   req.originalUrl.includes(
     '/documents'
   ) &&
@@ -231,16 +238,20 @@ function pursuitDocumentUpload(
   req.params.id;
 
 
-      if (isAnalysisRequest) {
+if (
+  isAnalysisRequest ||
+  isOutcomeFinalProposalRequest
+) {
 
-        return res.status(400).json({
-          success:
-            false,
+  return res.status(400).json({
+    success:
+      false,
 
-          errorMessage
-        });
+    error:
+      errorMessage
+  });
 
-      }
+}
 
 if (
   isPursuitDashboardRequest

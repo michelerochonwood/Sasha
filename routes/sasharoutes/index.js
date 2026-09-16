@@ -729,6 +729,18 @@ router.get(
 );
 
 /* =====================================================
+   UPLOAD FINAL SUBMITTED PROPOSAL
+===================================================== */
+
+router.post(
+  '/outcome/final-proposal',
+  ensureOrganization,
+  pursuitDocumentUpload,
+  verifyCsrfToken,
+  outcomeController.postFinalProposal
+);
+
+/* =====================================================
    SAVE OUTCOME RESULT
 ===================================================== */
 

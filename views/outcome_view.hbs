@@ -220,9 +220,9 @@
             id="outcomeChatThread"
           >
 
-            {{#if pursuit.outcomeMessages.length}}
+{{#if pursuit.outcome.chatMessages.length}}
 
-              {{#each pursuit.outcomeMessages}}
+  {{#each pursuit.outcome.chatMessages}}
 
                 <article
                   class="
@@ -723,171 +723,119 @@
              RESULT
         ================================================== --}}
 
-        <section class="sasha-outcome-card">
-
-          <div class="sasha-outcome-card-heading">
-
-            <p class="sasha-work-eyebrow">
-              Result
-            </p>
-
-            <h2>
-              Proposal Outcome
-            </h2>
-
-          </div>
+<aside class="sasha-outcome-sidebar">
 
 
-          <div class="sasha-outcome-field">
+  {{!-- =================================================
+       FINAL SUBMITTED PROPOSAL
+  ================================================== --}}
 
-            <label for="outcomeStatus">
-              Outcome
-            </label>
+  <section class="sasha-outcome-card">
 
-            <select
-              id="outcomeStatus"
-              name="status"
-            >
+    <div class="sasha-outcome-card-heading">
 
-              <option
-                value="pending"
-                {{#if (eq pursuit.outcome.status "pending")}}
-                  selected
-                {{/if}}
-              >
-                Pending
-              </option>
+      <p class="sasha-work-eyebrow">
+        Submission Record
+      </p>
 
-              <option
-                value="won"
-                {{#if (eq pursuit.outcome.status "won")}}
-                  selected
-                {{/if}}
-              >
-                Won
-              </option>
+      <h2>
+        Final Submitted Proposal
+      </h2>
 
-              <option
-                value="lost"
-                {{#if (eq pursuit.outcome.status "lost")}}
-                  selected
-                {{/if}}
-              >
-                Lost
-              </option>
+    </div>
 
-              <option
-                value="withdrawn"
-                {{#if (eq pursuit.outcome.status "withdrawn")}}
-                  selected
-                {{/if}}
-              >
-                Withdrawn
-              </option>
 
-              <option
-                value="cancelled"
-                {{#if (eq pursuit.outcome.status "cancelled")}}
-                  selected
-                {{/if}}
-              >
-                Cancelled
-              </option>
+    <p class="sasha-outcome-guidance">
+      Preserve the final proposal exactly as it was
+      submitted to the client. Sasha can use completed
+      proposals and outcome information to help identify
+      patterns across future pursuits.
+    </p>
 
-              <option
-                value="unknown"
-                {{#if (eq pursuit.outcome.status "unknown")}}
-                  selected
-                {{/if}}
-              >
-                Unknown
-              </option>
 
-            </select>
+    {{#if pursuit.proposalDocuments.length}}
+
+      <div class="sasha-outcome-final-proposal-list">
+
+        {{#each pursuit.proposalDocuments}}
+
+          <div class="sasha-outcome-final-proposal-item">
+
+            <strong>
+              {{#if title}}
+                {{title}}
+              {{else}}
+                Final Proposal
+              {{/if}}
+            </strong>
+
+{{#if fileName}}
+
+  <span>
+    {{fileName}}
+  </span>
+
+{{/if}}
+
+
+{{#if fileUrl}}
+
+  <a
+    class="sasha-outcome-final-proposal-link"
+    href="{{fileUrl}}"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    View Final Proposal
+  </a>
+
+{{/if}}
 
           </div>
 
+        {{/each}}
 
-          <div class="sasha-outcome-field">
+      </div>
 
-            <label for="decisionDate">
-              Decision Date
-            </label>
+    {{else}}
 
-            <input
-              id="decisionDate"
-              name="decisionDate"
-              type="date"
-              value="{{pursuit.outcome.decisionDate}}"
-            >
+      <p class="sasha-outcome-empty">
+        No final submitted proposal has been uploaded yet.
+      </p>
 
-          </div>
+    {{/if}}
 
 
-          <div class="sasha-outcome-field">
+    <div class="sasha-outcome-field">
 
-            <label for="successfulProponent">
-              Successful Proponent
-            </label>
+      <label for="finalProposalFile">
+        Final Proposal PDF
+      </label>
 
-            <input
-              id="successfulProponent"
-              name="successfulProponent"
-              type="text"
-              value="{{pursuit.outcome.successfulProponent}}"
-              placeholder="If known"
-            >
+      <input
+        id="finalProposalFile"
+        name="finalProposalFile"
+        type="file"
+        accept=".pdf,application/pdf"
+      >
 
-          </div>
-
-
-          <div class="sasha-outcome-field-grid">
-
-            <div class="sasha-outcome-field">
-
-              <label for="ourPrice">
-                Our Price
-              </label>
-
-              <input
-                id="ourPrice"
-                name="ourPrice"
-                type="number"
-                step="0.01"
-                value="{{pursuit.outcome.ourPrice}}"
-              >
-
-            </div>
+    </div>
 
 
-            <div class="sasha-outcome-field">
+    <button
+      class="sasha-outcome-save-button"
+      type="button"
+      id="uploadFinalProposal"
+    >
+      Upload Final Proposal
+    </button>
 
-              <label for="winningPrice">
-                Winning Price
-              </label>
-
-              <input
-                id="winningPrice"
-                name="winningPrice"
-                type="number"
-                step="0.01"
-                value="{{pursuit.outcome.winningPrice}}"
-              >
-
-            </div>
-
-          </div>
+  </section>
 
 
-          <button
-            class="sasha-outcome-save-button"
-            type="button"
-            id="saveOutcomeResult"
-          >
-            Save Result
-          </button>
-
-        </section>
+  {{!-- =================================================
+       RESULT
+  ================================================== --}}
 
 
         {{!-- =================================================
@@ -922,11 +870,11 @@
               Client Feedback
             </label>
 
-            <textarea
-              id="clientDebrief"
-              name="clientDebrief"
-              placeholder="Paste or summarize the client's debrief comments here."
-            >{{pursuit.outcome.clientDebrief}}</textarea>
+<textarea
+  id="debriefRawNotes"
+  name="debriefRawNotes"
+  placeholder="Paste or summarize the client's debrief comments here."
+>{{pursuit.outcome.debrief.rawNotes}}</textarea>
 
           </div>
 
@@ -937,12 +885,12 @@
               Debrief Date
             </label>
 
-            <input
-              id="debriefDate"
-              name="debriefDate"
-              type="date"
-              value="{{pursuit.outcome.debriefDate}}"
-            >
+<input
+  id="debriefDate"
+  name="debriefDate"
+  type="date"
+  value="{{pursuit.outcome.debrief.date}}"
+>
 
           </div>
 
@@ -953,17 +901,84 @@
               Client Contact
             </label>
 
-            <input
-              id="debriefContact"
-              name="debriefContact"
-              type="text"
-              value="{{pursuit.outcome.debriefContact}}"
-              placeholder="Name or role of person providing feedback"
-            >
+<input
+  id="debriefProvidedBy"
+  name="debriefProvidedBy"
+  type="text"
+  value="{{pursuit.outcome.debrief.providedBy}}"
+  placeholder="Name or role of person providing feedback"
+>
 
           </div>
 
+<div class="sasha-outcome-field">
 
+  <label for="debriefSourceType">
+    Feedback Source
+  </label>
+
+  <select
+    id="debriefSourceType"
+    name="debriefSourceType"
+  >
+
+    <option
+      value=""
+      {{#if (eq pursuit.outcome.debrief.sourceType "")}}
+        selected
+      {{/if}}
+    >
+      Select source
+    </option>
+
+    <option
+      value="written"
+      {{#if (eq pursuit.outcome.debrief.sourceType "written")}}
+        selected
+      {{/if}}
+    >
+      Written Feedback
+    </option>
+
+    <option
+      value="verbal"
+      {{#if (eq pursuit.outcome.debrief.sourceType "verbal")}}
+        selected
+      {{/if}}
+    >
+      Verbal Feedback
+    </option>
+
+    <option
+      value="formal_debrief"
+      {{#if (eq pursuit.outcome.debrief.sourceType "formal_debrief")}}
+        selected
+      {{/if}}
+    >
+      Formal Debrief
+    </option>
+
+    <option
+      value="evaluation_scores"
+      {{#if (eq pursuit.outcome.debrief.sourceType "evaluation_scores")}}
+        selected
+      {{/if}}
+    >
+      Evaluation Scores
+    </option>
+
+    <option
+      value="internal"
+      {{#if (eq pursuit.outcome.debrief.sourceType "internal")}}
+        selected
+      {{/if}}
+    >
+      Internal Record
+    </option>
+
+  </select>
+
+</div>
           <button
             class="sasha-outcome-save-button"
             type="button"
@@ -1040,6 +1055,17 @@ document.addEventListener(
       document.getElementById(
         'saveOutcomeDetails'
       );
+
+      const finalProposalFile =
+  document.getElementById(
+    'finalProposalFile'
+  );
+
+
+const uploadFinalProposal =
+  document.getElementById(
+    'uploadFinalProposal'
+  );
 
 
     /* =====================================================
@@ -1173,7 +1199,140 @@ document.addEventListener(
 
       };
 
+/* =====================================================
+   UPLOAD FINAL SUBMITTED PROPOSAL
+====================================================== */
 
+if (
+  uploadFinalProposal
+) {
+
+  uploadFinalProposal.addEventListener(
+    'click',
+    async () => {
+
+      const file =
+        finalProposalFile &&
+        finalProposalFile.files
+          ? finalProposalFile.files[0]
+          : null;
+
+
+      if (
+        !file
+      ) {
+
+        alert(
+          'Choose the final proposal PDF first.'
+        );
+
+        return;
+
+      }
+
+
+      if (
+        file.type !==
+        'application/pdf'
+      ) {
+
+        alert(
+          'The final submitted proposal must be a PDF.'
+        );
+
+        return;
+
+      }
+
+
+      const formData =
+        new FormData();
+
+
+      formData.append(
+        'pursuitId',
+        pursuitId
+      );
+
+
+formData.append(
+  'sourceDocuments',
+  file
+);
+
+
+      setButtonState(
+        uploadFinalProposal,
+        true,
+        'Uploading...',
+        'Upload Final Proposal'
+      );
+
+
+      try {
+
+        const response =
+          await fetch(
+            '/outcome/final-proposal',
+            {
+              method:
+                'POST',
+
+              body:
+                formData
+            }
+          );
+
+
+        const data =
+          await response.json();
+
+
+        if (
+          !response.ok
+        ) {
+
+          throw new Error(
+            data.message ||
+            data.error ||
+            'Could not upload the final proposal.'
+          );
+
+        }
+
+
+        window.location.reload();
+
+      } catch (
+        error
+      ) {
+
+        console.error(
+          'FINAL PROPOSAL UPLOAD ERROR:',
+          error
+        );
+
+
+        alert(
+          error.message ||
+          'The final proposal could not be uploaded.'
+        );
+
+      } finally {
+
+        setButtonState(
+          uploadFinalProposal,
+          false,
+          'Uploading...',
+          'Upload Final Proposal'
+        );
+
+      }
+
+    }
+  );
+
+}
     /* =====================================================
        SEND MESSAGE TO SASHA
     ====================================================== */
@@ -1534,121 +1693,116 @@ document.addEventListener(
 
     }
 
+/* =====================================================
+   SAVE CLIENT DEBRIEF
+====================================================== */
 
-    /* =====================================================
-       SAVE CLIENT DEBRIEF
-    ====================================================== */
+if (
+  saveClientDebrief
+) {
 
-    if (
-      saveClientDebrief
-    ) {
+  saveClientDebrief.addEventListener(
+    'click',
+    async () => {
 
-      saveClientDebrief.addEventListener(
-        'click',
-        async () => {
+      const payload = {
 
-          const payload = {
+        pursuitId,
 
-            pursuitId,
+        debrief: {
 
-            clientDebrief:
-              document.getElementById(
-                'clientDebrief'
-              )?.value.trim() || '',
+          date:
+            document.getElementById(
+              'debriefDate'
+            )?.value || null,
 
-            debriefDate:
-              document.getElementById(
-                'debriefDate'
-              )?.value || null,
+          providedBy:
+            document.getElementById(
+              'debriefProvidedBy'
+            )?.value.trim() || '',
 
-            debriefContact:
-              document.getElementById(
-                'debriefContact'
-              )?.value.trim() || ''
+          sourceType:
+            document.getElementById(
+              'debriefSourceType'
+            )?.value || '',
 
-          };
+          rawNotes:
+            document.getElementById(
+              'debriefRawNotes'
+            )?.value.trim() || ''
+
+        },
+
+        internalObservations:
+          document.getElementById(
+            'internalObservations'
+          )?.value.trim() || '',
+
+        notes:
+          document.getElementById(
+            'outcomeNotes'
+          )?.value.trim() || ''
+
+      };
 
 
-          setButtonState(
-            saveClientDebrief,
-            true,
-            'Saving...',
-            'Save Client Debrief'
+      setButtonState(
+        saveClientDebrief,
+        true,
+        'Saving...',
+        'Save Client Debrief'
+      );
+
+
+      try {
+
+        const response =
+          await fetch(
+            '/outcome/details',
+            {
+              method:
+                'POST',
+
+              headers: {
+                'Content-Type':
+                  'application/json'
+              },
+
+              body:
+                JSON.stringify(
+                  payload
+                )
+            }
           );
 
 
-          try {
-
-            const response =
-              await fetch(
-                '/outcome/debrief',
-                {
-                  method: 'POST',
-
-                  headers: {
-                    'Content-Type':
-                      'application/json'
-                  },
-
-                  body:
-                    JSON.stringify(
-                      payload
-                    )
-                }
-              );
+        const data =
+          await response.json();
 
 
-            const data =
-              await response.json();
+        if (
+          !response.ok
+        ) {
+
+          throw new Error(
+            data.message ||
+            data.error ||
+            'Could not save the client debrief.'
+          );
+
+        }
 
 
-            if (
-              !response.ok
-            ) {
-
-              throw new Error(
-                data.message ||
-                data.error ||
-                'Could not save the client debrief.'
-              );
-
-            }
+        setButtonState(
+          saveClientDebrief,
+          false,
+          'Saving...',
+          'Saved'
+        );
 
 
-            setButtonState(
-              saveClientDebrief,
-              false,
-              'Saving...',
-              'Saved'
-            );
-
-
-            window.setTimeout(
-              () => {
-
-                setButtonState(
-                  saveClientDebrief,
-                  false,
-                  'Saving...',
-                  'Save Client Debrief'
-                );
-
-              },
-              1500
-            );
-
-          } catch (
-            error
-          ) {
-
-            console.error(
-              'SAVE CLIENT DEBRIEF ERROR:',
-              error
-            );
-
-            alert(
-              error.message
-            );
+        window.setTimeout(
+          () => {
 
             setButtonState(
               saveClientDebrief,
@@ -1657,13 +1811,38 @@ document.addEventListener(
               'Save Client Debrief'
             );
 
-          }
+          },
+          1500
+        );
 
-        }
-      );
+      } catch (
+        error
+      ) {
+
+        console.error(
+          'SAVE CLIENT DEBRIEF ERROR:',
+          error
+        );
+
+
+        alert(
+          error.message
+        );
+
+
+        setButtonState(
+          saveClientDebrief,
+          false,
+          'Saving...',
+          'Save Client Debrief'
+        );
+
+      }
 
     }
+  );
 
+}
 
     /* =====================================================
        SAVE INTERNAL OBSERVATIONS + NOTES
@@ -1677,21 +1856,45 @@ document.addEventListener(
         'click',
         async () => {
 
-          const payload = {
+const payload = {
 
-            pursuitId,
+  pursuitId,
 
-            internalObservations:
-              document.getElementById(
-                'internalObservations'
-              )?.value.trim() || '',
+  debrief: {
 
-            notes:
-              document.getElementById(
-                'outcomeNotes'
-              )?.value.trim() || ''
+    date:
+      document.getElementById(
+        'debriefDate'
+      )?.value || null,
 
-          };
+    providedBy:
+      document.getElementById(
+        'debriefProvidedBy'
+      )?.value.trim() || '',
+
+    sourceType:
+      document.getElementById(
+        'debriefSourceType'
+      )?.value || '',
+
+    rawNotes:
+      document.getElementById(
+        'debriefRawNotes'
+      )?.value.trim() || ''
+
+  },
+
+  internalObservations:
+    document.getElementById(
+      'internalObservations'
+    )?.value.trim() || '',
+
+  notes:
+    document.getElementById(
+      'outcomeNotes'
+    )?.value.trim() || ''
+
+};
 
 
           setButtonState(
