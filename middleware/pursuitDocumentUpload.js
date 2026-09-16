@@ -224,9 +224,12 @@ const isAnalysisRequest =
   );
 
 
-const isOutcomeFinalProposalRequest =
+const isOutcomeRequest =
   req.originalUrl.includes(
     '/outcome/final-proposal'
+  ) ||
+  req.originalUrl.includes(
+    '/outcome/chat'
   );
 
 
@@ -240,7 +243,7 @@ const isPursuitDashboardRequest =
 
 if (
   isAnalysisRequest ||
-  isOutcomeFinalProposalRequest
+  isOutcomeRequest
 ) {
 
   return res.status(400).json({

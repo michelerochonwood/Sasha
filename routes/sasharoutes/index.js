@@ -771,6 +771,7 @@ router.post(
 router.post(
   '/outcome/chat',
   ensureOrganization,
+  pursuitDocumentUpload,
   verifyCsrfToken,
   outcomeController.postOutcomeChat
 );

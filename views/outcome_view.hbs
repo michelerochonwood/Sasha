@@ -547,86 +547,118 @@
 
           <div class="sasha-outcome-details-content">
 
-            <div class="sasha-outcome-lessons">
+<div class="sasha-outcome-lessons">
 
-              {{#if pursuit.outcome.lessons.length}}
+  {{!-- ===============================================
+       PRACTICES TO REPEAT
+  ================================================ --}}
 
-                {{#each pursuit.outcome.lessons}}
+  {{#if pursuit.outcome.lessons.repeat.length}}
 
-                  <article class="sasha-outcome-lesson">
+    <section class="sasha-outcome-lesson-group">
 
-                    <div class="sasha-outcome-lesson-heading">
+      <h3>
+        Practices to Repeat
+      </h3>
 
-                      <strong>
-                        {{title}}
-                      </strong>
+      {{#each pursuit.outcome.lessons.repeat}}
 
-                      {{#if category}}
+        <article class="sasha-outcome-lesson is-repeat">
 
-                        <span class="sasha-outcome-lesson-category">
-                          {{category}}
-                        </span>
+          <p>
+            {{this}}
+          </p>
 
-                      {{/if}}
+        </article>
 
-                    </div>
+      {{/each}}
 
-                    <p>
-                      {{lesson}}
-                    </p>
+    </section>
 
-
-                    {{#if recommendation}}
-
-                      <div class="sasha-outcome-recommendation">
-
-                        <span>
-                          Future Practice
-                        </span>
-
-                        <p>
-                          {{recommendation}}
-                        </p>
-
-                      </div>
-
-                    {{/if}}
+  {{/if}}
 
 
-                    {{#if evidenceBasis}}
+  {{!-- ===============================================
+       PRACTICES TO CHANGE
+  ================================================ --}}
 
-                      <small>
-                        Evidence basis: {{evidenceBasis}}
-                      </small>
+  {{#if pursuit.outcome.lessons.change.length}}
 
-                    {{/if}}
+    <section class="sasha-outcome-lesson-group">
 
-                  </article>
+      <h3>
+        Practices to Change
+      </h3>
 
-                {{/each}}
+      {{#each pursuit.outcome.lessons.change}}
 
-              {{else}}
+        <article class="sasha-outcome-lesson is-change">
 
-                <p class="sasha-outcome-empty">
-                  No lessons have been recorded yet.
-                  Sasha can help turn the outcome evidence into
-                  practical lessons for future pursuits.
-                </p>
+          <p>
+            {{this}}
+          </p>
 
-              {{/if}}
+        </article>
 
-            </div>
+      {{/each}}
+
+    </section>
+
+  {{/if}}
 
 
-            <button
-              class="sasha-outcome-secondary-button"
-              type="button"
-              id="addOutcomeLesson"
-            >
-              + Add Lesson
-            </button>
+  {{!-- ===============================================
+       WATCH FOR
+  ================================================ --}}
 
-          </div>
+  {{#if pursuit.outcome.lessons.watchFor.length}}
+
+    <section class="sasha-outcome-lesson-group">
+
+      <h3>
+        Watch For on Future Pursuits
+      </h3>
+
+      {{#each pursuit.outcome.lessons.watchFor}}
+
+        <article class="sasha-outcome-lesson is-watch">
+
+          <p>
+            {{this}}
+          </p>
+
+        </article>
+
+      {{/each}}
+
+    </section>
+
+  {{/if}}
+
+
+  {{!-- ===============================================
+       EMPTY STATE
+  ================================================ --}}
+
+  {{#unless pursuit.outcome.lessons.repeat.length}}
+
+    {{#unless pursuit.outcome.lessons.change.length}}
+
+      {{#unless pursuit.outcome.lessons.watchFor.length}}
+
+        <p class="sasha-outcome-empty">
+          No lessons have been recorded yet.
+          Sasha can help turn the outcome evidence into
+          practical lessons for future pursuits.
+        </p>
+
+      {{/unless}}
+
+    {{/unless}}
+
+  {{/unless}}
+
+</div>
 
         </details>
 
@@ -1262,6 +1294,12 @@ formData.append(
 
 
 formData.append(
+  'message',
+  message
+);
+
+
+formData.append(
   'sourceDocuments',
   file
 );
@@ -1391,16 +1429,16 @@ formData.append(
           );
 
 
-          if (
-            file
-          ) {
+if (
+  file
+) {
 
-            formData.append(
-              'outcomeEvidenceFile',
-              file
-            );
+  formData.append(
+    'sourceDocuments',
+    file
+  );
 
-          }
+}
 
 
           if (
