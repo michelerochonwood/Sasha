@@ -443,108 +443,686 @@ const allowedStatuses = [
 
 };
 
-/* =================================================
-   BUILD CONVERSATION INPUT
-================================================= */
+/* =====================================================
+   POST OUTCOME DETAILS
+===================================================== */
 
-const conversationInput =
-  existingChatMessages
-    .slice(-8)
-    .map(
-      savedMessage => {
+exports.postOutcomeDetails =
+async (
+  req,
+  res,
+  next
+) => {
 
-        return {
-          role:
-            savedMessage.role ===
-            'assistant'
-              ? 'assistant'
-              : 'user',
+  try {
 
-          content:
-            savedMessage.content ||
-            ''
-        };
+    /* =================================================
+       REQUIRE ORGANIZATION
+    ================================================== */
+
+    const organizationId =
+      req.session.organizationId ||
+      null;
+
+
+    if (
+      !organizationId
+    ) {
+
+      return res.status(
+        401
+      ).json(
+        {
+          error:
+            'Organization session not found.'
+        }
+      );
+
+    }
+
+
+    /* =================================================
+       DETERMINE PURSUIT
+    ================================================== */
+
+    const pursuitId =
+      req.body.pursuitId ||
+      req.session.activePursuitId ||
+      null;
+
+
+    if (
+      !pursuitId
+    ) {
+
+      return res.status(
+        400
+      ).json(
+        {
+          error:
+            'Pursuit ID is required.'
+        }
+      );
+
+    }
+
+
+    /* =================================================
+       NORMALIZE DEBRIEF
+    ================================================== */
+
+    const debrief =
+      req.body.debrief &&
+      typeof req.body.debrief ===
+      'object'
+        ? req.body.debrief
+        : {};
+
+
+    const debriefDate =
+      debrief.date
+        ? new Date(
+            debrief.date
+          )
+        : null;
+
+
+    const providedBy =
+      typeof debrief.providedBy ===
+      'string'
+        ? debrief.providedBy.trim()
+        : '';
+
+
+    const sourceType =
+      typeof debrief.sourceType ===
+      'string'
+        ? debrief.sourceType.trim()
+        : '';
+
+
+    const rawNotes =
+      typeof debrief.rawNotes ===
+      'string'
+        ? debrief.rawNotes.trim()
+        : '';
+
+
+    /* =================================================
+       NORMALIZE INTERNAL DETAILS
+    ================================================== */
+
+    const internalObservations =
+      typeof req.body.internalObservations ===
+      'string'
+        ? req.body.internalObservations.trim()
+        : '';
+
+
+    const notes =
+      typeof req.body.notes ===
+      'string'
+        ? req.body.notes.trim()
+        : '';
+
+
+    /* =================================================
+       UPDATE PURSUIT
+    ================================================== */
+
+    const pursuit =
+      await Proposal.findOneAndUpdate(
+        {
+          _id:
+            pursuitId,
+
+          organization:
+            organizationId
+        },
+        {
+          $set: {
+
+            'outcome.debrief.date':
+              debriefDate,
+
+            'outcome.debrief.providedBy':
+              providedBy,
+
+            'outcome.debrief.sourceType':
+              sourceType,
+
+            'outcome.debrief.rawNotes':
+              rawNotes,
+
+            'outcome.internalObservations':
+              internalObservations,
+
+            'outcome.notes':
+              notes
+
+          }
+        },
+        {
+          new:
+            true,
+
+          runValidators:
+            true
+        }
+      );
+
+
+    /* =================================================
+       PURSUIT NOT FOUND
+    ================================================== */
+
+    if (
+      !pursuit
+    ) {
+
+      return res.status(
+        404
+      ).json(
+        {
+          error:
+            'Pursuit not found.'
+        }
+      );
+
+    }
+
+
+    /* =================================================
+       SUCCESS
+    ================================================== */
+
+    return res.json(
+      {
+        success:
+          true,
+
+        outcome:
+          pursuit.outcome
+      }
+    );
+
+  } catch (
+    error
+  ) {
+
+    console.error(
+      'POST OUTCOME DETAILS ERROR:',
+      error
+    );
+
+    return next(
+      error
+    );
+
+  }
+
+};
+
+
+/* =====================================================
+   POST OUTCOME CHAT
+===================================================== */
+
+exports.postOutcomeChat =
+async (
+  req,
+  res,
+  next
+) => {
+
+  try {
+
+    /* =================================================
+       REQUIRE ORGANIZATION
+    ================================================== */
+
+    const organizationId =
+      req.session.organizationId ||
+      null;
+
+
+    if (
+      !organizationId
+    ) {
+
+      return res.status(
+        401
+      ).json(
+        {
+          error:
+            'Organization session not found.'
+        }
+      );
+
+    }
+
+
+    /* =================================================
+       DETERMINE PURSUIT
+    ================================================== */
+
+    const pursuitId =
+      req.body.pursuitId ||
+      req.session.activePursuitId ||
+      null;
+
+
+    if (
+      !pursuitId
+    ) {
+
+      return res.status(
+        400
+      ).json(
+        {
+          error:
+            'Pursuit ID is required.'
+        }
+      );
+
+    }
+
+
+    /* =================================================
+       REQUIRE MESSAGE
+    ================================================== */
+
+    const message =
+      typeof req.body.message ===
+      'string'
+        ? req.body.message.trim()
+        : '';
+
+
+    if (
+      !message
+    ) {
+
+      return res.status(
+        400
+      ).json(
+        {
+          error:
+            'A message is required.'
+        }
+      );
+
+    }
+
+
+    if (
+      message.length >
+      10000
+    ) {
+
+      return res.status(
+        400
+      ).json(
+        {
+          error:
+            'Please shorten your message and try again.'
+        }
+      );
+
+    }
+
+
+    /* =================================================
+       LOAD PURSUIT
+    ================================================== */
+
+    const pursuit =
+      await Proposal.findOne(
+        {
+          _id:
+            pursuitId,
+
+          organization:
+            organizationId
+        }
+      );
+
+
+    if (
+      !pursuit
+    ) {
+
+      return res.status(
+        404
+      ).json(
+        {
+          error:
+            'Pursuit not found.'
+        }
+      );
+
+    }
+
+
+    /* =================================================
+       KEEP PURSUIT ACTIVE
+    ================================================== */
+
+    req.session.activePursuitId =
+      pursuit._id.toString();
+
+    req.session.activePursuitName =
+      pursuit.proposalName;
+
+
+    /* =================================================
+       NORMALIZE OUTCOME
+    ================================================== */
+
+    if (
+      !pursuit.outcome ||
+      typeof pursuit.outcome !==
+      'object'
+    ) {
+
+      pursuit.outcome =
+        {};
+
+    }
+
+
+    const outcome =
+      pursuit.outcome;
+
+
+    const existingChatMessages =
+      Array.isArray(
+        outcome.chatMessages
+      )
+        ? outcome.chatMessages
+        : [];
+
+
+    /* =================================================
+       BUILD PURSUIT CONTEXT
+    ================================================== */
+
+    const pursuitContext = {
+
+      proposalName:
+        pursuit.proposalName ||
+        '',
+
+      clientName:
+        pursuit.clientName ||
+        '',
+
+      rfpNumber:
+        pursuit.rfpNumber ||
+        '',
+
+      submissionDeadline:
+        pursuit.submissionDeadline ||
+        null,
+
+      proposalStatus:
+        pursuit.proposalStatus ||
+        '',
+
+      outcome: {
+
+        status:
+          outcome.status ||
+          'pending',
+
+        decisionDate:
+          outcome.decisionDate ||
+          null,
+
+        successfulProponent:
+          outcome.successfulProponent ||
+          '',
+
+        ourPrice:
+          outcome.ourPrice ??
+          null,
+
+        winningPrice:
+          outcome.winningPrice ??
+          null,
+
+        contractValue:
+          outcome.contractValue ??
+          null,
+
+        debrief:
+          outcome.debrief ||
+          {},
+
+        evaluationResults:
+          Array.isArray(
+            outcome.evaluationResults
+          )
+            ? outcome.evaluationResults
+            : [],
+
+        outcomeFactors:
+          Array.isArray(
+            outcome.outcomeFactors
+          )
+            ? outcome.outcomeFactors
+            : [],
+
+        lessons:
+          outcome.lessons ||
+          {},
+
+        internalObservations:
+          outcome.internalObservations ||
+          '',
+
+        notes:
+          outcome.notes ||
+          ''
 
       }
-    )
-    .filter(
-      savedMessage =>
-        savedMessage.content
+
+    };
+
+
+    /* =================================================
+       SASHA OUTCOME INSTRUCTIONS
+    ================================================== */
+
+    const outcomeInstructions = `
+You are Sasha, Twennie's proposal and pursuit assistant.
+
+You are currently working in the OUTCOME stage of one
+specific proposal pursuit.
+
+Your purpose in this stage is to help the pursuit team
+understand, document, and learn from the result.
+
+You may help the user:
+
+- interpret client debrief feedback;
+- understand evaluation scores;
+- compare known proposal prices;
+- identify documented reasons for a win or loss;
+- distinguish client evidence from internal interpretation;
+- identify useful lessons for future pursuits;
+- identify practices that should be repeated;
+- identify practices that should be changed;
+- identify issues the team should watch for on future pursuits;
+- organize incomplete or unstructured outcome information.
+
+EVIDENCE DISCIPLINE
+
+Do not invent client feedback.
+
+Do not invent evaluation scores.
+
+Do not invent competitor information.
+
+Do not invent pricing information.
+
+Do not present an internal assumption as though it came
+from the client.
+
+Clearly distinguish between:
+
+1. documented client feedback;
+2. objective pursuit information;
+3. internal team observations; and
+4. your own professional analysis.
+
+If the available evidence does not support a conclusion,
+say so.
+
+Do not claim that a proposal won or lost for a particular
+reason unless the available evidence supports that conclusion.
+
+You may identify reasonable possibilities, but label them
+clearly as interpretations rather than documented facts.
+
+OUTCOME LEARNING
+
+Your goal is not simply to explain why the pursuit was
+won or lost.
+
+Help the team turn the outcome into useful institutional
+knowledge.
+
+Look for:
+
+- repeatable strengths;
+- weaknesses that can be corrected;
+- proposal-process lessons;
+- strategy lessons;
+- evidence-selection lessons;
+- personnel or project-experience lessons;
+- pricing lessons;
+- client relationship lessons;
+- competitive lessons;
+- compliance lessons;
+- presentation lessons.
+
+For this version of the Outcome workspace, respond
+conversationally.
+
+Do not modify evaluation results, outcome factors, lessons,
+debrief information, pricing, or other permanent Outcome
+work products merely because they are discussed in chat.
+
+Permanent structured Outcome updates are handled separately.
+
+Keep your response practical, concise, and useful to a
+professional proposal team.
+`;
+
+
+    /* =================================================
+       BUILD CONVERSATION INPUT
+    ================================================== */
+
+    const conversationInput =
+      existingChatMessages
+        .slice(-8)
+        .map(
+          savedMessage => {
+
+            return {
+              role:
+                savedMessage.role ===
+                'assistant'
+                  ? 'assistant'
+                  : 'user',
+
+              content:
+                savedMessage.content ||
+                ''
+            };
+
+          }
+        )
+        .filter(
+          savedMessage =>
+            savedMessage.content
+        );
+
+
+    /* =================================================
+       CURRENT USER MESSAGE
+    ================================================== */
+
+    conversationInput.push(
+      {
+        role:
+          'user',
+
+        content: [
+          {
+            type:
+              'input_text',
+
+            text:
+              message
+          }
+        ]
+      }
     );
 
 
-/* =================================================
-   CURRENT USER MESSAGE
-================================================= */
+    /* =================================================
+       CREATE OPENAI CLIENT
+    ================================================== */
 
-conversationInput.push(
-  {
-    role:
-      'user',
+    const openai =
+      sashaAiService.createClient(
+        process.env.OPENAI_API_KEY
+      );
 
-    content: [
+
+    /* =================================================
+       SEND OUTCOME CHAT TO OPENAI
+    ================================================== */
+
+    const outcomeChatStartedAt =
+      Date.now();
+
+
+    console.log(
+      'SASHA OUTCOME CHAT SENDING TO OPENAI',
       {
-        type:
-          'input_text',
+        pursuitId:
+          pursuit._id.toString(),
 
-        text:
-          message
+        messageLength:
+          message.length,
+
+        previousMessageCount:
+          existingChatMessages.length,
+
+        startedAt:
+          new Date().toISOString()
       }
-    ]
-  }
-);
+    );
 
 
-/* =================================================
-   CREATE OPENAI CLIENT
-================================================= */
+    const response =
+      await openai.responses.create(
+        {
 
-const openai =
-  sashaAiService.createClient(
-    process.env.OPENAI_API_KEY
-  );
+          model:
+            'gpt-5-mini',
 
+          reasoning: {
+            effort:
+              'minimal'
+          },
 
-/* =================================================
-   SEND OUTCOME CHAT TO OPENAI
-================================================= */
-
-const outcomeChatStartedAt =
-  Date.now();
-
-
-console.log(
-  'SASHA OUTCOME CHAT SENDING TO OPENAI',
-  {
-    pursuitId:
-      pursuit._id.toString(),
-
-    messageLength:
-      message.length,
-
-    previousMessageCount:
-      existingChatMessages.length,
-
-    startedAt:
-      new Date().toISOString()
-  }
-);
-
-
-const response =
-  await openai.responses.create(
-    {
-
-      model:
-        'gpt-5-mini',
-
-      reasoning: {
-        effort:
-          'minimal'
-      },
-
-      instructions:
-        `${outcomeInstructions}
+          instructions:
+            `${outcomeInstructions}
 
 CURRENT PURSUIT AND OUTCOME RECORD
 
@@ -554,45 +1132,142 @@ ${JSON.stringify(
   2
 )}`,
 
-      input:
-        conversationInput,
+          input:
+            conversationInput,
 
-      max_output_tokens:
-        3000
+          max_output_tokens:
+            3000
+
+        }
+      );
+
+
+    /* =================================================
+       NORMALIZE SASHA RESPONSE
+    ================================================== */
+
+    const reply =
+      response.output_text
+        ? response.output_text.trim()
+        : '';
+
+
+    if (
+      !reply
+    ) {
+
+      throw new Error(
+        'OpenAI returned an empty Sasha outcome response.'
+      );
 
     }
-  );
 
 
-/* =================================================
-   NORMALIZE SASHA RESPONSE
-================================================= */
+    console.log(
+      'SASHA OUTCOME CHAT RESPONSE RECEIVED',
+      {
+        pursuitId:
+          pursuit._id.toString(),
 
-const reply =
-  response.output_text
-    ? response.output_text.trim()
-    : '';
-
-
-if (
-  !reply
-) {
-
-  throw new Error(
-    'OpenAI returned an empty Sasha outcome response.'
-  );
-
-}
+        elapsedMs:
+          Date.now() -
+          outcomeChatStartedAt
+      }
+    );
 
 
-console.log(
-  'SASHA OUTCOME CHAT RESPONSE RECEIVED',
-  {
-    pursuitId:
-      pursuit._id.toString(),
+    /* =================================================
+       SAVE CHAT HISTORY
+    ================================================== */
 
-    elapsedMs:
-      Date.now() -
-      outcomeChatStartedAt
+    if (
+      !Array.isArray(
+        pursuit.outcome.chatMessages
+      )
+    ) {
+
+      pursuit.outcome.chatMessages =
+        [];
+
+    }
+
+
+    pursuit.outcome.chatMessages.push(
+      {
+        role:
+          'user',
+
+        content:
+          message,
+
+        createdAt:
+          new Date()
+      },
+
+      {
+        role:
+          'assistant',
+
+        content:
+          reply,
+
+        createdAt:
+          new Date()
+      }
+    );
+
+
+    pursuit.markModified(
+      'outcome.chatMessages'
+    );
+
+
+    /* =================================================
+       SAVE PURSUIT
+    ================================================== */
+
+    await pursuit.save();
+
+
+    console.log(
+      'SASHA OUTCOME CHAT PURSUIT SAVED',
+      {
+        pursuitId:
+          pursuit._id.toString(),
+
+        elapsedMs:
+          Date.now() -
+          outcomeChatStartedAt
+      }
+    );
+
+
+    /* =================================================
+       SUCCESS
+    ================================================== */
+
+    return res.json(
+      {
+        success:
+          true,
+
+        reply
+      }
+    );
+
+  } catch (
+    error
+  ) {
+
+    console.error(
+      'POST OUTCOME CHAT ERROR:',
+      error
+    );
+
+    return next(
+      error
+    );
+
   }
-);
+
+};
