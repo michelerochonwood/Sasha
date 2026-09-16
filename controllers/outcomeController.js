@@ -1500,20 +1500,20 @@ if (
   evidenceFile
 ) {
 
-  currentMessageContent.push(
-    {
-      type:
-        'input_file',
+currentMessageContent.push(
+  {
+    type:
+      'input_file',
 
-      filename:
-        evidenceFile.originalname,
+    filename:
+      evidenceFile.originalname,
 
-      file_data:
-        evidenceFile.buffer.toString(
-          'base64'
-        )
-    }
-  );
+    file_data:
+      `data:${evidenceFile.mimetype};base64,${evidenceFile.buffer.toString(
+        'base64'
+      )}`
+  }
+);
 
 }
 
