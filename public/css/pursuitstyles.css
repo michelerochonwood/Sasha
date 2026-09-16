@@ -22028,3 +22028,15 @@ input[type="file"]::file-selector-button {
   }
 
 }
+
+/* =====================================================
+   OUTCOME CARD SPACING
+===================================================== */
+
+.sasha-outcome-details {
+  margin-bottom: 1.25rem;
+}
+
+.sasha-outcome-details:last-child {
+  margin-bottom: 0;
+}
