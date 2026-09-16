@@ -198,6 +198,18 @@ app.engine(
 
 helpers: {
 
+  eq(
+  value1,
+  value2
+) {
+
+  return (
+    value1 ===
+    value2
+  );
+
+},
+
   ifEquals(
     value1,
     value2,
