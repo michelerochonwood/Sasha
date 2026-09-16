@@ -1465,14 +1465,22 @@ if (
 
           try {
 
-            const response =
-              await fetch(
-                '/outcome/chat',
-                {
-                  method: 'POST',
-                  body: formData
-                }
-              );
+const response =
+  await fetch(
+    '/outcome/chat',
+    {
+      method:
+        'POST',
+
+      headers: {
+        'x-csrf-token':
+          '{{csrfToken}}'
+      },
+
+      body:
+        formData
+    }
+  );
 
 
             const data =
