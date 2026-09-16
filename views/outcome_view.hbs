@@ -483,18 +483,65 @@
 
                     <div class="sasha-outcome-factor-top">
 
-                      <span class="sasha-outcome-factor-category">
-                        {{category}}
-                      </span>
+<span class="sasha-outcome-factor-category">
 
-                      <span
-                        class="
-                          sasha-outcome-factor-impact
-                          is-{{impact}}
-                        "
-                      >
-                        {{impact}}
-                      </span>
+  {{#if (eq category "team")}}
+    Team
+
+  {{else if (eq category "experience")}}
+    Experience
+
+  {{else if (eq category "project_understanding")}}
+    Project Understanding
+
+  {{else if (eq category "methodology")}}
+    Methodology
+
+  {{else if (eq category "schedule")}}
+    Schedule
+
+  {{else if (eq category "price")}}
+    Price
+
+  {{else if (eq category "presentation")}}
+    Presentation
+
+  {{else if (eq category "compliance")}}
+    Compliance
+
+  {{else if (eq category "relationship")}}
+    Client Relationship
+
+  {{else if (eq category "interview")}}
+    Interview
+
+  {{else if (eq category "technical_approach")}}
+    Technical Approach
+
+  {{else}}
+    Other
+  {{/if}}
+
+</span>
+
+<span
+  class="
+    sasha-outcome-factor-impact
+    is-{{impact}}
+  "
+>
+
+  {{#if (eq impact "positive")}}
+    Positive Factor
+
+  {{else if (eq impact "negative")}}
+    Negative Factor
+
+  {{else}}
+    Neutral Factor
+  {{/if}}
+
+</span>
 
                     </div>
 
@@ -502,13 +549,25 @@
                       {{summary}}
                     </p>
 
-                    <small>
-                      Source: {{sourceType}}
+<small>
+  Source:
 
-                      {{#if sourceDetail}}
-                        — {{sourceDetail}}
-                      {{/if}}
-                    </small>
+  {{#if (eq sourceType "client_debrief")}}
+    Client Debrief
+  {{else if (eq sourceType "evaluation_scores")}}
+    Evaluation Scores
+  {{else if (eq sourceType "award_information")}}
+    Award Information
+  {{else if (eq sourceType "internal_assessment")}}
+    Internal Assessment
+  {{else}}
+    Other
+  {{/if}}
+
+  {{#if sourceDetail}}
+    — {{sourceDetail}}
+  {{/if}}
+</small>
 
                   </article>
 

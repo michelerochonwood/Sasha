@@ -1413,6 +1413,33 @@ For lessons, organize findings into:
 - change
 - watchFor
 
+CLIENT DEBRIEF RECORD
+
+When an uploaded document contains client debrief feedback,
+also populate the debrief record.
+
+For debrief.rawNotes, preserve the substantive client
+feedback from the document. Do not replace the client's
+feedback with your own interpretation.
+
+For debrief.sourceType:
+
+- use "written" for written client feedback or debrief notes;
+- use "verbal" for notes documenting a verbal conversation;
+- use "formal_debrief" when the evidence explicitly identifies
+  a formal client debrief;
+- use "evaluation_scores" when the source consists primarily
+  of evaluation or scoring information;
+- use "internal" only for internally produced notes.
+
+If the document does not provide a debrief date, return null.
+
+If the document does not identify the person who provided
+the feedback, return null.
+
+Do not infer either value from the proposal submission date,
+file upload date, client name, or other unrelated information.
+
 Do not invent missing values.
 
 If a value is not supported by the available evidence,
@@ -1709,15 +1736,74 @@ ${JSON.stringify(
                   },
 
 
-                  winningPrice: {
-                    type: [
-                      'number',
-                      'null'
-                    ]
-                  },
+winningPrice: {
+  type: [
+    'number',
+    'null'
+  ]
+},
 
 
-                  evaluationResults: {
+debrief: {
+
+  type:
+    'object',
+
+  additionalProperties:
+    false,
+
+  properties: {
+
+    date: {
+      type: [
+        'string',
+        'null'
+      ]
+    },
+
+    providedBy: {
+      type: [
+        'string',
+        'null'
+      ]
+    },
+
+    sourceType: {
+      type: [
+        'string',
+        'null'
+      ],
+
+      enum: [
+        'written',
+        'verbal',
+        'formal_debrief',
+        'evaluation_scores',
+        'internal',
+        null
+      ]
+    },
+
+    rawNotes: {
+      type: [
+        'string',
+        'null'
+      ]
+    }
+
+  },
+
+  required: [
+    'date',
+    'providedBy',
+    'sourceType',
+    'rawNotes'
+  ]
+
+},
+
+
+evaluationResults: {
 
                     type:
                       'array',
@@ -1914,15 +2000,16 @@ ${JSON.stringify(
 
                 },
 
-                required: [
-                  'status',
-                  'successfulProponent',
-                  'ourPrice',
-                  'winningPrice',
-                  'evaluationResults',
-                  'outcomeFactors',
-                  'lessons'
-                ]
+required: [
+  'status',
+  'successfulProponent',
+  'ourPrice',
+  'winningPrice',
+  'debrief',
+  'evaluationResults',
+  'outcomeFactors',
+  'lessons'
+]
 
               }
 
@@ -2183,6 +2270,119 @@ if (
 
   pursuit.outcome.winningPrice =
     outcomeUpdate.winningPrice;
+
+}
+
+/* =================================================
+   CLIENT DEBRIEF
+================================================= */
+
+if (
+  outcomeUpdate.debrief &&
+  typeof outcomeUpdate.debrief ===
+    'object'
+) {
+
+  if (
+    !pursuit.outcome.debrief ||
+    typeof pursuit.outcome.debrief !==
+      'object'
+  ) {
+
+    pursuit.outcome.debrief =
+      {};
+
+  }
+
+
+  /* ===============================================
+     DEBRIEF DATE
+  =============================================== */
+
+  if (
+    typeof outcomeUpdate.debrief.date ===
+      'string' &&
+    outcomeUpdate.debrief.date.trim()
+  ) {
+
+    const parsedDebriefDate =
+      new Date(
+        outcomeUpdate.debrief.date
+      );
+
+
+    if (
+      !Number.isNaN(
+        parsedDebriefDate.getTime()
+      )
+    ) {
+
+      pursuit.outcome.debrief.date =
+        parsedDebriefDate;
+
+    }
+
+  }
+
+
+  /* ===============================================
+     PROVIDED BY
+  =============================================== */
+
+  if (
+    typeof outcomeUpdate.debrief.providedBy ===
+      'string' &&
+    outcomeUpdate.debrief.providedBy.trim()
+  ) {
+
+    pursuit.outcome.debrief.providedBy =
+      outcomeUpdate.debrief.providedBy.trim();
+
+  }
+
+
+  /* ===============================================
+     SOURCE TYPE
+  =============================================== */
+
+  const allowedDebriefSourceTypes =
+    new Set([
+      'written',
+      'verbal',
+      'formal_debrief',
+      'evaluation_scores',
+      'internal'
+    ]);
+
+
+  if (
+    typeof outcomeUpdate.debrief.sourceType ===
+      'string' &&
+    allowedDebriefSourceTypes.has(
+      outcomeUpdate.debrief.sourceType
+    )
+  ) {
+
+    pursuit.outcome.debrief.sourceType =
+      outcomeUpdate.debrief.sourceType;
+
+  }
+
+
+  /* ===============================================
+     RAW CLIENT NOTES
+  =============================================== */
+
+  if (
+    typeof outcomeUpdate.debrief.rawNotes ===
+      'string' &&
+    outcomeUpdate.debrief.rawNotes.trim()
+  ) {
+
+    pursuit.outcome.debrief.rawNotes =
+      outcomeUpdate.debrief.rawNotes.trim();
+
+  }
 
 }
 
