@@ -20314,3 +20314,1627 @@ summary:focus-visible {
   }
 
 }
+
+
+/* =====================================================
+   SASHA OUTCOME | RESULTS & DEBRIEF
+===================================================== */
+
+
+/* =====================================================
+   OUTCOME CONTAINER
+===================================================== */
+
+.sasha-outcome-container {
+  width: 80vw;
+  max-width: none;
+
+  margin:
+    0 auto;
+}
+
+
+.sasha-outcome-capitalize {
+  text-transform: capitalize;
+}
+
+
+/* =====================================================
+   OUTCOME SUMMARY
+===================================================== */
+
+.sasha-outcome-summary {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      4,
+      minmax(0, 1fr)
+    );
+
+  gap: 1rem;
+
+  margin-bottom:
+    clamp(
+      2.5rem,
+      5vw,
+      4rem
+    );
+
+  padding:
+    1.25rem;
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.06
+    );
+
+  border:
+    1px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.2
+    );
+
+  border-radius:
+    var(--sasha-radius-medium);
+}
+
+
+.sasha-outcome-summary-result,
+.sasha-outcome-summary-detail {
+  min-width: 0;
+
+  padding:
+    1.1rem
+    1.2rem;
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.055
+    );
+
+  border:
+    1px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.16
+    );
+
+  border-radius:
+    14px;
+}
+
+
+.sasha-outcome-summary-result {
+  border-color:
+    rgba(
+      242,
+      130,
+      170,
+      0.48
+    );
+}
+
+
+.sasha-outcome-summary-label,
+.sasha-outcome-summary-detail > span {
+  display: block;
+
+  margin-bottom:
+    0.35rem;
+
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.52
+    );
+
+  font-size:
+    0.68rem;
+
+  font-weight:
+    800;
+
+  letter-spacing:
+    0.06em;
+
+  text-transform:
+    uppercase;
+}
+
+
+.sasha-outcome-summary strong {
+  display: block;
+
+  color:
+    var(--sasha-white);
+
+  font-size:
+    0.95rem;
+
+  font-weight:
+    700;
+
+  line-height:
+    1.35;
+
+  overflow-wrap:
+    anywhere;
+}
+
+
+.sasha-outcome-summary-result strong {
+  color:
+    var(--sasha-pink);
+
+  text-transform:
+    capitalize;
+}
+
+
+/* =====================================================
+   MAIN OUTCOME LAYOUT
+===================================================== */
+
+.sasha-outcome-layout {
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1.55fr)
+    minmax(320px, 0.75fr);
+
+  gap:
+    clamp(
+      1.5rem,
+      3vw,
+      2.5rem
+    );
+
+  align-items: start;
+
+  margin-bottom:
+    clamp(
+      4rem,
+      8vw,
+      6rem
+    );
+}
+
+
+/* =====================================================
+   OUTCOME CHAT
+===================================================== */
+
+.sasha-outcome-chat-thread {
+  min-height: 500px;
+}
+
+
+.sasha-outcome-chat-upload {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  align-items: center;
+
+  gap:
+    0.8rem;
+
+  margin-top:
+    1rem;
+}
+
+
+.sasha-outcome-file-label {
+  display: block;
+
+  margin-bottom:
+    0.45rem;
+
+  font-size:
+    0.78rem;
+
+  font-weight:
+    800;
+}
+
+
+/* =====================================================
+   OUTCOME SIDEBAR
+===================================================== */
+
+.sasha-outcome-sidebar {
+  display: grid;
+
+  gap:
+    1.25rem;
+
+  min-width: 0;
+}
+
+
+/* =====================================================
+   OUTCOME CARDS
+===================================================== */
+
+.sasha-outcome-card {
+  min-width: 0;
+
+  padding:
+    1.4rem;
+
+  color:
+    var(--sasha-white);
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.06
+    );
+
+  border:
+    1px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.2
+    );
+
+  border-radius:
+    var(--sasha-radius-medium);
+
+  box-sizing:
+    border-box;
+}
+
+
+.sasha-outcome-card-heading {
+  margin-bottom:
+    1.35rem;
+}
+
+
+.sasha-outcome-card-heading h2 {
+  margin:
+    0;
+
+  color:
+    var(--sasha-white);
+
+  font-size:
+    1.4rem;
+
+  font-weight:
+    700;
+
+  letter-spacing:
+    -0.03em;
+
+  line-height:
+    1.15;
+}
+
+
+/* =====================================================
+   OUTCOME FIELDS
+===================================================== */
+
+.sasha-outcome-field {
+  min-width: 0;
+
+  margin-bottom:
+    1rem;
+}
+
+
+.sasha-outcome-field-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      2,
+      minmax(0, 1fr)
+    );
+
+  gap:
+    0.9rem;
+}
+
+
+.sasha-outcome-field label {
+  display: block;
+
+  margin-bottom:
+    0.45rem;
+
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.78
+    );
+
+  font-size:
+    0.76rem;
+
+  font-weight:
+    800;
+}
+
+
+.sasha-outcome-field input,
+.sasha-outcome-field select,
+.sasha-outcome-field textarea {
+  display: block;
+
+  width: 100%;
+  max-width: 100%;
+
+  box-sizing: border-box;
+
+  color:
+    var(--sasha-white);
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.07
+    );
+
+  border:
+    1px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.22
+    );
+
+  border-radius:
+    12px;
+
+  outline: none;
+
+  font:
+    inherit;
+
+  font-size:
+    0.88rem;
+
+  line-height:
+    1.45;
+
+  transition:
+    background-color
+    180ms ease,
+    border-color
+    180ms ease,
+    box-shadow
+    180ms ease;
+}
+
+
+.sasha-outcome-field input,
+.sasha-outcome-field select {
+  min-height:
+    48px;
+
+  padding:
+    0.72rem
+    0.9rem;
+}
+
+
+.sasha-outcome-field textarea {
+  min-height:
+    130px;
+
+  padding:
+    0.9rem;
+
+  resize:
+    vertical;
+}
+
+
+.sasha-outcome-field input:hover,
+.sasha-outcome-field select:hover,
+.sasha-outcome-field textarea:hover {
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.1
+    );
+
+  border-color:
+    rgba(
+      255,
+      255,
+      255,
+      0.36
+    );
+}
+
+
+.sasha-outcome-field input:focus,
+.sasha-outcome-field select:focus,
+.sasha-outcome-field textarea:focus {
+  border-color:
+    var(--sasha-pink);
+
+  box-shadow:
+    0
+    0
+    0
+    3px
+    rgba(
+      242,
+      130,
+      170,
+      0.16
+    );
+}
+
+
+.sasha-outcome-field input::placeholder,
+.sasha-outcome-field textarea::placeholder {
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.42
+    );
+}
+
+
+.sasha-outcome-field select option {
+  color:
+    var(--sasha-navy);
+
+  background:
+    var(--sasha-white);
+}
+
+
+/* =====================================================
+   OUTCOME BUTTONS
+===================================================== */
+
+.sasha-outcome-save-button,
+.sasha-outcome-secondary-button {
+  display: inline-flex;
+
+  min-height:
+    44px;
+
+  align-items: center;
+  justify-content: center;
+
+  padding:
+    0.7rem
+    1.15rem;
+
+  border-radius:
+    999px;
+
+  font:
+    inherit;
+
+  font-size:
+    0.78rem;
+
+  font-weight:
+    800;
+
+  cursor:
+    pointer;
+
+  transition:
+    transform
+    180ms ease,
+    background-color
+    180ms ease,
+    border-color
+    180ms ease;
+}
+
+
+.sasha-outcome-save-button {
+  color:
+    var(--sasha-navy);
+
+  background:
+    var(--sasha-pink);
+
+  border:
+    1px solid
+    var(--sasha-pink);
+}
+
+
+.sasha-outcome-save-button:hover {
+  transform:
+    translateY(-1px);
+
+  background:
+    var(--sasha-white);
+
+  border-color:
+    var(--sasha-white);
+}
+
+
+.sasha-outcome-secondary-button {
+  color:
+    var(--sasha-white);
+
+  background:
+    transparent;
+
+  border:
+    1px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.28
+    );
+}
+
+
+.sasha-outcome-secondary-button:hover {
+  transform:
+    translateY(-1px);
+
+  color:
+    var(--sasha-navy);
+
+  background:
+    var(--sasha-pink);
+
+  border-color:
+    var(--sasha-pink);
+}
+
+
+/* =====================================================
+   COLLAPSIBLE OUTCOME CARDS
+===================================================== */
+
+.sasha-outcome-details {
+  overflow:
+    hidden;
+
+  padding:
+    0;
+}
+
+
+.sasha-outcome-details > summary {
+  position: relative;
+
+  display: flex;
+
+  min-height:
+    68px;
+
+  align-items: center;
+
+  padding:
+    1.1rem
+    4rem
+    1.1rem
+    1.4rem;
+
+  color:
+    var(--sasha-white);
+
+  cursor:
+    pointer;
+
+  list-style:
+    none;
+
+  font-size:
+    0.95rem;
+
+  font-weight:
+    800;
+
+  line-height:
+    1.25;
+}
+
+
+.sasha-outcome-details > summary::-webkit-details-marker {
+  display:
+    none;
+}
+
+
+.sasha-outcome-details > summary::marker {
+  content:
+    "";
+}
+
+
+.sasha-outcome-details > summary::after {
+  content:
+    "+";
+
+  position:
+    absolute;
+
+  top:
+    50%;
+
+  right:
+    1.25rem;
+
+  display:
+    flex;
+
+  width:
+    32px;
+
+  height:
+    32px;
+
+  align-items: center;
+  justify-content: center;
+
+  color:
+    var(--sasha-white);
+
+  border:
+    1px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.28
+    );
+
+  border-radius:
+    50%;
+
+  font-size:
+    1.2rem;
+
+  font-weight:
+    400;
+
+  transform:
+    translateY(-50%);
+}
+
+
+.sasha-outcome-details[open]
+> summary::after {
+  content:
+    "−";
+
+  color:
+    var(--sasha-navy);
+
+  background:
+    var(--sasha-pink);
+
+  border-color:
+    var(--sasha-pink);
+}
+
+
+.sasha-outcome-details[open]
+> summary {
+  border-bottom:
+    1px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.14
+    );
+}
+
+
+.sasha-outcome-details-content {
+  padding:
+    1.4rem;
+}
+
+
+/* =====================================================
+   FINAL PROPOSAL / DOCUMENTS
+===================================================== */
+
+.sasha-outcome-document-list {
+  display: grid;
+
+  gap:
+    0.7rem;
+
+  margin-bottom:
+    1rem;
+}
+
+
+.sasha-outcome-document {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap:
+    1rem;
+
+  padding:
+    0.9rem
+    1rem;
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.05
+    );
+
+  border:
+    1px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.16
+    );
+
+  border-radius:
+    12px;
+}
+
+
+.sasha-outcome-document strong {
+  display: block;
+
+  color:
+    var(--sasha-white);
+
+  font-size:
+    0.84rem;
+
+  overflow-wrap:
+    anywhere;
+}
+
+
+.sasha-outcome-document span {
+  display: block;
+
+  margin-top:
+    0.25rem;
+
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.48
+    );
+
+  font-size:
+    0.7rem;
+}
+
+
+.sasha-outcome-document a {
+  flex:
+    0 0 auto;
+
+  color:
+    var(--sasha-pink);
+
+  font-size:
+    0.76rem;
+
+  font-weight:
+    800;
+
+  text-decoration:
+    none;
+}
+
+
+.sasha-outcome-document a:hover {
+  color:
+    var(--sasha-white);
+}
+
+
+.sasha-outcome-upload {
+  margin-top:
+    1rem;
+}
+
+
+.sasha-outcome-upload
+input[type="file"],
+.sasha-outcome-chat-upload
+input[type="file"] {
+  display: block;
+
+  width: 100%;
+
+  margin-top:
+    0.5rem;
+
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.68
+    );
+
+  font:
+    inherit;
+
+  font-size:
+    0.76rem;
+}
+
+
+.sasha-outcome-upload
+input[type="file"]::file-selector-button,
+.sasha-outcome-chat-upload
+input[type="file"]::file-selector-button {
+  margin-right:
+    0.7rem;
+
+  padding:
+    0.6rem
+    0.9rem;
+
+  color:
+    var(--sasha-white);
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.08
+    );
+
+  border:
+    1px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.24
+    );
+
+  border-radius:
+    999px;
+
+  font:
+    inherit;
+
+  font-size:
+    0.72rem;
+
+  font-weight:
+    800;
+
+  cursor:
+    pointer;
+}
+
+
+/* =====================================================
+   EMPTY / GUIDANCE COPY
+===================================================== */
+
+.sasha-outcome-empty,
+.sasha-outcome-guidance {
+  margin:
+    0;
+
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.6
+    );
+
+  font-size:
+    0.82rem;
+
+  line-height:
+    1.55;
+}
+
+
+.sasha-outcome-empty
++ .sasha-outcome-secondary-button {
+  margin-top:
+    1rem;
+}
+
+
+.sasha-outcome-guidance {
+  margin-bottom:
+    1.25rem;
+}
+
+
+/* =====================================================
+   EVALUATION RESULTS
+===================================================== */
+
+.sasha-outcome-evaluation-list {
+  display: grid;
+
+  gap:
+    0.8rem;
+
+  margin-bottom:
+    1rem;
+}
+
+
+.sasha-outcome-evaluation-item {
+  padding:
+    1rem;
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.05
+    );
+
+  border:
+    1px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.16
+    );
+
+  border-radius:
+    12px;
+}
+
+
+.sasha-outcome-evaluation-item
+> strong {
+  color:
+    var(--sasha-white);
+
+  font-size:
+    0.9rem;
+}
+
+
+.sasha-outcome-score-row {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap:
+    0.65rem
+    1.25rem;
+
+  margin-top:
+    0.65rem;
+
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.64
+    );
+
+  font-size:
+    0.76rem;
+}
+
+
+.sasha-outcome-score-row strong {
+  color:
+    var(--sasha-pink);
+}
+
+
+.sasha-outcome-evaluation-item p {
+  margin:
+    0.65rem
+    0
+    0;
+
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.6
+    );
+
+  font-size:
+    0.78rem;
+
+  line-height:
+    1.5;
+}
+
+
+/* =====================================================
+   OUTCOME FACTORS
+===================================================== */
+
+.sasha-outcome-factor-list {
+  display: grid;
+
+  gap:
+    0.8rem;
+}
+
+
+.sasha-outcome-factor {
+  padding:
+    1rem;
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.05
+    );
+
+  border:
+    1px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.16
+    );
+
+  border-radius:
+    12px;
+}
+
+
+.sasha-outcome-factor-top {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap:
+    1rem;
+}
+
+
+.sasha-outcome-factor-category,
+.sasha-outcome-factor-impact {
+  font-size:
+    0.68rem;
+
+  font-weight:
+    800;
+
+  letter-spacing:
+    0.04em;
+
+  text-transform:
+    uppercase;
+}
+
+
+.sasha-outcome-factor-category {
+  color:
+    var(--sasha-pink);
+}
+
+
+.sasha-outcome-factor-impact {
+  padding:
+    0.3rem
+    0.6rem;
+
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.72
+    );
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.07
+    );
+
+  border:
+    1px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.16
+    );
+
+  border-radius:
+    999px;
+}
+
+
+.sasha-outcome-factor p {
+  margin:
+    0.7rem
+    0
+    0;
+
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.62
+    );
+
+  font-size:
+    0.78rem;
+
+  line-height:
+    1.55;
+}
+
+
+/* =====================================================
+   LESSONS LEARNED
+===================================================== */
+
+.sasha-outcome-lessons {
+  display: grid;
+
+  gap:
+    0.8rem;
+}
+
+
+.sasha-outcome-lesson {
+  padding:
+    1rem;
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.05
+    );
+
+  border:
+    1px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.16
+    );
+
+  border-radius:
+    12px;
+}
+
+
+.sasha-outcome-lesson strong {
+  display: block;
+
+  margin-bottom:
+    0.4rem;
+
+  color:
+    var(--sasha-pink);
+
+  font-size:
+    0.82rem;
+
+  font-weight:
+    800;
+}
+
+
+.sasha-outcome-lesson p {
+  margin:
+    0;
+
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.62
+    );
+
+  font-size:
+    0.78rem;
+
+  line-height:
+    1.55;
+}
+
+
+/* =====================================================
+   CHAT / OUTCOME ACTION AREA
+===================================================== */
+
+.sasha-outcome-chat-actions {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  align-items: center;
+
+  gap:
+    0.75rem;
+
+  margin-top:
+    1rem;
+}
+
+
+.sasha-outcome-chat-form {
+  min-width:
+    0;
+}
+
+
+.sasha-outcome-chat-form textarea {
+  width:
+    100%;
+
+  min-height:
+    110px;
+
+  box-sizing:
+    border-box;
+
+  padding:
+    0.9rem;
+
+  color:
+    var(--sasha-white);
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.07
+    );
+
+  border:
+    1px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.22
+    );
+
+  border-radius:
+    12px;
+
+  outline:
+    none;
+
+  font:
+    inherit;
+
+  font-size:
+    0.88rem;
+
+  line-height:
+    1.5;
+
+  resize:
+    vertical;
+}
+
+
+.sasha-outcome-chat-form textarea:focus {
+  border-color:
+    var(--sasha-pink);
+
+  box-shadow:
+    0
+    0
+    0
+    3px
+    rgba(
+      242,
+      130,
+      170,
+      0.16
+    );
+}
+
+
+.sasha-outcome-chat-form textarea::placeholder {
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.42
+    );
+}
+
+
+/* =====================================================
+   STATUS / FEEDBACK MESSAGES
+===================================================== */
+
+.sasha-outcome-message {
+  margin:
+    1rem
+    0;
+
+  padding:
+    0.85rem
+    1rem;
+
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.82
+    );
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.06
+    );
+
+  border:
+    1px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.18
+    );
+
+  border-radius:
+    12px;
+
+  font-size:
+    0.8rem;
+
+  line-height:
+    1.5;
+}
+
+
+.sasha-outcome-message-success {
+  border-color:
+    rgba(
+      120,
+      220,
+      165,
+      0.5
+    );
+}
+
+
+.sasha-outcome-message-error {
+  border-color:
+    rgba(
+      255,
+      120,
+      135,
+      0.55
+    );
+}
+
+
+/* =====================================================
+   RESPONSIVE | TABLET
+===================================================== */
+
+@media (
+  max-width: 1100px
+) {
+
+  .sasha-outcome-container {
+    width:
+      88vw;
+  }
+
+
+  .sasha-outcome-layout {
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(280px, 0.7fr);
+  }
+
+
+  .sasha-outcome-summary {
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(0, 1fr)
+      );
+  }
+
+}
+
+
+/* =====================================================
+   RESPONSIVE | MOBILE / SMALL TABLET
+===================================================== */
+
+@media (
+  max-width: 820px
+) {
+
+  .sasha-outcome-container {
+    width:
+      92vw;
+  }
+
+
+  .sasha-outcome-layout {
+    grid-template-columns:
+      minmax(0, 1fr);
+  }
+
+
+  .sasha-outcome-summary {
+    grid-template-columns:
+      minmax(0, 1fr);
+  }
+
+
+  .sasha-outcome-field-grid {
+    grid-template-columns:
+      minmax(0, 1fr);
+  }
+
+
+  .sasha-outcome-chat-thread {
+    min-height:
+      400px;
+  }
+
+}
+
+
+/* =====================================================
+   RESPONSIVE | PHONE
+===================================================== */
+
+@media (
+  max-width: 560px
+) {
+
+  .sasha-outcome-container {
+    width:
+      calc(
+        100% - 2rem
+      );
+  }
+
+
+  .sasha-outcome-summary {
+    padding:
+      0.85rem;
+  }
+
+
+  .sasha-outcome-card {
+    padding:
+      1.1rem;
+  }
+
+
+  .sasha-outcome-details > summary {
+    min-height:
+      62px;
+
+    padding:
+      1rem
+      3.6rem
+      1rem
+      1.1rem;
+
+    font-size:
+      0.88rem;
+  }
+
+
+  .sasha-outcome-details > summary::after {
+    right:
+      1rem;
+
+    width:
+      30px;
+
+    height:
+      30px;
+  }
+
+
+  .sasha-outcome-details-content {
+    padding:
+      1.1rem;
+  }
+
+
+  .sasha-outcome-document {
+    align-items:
+      flex-start;
+
+    flex-direction:
+      column;
+  }
+
+
+  .sasha-outcome-factor-top {
+    align-items:
+      flex-start;
+
+    flex-direction:
+      column;
+
+    gap:
+      0.5rem;
+  }
+
+
+  .sasha-outcome-save-button,
+  .sasha-outcome-secondary-button {
+    width:
+      100%;
+  }
+
+}
