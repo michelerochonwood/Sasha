@@ -2,6 +2,7 @@
 
   <div class="sasha-work-container sasha-outcome-container">
 
+
     {{!-- =====================================================
          BACK TO PURSUIT
     ====================================================== --}}
@@ -51,6 +52,7 @@
 
         <div class="sasha-work-meta-item">
           <span>Outcome</span>
+
           <strong class="sasha-outcome-capitalize">
             {{#if pursuit.outcome.status}}
               {{pursuit.outcome.status}}
@@ -60,8 +62,10 @@
           </strong>
         </div>
 
+
         <div class="sasha-work-meta-item">
           <span>Decision Date</span>
+
           <strong>
             {{#if pursuit.outcome.decisionDate}}
               {{pursuit.outcome.decisionDate}}
@@ -71,8 +75,10 @@
           </strong>
         </div>
 
+
         <div class="sasha-work-meta-item">
           <span>Submission</span>
+
           <strong>
             {{#if pursuit.submissionDeadline}}
               {{pursuit.submissionDeadline}}
@@ -176,158 +182,538 @@
 
 
       {{!-- ===================================================
-           SASHA CHAT
+           MAIN COLUMN
       ==================================================== --}}
 
-      <section class="sasha-chat-panel">
-
-        <header class="sasha-chat-header">
-
-          <div>
-
-            <p class="sasha-work-eyebrow">
-              Debrief Assistant
-            </p>
-
-            <h2>
-              Talk through the result with Sasha
-            </h2>
-
-          </div>
-
-          <span class="sasha-chat-status">
-            Outcome
-          </span>
-
-        </header>
+      <main class="sasha-outcome-main">
 
 
-        <div
-          class="sasha-chat-thread sasha-outcome-chat-thread"
-          id="outcomeChatThread"
-        >
+        {{!-- =================================================
+             SASHA CHAT
+        ================================================== --}}
 
-          {{#if pursuit.outcomeMessages.length}}
+        <section class="sasha-chat-panel">
 
-            {{#each pursuit.outcomeMessages}}
+          <header class="sasha-chat-header">
 
-              <article
-                class="
-                  sasha-chat-message
-                  {{#if (eq role "user")}}
-                    is-user
-                  {{else}}
-                    is-sasha
-                  {{/if}}
-                "
-              >
+            <div>
+
+              <p class="sasha-work-eyebrow">
+                Debrief Assistant
+              </p>
+
+              <h2>
+                Talk through the result with Sasha
+              </h2>
+
+            </div>
+
+            <span class="sasha-chat-status">
+              Outcome
+            </span>
+
+          </header>
+
+
+          <div
+            class="sasha-chat-thread sasha-outcome-chat-thread"
+            id="outcomeChatThread"
+          >
+
+            {{#if pursuit.outcomeMessages.length}}
+
+              {{#each pursuit.outcomeMessages}}
+
+                <article
+                  class="
+                    sasha-chat-message
+                    {{#if (eq role "user")}}
+                      is-user
+                    {{else}}
+                      is-sasha
+                    {{/if}}
+                  "
+                >
+
+                  <div class="sasha-chat-speaker">
+
+                    {{#if (eq role "user")}}
+                      You
+                    {{else}}
+                      Sasha
+                    {{/if}}
+
+                  </div>
+
+                  <div class="sasha-chat-bubble">
+                    {{content}}
+                  </div>
+
+                </article>
+
+              {{/each}}
+
+            {{else}}
+
+              <article class="sasha-chat-message is-sasha">
 
                 <div class="sasha-chat-speaker">
-
-                  {{#if (eq role "user")}}
-                    You
-                  {{else}}
-                    Sasha
-                  {{/if}}
-
+                  Sasha
                 </div>
 
                 <div class="sasha-chat-bubble">
-                  {{content}}
+                  Tell me what happened with this pursuit.
+
+                  You can paste client debrief notes,
+                  evaluation scores, an award notice,
+                  internal observations, or simply tell me
+                  what you know.
+
+                  I can help separate documented client
+                  feedback from internal interpretation and
+                  organize the useful findings for the
+                  proposal record.
                 </div>
 
               </article>
 
-            {{/each}}
-
-          {{else}}
-
-            <article class="sasha-chat-message is-sasha">
-
-              <div class="sasha-chat-speaker">
-                Sasha
-              </div>
-
-              <div class="sasha-chat-bubble">
-                Tell me what happened with this pursuit.
-
-                You can paste client debrief notes,
-                evaluation scores, an award notice,
-                internal observations, or simply tell me
-                what you know.
-
-                I can help separate documented client
-                feedback from internal interpretation and
-                organize the useful findings for the
-                proposal record.
-              </div>
-
-            </article>
-
-          {{/if}}
-
-        </div>
-
-
-        <div class="sasha-chat-composer">
-
-          <label
-            class="sasha-chat-label"
-            for="outcomeMessage"
-          >
-            Message Sasha
-          </label>
-
-          <textarea
-            id="outcomeMessage"
-            name="message"
-            placeholder="Paste debrief notes, scoring information, client feedback or tell Sasha what happened..."
-          ></textarea>
-
-
-          <div class="sasha-outcome-chat-upload">
-
-            <label
-              class="sasha-outcome-file-label"
-              for="outcomeEvidenceFile"
-            >
-              Add debrief document
-            </label>
-
-            <input
-              id="outcomeEvidenceFile"
-              name="outcomeEvidenceFile"
-              type="file"
-            >
+            {{/if}}
 
           </div>
 
 
-          <div class="sasha-chat-actions">
+          {{!-- =================================================
+               SASHA WORKING VIDEO
+          ================================================== --}}
+
+          <div
+            class="sasha-outcome-working"
+            id="outcomeWorking"
+            hidden
+          >
+
+            <video
+              class="sasha-outcome-working-video"
+              autoplay
+              muted
+              loop
+              playsinline
+            >
+              <source
+                src="/videos/sasha-working2.mp4"
+                type="video/mp4"
+              >
+            </video>
 
             <p>
-              Sasha will distinguish client evidence,
-              evaluation data and internal observations
-              before proposing updates to the outcome record.
+              Sasha is reviewing the outcome evidence...
             </p>
 
-            <button
-              class="sasha-chat-submit"
-              type="button"
-              id="sendOutcomeMessage"
+          </div>
+
+
+          <div class="sasha-chat-composer">
+
+            <label
+              class="sasha-chat-label"
+              for="outcomeMessage"
             >
-              Send to Sasha
+              Message Sasha
+            </label>
+
+            <textarea
+              id="outcomeMessage"
+              name="message"
+              placeholder="Paste debrief notes, scoring information, client feedback or tell Sasha what happened..."
+            ></textarea>
+
+
+            <div class="sasha-outcome-chat-upload">
+
+              <label
+                class="sasha-outcome-file-label"
+                for="outcomeEvidenceFile"
+              >
+                Add debrief document
+              </label>
+
+              <input
+                id="outcomeEvidenceFile"
+                name="outcomeEvidenceFile"
+                type="file"
+              >
+
+            </div>
+
+
+            <div class="sasha-chat-actions">
+
+              <p>
+                Sasha will distinguish client evidence,
+                evaluation data and internal observations
+                before proposing updates to the outcome record.
+              </p>
+
+              <button
+                class="sasha-chat-submit"
+                type="button"
+                id="sendOutcomeMessage"
+              >
+                Send to Sasha
+              </button>
+
+            </div>
+
+          </div>
+
+        </section>
+
+
+        {{!-- =================================================
+             EVALUATION RESULTS
+        ================================================== --}}
+
+        <details class="sasha-outcome-card sasha-outcome-details">
+
+          <summary>
+            Evaluation Results
+          </summary>
+
+          <div class="sasha-outcome-details-content">
+
+            {{#if pursuit.outcome.evaluationResults.length}}
+
+              <div class="sasha-outcome-evaluation-list">
+
+                {{#each pursuit.outcome.evaluationResults}}
+
+                  <article class="sasha-outcome-evaluation-item">
+
+                    <strong>
+                      {{criterion}}
+                    </strong>
+
+                    <div class="sasha-outcome-score-row">
+
+                      <span>
+                        Our score:
+                        <strong>
+                          {{ourScore}} / {{maxScore}}
+                        </strong>
+                      </span>
+
+                      {{#if winningScore}}
+
+                        <span>
+                          Winner:
+                          <strong>
+                            {{winningScore}} / {{maxScore}}
+                          </strong>
+                        </span>
+
+                      {{/if}}
+
+                    </div>
+
+                    {{#if comments}}
+
+                      <p>
+                        {{comments}}
+                      </p>
+
+                    {{/if}}
+
+                  </article>
+
+                {{/each}}
+
+              </div>
+
+            {{else}}
+
+              <p class="sasha-outcome-empty">
+                No evaluation scores have been recorded.
+                Sasha can extract them from scoring sheets
+                or debrief notes.
+              </p>
+
+            {{/if}}
+
+
+            <button
+              class="sasha-outcome-secondary-button"
+              type="button"
+              id="addEvaluationCriterion"
+            >
+              + Add Criterion
             </button>
 
           </div>
 
-        </div>
+        </details>
 
-      </section>
+
+        {{!-- =================================================
+             KEY OUTCOME FACTORS
+        ================================================== --}}
+
+        <details
+          class="sasha-outcome-card sasha-outcome-details"
+          open
+        >
+
+          <summary>
+            Key Outcome Factors
+          </summary>
+
+          <div class="sasha-outcome-details-content">
+
+            {{#if pursuit.outcome.outcomeFactors.length}}
+
+              <div class="sasha-outcome-factor-list">
+
+                {{#each pursuit.outcome.outcomeFactors}}
+
+                  <article
+                    class="
+                      sasha-outcome-factor
+                      is-{{impact}}
+                    "
+                  >
+
+                    <div class="sasha-outcome-factor-top">
+
+                      <span class="sasha-outcome-factor-category">
+                        {{category}}
+                      </span>
+
+                      <span
+                        class="
+                          sasha-outcome-factor-impact
+                          is-{{impact}}
+                        "
+                      >
+                        {{impact}}
+                      </span>
+
+                    </div>
+
+                    <p>
+                      {{summary}}
+                    </p>
+
+                    <small>
+                      Source: {{sourceType}}
+
+                      {{#if sourceDetail}}
+                        — {{sourceDetail}}
+                      {{/if}}
+                    </small>
+
+                  </article>
+
+                {{/each}}
+
+              </div>
+
+            {{else}}
+
+              <p class="sasha-outcome-empty">
+                No outcome factors have been recorded yet.
+                Give Sasha the debrief evidence and she can
+                propose the factors that appear to have
+                influenced the result.
+              </p>
+
+            {{/if}}
+
+          </div>
+
+        </details>
+
+
+        {{!-- =================================================
+             LESSONS FOR FUTURE PURSUITS
+        ================================================== --}}
+
+        <details
+          class="sasha-outcome-card sasha-outcome-details"
+          open
+        >
+
+          <summary>
+            Lessons for Future Pursuits
+          </summary>
+
+          <div class="sasha-outcome-details-content">
+
+            <div class="sasha-outcome-lessons">
+
+              {{#if pursuit.outcome.lessons.length}}
+
+                {{#each pursuit.outcome.lessons}}
+
+                  <article class="sasha-outcome-lesson">
+
+                    <div class="sasha-outcome-lesson-heading">
+
+                      <strong>
+                        {{title}}
+                      </strong>
+
+                      {{#if category}}
+
+                        <span class="sasha-outcome-lesson-category">
+                          {{category}}
+                        </span>
+
+                      {{/if}}
+
+                    </div>
+
+                    <p>
+                      {{lesson}}
+                    </p>
+
+
+                    {{#if recommendation}}
+
+                      <div class="sasha-outcome-recommendation">
+
+                        <span>
+                          Future Practice
+                        </span>
+
+                        <p>
+                          {{recommendation}}
+                        </p>
+
+                      </div>
+
+                    {{/if}}
+
+
+                    {{#if evidenceBasis}}
+
+                      <small>
+                        Evidence basis: {{evidenceBasis}}
+                      </small>
+
+                    {{/if}}
+
+                  </article>
+
+                {{/each}}
+
+              {{else}}
+
+                <p class="sasha-outcome-empty">
+                  No lessons have been recorded yet.
+                  Sasha can help turn the outcome evidence into
+                  practical lessons for future pursuits.
+                </p>
+
+              {{/if}}
+
+            </div>
+
+
+            <button
+              class="sasha-outcome-secondary-button"
+              type="button"
+              id="addOutcomeLesson"
+            >
+              + Add Lesson
+            </button>
+
+          </div>
+
+        </details>
+
+
+        {{!-- =================================================
+             INTERNAL OBSERVATIONS
+        ================================================== --}}
+
+        <details class="sasha-outcome-card sasha-outcome-details">
+
+          <summary>
+            Internal Observations
+          </summary>
+
+          <div class="sasha-outcome-details-content">
+
+            <p class="sasha-outcome-guidance">
+              Record observations from the pursuit team that may
+              help explain the result. These are internal
+              interpretations and should remain distinct from
+              documented client feedback.
+            </p>
+
+
+            <div class="sasha-outcome-field">
+
+              <label for="internalObservations">
+                Pursuit Team Observations
+              </label>
+
+              <textarea
+                id="internalObservations"
+                name="internalObservations"
+                placeholder="What did the pursuit team observe about the strategy, process, proposal, competition or client?"
+              >{{pursuit.outcome.internalObservations}}</textarea>
+
+            </div>
+
+          </div>
+
+        </details>
+
+
+        {{!-- =================================================
+             RECORD NOTES
+        ================================================== --}}
+
+        <details class="sasha-outcome-card sasha-outcome-details">
+
+          <summary>
+            Record Notes
+          </summary>
+
+          <div class="sasha-outcome-details-content">
+
+            <div class="sasha-outcome-field">
+
+              <label for="outcomeNotes">
+                Additional Notes
+              </label>
+
+              <textarea
+                id="outcomeNotes"
+                name="outcomeNotes"
+                placeholder="Add any other information that should remain with the permanent pursuit record."
+              >{{pursuit.outcome.notes}}</textarea>
+
+            </div>
+
+
+            <button
+              class="sasha-outcome-save-button"
+              type="button"
+              id="saveOutcomeDetails"
+            >
+              Save Outcome Details
+            </button>
+
+          </div>
+
+        </details>
+
+      </main>
 
 
       {{!-- ===================================================
-           OUTCOME SIDEBAR
+           SIDEBAR
       ==================================================== --}}
 
       <aside class="sasha-outcome-sidebar">
@@ -505,7 +891,7 @@
 
 
         {{!-- =================================================
-             FINAL SUBMISSION
+             CLIENT DEBRIEF
         ================================================== --}}
 
         <section class="sasha-outcome-card">
@@ -513,537 +899,80 @@
           <div class="sasha-outcome-card-heading">
 
             <p class="sasha-work-eyebrow">
-              Submitted Proposal
+              Client Feedback
             </p>
 
             <h2>
-              Final Submission
+              Client Debrief
             </h2>
 
           </div>
 
 
-          {{#if pursuit.proposalDocuments.length}}
-
-            <div class="sasha-outcome-document-list">
-
-              {{#each pursuit.proposalDocuments}}
-
-                <div class="sasha-outcome-document">
-
-                  <div>
-
-<strong>
-  {{#if title}}
-    {{title}}
-  {{else}}
-    {{fileName}}
-  {{/if}}
-</strong>
-
-                    {{#if uploadedAt}}
-                      <span>
-                        Uploaded {{uploadedAt}}
-                      </span>
-                    {{/if}}
-
-                  </div>
-
-{{#if fileUrl}}
-
-  <a
-    href="{{fileUrl}}"
-    target="_blank"
-    rel="noopener noreferrer"
-  >
-    View
-  </a>
-
-{{/if}}
-
-                </div>
-
-              {{/each}}
-
-            </div>
-
-          {{else}}
-
-            <p class="sasha-outcome-empty">
-              The final submitted proposal has not been
-              added to this pursuit yet.
-            </p>
-
-          {{/if}}
+          <p class="sasha-outcome-guidance">
+            Record feedback received directly from the client.
+            Keep documented client comments separate from the
+            pursuit team's own interpretation of the result.
+          </p>
 
 
-          <div class="sasha-outcome-upload">
+          <div class="sasha-outcome-field">
 
-            <label
-              class="sasha-outcome-file-label"
-              for="finalProposalFile"
-            >
-              Add final proposal
+            <label for="clientDebrief">
+              Client Feedback
+            </label>
+
+            <textarea
+              id="clientDebrief"
+              name="clientDebrief"
+              placeholder="Paste or summarize the client's debrief comments here."
+            >{{pursuit.outcome.clientDebrief}}</textarea>
+
+          </div>
+
+
+          <div class="sasha-outcome-field">
+
+            <label for="debriefDate">
+              Debrief Date
             </label>
 
             <input
-              id="finalProposalFile"
-              name="finalProposalFile"
-              type="file"
-              accept=".pdf,.doc,.docx"
+              id="debriefDate"
+              name="debriefDate"
+              type="date"
+              value="{{pursuit.outcome.debriefDate}}"
             >
 
           </div>
+
+
+          <div class="sasha-outcome-field">
+
+            <label for="debriefContact">
+              Client Contact
+            </label>
+
+            <input
+              id="debriefContact"
+              name="debriefContact"
+              type="text"
+              value="{{pursuit.outcome.debriefContact}}"
+              placeholder="Name or role of person providing feedback"
+            >
+
+          </div>
+
+
+          <button
+            class="sasha-outcome-save-button"
+            type="button"
+            id="saveClientDebrief"
+          >
+            Save Client Debrief
+          </button>
 
         </section>
-
-
-        {{!-- =================================================
-             CLIENT DEBRIEF
-        ================================================== --}}
-
-        <details class="sasha-outcome-card sasha-outcome-details">
-
-          <summary>
-            Client Debrief
-          </summary>
-
-          <div class="sasha-outcome-details-content">
-
-
-            <div class="sasha-outcome-field">
-
-              <label for="debriefDate">
-                Debrief Date
-              </label>
-
-              <input
-                id="debriefDate"
-                name="debriefDate"
-                type="date"
-                value="{{pursuit.outcome.debrief.date}}"
-              >
-
-            </div>
-
-
-            <div class="sasha-outcome-field">
-
-              <label for="debriefProvidedBy">
-                Feedback Provided By
-              </label>
-
-              <input
-                id="debriefProvidedBy"
-                name="debriefProvidedBy"
-                type="text"
-                value="{{pursuit.outcome.debrief.providedBy}}"
-                placeholder="Name, title or organization"
-              >
-
-            </div>
-
-
-            <div class="sasha-outcome-field">
-
-              <label for="debriefSourceType">
-                Source
-              </label>
-
-              <select
-                id="debriefSourceType"
-                name="debriefSourceType"
-              >
-
-                <option value="">
-                  Select source
-                </option>
-
-                <option value="written">
-                  Written Feedback
-                </option>
-
-                <option value="verbal">
-                  Verbal Feedback
-                </option>
-
-                <option value="formal_debrief">
-                  Formal Debrief
-                </option>
-
-                <option value="evaluation_scores">
-                  Evaluation Scores
-                </option>
-
-                <option value="internal">
-                  Internal Assessment
-                </option>
-
-              </select>
-
-            </div>
-
-
-            <div class="sasha-outcome-field">
-
-              <label for="debriefRawNotes">
-                Raw Debrief Notes
-              </label>
-
-              <textarea
-                id="debriefRawNotes"
-                name="debriefRawNotes"
-                placeholder="Preserve the original feedback here."
-              >{{pursuit.outcome.debrief.rawNotes}}</textarea>
-
-            </div>
-
-          </div>
-
-        </details>
-
-
-        {{!-- =================================================
-             EVALUATION RESULTS
-        ================================================== --}}
-
-        <details class="sasha-outcome-card sasha-outcome-details">
-
-          <summary>
-            Evaluation Results
-          </summary>
-
-          <div class="sasha-outcome-details-content">
-
-            {{#if pursuit.outcome.evaluationResults.length}}
-
-              <div class="sasha-outcome-evaluation-list">
-
-                {{#each pursuit.outcome.evaluationResults}}
-
-                  <article class="sasha-outcome-evaluation-item">
-
-                    <strong>
-                      {{criterion}}
-                    </strong>
-
-                    <div class="sasha-outcome-score-row">
-
-                      <span>
-                        Our score:
-                        <strong>
-                          {{ourScore}} / {{maxScore}}
-                        </strong>
-                      </span>
-
-                      {{#if winningScore}}
-
-                        <span>
-                          Winner:
-                          <strong>
-                            {{winningScore}} / {{maxScore}}
-                          </strong>
-                        </span>
-
-                      {{/if}}
-
-                    </div>
-
-                    {{#if comments}}
-
-                      <p>
-                        {{comments}}
-                      </p>
-
-                    {{/if}}
-
-                  </article>
-
-                {{/each}}
-
-              </div>
-
-            {{else}}
-
-              <p class="sasha-outcome-empty">
-                No evaluation scores have been recorded.
-                Sasha can extract them from scoring sheets
-                or debrief notes.
-              </p>
-
-            {{/if}}
-
-
-            <button
-              class="sasha-outcome-secondary-button"
-              type="button"
-              id="addEvaluationCriterion"
-            >
-              + Add Criterion
-            </button>
-
-          </div>
-
-        </details>
-
-
-        {{!-- =================================================
-             OUTCOME FACTORS
-        ================================================== --}}
-
-        <details
-          class="sasha-outcome-card sasha-outcome-details"
-          open
-        >
-
-          <summary>
-            Key Outcome Factors
-          </summary>
-
-          <div class="sasha-outcome-details-content">
-
-            {{#if pursuit.outcome.outcomeFactors.length}}
-
-              <div class="sasha-outcome-factor-list">
-
-                {{#each pursuit.outcome.outcomeFactors}}
-
-                  <article
-                    class="
-                      sasha-outcome-factor
-                      is-{{impact}}
-                    "
-                  >
-
-                    <div class="sasha-outcome-factor-top">
-
-                      <span class="sasha-outcome-factor-category">
-                        {{category}}
-                      </span>
-
-                      <span
-                        class="
-                          sasha-outcome-factor-impact
-                          is-{{impact}}
-                        "
-                      >
-                        {{impact}}
-                      </span>
-
-                    </div>
-
-                    <p>
-                      {{summary}}
-                    </p>
-
-                    <small>
-                      Source: {{sourceType}}
-
-                      {{#if sourceDetail}}
-                        — {{sourceDetail}}
-                      {{/if}}
-                    </small>
-
-                  </article>
-
-                {{/each}}
-
-              </div>
-
-            {{else}}
-
-              <p class="sasha-outcome-empty">
-                No outcome factors have been recorded yet.
-                Give Sasha the debrief evidence and she can
-                propose the factors that appear to have
-                influenced the result.
-              </p>
-
-            {{/if}}
-
-          </div>
-
-        </details>
-
-
-        {{!-- =================================================
-             LESSONS
-        ================================================== --}}
-
-
-    <details
-          class="sasha-outcome-card sasha-outcome-details"
-          open
-        >
-
-          <summary>
-            Lessons for Future Pursuits
-          </summary>
-
-          <div class="sasha-outcome-details-content">
-            <div class="sasha-outcome-lessons">
-
-              {{#if pursuit.outcome.lessons.length}}
-
-                {{#each pursuit.outcome.lessons}}
-
-                  <article class="sasha-outcome-lesson">
-
-                    <div class="sasha-outcome-lesson-heading">
-
-                      <strong>
-                        {{title}}
-                      </strong>
-
-                      {{#if category}}
-
-                        <span class="sasha-outcome-lesson-category">
-                          {{category}}
-                        </span>
-
-                      {{/if}}
-
-                    </div>
-
-
-                    <p>
-                      {{lesson}}
-                    </p>
-
-
-                    {{#if recommendation}}
-
-                      <div class="sasha-outcome-recommendation">
-
-                        <span>
-                          Future Practice
-                        </span>
-
-                        <p>
-                          {{recommendation}}
-                        </p>
-
-                      </div>
-
-                    {{/if}}
-
-
-                    {{#if evidenceBasis}}
-
-                      <small>
-                        Evidence basis: {{evidenceBasis}}
-                      </small>
-
-                    {{/if}}
-
-                  </article>
-
-                {{/each}}
-
-              {{else}}
-
-                <p class="sasha-outcome-empty">
-                  No lessons have been recorded yet.
-                  Sasha can help turn the outcome evidence into
-                  practical lessons for future pursuits.
-                </p>
-
-              {{/if}}
-
-            </div>
-
-
-            <button
-              class="sasha-outcome-secondary-button"
-              type="button"
-              id="addOutcomeLesson"
-            >
-              + Add Lesson
-            </button>
-
-          </div>
-
-        </details>
-
-
-        {{!-- =================================================
-             INTERNAL OBSERVATIONS
-        ================================================== --}}
-
-        <details class="sasha-outcome-card sasha-outcome-details">
-
-          <summary>
-            Internal Observations
-          </summary>
-
-          <div class="sasha-outcome-details-content">
-
-            <p class="sasha-outcome-guidance">
-              Record observations from the pursuit team that may
-              help explain the result. These are internal
-              interpretations and should remain distinct from
-              documented client feedback.
-            </p>
-
-
-            <div class="sasha-outcome-field">
-
-              <label for="internalObservations">
-                Pursuit Team Observations
-              </label>
-
-              <textarea
-                id="internalObservations"
-                name="internalObservations"
-                placeholder="What did the pursuit team observe about the strategy, process, proposal, competition or client?"
-              >{{pursuit.outcome.internalObservations}}</textarea>
-
-            </div>
-
-          </div>
-
-        </details>
-
-
-        {{!-- =================================================
-             RECORD NOTES
-        ================================================== --}}
-
-        <details class="sasha-outcome-card sasha-outcome-details">
-
-          <summary>
-            Record Notes
-          </summary>
-
-          <div class="sasha-outcome-details-content">
-
-            <div class="sasha-outcome-field">
-
-              <label for="outcomeNotes">
-                Additional Notes
-              </label>
-
-              <textarea
-                id="outcomeNotes"
-                name="outcomeNotes"
-                placeholder="Add any other information that should remain with the permanent pursuit record."
-              >{{pursuit.outcome.notes}}</textarea>
-
-            </div>
-
-
-            <button
-              class="sasha-outcome-save-button"
-              type="button"
-              id="saveOutcomeDetails"
-            >
-              Save Outcome Details
-            </button>
-
-          </div>
-
-        </details>
-
 
       </aside>
 
@@ -1054,72 +983,281 @@
 </section>
 
 
+{{!-- =====================================================
+     OUTCOME VIEW JAVASCRIPT
+====================================================== --}}
+
 <script>
+
 document.addEventListener(
   'DOMContentLoaded',
   () => {
 
+    const pursuitId =
+      '{{pursuit._id}}';
+
+
     /* =====================================================
-       CHAT THREAD
+       ELEMENTS
     ====================================================== */
 
-    const chatThread =
+    const outcomeChatThread =
       document.getElementById(
         'outcomeChatThread'
       );
 
-    const messageInput =
+    const outcomeMessage =
       document.getElementById(
         'outcomeMessage'
       );
 
-    const sendButton =
+    const outcomeEvidenceFile =
+      document.getElementById(
+        'outcomeEvidenceFile'
+      );
+
+    const sendOutcomeMessage =
       document.getElementById(
         'sendOutcomeMessage'
       );
 
+    const outcomeWorking =
+      document.getElementById(
+        'outcomeWorking'
+      );
 
-    if (
-      chatThread
-    ) {
+    const saveOutcomeResult =
+      document.getElementById(
+        'saveOutcomeResult'
+      );
 
-      chatThread.scrollTop =
-        chatThread.scrollHeight;
+    const saveClientDebrief =
+      document.getElementById(
+        'saveClientDebrief'
+      );
 
-    }
+    const saveOutcomeDetails =
+      document.getElementById(
+        'saveOutcomeDetails'
+      );
 
 
     /* =====================================================
-       SEND OUTCOME MESSAGE
+       SMALL HELPERS
+    ====================================================== */
+
+    const setButtonState =
+      (
+        button,
+        isWorking,
+        workingText,
+        normalText
+      ) => {
+
+        if (
+          !button
+        ) {
+          return;
+        }
+
+        button.disabled =
+          isWorking;
+
+        button.textContent =
+          isWorking
+            ? workingText
+            : normalText;
+
+      };
+
+
+    const showWorking =
+      () => {
+
+        if (
+          outcomeWorking
+        ) {
+
+          outcomeWorking.hidden =
+            false;
+
+        }
+
+      };
+
+
+    const hideWorking =
+      () => {
+
+        if (
+          outcomeWorking
+        ) {
+
+          outcomeWorking.hidden =
+            true;
+
+        }
+
+      };
+
+
+    const appendChatMessage =
+      (
+        role,
+        content
+      ) => {
+
+        if (
+          !outcomeChatThread ||
+          !content
+        ) {
+          return;
+        }
+
+
+        const article =
+          document.createElement(
+            'article'
+          );
+
+        article.className =
+          'sasha-chat-message ' +
+          (
+            role === 'user'
+              ? 'is-user'
+              : 'is-sasha'
+          );
+
+
+        const speaker =
+          document.createElement(
+            'div'
+          );
+
+        speaker.className =
+          'sasha-chat-speaker';
+
+        speaker.textContent =
+          role === 'user'
+            ? 'You'
+            : 'Sasha';
+
+
+        const bubble =
+          document.createElement(
+            'div'
+          );
+
+        bubble.className =
+          'sasha-chat-bubble';
+
+        bubble.textContent =
+          content;
+
+
+        article.appendChild(
+          speaker
+        );
+
+        article.appendChild(
+          bubble
+        );
+
+        outcomeChatThread.appendChild(
+          article
+        );
+
+
+        outcomeChatThread.scrollTop =
+          outcomeChatThread.scrollHeight;
+
+      };
+
+
+    /* =====================================================
+       SEND MESSAGE TO SASHA
     ====================================================== */
 
     if (
-      sendButton &&
-      messageInput
+      sendOutcomeMessage
     ) {
 
-      sendButton.addEventListener(
+      sendOutcomeMessage.addEventListener(
         'click',
         async () => {
 
           const message =
-            messageInput.value.trim();
+            outcomeMessage
+              ? outcomeMessage.value.trim()
+              : '';
+
+          const file =
+            outcomeEvidenceFile &&
+            outcomeEvidenceFile.files
+              ? outcomeEvidenceFile.files[0]
+              : null;
 
 
           if (
-            !message
+            !message &&
+            !file
           ) {
+
+            alert(
+              'Add a message or debrief document first.'
+            );
 
             return;
 
           }
 
 
-          sendButton.disabled =
-            true;
+          const formData =
+            new FormData();
 
-          sendButton.textContent =
-            'Sasha is reviewing...';
+          formData.append(
+            'pursuitId',
+            pursuitId
+          );
+
+          formData.append(
+            'message',
+            message
+          );
+
+
+          if (
+            file
+          ) {
+
+            formData.append(
+              'outcomeEvidenceFile',
+              file
+            );
+
+          }
+
+
+          if (
+            message
+          ) {
+
+            appendChatMessage(
+              'user',
+              message
+            );
+
+          }
+
+
+          setButtonState(
+            sendOutcomeMessage,
+            true,
+            'Sasha is working...',
+            'Send to Sasha'
+          );
+
+          showWorking();
 
 
           try {
@@ -1128,23 +1266,8 @@ document.addEventListener(
               await fetch(
                 '/outcome/chat',
                 {
-                  method:
-                    'POST',
-
-                  headers: {
-                    'Content-Type':
-                      'application/json'
-                  },
-
-                  body:
-                    JSON.stringify(
-                      {
-                        pursuitId:
-                          '{{pursuit._id}}',
-
-                        message
-                      }
-                    )
+                  method: 'POST',
+                  body: formData
                 }
               );
 
@@ -1158,14 +1281,67 @@ document.addEventListener(
             ) {
 
               throw new Error(
+                data.message ||
                 data.error ||
-                'Unable to send message.'
+                'Sasha could not process the outcome information.'
               );
 
             }
 
 
-            window.location.reload();
+            const reply =
+              data.reply ||
+              data.message ||
+              data.response ||
+              data.assistantMessage ||
+              'The outcome information has been reviewed.';
+
+
+            appendChatMessage(
+              'assistant',
+              reply
+            );
+
+
+            if (
+              outcomeMessage
+            ) {
+
+              outcomeMessage.value =
+                '';
+
+            }
+
+
+            if (
+              outcomeEvidenceFile
+            ) {
+
+              outcomeEvidenceFile.value =
+                '';
+
+            }
+
+
+            /*
+             * Reload when Sasha has updated structured
+             * outcome information so the cards reflect
+             * the saved record.
+             */
+
+            if (
+              data.outcomeUpdated ||
+              data.refresh
+            ) {
+
+              window.setTimeout(
+                () => {
+                  window.location.reload();
+                },
+                700
+              );
+
+            }
 
           } catch (
             error
@@ -1176,18 +1352,58 @@ document.addEventListener(
               error
             );
 
-            alert(
-              error.message ||
-              'Sasha could not process the outcome message.'
+            appendChatMessage(
+              'assistant',
+              'I could not process that outcome information. ' +
+              'Please try again.'
             );
 
           } finally {
 
-            sendButton.disabled =
-              false;
+            hideWorking();
 
-            sendButton.textContent =
-              'Send to Sasha';
+            setButtonState(
+              sendOutcomeMessage,
+              false,
+              'Sasha is working...',
+              'Send to Sasha'
+            );
+
+          }
+
+        }
+      );
+
+    }
+
+
+    /* =====================================================
+       ENTER TO SEND
+       SHIFT + ENTER CREATES NEW LINE
+    ====================================================== */
+
+    if (
+      outcomeMessage
+    ) {
+
+      outcomeMessage.addEventListener(
+        'keydown',
+        event => {
+
+          if (
+            event.key === 'Enter' &&
+            !event.shiftKey
+          ) {
+
+            event.preventDefault();
+
+            if (
+              sendOutcomeMessage
+            ) {
+
+              sendOutcomeMessage.click();
+
+            }
 
           }
 
@@ -1201,34 +1417,27 @@ document.addEventListener(
        SAVE RESULT
     ====================================================== */
 
-    const saveResultButton =
-      document.getElementById(
-        'saveOutcomeResult'
-      );
-
-
     if (
-      saveResultButton
+      saveOutcomeResult
     ) {
 
-      saveResultButton.addEventListener(
+      saveOutcomeResult.addEventListener(
         'click',
         async () => {
 
           const payload = {
 
-            pursuitId:
-              '{{pursuit._id}}',
+            pursuitId,
 
             status:
               document.getElementById(
                 'outcomeStatus'
-              )?.value || '',
+              )?.value || 'pending',
 
             decisionDate:
               document.getElementById(
                 'decisionDate'
-              )?.value || '',
+              )?.value || null,
 
             successfulProponent:
               document.getElementById(
@@ -1238,21 +1447,22 @@ document.addEventListener(
             ourPrice:
               document.getElementById(
                 'ourPrice'
-              )?.value || '',
+              )?.value || null,
 
             winningPrice:
               document.getElementById(
                 'winningPrice'
-              )?.value || ''
+              )?.value || null
 
           };
 
 
-          saveResultButton.disabled =
-            true;
-
-          saveResultButton.textContent =
-            'Saving...';
+          setButtonState(
+            saveOutcomeResult,
+            true,
+            'Saving...',
+            'Save Result'
+          );
 
 
           try {
@@ -1261,8 +1471,7 @@ document.addEventListener(
               await fetch(
                 '/outcome/result',
                 {
-                  method:
-                    'POST',
+                  method: 'POST',
 
                   headers: {
                     'Content-Type':
@@ -1286,8 +1495,9 @@ document.addEventListener(
             ) {
 
               throw new Error(
+                data.message ||
                 data.error ||
-                'Unable to save result.'
+                'Could not save the proposal result.'
               );
 
             }
@@ -1305,17 +1515,17 @@ document.addEventListener(
             );
 
             alert(
-              error.message ||
-              'The proposal result could not be saved.'
+              error.message
             );
 
           } finally {
 
-            saveResultButton.disabled =
-              false;
-
-            saveResultButton.textContent =
-              'Save Result';
+            setButtonState(
+              saveOutcomeResult,
+              false,
+              'Saving...',
+              'Save Result'
+            );
 
           }
 
@@ -1326,80 +1536,54 @@ document.addEventListener(
 
 
     /* =====================================================
-       SAVE OUTCOME DETAILS
+       SAVE CLIENT DEBRIEF
     ====================================================== */
 
-    const saveDetailsButton =
-      document.getElementById(
-        'saveOutcomeDetails'
-      );
-
-
     if (
-      saveDetailsButton
+      saveClientDebrief
     ) {
 
-      saveDetailsButton.addEventListener(
+      saveClientDebrief.addEventListener(
         'click',
         async () => {
 
           const payload = {
 
-            pursuitId:
-              '{{pursuit._id}}',
+            pursuitId,
 
-            debrief: {
-
-              date:
-                document.getElementById(
-                  'debriefDate'
-                )?.value || '',
-
-              providedBy:
-                document.getElementById(
-                  'debriefProvidedBy'
-                )?.value.trim() || '',
-
-              sourceType:
-                document.getElementById(
-                  'debriefSourceType'
-                )?.value || '',
-
-              rawNotes:
-                document.getElementById(
-                  'debriefRawNotes'
-                )?.value.trim() || ''
-
-            },
-
-            internalObservations:
+            clientDebrief:
               document.getElementById(
-                'internalObservations'
+                'clientDebrief'
               )?.value.trim() || '',
 
-            notes:
+            debriefDate:
               document.getElementById(
-                'outcomeNotes'
+                'debriefDate'
+              )?.value || null,
+
+            debriefContact:
+              document.getElementById(
+                'debriefContact'
               )?.value.trim() || ''
 
           };
 
 
-          saveDetailsButton.disabled =
-            true;
-
-          saveDetailsButton.textContent =
-            'Saving...';
+          setButtonState(
+            saveClientDebrief,
+            true,
+            'Saving...',
+            'Save Client Debrief'
+          );
 
 
           try {
 
             const response =
               await fetch(
-                '/outcome/details',
+                '/outcome/debrief',
                 {
-                  method:
-                    'POST',
+                  method: 'POST',
 
                   headers: {
                     'Content-Type':
@@ -1423,14 +1607,160 @@ document.addEventListener(
             ) {
 
               throw new Error(
+                data.message ||
                 data.error ||
-                'Unable to save outcome details.'
+                'Could not save the client debrief.'
               );
 
             }
 
 
-            window.location.reload();
+            setButtonState(
+              saveClientDebrief,
+              false,
+              'Saving...',
+              'Saved'
+            );
+
+
+            window.setTimeout(
+              () => {
+
+                setButtonState(
+                  saveClientDebrief,
+                  false,
+                  'Saving...',
+                  'Save Client Debrief'
+                );
+
+              },
+              1500
+            );
+
+          } catch (
+            error
+          ) {
+
+            console.error(
+              'SAVE CLIENT DEBRIEF ERROR:',
+              error
+            );
+
+            alert(
+              error.message
+            );
+
+            setButtonState(
+              saveClientDebrief,
+              false,
+              'Saving...',
+              'Save Client Debrief'
+            );
+
+          }
+
+        }
+      );
+
+    }
+
+
+    /* =====================================================
+       SAVE INTERNAL OBSERVATIONS + NOTES
+    ====================================================== */
+
+    if (
+      saveOutcomeDetails
+    ) {
+
+      saveOutcomeDetails.addEventListener(
+        'click',
+        async () => {
+
+          const payload = {
+
+            pursuitId,
+
+            internalObservations:
+              document.getElementById(
+                'internalObservations'
+              )?.value.trim() || '',
+
+            notes:
+              document.getElementById(
+                'outcomeNotes'
+              )?.value.trim() || ''
+
+          };
+
+
+          setButtonState(
+            saveOutcomeDetails,
+            true,
+            'Saving...',
+            'Save Outcome Details'
+          );
+
+
+          try {
+
+            const response =
+              await fetch(
+                '/outcome/details',
+                {
+                  method: 'POST',
+
+                  headers: {
+                    'Content-Type':
+                      'application/json'
+                  },
+
+                  body:
+                    JSON.stringify(
+                      payload
+                    )
+                }
+              );
+
+
+            const data =
+              await response.json();
+
+
+            if (
+              !response.ok
+            ) {
+
+              throw new Error(
+                data.message ||
+                data.error ||
+                'Could not save the outcome details.'
+              );
+
+            }
+
+
+            setButtonState(
+              saveOutcomeDetails,
+              false,
+              'Saving...',
+              'Saved'
+            );
+
+
+            window.setTimeout(
+              () => {
+
+                setButtonState(
+                  saveOutcomeDetails,
+                  false,
+                  'Saving...',
+                  'Save Outcome Details'
+                );
+
+              },
+              1500
+            );
 
           } catch (
             error
@@ -1442,17 +1772,15 @@ document.addEventListener(
             );
 
             alert(
-              error.message ||
-              'The outcome details could not be saved.'
+              error.message
             );
 
-          } finally {
-
-            saveDetailsButton.disabled =
-              false;
-
-            saveDetailsButton.textContent =
-              'Save Outcome Details';
+            setButtonState(
+              saveOutcomeDetails,
+              false,
+              'Saving...',
+              'Save Outcome Details'
+            );
 
           }
 
@@ -1461,6 +1789,94 @@ document.addEventListener(
 
     }
 
+
+    /* =====================================================
+       ADD EVALUATION CRITERION
+    ====================================================== */
+
+    const addEvaluationCriterion =
+      document.getElementById(
+        'addEvaluationCriterion'
+      );
+
+
+    if (
+      addEvaluationCriterion
+    ) {
+
+      addEvaluationCriterion.addEventListener(
+        'click',
+        () => {
+
+          if (
+            outcomeMessage
+          ) {
+
+            outcomeMessage.value =
+              'I want to add or update an evaluation criterion. ' +
+              'Please help me record the criterion, our score, ' +
+              'maximum score, winning score if known, and any ' +
+              'client comments.';
+
+            outcomeMessage.focus();
+
+            outcomeMessage.scrollIntoView({
+              behavior: 'smooth',
+              block: 'center'
+            });
+
+          }
+
+        }
+      );
+
+    }
+
+
+    /* =====================================================
+       ADD LESSON
+    ====================================================== */
+
+    const addOutcomeLesson =
+      document.getElementById(
+        'addOutcomeLesson'
+      );
+
+
+    if (
+      addOutcomeLesson
+    ) {
+
+      addOutcomeLesson.addEventListener(
+        'click',
+        () => {
+
+          if (
+            outcomeMessage
+          ) {
+
+            outcomeMessage.value =
+              'I want to add a lesson from this pursuit. ' +
+              'Help me describe what we learned, the evidence ' +
+              'supporting it, and what we should do differently ' +
+              'or repeat on future pursuits.';
+
+            outcomeMessage.focus();
+
+            outcomeMessage.scrollIntoView({
+              behavior: 'smooth',
+              block: 'center'
+            });
+
+          }
+
+        }
+      );
+
+    }
+
+
   }
 );
+
 </script>
