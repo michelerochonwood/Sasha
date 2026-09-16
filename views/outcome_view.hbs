@@ -1245,14 +1245,20 @@ if (
       }
 
 
-      const formData =
-        new FormData();
+const formData =
+  new FormData();
 
 
-      formData.append(
-        'pursuitId',
-        pursuitId
-      );
+formData.append(
+  'pursuitId',
+  pursuitId
+);
+
+
+formData.append(
+  '_csrf',
+  '{{csrfToken}}'
+);
 
 
 formData.append(
