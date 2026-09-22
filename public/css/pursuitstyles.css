@@ -7291,6 +7291,184 @@ input[type="file"]::file-selector-button:hover {
 }
 
 /* =====================================================
+   SUPPORTING MATERIALS | REMOVE CONTROL
+===================================================== */
+
+.sasha-supporting-material-simple-item {
+  position: relative;
+
+  padding:
+    1.15rem
+    1.1rem
+    1.1rem;
+}
+
+
+/* =====================================================
+   REMOVE FORM
+===================================================== */
+
+.sasha-supporting-material-remove-form {
+  display: flex;
+
+  justify-content: flex-end;
+
+  margin:
+    0
+    0
+    0.55rem;
+
+  padding: 0;
+}
+
+
+/* =====================================================
+   REMOVE BUTTON
+===================================================== */
+
+.sasha-supporting-material-remove {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 0.4rem;
+
+  margin: 0;
+
+  padding:
+    0.35rem
+    0.55rem
+    0.35rem
+    0.7rem;
+
+  color:
+    rgba(255, 255, 255, 0.58);
+
+  background:
+    transparent;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.14);
+
+  border-radius:
+    999px;
+
+  font-family: inherit;
+
+  font-size: 0.68rem;
+  font-weight: 700;
+
+  line-height: 1;
+
+  cursor: pointer;
+
+  transition:
+    color 160ms ease,
+    background-color 160ms ease,
+    border-color 160ms ease,
+    transform 160ms ease;
+}
+
+
+/* =====================================================
+   REMOVE LABEL
+===================================================== */
+
+.sasha-supporting-material-remove-label {
+  white-space: nowrap;
+}
+
+
+/* =====================================================
+   REMOVE X
+===================================================== */
+
+.sasha-supporting-material-remove-x {
+  display: inline-flex;
+
+  width: 1.15rem;
+  height: 1.15rem;
+
+  align-items: center;
+  justify-content: center;
+
+  color:
+    rgba(255, 255, 255, 0.72);
+
+  background:
+    rgba(255, 255, 255, 0.08);
+
+  border-radius: 50%;
+
+  font-size: 0.9rem;
+  font-weight: 700;
+
+  line-height: 1;
+}
+
+
+/* =====================================================
+   HOVER
+===================================================== */
+
+.sasha-supporting-material-remove:hover {
+  color:
+    var(--sasha-navy);
+
+  background:
+    var(--sasha-pink);
+
+  border-color:
+    var(--sasha-pink);
+
+  transform:
+    translateY(-1px);
+}
+
+
+.sasha-supporting-material-remove:hover
+.sasha-supporting-material-remove-x {
+  color:
+    var(--sasha-navy);
+
+  background:
+    rgba(38, 34, 98, 0.12);
+}
+
+
+/* =====================================================
+   KEYBOARD FOCUS
+===================================================== */
+
+.sasha-supporting-material-remove:focus-visible {
+  outline:
+    2px solid
+    var(--sasha-pink);
+
+  outline-offset:
+    3px;
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media screen and (max-width: 680px) {
+
+  .sasha-supporting-material-remove {
+    padding:
+      0.4rem
+      0.6rem
+      0.4rem
+      0.7rem;
+  }
+
+}
+
+/* =====================================================
    SASHA WRITE
 ===================================================== */
 
