@@ -1125,103 +1125,107 @@ async (
 Review the current pursuit record and all current procurement
 documents and complete or refresh the Supporting Materials record.
 
-This request applies ONLY to materials that belong outside the main
-proposal narrative.
+SUPPORTING MATERIALS HAS A VERY NARROW PURPOSE.
 
-Review, where available:
+It contains ONLY mandatory documents, forms, appendices, attachments,
+or other files that the procurement documents explicitly require the
+respondent to submit with the CURRENT competition submission and that
+sit outside the main proposal document.
 
-- the RFP;
-- addenda;
-- amendments;
-- clarifications;
-- submission instructions;
-- mandatory submission requirements;
-- appendices;
-- forms;
-- attachments;
-- bidding-system requirements;
-- portal upload requirements;
+Include an item ONLY when ALL of the following are true:
+
+1. The controlling procurement documents explicitly require it.
+2. It must be submitted as part of the CURRENT competition stage.
+3. It accompanies the main proposal rather than forming part of the
+   main proposal narrative.
+4. The respondent must actually prepare, complete, sign, or provide it.
+
+Examples may include:
+
+- a mandatory submission form;
+- a mandatory reference form submitted separately;
+- a mandatory declaration;
+- a mandatory appendix;
+- a mandatory attachment.
+
+DO NOT include something merely because it:
+
+- would strengthen the proposal;
+- would be useful;
+- is customary;
+- could be placed in an appendix;
+- is mentioned somewhere in the RFP;
+- appears in an evaluation criterion; or
+- may eventually be required.
+
+DO NOT include:
+
+- optional or recommended appendices;
+- expanded resumes or CVs unless explicitly required as a separate
+  current-stage submission;
+- project sheets unless explicitly required as a separate
+  current-stage submission;
+- optional graphics;
+- organization charts unless explicitly required separately;
+- optional schedules or Gantt charts;
+- sample deliverables;
+- sample reports;
+- templates;
+- client-supplied reference material;
+- bidding-system registration requirements;
+- portal housekeeping;
+- routine portal acknowledgements;
 - pre-award requirements;
-- post-award requirements;
+- insurance certificates required only after selection;
+- WSIB documentation required only after selection;
+- executed agreements required only after selection;
 - shortlisted-stage requirements;
 - interview-stage requirements;
-- pricing-stage requirements;
-- the current RFP analysis;
-- the current Proposal Outline;
-- the current supporting materials list; and
-- any active User Overrides.
+- later pricing-stage requirements;
+- post-award requirements;
+- project deliverables;
+- contract administration documents;
+- design deliverables;
+- construction deliverables; or
+- internal proposal-management tools.
 
-Identify every material item that should be tracked separately from
-the main proposal outline.
+A requirement that applies later in the procurement process does NOT
+belong in Supporting Materials.
 
-Classify each item using ONLY one of these categories:
+A project deliverable that the successful consultant will produce
+after award does NOT belong in Supporting Materials.
 
-1. required_appendix
-2. recommended_appendix
-3. conditional_appendix
-4. separate_submission
-5. portal_submission
-6. pre_award
-7. post_award
+A document supplied by the client for reference does NOT belong in
+Supporting Materials.
 
-Use the categories carefully.
+An optional item that Sasha thinks would improve the proposal does NOT
+belong in Supporting Materials.
 
-required_appendix:
-Use only when the procurement documents require an appendix or
-attachment to accompany the current proposal submission.
+If the procurement requires only ONE qualifying supporting material,
+return ONE item.
 
-recommended_appendix:
-Use for optional supporting material that may strengthen or complete
-the proposal but is not explicitly mandatory.
+If it requires NONE, return an empty supportingMaterials array.
 
-conditional_appendix:
-Use when the material is required only if a stated condition applies.
+NEVER create additional items merely to make the list appear complete.
 
-separate_submission:
-Use when the material is part of the current procurement submission
-but is submitted separately from the main proposal document.
+For each qualifying item:
 
-portal_submission:
-Use when the item is completed, entered, acknowledged, or uploaded
-through the procurement portal or bidding system rather than included
-inside the main narrative proposal.
+- use the exact or closest client terminology for the title;
+- category = "required_appendix";
+- status = "required";
+- keep reason brief;
+- identify the specific procurement basis;
+- record page-count treatment only when supported by the procurement
+  documents;
+- do not invent page-count exclusions.
 
-pre_award:
-Use for requirements that apply only after evaluation or selection
-and before contract execution.
+Review the existing Supporting Materials list.
 
-post_award:
-Use for requirements that apply after award or contract execution.
+Remove every existing Sasha-generated item that does not satisfy the
+strict definition above.
 
-Do not place normal proposal narrative sections in Supporting Materials.
-
-Do not duplicate content that belongs in outline.sections.
-
-Do not invent forms, attachments, certifications, appendices,
-submissions, or later-stage requirements.
-
-Do not treat every document mentioned in the RFP as a proposal
-attachment.
-
-Distinguish carefully between:
-
-- background/reference documents supplied by the client;
-- documents the respondent must submit now;
-- documents required only if shortlisted;
-- documents required only if selected;
-- documents required after award.
-
-If the procurement stage matters, record only the category that
-matches the actual stage.
-
-Preserve useful existing supporting-material records that remain
-supported by the current procurement documents.
-
-Remove or replace Sasha-generated supporting-material records that are
-incorrect, duplicated, obsolete, or assigned to the wrong category.
-
-Return the COMPLETE current Supporting Materials list, not merely the
-changes.
+Return the COMPLETE revised Supporting Materials list, not merely
+the changes.
 
 This request applies ONLY to Supporting Materials.
 
@@ -5236,175 +5240,59 @@ COMPLETE SUPPORTING MATERIALS MODE
 
 The user explicitly requested a complete Supporting Materials pass.
 
-For this request:
+Review:
 
-- review all attached current procurement documents;
-- review the current pursuit record;
-- review the current RFP analysis;
-- review the current Proposal Outline;
-- review the existing Supporting Materials list;
-- review applicable addenda, amendments, and clarifications;
-- review any active User Overrides affecting supporting materials.
+- all attached current procurement documents;
+- the current pursuit record;
+- the current RFP analysis;
+- the current Proposal Outline;
+- the existing Supporting Materials list;
+- applicable addenda, amendments, and clarifications; and
+- active User Overrides affecting Supporting Materials.
 
-You must return the COMPLETE current supportingMaterials array.
+Return ONLY mandatory materials that:
+
+1. are explicitly required by the controlling procurement documents;
+2. must be submitted during the CURRENT competition stage;
+3. accompany the main proposal rather than belonging inside its
+   narrative; and
+4. must be prepared, completed, signed, or supplied by the respondent.
+
+Exclude everything else.
+
+In particular, exclude:
+
+- Sasha recommendations;
+- optional appendices;
+- conditional appendices;
+- strategic supporting material;
+- portal housekeeping;
+- pre-award requirements;
+- shortlisted-stage requirements;
+- later pricing-stage requirements;
+- post-award requirements;
+- client-supplied reference material; and
+- project deliverables.
+
+Do not attempt to produce a minimum number of items.
+
+If exactly one mandatory supporting item exists, return exactly one.
+
+If none exist, return [].
+
+Remove existing Sasha-generated records that do not satisfy these
+rules.
 
 Set:
 
 action = "update_supporting_materials"
 
-This work product is separate from the main Proposal Outline.
+For every returned item:
 
-Its purpose is to identify and classify materials that must, may, or
-should be handled outside the main narrative proposal.
-
-For every candidate item, determine first whether it is:
-
-1. part of the main proposal narrative;
-2. a required appendix;
-3. a strategically recommended appendix;
-4. a conditional appendix;
-5. a separate current-stage submission;
-6. a procurement-portal submission or acknowledgement;
-7. a pre-award requirement; or
-8. a post-award requirement.
-
-Only categories 2 through 8 belong in supportingMaterials.
-
-Use ONLY these category values:
-
-- required_appendix
-- recommended_appendix
-- conditional_appendix
-- separate_submission
-- portal_submission
-- pre_award
-- post_award
-
-Do not duplicate content that belongs in outline.sections.
-
-Do not treat ordinary narrative proposal sections as Supporting Materials.
-
-Do not treat client-supplied background or reference documents as
-respondent Supporting Materials merely because they were attached to
-the procurement.
-
-Do not invent appendices.
-
-Do not recommend an appendix merely because the material could
-conveniently be placed there.
-
-For recommended_appendix:
-
-- there must be a clear strategic proposal purpose;
-- the procurement documents must not prohibit its inclusion;
-- keep recommendations selective.
-
-For conditional_appendix:
-
-- use only when inclusion genuinely depends on a stated condition,
-  unresolved permission, format issue, or other specific uncertainty.
-
-For separate_submission:
-
-- use only when the procurement documents establish that the item is
-  submitted separately from the main proposal.
-
-For portal_submission:
-
-- use when the requirement is entered, uploaded, acknowledged, checked,
-  or otherwise completed directly through the procurement system.
-
-For pre_award:
-
-- use only for requirements triggered after evaluation/selection but
-  before contract award or execution.
-
-For post_award:
-
-- use only for requirements triggered after award or during project
-  delivery.
-
-DISTINGUISH PROCUREMENT STAGES CAREFULLY.
-
-A shortlisted-stage, interview-stage, pricing-stage, preferred-proponent,
-pre-award, or post-award requirement must not be presented as though it
-is required with the current initial submission.
-
-PAGE COUNT
-
-For every item return:
-
-pageCountTreatment =
-- "counted"
-- "excluded"
-- "not_applicable"
-- "unknown"
-
-Use "excluded" only when the controlling procurement documents
-explicitly establish exclusion from the proposal page limit.
-
-Use "not_applicable" when the item clearly exists outside the
-page-limited proposal document, such as a separate portal submission
-or post-award requirement.
-
-Use "unknown" when the procurement documents do not establish the
-page-count treatment.
-
-Never infer exclusion from normal proposal practice.
-
-STATUS
-
-Use:
-
-- required — when the client requires the item;
-- suggested — when Sasha recommends it;
-- accepted — only when the user has explicitly accepted it;
-- rejected — only when the user has explicitly rejected it;
-- completed — only when the item has actually been completed or satisfied.
-
-Do not mark Sasha recommendations as required.
-
-KEEP THE LIST USEFUL AND SHORT.
-
-Normally aim for approximately 3–8 meaningful Supporting Materials.
-
-Do not fill the list with routine procurement administration merely
-because those requirements exist somewhere in the RFP.
-
-However, do not omit a genuine separately submitted or portal-based
-requirement when it is materially important to preparing a compliant
-submission.
-
-For each item:
-
-- use a concise title;
-- keep reason brief;
-- keep rfpBasis brief and evidence-based;
-- identify relatedSection when applicable;
-- keep pageCountBasis concise;
-- keep notes minimal;
-- avoid duplicate or overlapping records.
-
-For a REFRESH pass:
-
-- preserve valid existing records;
-- remove obsolete, duplicated, unsupported, or misclassified
-  Sasha-generated records;
-- update records affected by new procurement information;
-- add newly discovered items;
-- return the COMPLETE resulting array.
-
-Preserve active User Overrides.
-
-Do not silently reverse a deliberate User Override.
-
-This special mode applies ONLY to Supporting Materials.
+category = "required_appendix"
+status = "required"
 
 The structured response must use:
-
-action = "update_supporting_materials"
-
-and:
 
 plan = null
 winStrategy = null
