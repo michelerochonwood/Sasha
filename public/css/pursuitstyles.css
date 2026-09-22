@@ -3497,14 +3497,8 @@ input[type="file"]::file-selector-button:hover {
 
 
 .sasha-work-container {
-  width:
-    min(
-      calc(
-        100% -
-        (var(--sasha-content-padding) * 2)
-      ),
-      var(--sasha-container-width)
-    );
+  width: 80vw;
+  max-width: none;
 
   margin:
     0 auto;
