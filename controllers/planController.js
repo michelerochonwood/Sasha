@@ -1947,6 +1947,225 @@ Use a rigorous pursuit process with detailed planning,
 deeper strategy development, evidence review, differentiation,
 and a deliberate proposal outline.
 
+WIN STRATEGY
+
+The Win Strategy is a persistent pursuit work product.
+
+For FULL effort pursuits, use the Ten Steps to a Win Theme framework
+when the user conducts, supplies notes from, continues, revises, or asks
+you to synthesize a strategy session.
+
+The Ten Steps are:
+
+1. CLIENT
+
+Determine what is known about the client, evaluator, organization,
+decision environment, priorities, pressures, and concerns that are
+material to this pursuit.
+
+Distinguish documented facts from reasonable strategic interpretation.
+
+Do not invent client preferences or motivations.
+
+2. PROJECT
+
+Determine what the client is trying to accomplish through this specific
+assignment.
+
+Focus on the project outcome and delivery challenge rather than merely
+restating the scope of work.
+
+3. ISSUES
+
+Identify the project-specific challenges, risks, interfaces, constraints,
+and delivery issues most likely to affect successful performance.
+
+Prioritize material issues. Do not create generic engineering risks merely
+to fill this field.
+
+4. CRITICAL SUCCESS FACTORS
+
+Identify what must be true for the client and project to consider the
+assignment successfully delivered.
+
+Connect success factors to available RFP evidence, project requirements,
+and supported strategic reasoning.
+
+5. UNKNOWNS
+
+Identify assumptions, unanswered questions, missing facts, ambiguities,
+clarifications, or evidence gaps that could materially affect the pursuit
+strategy.
+
+Preserve genuine unknowns as unknowns.
+
+Do not invent an answer merely to complete the strategy.
+
+6. RELEVANT EXPERIENCE
+
+Identify the kinds of past projects or assignments that would provide
+genuinely comparable experience for this pursuit.
+
+Use actual named projects only when supported by available pursuit or
+organizational evidence.
+
+If the necessary project evidence is not yet available, state what type
+of experience must be found rather than inventing a project.
+
+7. EVIDENCE
+
+Identify the documented outcomes, metrics, results, lessons, examples,
+proof points, or other evidence needed to support the strategy.
+
+Distinguish evidence already available from evidence that still needs
+to be obtained.
+
+Do not convert unsupported claims into facts.
+
+8. TEAM
+
+Identify the people, roles, capabilities, relationships, or team structure
+that best support the strategy.
+
+Use named people only when supported by the pursuit record or available
+organizational evidence.
+
+Do not invent team members, credentials, roles, or experience.
+
+9. DIFFERENTIATION
+
+Identify meaningful advantages that matter to THIS client and THIS
+assignment.
+
+A differentiator must connect a supported capability, approach, experience,
+team characteristic, or delivery behaviour to something the client values.
+
+Avoid unsupported generic claims such as:
+
+- best-in-class;
+- industry-leading;
+- unparalleled;
+- uniquely qualified; or
+- superior expertise.
+
+10. WIN ARGUMENT
+
+Synthesize Steps 1 through 9 into a coherent reason for selection.
+
+The Win Argument should connect:
+
+client need
+→ project challenge
+→ proposed approach or advantage
+→ supporting evidence
+→ client benefit.
+
+It should guide proposal positioning and writing.
+
+Do not merely concatenate the previous nine fields.
+
+TEN STEPS STORAGE RULE
+
+When the current interaction materially develops a Full Effort Ten Steps
+strategy, set:
+
+action = "update_win_strategy"
+
+and return ALL TEN fields:
+
+client
+project
+issues
+criticalSuccessFactors
+unknowns
+relevantExperience
+evidence
+team
+differentiation
+winArgument
+
+Each field must contain the CURRENT best-supported conclusion for that
+step.
+
+The ten fields are persistent strategy conclusions, not merely a transcript
+of the workshop discussion.
+
+When revising an existing strategy:
+
+- preserve supported conclusions that remain valid;
+- incorporate materially new information;
+- correct Sasha-generated errors;
+- preserve active User Overrides;
+- do not erase useful existing strategy merely because the current message
+  discusses only one part of it.
+
+If a step remains unresolved, record the unresolved issue honestly in that
+field rather than inventing an answer.
+
+TEN STEPS AND EXISTING WIN STRATEGY FIELDS
+
+The existing fields:
+
+clientPriorities
+relevantOffer
+projectEvidence
+personnelEvidence
+summary
+
+remain part of the Win Strategy work product for compatibility with other
+effort levels and existing views.
+
+For a Full Effort Ten Steps update, derive them consistently from the Ten
+Steps:
+
+clientPriorities =
+a concise synthesis of the Client, Project, Issues, and Critical Success
+Factors conclusions.
+
+relevantOffer =
+a concise synthesis of the relevant strategic offer emerging from Relevant
+Experience, Team, Differentiation, and the Win Argument.
+
+projectEvidence =
+the strongest currently supported project evidence, or a concise statement
+of the project evidence still required.
+
+personnelEvidence =
+the strongest currently supported personnel evidence, or a concise statement
+of the personnel evidence still required.
+
+summary =
+a concise synthesis of the overall Win Argument.
+
+Do not allow these compatibility fields to contradict the Ten Steps.
+
+FULL EFFORT STRATEGY COMPLETION
+
+A Full Effort strategy is developed when the Ten Steps contain substantive
+pursuit-specific conclusions sufficient to produce a Win Argument.
+
+Do not treat merely selecting the Ten Steps practice as completing the
+Win Strategy.
+
+Do not treat generic instructional questions as strategy content.
+
+When the user supplies workshop notes covering several or all Ten Steps,
+analyze those notes together with:
+
+- the current pursuit record;
+- RFP analysis;
+- current procurement documents;
+- existing Win Strategy;
+- active User Overrides; and
+- relevant previous Plan conversation.
+
+Use all supported information together.
+
+Do not merely paraphrase the workshop notes.
+
+The purpose is to convert the discussion and available pursuit evidence
+into a useful persistent strategy work product.
+
 PROPOSAL PLAN
 
 The proposal plan may contain:
@@ -5474,42 +5693,102 @@ plan: {
                   additionalProperties:
                     false,
 
-                  properties: {
+properties: {
 
-                    clientPriorities: {
-                      type:
-                        'string'
-                    },
+  client: {
+    type:
+      'string'
+  },
 
-                    relevantOffer: {
-                      type:
-                        'string'
-                    },
+  project: {
+    type:
+      'string'
+  },
 
-                    projectEvidence: {
-                      type:
-                        'string'
-                    },
+  issues: {
+    type:
+      'string'
+  },
 
-                    personnelEvidence: {
-                      type:
-                        'string'
-                    },
+  criticalSuccessFactors: {
+    type:
+      'string'
+  },
 
-                    summary: {
-                      type:
-                        'string'
-                    }
+  unknowns: {
+    type:
+      'string'
+  },
 
-                  },
+  relevantExperience: {
+    type:
+      'string'
+  },
 
-                  required: [
-                    'clientPriorities',
-                    'relevantOffer',
-                    'projectEvidence',
-                    'personnelEvidence',
-                    'summary'
-                  ]
+  evidence: {
+    type:
+      'string'
+  },
+
+  team: {
+    type:
+      'string'
+  },
+
+  differentiation: {
+    type:
+      'string'
+  },
+
+  winArgument: {
+    type:
+      'string'
+  },
+
+  clientPriorities: {
+    type:
+      'string'
+  },
+
+  relevantOffer: {
+    type:
+      'string'
+  },
+
+  projectEvidence: {
+    type:
+      'string'
+  },
+
+  personnelEvidence: {
+    type:
+      'string'
+  },
+
+  summary: {
+    type:
+      'string'
+  }
+
+},
+
+required: [
+  'client',
+  'project',
+  'issues',
+  'criticalSuccessFactors',
+  'unknowns',
+  'relevantExperience',
+  'evidence',
+  'team',
+  'differentiation',
+  'winArgument',
+  'clientPriorities',
+  'relevantOffer',
+  'projectEvidence',
+  'personnelEvidence',
+  'summary'
+]
                 }
               ]
             },
@@ -7751,27 +8030,119 @@ if (
 
   proposal.winStrategy = {
 
+    /* ===============================================
+       TEN STEPS | FULL EFFORT
+    =============================================== */
+
+    client:
+      typeof sashaResult.winStrategy.client ===
+        'string'
+        ? sashaResult.winStrategy.client.trim()
+        : '',
+
+    project:
+      typeof sashaResult.winStrategy.project ===
+        'string'
+        ? sashaResult.winStrategy.project.trim()
+        : '',
+
+    issues:
+      typeof sashaResult.winStrategy.issues ===
+        'string'
+        ? sashaResult.winStrategy.issues.trim()
+        : '',
+
+    criticalSuccessFactors:
+      typeof sashaResult.winStrategy.criticalSuccessFactors ===
+        'string'
+        ? sashaResult.winStrategy.criticalSuccessFactors.trim()
+        : '',
+
+    unknowns:
+      typeof sashaResult.winStrategy.unknowns ===
+        'string'
+        ? sashaResult.winStrategy.unknowns.trim()
+        : '',
+
+    relevantExperience:
+      typeof sashaResult.winStrategy.relevantExperience ===
+        'string'
+        ? sashaResult.winStrategy.relevantExperience.trim()
+        : '',
+
+    evidence:
+      typeof sashaResult.winStrategy.evidence ===
+        'string'
+        ? sashaResult.winStrategy.evidence.trim()
+        : '',
+
+    team:
+      typeof sashaResult.winStrategy.team ===
+        'string'
+        ? sashaResult.winStrategy.team.trim()
+        : '',
+
+    differentiation:
+      typeof sashaResult.winStrategy.differentiation ===
+        'string'
+        ? sashaResult.winStrategy.differentiation.trim()
+        : '',
+
+    winArgument:
+      typeof sashaResult.winStrategy.winArgument ===
+        'string'
+        ? sashaResult.winStrategy.winArgument.trim()
+        : '',
+
+
+    /* ===============================================
+       COMPATIBILITY | USUAL + EXISTING VIEWS
+    =============================================== */
+
     clientPriorities:
-      sashaResult.winStrategy.clientPriorities ||
-      '',
+      typeof sashaResult.winStrategy.clientPriorities ===
+        'string'
+        ? sashaResult.winStrategy.clientPriorities.trim()
+        : '',
 
     relevantOffer:
-      sashaResult.winStrategy.relevantOffer ||
-      '',
+      typeof sashaResult.winStrategy.relevantOffer ===
+        'string'
+        ? sashaResult.winStrategy.relevantOffer.trim()
+        : '',
 
     projectEvidence:
-      sashaResult.winStrategy.projectEvidence ||
-      '',
+      typeof sashaResult.winStrategy.projectEvidence ===
+        'string'
+        ? sashaResult.winStrategy.projectEvidence.trim()
+        : '',
 
     personnelEvidence:
-      sashaResult.winStrategy.personnelEvidence ||
-      '',
+      typeof sashaResult.winStrategy.personnelEvidence ===
+        'string'
+        ? sashaResult.winStrategy.personnelEvidence.trim()
+        : '',
 
     summary:
-      sashaResult.winStrategy.summary ||
-      ''
+      typeof sashaResult.winStrategy.summary ===
+        'string'
+        ? sashaResult.winStrategy.summary.trim()
+        : '',
+
+
+    /* ===============================================
+       WORK PRODUCT TIMESTAMP
+    =============================================== */
+
+    updatedAt:
+      new Date()
 
   };
+
+
+  proposal.markModified(
+    'winStrategy'
+  );
 
 }
 

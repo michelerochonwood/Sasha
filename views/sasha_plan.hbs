@@ -3590,271 +3590,415 @@
       {{/ifEquals}}
 
 
-      {{!-- =================================================
-           FULL EFFORT
-      ================================================== --}}
+{{!-- =================================================
+     FULL EFFORT
+================================================== --}}
 
-      {{#ifEquals proposal.effortLevel "full"}}
+{{#ifEquals proposal.effortLevel "full"}}
 
-        <div class="sasha-strategy-full">
-
-
-          {{!-- =============================================
-               WIN STRATEGY INTRO
-          ============================================== --}}
-
-          <div class="sasha-full-strategy-introduction">
-
-            <div>
-
-              <p class="sasha-work-eyebrow">
-                Full Effort
-              </p>
-
-              <h3>
-                Ten Steps to a Win Theme
-              </h3>
-
-              <p>
-                Work through the strategy in order. Begin with the
-                client's world and the project's real issues before
-                deciding what the firm should say about itself.
-              </p>
-
-            </div>
+  <div class="sasha-strategy-full">
 
 
-            <button
-              type="button"
-              class="sasha-full-strategy-start"
-            >
-              Begin / Continue Strategy Exercise
-            </button>
+    {{!-- =============================================
+         WIN STRATEGY INTRO
+    ============================================== --}}
 
+    <div class="sasha-full-strategy-introduction">
+
+      <div>
+
+        <p class="sasha-work-eyebrow">
+          Full Effort
+        </p>
+
+        <h3>
+          Ten Steps to a Win Theme
+        </h3>
+
+        <p>
+          Work through the strategy in order. Begin with the
+          client's world and the project's real issues before
+          deciding what the firm should say about itself.
+        </p>
+
+      </div>
+
+
+<button
+  type="button"
+  class="sasha-full-strategy-start"
+  id="sasha-ten-steps-start"
+>
+  {{#if winStrategy.summary}}
+    Continue Strategy Exercise
+  {{else}}
+    Begin Strategy Exercise
+  {{/if}}
+</button>
+
+    </div>
+
+
+    {{!-- =============================================
+         TEN STEPS
+    ============================================== --}}
+
+    <div class="sasha-win-steps-grid">
+
+
+      {{!-- ===========================================
+           01 | CLIENT
+      ============================================ --}}
+
+      <article class="sasha-win-step-card">
+
+        <span>
+          01
+        </span>
+
+        <h4>
+          Client
+        </h4>
+
+        {{#if winStrategy.client}}
+
+          <div class="sasha-plan-rich-copy">
+            {{{winStrategy.client}}}
           </div>
 
+        {{else}}
 
-          {{!-- =============================================
-               TEN STEPS
-          ============================================== --}}
+          <p>
+            What do we know about the client, evaluator,
+            organization, and decision environment?
+          </p>
 
-          <div class="sasha-win-steps-grid">
+        {{/if}}
 
-
-            <article class="sasha-win-step-card">
-
-              <span>
-                01
-              </span>
-
-              <h4>
-                Client
-              </h4>
-
-              <p>
-                What do we know about the client, evaluator,
-                organization, and decision environment?
-              </p>
-
-            </article>
+      </article>
 
 
-            <article class="sasha-win-step-card">
+      {{!-- ===========================================
+           02 | PROJECT
+      ============================================ --}}
 
-              <span>
-                02
-              </span>
+      <article class="sasha-win-step-card">
 
-              <h4>
-                Project
-              </h4>
+        <span>
+          02
+        </span>
 
-              <p>
-                What is the client trying to accomplish through
-                this assignment?
-              </p>
+        <h4>
+          Project
+        </h4>
 
-            </article>
+        {{#if winStrategy.project}}
 
-
-            <article class="sasha-win-step-card">
-
-              <span>
-                03
-              </span>
-
-              <h4>
-                Issues
-              </h4>
-
-              <p>
-                Which project challenges will most strongly affect
-                successful delivery?
-              </p>
-
-            </article>
-
-
-            <article class="sasha-win-step-card">
-
-              <span>
-                04
-              </span>
-
-              <h4>
-                Critical Success Factors
-              </h4>
-
-              <p>
-                What must be true for the project and client to
-                consider the assignment successful?
-              </p>
-
-            </article>
-
-
-            <article class="sasha-win-step-card">
-
-              <span>
-                05
-              </span>
-
-              <h4>
-                Unknowns
-              </h4>
-
-              <p>
-                Which assumptions or missing facts could materially
-                affect the strategy?
-              </p>
-
-            </article>
-
-
-            <article class="sasha-win-step-card">
-
-              <span>
-                06
-              </span>
-
-              <h4>
-                Relevant Experience
-              </h4>
-
-              <p>
-                Which past projects provide genuinely comparable
-                experience?
-              </p>
-
-            </article>
-
-
-            <article class="sasha-win-step-card">
-
-              <span>
-                07
-              </span>
-
-              <h4>
-                Evidence
-              </h4>
-
-              <p>
-                What documented outcomes, metrics, lessons, or
-                results support the argument?
-              </p>
-
-            </article>
-
-
-            <article class="sasha-win-step-card">
-
-              <span>
-                08
-              </span>
-
-              <h4>
-                Team
-              </h4>
-
-              <p>
-                Which people are best positioned to execute the
-                strategy and why?
-              </p>
-
-            </article>
-
-
-            <article class="sasha-win-step-card">
-
-              <span>
-                09
-              </span>
-
-              <h4>
-                Differentiation
-              </h4>
-
-              <p>
-                Where does TOMA offer a meaningful advantage that
-                matters to this client?
-              </p>
-
-            </article>
-
-
-            <article class="sasha-win-step-card">
-
-              <span>
-                10
-              </span>
-
-              <h4>
-                Win Argument
-              </h4>
-
-              <p>
-                Bring the reasoning and evidence together into a
-                coherent argument for selection.
-              </p>
-
-            </article>
-
+          <div class="sasha-plan-rich-copy">
+            {{{winStrategy.project}}}
           </div>
 
+        {{else}}
 
-          {{!-- =============================================
-               STRATEGY OUTPUT
-          ============================================== --}}
+          <p>
+            What is the client trying to accomplish through
+            this assignment?
+          </p>
 
-          <div class="sasha-strategy-summary">
+        {{/if}}
 
-            <h3>
-              Current Win Strategy
-            </h3>
+      </article>
 
-            {{#if winStrategy.summary}}
 
-              <div class="sasha-plan-rich-copy">
-                {{{winStrategy.summary}}}
-              </div>
+      {{!-- ===========================================
+           03 | ISSUES
+      ============================================ --}}
 
-            {{else}}
+      <article class="sasha-win-step-card">
 
-              <p class="sasha-plan-empty">
-                The full win strategy has not been developed yet.
-              </p>
+        <span>
+          03
+        </span>
 
-            {{/if}}
+        <h4>
+          Issues
+        </h4>
 
+        {{#if winStrategy.issues}}
+
+          <div class="sasha-plan-rich-copy">
+            {{{winStrategy.issues}}}
           </div>
 
+        {{else}}
+
+          <p>
+            Which project challenges will most strongly affect
+            successful delivery?
+          </p>
+
+        {{/if}}
+
+      </article>
+
+
+      {{!-- ===========================================
+           04 | CRITICAL SUCCESS FACTORS
+      ============================================ --}}
+
+      <article class="sasha-win-step-card">
+
+        <span>
+          04
+        </span>
+
+        <h4>
+          Critical Success Factors
+        </h4>
+
+        {{#if winStrategy.criticalSuccessFactors}}
+
+          <div class="sasha-plan-rich-copy">
+            {{{winStrategy.criticalSuccessFactors}}}
+          </div>
+
+        {{else}}
+
+          <p>
+            What must be true for the project and client to
+            consider the assignment successful?
+          </p>
+
+        {{/if}}
+
+      </article>
+
+
+      {{!-- ===========================================
+           05 | UNKNOWNS
+      ============================================ --}}
+
+      <article class="sasha-win-step-card">
+
+        <span>
+          05
+        </span>
+
+        <h4>
+          Unknowns
+        </h4>
+
+        {{#if winStrategy.unknowns}}
+
+          <div class="sasha-plan-rich-copy">
+            {{{winStrategy.unknowns}}}
+          </div>
+
+        {{else}}
+
+          <p>
+            Which assumptions or missing facts could materially
+            affect the strategy?
+          </p>
+
+        {{/if}}
+
+      </article>
+
+
+      {{!-- ===========================================
+           06 | RELEVANT EXPERIENCE
+      ============================================ --}}
+
+      <article class="sasha-win-step-card">
+
+        <span>
+          06
+        </span>
+
+        <h4>
+          Relevant Experience
+        </h4>
+
+        {{#if winStrategy.relevantExperience}}
+
+          <div class="sasha-plan-rich-copy">
+            {{{winStrategy.relevantExperience}}}
+          </div>
+
+        {{else}}
+
+          <p>
+            Which past projects provide genuinely comparable
+            experience?
+          </p>
+
+        {{/if}}
+
+      </article>
+
+
+      {{!-- ===========================================
+           07 | EVIDENCE
+      ============================================ --}}
+
+      <article class="sasha-win-step-card">
+
+        <span>
+          07
+        </span>
+
+        <h4>
+          Evidence
+        </h4>
+
+        {{#if winStrategy.evidence}}
+
+          <div class="sasha-plan-rich-copy">
+            {{{winStrategy.evidence}}}
+          </div>
+
+        {{else}}
+
+          <p>
+            What documented outcomes, metrics, lessons, or
+            results support the argument?
+          </p>
+
+        {{/if}}
+
+      </article>
+
+
+      {{!-- ===========================================
+           08 | TEAM
+      ============================================ --}}
+
+      <article class="sasha-win-step-card">
+
+        <span>
+          08
+        </span>
+
+        <h4>
+          Team
+        </h4>
+
+        {{#if winStrategy.team}}
+
+          <div class="sasha-plan-rich-copy">
+            {{{winStrategy.team}}}
+          </div>
+
+        {{else}}
+
+          <p>
+            Which people are best positioned to execute the
+            strategy and why?
+          </p>
+
+        {{/if}}
+
+      </article>
+
+
+      {{!-- ===========================================
+           09 | DIFFERENTIATION
+      ============================================ --}}
+
+      <article class="sasha-win-step-card">
+
+        <span>
+          09
+        </span>
+
+        <h4>
+          Differentiation
+        </h4>
+
+        {{#if winStrategy.differentiation}}
+
+          <div class="sasha-plan-rich-copy">
+            {{{winStrategy.differentiation}}}
+          </div>
+
+        {{else}}
+
+          <p>
+            Where does TOMA offer a meaningful advantage that
+            matters to this client?
+          </p>
+
+        {{/if}}
+
+      </article>
+
+
+      {{!-- ===========================================
+           10 | WIN ARGUMENT
+      ============================================ --}}
+
+      <article class="sasha-win-step-card">
+
+        <span>
+          10
+        </span>
+
+        <h4>
+          Win Argument
+        </h4>
+
+        {{#if winStrategy.winArgument}}
+
+          <div class="sasha-plan-rich-copy">
+            {{{winStrategy.winArgument}}}
+          </div>
+
+        {{else}}
+
+          <p>
+            Bring the reasoning and evidence together into a
+            coherent argument for selection.
+          </p>
+
+        {{/if}}
+
+      </article>
+
+
+    </div>
+
+
+    {{!-- =============================================
+         STRATEGY SYNTHESIS
+    ============================================== --}}
+
+    <div class="sasha-strategy-summary">
+
+      <h3>
+        Current Win Strategy
+      </h3>
+
+      {{#if winStrategy.summary}}
+
+        <div class="sasha-plan-rich-copy">
+          {{{winStrategy.summary}}}
         </div>
 
-      {{/ifEquals}}
+      {{else}}
 
-    </section>
+        <p class="sasha-plan-empty">
+          The full win strategy has not been developed yet.
+        </p>
 
+      {{/if}}
+
+    </div>
+
+
+  </div>
+
+{{/ifEquals}}
 {{!-- =================================================
      PROPOSAL OUTLINE
 ================================================== --}}
@@ -4631,7 +4775,94 @@ document.addEventListener(
       }
     );
 
+/* =================================================
+   TEN STEPS | BEGIN / CONTINUE STRATEGY
+================================================= */
 
+const tenStepsStartButton =
+  document.getElementById(
+    'sasha-ten-steps-start'
+  );
+
+
+const planMessageInput =
+  document.getElementById(
+    'sasha-plan-message'
+  );
+
+
+if (
+  tenStepsStartButton &&
+  planMessageInput
+) {
+
+  tenStepsStartButton.addEventListener(
+    'click',
+    () => {
+
+      /*
+       * Do not overwrite notes the user has already
+       * started typing into the Sasha chat.
+       */
+
+      if (
+        !planMessageInput.value.trim()
+      ) {
+
+        planMessageInput.value =
+          `Let's work through the Ten Steps to a Win Theme for this pursuit.
+
+Review the current pursuit record, RFP analysis, procurement documents, existing Win Strategy, and previous planning conversation.
+
+Help me develop or continue the ten-step strategy:
+
+1. Client
+2. Project
+3. Issues
+4. Critical Success Factors
+5. Unknowns
+6. Relevant Experience
+7. Evidence
+8. Team
+9. Differentiation
+10. Win Argument
+
+Use supported pursuit information wherever it is available. Identify genuine gaps and unknowns rather than inventing information.
+
+I will add any workshop notes or additional strategy information below:
+
+`;
+
+      }
+
+
+      planMessageInput.scrollIntoView({
+        behavior:
+          'smooth',
+
+        block:
+          'center'
+      });
+
+
+      window.setTimeout(
+        () => {
+
+          planMessageInput.focus();
+
+          planMessageInput.setSelectionRange(
+            planMessageInput.value.length,
+            planMessageInput.value.length
+          );
+
+        },
+        400
+      );
+
+    }
+  );
+
+}
     /* =================================================
        SASHA PLAN CHAT FORM
     ================================================== */
