@@ -4355,79 +4355,142 @@
 
     </div>
 
-    <p>
-      Supporting materials are planned separately from the
-      main proposal outline. Sasha will identify the appendices,
-      graphics and attachments that may strengthen or complete
-      the submission.
-    </p>
+<p>
+  Mandatory forms, appendices and attachments that must
+  accompany the main proposal as part of the current submission.
+</p>
 
   </header>
 
 
   {{#if supportingMaterials.length}}
 
-    <div class="sasha-supporting-materials-simple-list">
+  <div class="sasha-supporting-materials-simple-list">
 
-      {{#each supportingMaterials}}
+    {{#each supportingMaterials}}
 
-        <div class="sasha-supporting-material-simple-item">
+      <div class="sasha-supporting-material-simple-item">
 
-          <span class="sasha-supporting-material-simple-category">
+        {{!-- =========================================
+             REMOVE MATERIAL
+        ========================================== --}}
 
-            {{#ifEquals this.category "required_appendix"}}
-              Required
-            {{/ifEquals}}
+        <form
+          method="POST"
+          action="/plan/supporting-material/remove"
+          class="sasha-supporting-material-remove-form"
+          onsubmit="return confirm('Remove “{{this.title}}” from Supporting Materials?');"
+        >
 
-            {{#ifEquals this.category "recommended_appendix"}}
-              Recommended
-            {{/ifEquals}}
+          {{#if ../csrfToken}}
 
-            {{#ifEquals this.category "conditional_appendix"}}
-              Consider
-            {{/ifEquals}}
+            <input
+              type="hidden"
+              name="_csrf"
+              value="{{../csrfToken}}"
+            >
 
-            {{#ifEquals this.category "separate_submission"}}
-              Separate Submission
-            {{/ifEquals}}
-
-            {{#ifEquals this.category "portal_submission"}}
-              Portal Submission
-            {{/ifEquals}}
-
-            {{#ifEquals this.category "pre_award"}}
-              Pre-Award
-            {{/ifEquals}}
-
-            {{#ifEquals this.category "post_award"}}
-              Post-Award
-            {{/ifEquals}}
-
-          </span>
+          {{/if}}
 
 
-          <strong>
-            {{this.title}}
-          </strong>
+          <input
+            type="hidden"
+            name="pursuitId"
+            value="{{../proposal._id}}"
+          >
 
-        </div>
 
-      {{/each}}
+          <input
+            type="hidden"
+            name="materialIndex"
+            value="{{@index}}"
+          >
 
-    </div>
 
-  {{else}}
+          <button
+            type="submit"
+            class="sasha-supporting-material-remove"
+            aria-label="Remove {{this.title}} from Supporting Materials"
+            title="Remove this item"
+          >
+            <span class="sasha-supporting-material-remove-label">
+              Remove this?
+            </span>
 
-    <div class="sasha-plan-tasks-empty">
+            <span
+              class="sasha-supporting-material-remove-x"
+              aria-hidden="true"
+            >
+              ×
+            </span>
+          </button>
 
-      <p>
-        Sasha has not suggested any appendices or supporting
-        materials yet.
-      </p>
+        </form>
 
-    </div>
 
-  {{/if}}
+        {{!-- =========================================
+             CATEGORY
+        ========================================== --}}
+
+        <span class="sasha-supporting-material-simple-category">
+
+          {{#ifEquals this.category "required_appendix"}}
+            Required
+          {{/ifEquals}}
+
+          {{#ifEquals this.category "recommended_appendix"}}
+            Recommended
+          {{/ifEquals}}
+
+          {{#ifEquals this.category "conditional_appendix"}}
+            Consider
+          {{/ifEquals}}
+
+          {{#ifEquals this.category "separate_submission"}}
+            Separate Submission
+          {{/ifEquals}}
+
+          {{#ifEquals this.category "portal_submission"}}
+            Portal Submission
+          {{/ifEquals}}
+
+          {{#ifEquals this.category "pre_award"}}
+            Pre-Award
+          {{/ifEquals}}
+
+          {{#ifEquals this.category "post_award"}}
+            Post-Award
+          {{/ifEquals}}
+
+        </span>
+
+
+        {{!-- =========================================
+             TITLE
+        ========================================== --}}
+
+        <strong>
+          {{this.title}}
+        </strong>
+
+      </div>
+
+    {{/each}}
+
+  </div>
+
+{{else}}
+
+  <div class="sasha-plan-tasks-empty">
+
+    <p>
+      No mandatory supporting materials have been identified
+      for the current submission.
+    </p>
+
+  </div>
+
+{{/if}}
 
 </section>
 

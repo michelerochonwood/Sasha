@@ -258,6 +258,15 @@ router.post(
   planController.postPracticeDecision
 );
 
+/* =====================================================
+   REMOVE SUPPORTING MATERIAL
+===================================================== */
+
+router.post(
+  '/plan/supporting-material/remove',
+  ensureOrganization,
+  planController.removeSupportingMaterial
+);
 
 /* =====================================================
    PLAN | WIN STRATEGY CHAT

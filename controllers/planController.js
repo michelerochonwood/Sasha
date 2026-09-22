@@ -1083,6 +1083,181 @@ a genuine User Override.
 };
 
 /* =====================================================
+   REMOVE SUPPORTING MATERIAL
+===================================================== */
+
+exports.removeSupportingMaterial =
+async (
+  req,
+  res,
+  next
+) => {
+
+  try {
+
+    /* =================================================
+       REQUEST VALUES
+    ================================================== */
+
+    const pursuitId =
+      typeof req.body.pursuitId ===
+        'string'
+        ? req.body.pursuitId.trim()
+        : '';
+
+
+    const materialIndex =
+      Number.parseInt(
+        req.body.materialIndex,
+        10
+      );
+
+
+    /* =================================================
+       VALIDATE REQUEST
+    ================================================== */
+
+    if (
+      !pursuitId
+    ) {
+
+      return res.redirect(
+        '/pursuits'
+      );
+
+    }
+
+
+    if (
+      !Number.isInteger(
+        materialIndex
+      ) ||
+      materialIndex < 0
+    ) {
+
+      return res.status(400).send(
+        'Invalid supporting material.'
+      );
+
+    }
+
+
+    /* =================================================
+       FIND PURSUIT
+    ================================================== */
+
+    const proposal =
+      await Proposal.findOne({
+        _id:
+          pursuitId,
+
+        organization:
+          req.session.organizationId
+      });
+
+
+    if (
+      !proposal
+    ) {
+
+      return res.status(404).send(
+        'Pursuit not found.'
+      );
+
+    }
+
+
+    /* =================================================
+       REQUIRE SUPPORTING MATERIALS
+    ================================================== */
+
+    if (
+      !Array.isArray(
+        proposal.supportingMaterials
+      ) ||
+      materialIndex >=
+        proposal.supportingMaterials.length
+    ) {
+
+      return res.status(404).send(
+        'Supporting material not found.'
+      );
+
+    }
+
+
+    /* =================================================
+       REMOVE SELECTED MATERIAL
+    ================================================== */
+
+    const removedMaterial =
+      proposal.supportingMaterials[
+        materialIndex
+      ];
+
+
+    proposal.supportingMaterials.splice(
+      materialIndex,
+      1
+    );
+
+
+    proposal.markModified(
+      'supportingMaterials'
+    );
+
+
+    /* =================================================
+       SAVE
+    ================================================== */
+
+    await proposal.save();
+
+
+    console.log(
+      'SASHA SUPPORTING MATERIAL REMOVED:',
+      {
+        pursuitId:
+          proposal._id.toString(),
+
+        materialIndex,
+
+        title:
+          removedMaterial &&
+          removedMaterial.title
+            ? removedMaterial.title
+            : ''
+      }
+    );
+
+
+    /* =================================================
+       RETURN TO PLAN
+    ================================================== */
+
+    return res.redirect(
+      `/plan?pursuit=${proposal._id}`
+    );
+
+  } catch (
+    error
+  ) {
+
+    console.error(
+      'REMOVE SUPPORTING MATERIAL FAILED:',
+      error
+    );
+
+
+    return next(
+      error
+    );
+
+  }
+
+};
+
+/* =====================================================
    COMPLETE / REFRESH SUPPORTING MATERIALS
 ===================================================== */
 
