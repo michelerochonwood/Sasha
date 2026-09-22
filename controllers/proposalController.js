@@ -476,7 +476,34 @@ const rawWorkflowStages =
  * dashboard was viewed.
  */
 
+/* =================================================
+   RFP ANALYSIS WORK
+================================================= */
 
+const rfpAnalysis =
+  proposal.rfpAnalysis &&
+  typeof proposal.rfpAnalysis ===
+    'object'
+    ? proposal.rfpAnalysis
+    : {};
+
+
+const analysisHasWork =
+  [
+    rfpAnalysis.risks,
+    rfpAnalysis.mandatoryRequirements,
+    rfpAnalysis.evaluationCriteria,
+    rfpAnalysis.scopeSummary,
+    rfpAnalysis.submissionRequirements,
+    rfpAnalysis.unknowns
+  ].some(
+    value =>
+      Array.isArray(
+        value
+      ) &&
+      value.length >
+        0
+  );
 /* =================================================
    PLAN WORK
 ================================================= */
@@ -496,13 +523,58 @@ const planHasWork =
     plan.milestones,
     plan.production
   ].some(
-    (
-      value
-    ) =>
-      typeof value ===
-        'string' &&
-      value.trim()
+    value => {
+
+      /*
+       * Current Proposal Plan fields are stored as
+       * arrays of historical content blocks.
+       */
+
+      if (
+        Array.isArray(
+          value
+        )
+      ) {
+
+        return value.some(
+          block =>
+            block &&
+            typeof block.content ===
+              'string' &&
+            block.content.trim()
+        );
+
+      }
+
+
+      /*
+       * Preserve compatibility with any older
+       * records that stored Plan content directly
+       * as a string.
+       */
+
+      if (
+        typeof value ===
+          'string'
+      ) {
+
+        return Boolean(
+          value.trim()
+        );
+
+      }
+
+
+      return false;
+
+    }
   );
+
+
+const planIsComplete =
+  planHasWork;
+
+
 
 
 /* =================================================
@@ -604,6 +676,26 @@ const contentSections =
   )
     ? proposal.contentSections
     : [];
+
+    /* =================================================
+   SUPPORTING MATERIALS WORK
+================================================= */
+
+const supportingMaterials =
+  Array.isArray(
+    proposal.supportingMaterials
+  )
+    ? proposal.supportingMaterials
+    : [];
+
+
+const supportingMaterialsHasWork =
+  supportingMaterials.length >
+  0;
+
+
+const supportingMaterialsIsComplete =
+  supportingMaterialsHasWork;
 
 
 const writeHasWork =
@@ -711,6 +803,20 @@ const outcomeHasWork =
 ================================================= */
 
 const stageHasWork = {
+    analyze:
+    analysisHasWork,
+
+      go_no_go:
+    Boolean(
+      proposal.goNoGo &&
+      [
+        'go',
+        'no_go',
+        'go_and_get'
+      ].includes(
+        proposal.goNoGo.decision
+      )
+    ),
 
   plan:
     planHasWork,
@@ -884,18 +990,28 @@ const workflowStages =
         'not_started';
 
 
-      if (
-        effectiveStatus ===
-          'not_started' &&
-        stageHasWork[
-          stage.stage
-        ]
-      ) {
+/*
+ * If the work product exists, the milestone is complete.
+ *
+ * "Complete" means Sasha has produced the work product.
+ * It does not mean the pursuit team has accepted it without
+ * further review or revision.
+ *
+ * Preserve an explicitly skipped stage.
+ */
 
-        effectiveStatus =
-          'in_progress';
+if (
+  effectiveStatus !==
+    'skipped' &&
+  stageHasWork[
+    stage.stage
+  ]
+) {
 
-      }
+  effectiveStatus =
+    'complete';
+
+}
 
 
       let statusLabel =
@@ -1208,6 +1324,61 @@ const formatDashboardDateTime =
     );
 
   };
+  /* =================================================
+   SUPPORTING MATERIALS COMPLETION DATE
+================================================= */
+
+const supportingMaterialsCompletedAt =
+  supportingMaterialsIsComplete
+    ? formatDashboardDateTime(
+        proposal.updatedAt
+      )
+    : null;
+
+    /* =================================================
+   PROPOSAL PLAN COMPLETION DATE
+================================================= */
+
+const planWorkflowStage =
+  rawWorkflowStages.find(
+    stage =>
+      stage.stage ===
+        'plan'
+  );
+
+
+const planCompletedAt =
+  planIsComplete
+    ? formatDashboardDateTime(
+        planWorkflowStage?.completedAt ||
+        proposal.updatedAt
+      )
+    : null;
+
+  /* =================================================
+   RFP ANALYSIS COMPLETION
+================================================= */
+
+const analysisIsComplete =
+  analysisHasWork;
+
+
+const analyzeWorkflowStage =
+  rawWorkflowStages.find(
+    stage =>
+      stage.stage ===
+        'analyze'
+  );
+
+
+const analysisCompletedAt =
+  analysisIsComplete
+    ? formatDashboardDateTime(
+        rfpAnalysis.updatedAt ||
+        analyzeWorkflowStage?.completedAt ||
+        proposal.updatedAt
+      )
+    : null;
 /* =================================================
    GO / NO GO COMPLETION
 ================================================= */
@@ -1234,11 +1405,11 @@ const goNoGoWorkflowStage =
 
 
 const goNoGoCompletedAt =
-  goNoGoIsComplete &&
-  goNoGoWorkflowStage &&
-  goNoGoWorkflowStage.completedAt
+  goNoGoIsComplete
     ? formatDashboardDateTime(
-        goNoGoWorkflowStage.completedAt
+        goNoGo.decidedAt ||
+        goNoGoWorkflowStage?.completedAt ||
+        proposal.updatedAt
       )
     : null;
 
@@ -1280,9 +1451,14 @@ const effortLevelWorkflowStage =
 
 const effortLevelIsComplete =
   Boolean(
-    effortLevelWorkflowStage &&
-    effortLevelWorkflowStage.status ===
-      'complete'
+    proposal.effortLevel &&
+    [
+      'minimal',
+      'usual',
+      'full'
+    ].includes(
+      proposal.effortLevel
+    )
   );
 
   const effortLevelCompletedAt =
@@ -1307,19 +1483,14 @@ const outlineWorkflowStage =
 
 
 const outlineIsComplete =
-  Boolean(
-    outlineWorkflowStage &&
-    outlineWorkflowStage.status ===
-      'complete'
-  );
+  outlineHasWork;
 
-
-  const outlineCompletedAt =
-  outlineIsComplete &&
-  outlineWorkflowStage &&
-  outlineWorkflowStage.completedAt
+const outlineCompletedAt =
+  outlineIsComplete
     ? formatDashboardDateTime(
-        outlineWorkflowStage.completedAt
+        outlineWorkflowStage?.completedAt ||
+        outline.updatedAt ||
+        proposal.updatedAt
       )
     : null;
 
@@ -1337,18 +1508,14 @@ const winStrategyWorkflowStage =
 
 
 const winStrategyIsComplete =
-  Boolean(
-    winStrategyWorkflowStage &&
-    winStrategyWorkflowStage.status ===
-      'complete'
-  );
+  winStrategyHasWork;
 
-  const winStrategyCompletedAt =
-  winStrategyIsComplete &&
-  winStrategyWorkflowStage &&
-  winStrategyWorkflowStage.completedAt
+const winStrategyCompletedAt =
+  winStrategyIsComplete
     ? formatDashboardDateTime(
-        winStrategyWorkflowStage.completedAt
+        winStrategyWorkflowStage?.completedAt ||
+        winStrategy.updatedAt ||
+        proposal.updatedAt
       )
     : null;
 
@@ -1401,9 +1568,21 @@ effortLevel:
   proposal.effortLevel ||
   'usual',
 
- effortLevelIsComplete,
+analysisIsComplete,
 
-effortLevelCompletedAt, 
+analysisCompletedAt,
+
+effortLevelIsComplete,
+
+effortLevelCompletedAt,
+
+planIsComplete,
+
+planCompletedAt,
+
+supportingMaterialsIsComplete,
+
+supportingMaterialsCompletedAt,
 
 outlineIsComplete,
 
