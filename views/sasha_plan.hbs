@@ -4633,7 +4633,6 @@
   </div>
 
 </section>
-
 {{!-- =================================================
      EVIDENCE
 ================================================== --}}
@@ -4669,101 +4668,154 @@
          PROJECT EVIDENCE | PHIL
     ============================================== --}}
 
-    <article class="sasha-evidence-card">
+    <article
+      class="sasha-evidence-card"
+      id="sasha-project-evidence-card"
+    >
 
-      <div class="sasha-evidence-card-heading">
+      {{!-- ===========================================
+           PROJECT EVIDENCE | READY STATE
+      ============================================ --}}
 
-        <img
-          src="/images/phil.png"
-          alt="Phil"
-          class="sasha-evidence-assistant-image"
-        >
+      <div id="sasha-project-evidence-ready">
 
-        <div>
+        <div class="sasha-evidence-card-heading">
 
-          <span>
-            Phil | Project Experience
-          </span>
+          <img
+            src="/images/phil.png"
+            alt="Phil"
+            class="sasha-evidence-assistant-image"
+          >
 
-          <h3>
-            Project Evidence
-          </h3>
+          <div>
+
+            <span>
+              Phil | Project Experience
+            </span>
+
+            <h3>
+              Project Evidence
+            </h3>
+
+          </div>
+
+        </div>
+
+
+        <p>
+          Review the available project experience against the RFP
+          and win strategy to identify the strongest comparable
+          projects, outcomes, metrics and proof points.
+        </p>
+
+
+        {{#if winStrategy.projectEvidence}}
+
+          <div class="sasha-plan-rich-copy">
+            {{{winStrategy.projectEvidence}}}
+          </div>
+
+        {{else}}
+
+          <p class="sasha-plan-empty">
+            No project evidence has been selected yet.
+          </p>
+
+        {{/if}}
+
+
+        <div class="sasha-evidence-card-actions">
+
+          <form
+            method="POST"
+            action="/plan/complete-project-evidence"
+            class="sasha-evidence-complete-form"
+            id="sasha-project-evidence-form"
+          >
+
+            {{#if csrfToken}}
+
+              <input
+                type="hidden"
+                name="_csrf"
+                value="{{csrfToken}}"
+              >
+
+            {{/if}}
+
+
+            <input
+              type="hidden"
+              name="pursuitId"
+              value="{{proposal._id}}"
+            >
+
+
+            <button
+              type="submit"
+              class="sasha-plan-card-action"
+              id="sasha-project-evidence-button"
+            >
+              {{#if winStrategy.projectEvidence}}
+                Refresh Project Evidence
+              {{else}}
+                Complete Project Evidence
+              {{/if}}
+            </button>
+
+          </form>
+
+
+          <a
+            href="/phil"
+            class="sasha-practice-assistant-link"
+          >
+            Go to Phil →
+          </a>
 
         </div>
 
       </div>
 
 
-      <p>
-        Review the available project experience against the RFP
-        and win strategy to identify the strongest comparable
-        projects, outcomes, metrics and proof points.
-      </p>
+      {{!-- ===========================================
+           PROJECT EVIDENCE | WORKING STATE
+      ============================================ --}}
+
+      <div
+        class="sasha-evidence-working"
+        id="sasha-project-evidence-working"
+        hidden
+      >
+
+        <img
+          src="/images/phil.png"
+          alt="Phil working"
+          class="sasha-evidence-working-image"
+        >
 
 
-      {{#if winStrategy.projectEvidence}}
+        <div class="sasha-evidence-working-copy">
 
-        <div class="sasha-plan-rich-copy">
-          {{{winStrategy.projectEvidence}}}
+          <span class="sasha-work-eyebrow">
+            Phil is working
+          </span>
+
+          <h3>
+            Reviewing project evidence...
+          </h3>
+
+          <p>
+            Phil is reviewing the available project experience
+            against the RFP and current win strategy.
+          </p>
+
+          <p class="sasha-evidence-working-note">
+            This may take a moment while the pursuit evidence
+            is reviewed and organized.
+          </p>
+
         </div>
-
-      {{else}}
-
-        <p class="sasha-plan-empty">
-          No project evidence has been selected yet.
-        </p>
-
-      {{/if}}
-
-
-      <div class="sasha-evidence-card-actions">
-
-        <form
-          method="POST"
-          action="/plan/complete-project-evidence"
-          class="sasha-evidence-complete-form"
-          id="sasha-project-evidence-form"
-        >
-
-          {{#if csrfToken}}
-
-            <input
-              type="hidden"
-              name="_csrf"
-              value="{{csrfToken}}"
-            >
-
-          {{/if}}
-
-
-          <input
-            type="hidden"
-            name="pursuitId"
-            value="{{proposal._id}}"
-          >
-
-
-          <button
-            type="submit"
-            class="sasha-plan-card-action"
-            id="sasha-project-evidence-button"
-          >
-            {{#if winStrategy.projectEvidence}}
-              Refresh Project Evidence
-            {{else}}
-              Complete Project Evidence
-            {{/if}}
-          </button>
-
-        </form>
-
-
-        <a
-          href="/phil"
-          class="sasha-practice-assistant-link"
-        >
-          Go to Phil →
-        </a>
 
       </div>
 
@@ -4774,101 +4826,154 @@
          PERSONNEL EVIDENCE | ZOE
     ============================================== --}}
 
-    <article class="sasha-evidence-card">
+    <article
+      class="sasha-evidence-card"
+      id="sasha-personnel-evidence-card"
+    >
 
-      <div class="sasha-evidence-card-heading">
+      {{!-- ===========================================
+           PERSONNEL EVIDENCE | READY STATE
+      ============================================ --}}
 
-        <img
-          src="/images/zoe.png"
-          alt="Zoe"
-          class="sasha-evidence-assistant-image"
-        >
+      <div id="sasha-personnel-evidence-ready">
 
-        <div>
+        <div class="sasha-evidence-card-heading">
 
-          <span>
-            Zoe | Personnel Experience
-          </span>
+          <img
+            src="/images/zoe.png"
+            alt="Zoe"
+            class="sasha-evidence-assistant-image"
+          >
 
-          <h3>
-            Personnel Evidence
-          </h3>
+          <div>
+
+            <span>
+              Zoe | Personnel Experience
+            </span>
+
+            <h3>
+              Personnel Evidence
+            </h3>
+
+          </div>
+
+        </div>
+
+
+        <p>
+          Review the proposed personnel against the RFP and win
+          strategy to identify the experience, qualifications,
+          roles and individual evidence that best support the pursuit.
+        </p>
+
+
+        {{#if winStrategy.personnelEvidence}}
+
+          <div class="sasha-plan-rich-copy">
+            {{{winStrategy.personnelEvidence}}}
+          </div>
+
+        {{else}}
+
+          <p class="sasha-plan-empty">
+            No personnel evidence has been selected yet.
+          </p>
+
+        {{/if}}
+
+
+        <div class="sasha-evidence-card-actions">
+
+          <form
+            method="POST"
+            action="/plan/complete-personnel-evidence"
+            class="sasha-evidence-complete-form"
+            id="sasha-personnel-evidence-form"
+          >
+
+            {{#if csrfToken}}
+
+              <input
+                type="hidden"
+                name="_csrf"
+                value="{{csrfToken}}"
+              >
+
+            {{/if}}
+
+
+            <input
+              type="hidden"
+              name="pursuitId"
+              value="{{proposal._id}}"
+            >
+
+
+            <button
+              type="submit"
+              class="sasha-plan-card-action"
+              id="sasha-personnel-evidence-button"
+            >
+              {{#if winStrategy.personnelEvidence}}
+                Refresh Personnel Evidence
+              {{else}}
+                Complete Personnel Evidence
+              {{/if}}
+            </button>
+
+          </form>
+
+
+          <a
+            href="/zoe"
+            class="sasha-practice-assistant-link"
+          >
+            Go to Zoe →
+          </a>
 
         </div>
 
       </div>
 
 
-      <p>
-        Review the proposed personnel against the RFP and win
-        strategy to identify the experience, qualifications,
-        roles and individual evidence that best support the pursuit.
-      </p>
+      {{!-- ===========================================
+           PERSONNEL EVIDENCE | WORKING STATE
+      ============================================ --}}
+
+      <div
+        class="sasha-evidence-working"
+        id="sasha-personnel-evidence-working"
+        hidden
+      >
+
+        <img
+          src="/images/zoe.png"
+          alt="Zoe working"
+          class="sasha-evidence-working-image"
+        >
 
 
-      {{#if winStrategy.personnelEvidence}}
+        <div class="sasha-evidence-working-copy">
 
-        <div class="sasha-plan-rich-copy">
-          {{{winStrategy.personnelEvidence}}}
+          <span class="sasha-work-eyebrow">
+            Zoe is working
+          </span>
+
+          <h3>
+            Reviewing personnel evidence...
+          </h3>
+
+          <p>
+            Zoe is reviewing the proposed team against the RFP
+            and current win strategy.
+          </p>
+
+          <p class="sasha-evidence-working-note">
+            This may take a moment while the personnel evidence
+            is reviewed and organized.
+          </p>
+
         </div>
-
-      {{else}}
-
-        <p class="sasha-plan-empty">
-          No personnel evidence has been selected yet.
-        </p>
-
-      {{/if}}
-
-
-      <div class="sasha-evidence-card-actions">
-
-        <form
-          method="POST"
-          action="/plan/complete-personnel-evidence"
-          class="sasha-evidence-complete-form"
-          id="sasha-personnel-evidence-form"
-        >
-
-          {{#if csrfToken}}
-
-            <input
-              type="hidden"
-              name="_csrf"
-              value="{{csrfToken}}"
-            >
-
-          {{/if}}
-
-
-          <input
-            type="hidden"
-            name="pursuitId"
-            value="{{proposal._id}}"
-          >
-
-
-          <button
-            type="submit"
-            class="sasha-plan-card-action"
-            id="sasha-personnel-evidence-button"
-          >
-            {{#if winStrategy.personnelEvidence}}
-              Refresh Personnel Evidence
-            {{else}}
-              Complete Personnel Evidence
-            {{/if}}
-          </button>
-
-        </form>
-
-
-        <a
-          href="/zoe"
-          class="sasha-practice-assistant-link"
-        >
-          Go to Zoe →
-        </a>
 
       </div>
 
@@ -4878,9 +4983,6 @@
   </div>
 
 </section>
-
-
-
 
 
 
@@ -5536,13 +5638,159 @@ I will add any workshop notes or additional strategy information below:
       );
 
     }
+    /* =================================================
+       PROJECT EVIDENCE | WORKING STATE
+    ================================================== */
 
+    const projectEvidenceForm =
+      document.getElementById(
+        'sasha-project-evidence-form'
+      );
+
+
+    const projectEvidenceReady =
+      document.getElementById(
+        'sasha-project-evidence-ready'
+      );
+
+
+    const projectEvidenceWorking =
+      document.getElementById(
+        'sasha-project-evidence-working'
+      );
+
+
+    const projectEvidenceButton =
+      document.getElementById(
+        'sasha-project-evidence-button'
+      );
+
+
+    if (
+      projectEvidenceForm &&
+      projectEvidenceReady &&
+      projectEvidenceWorking
+    ) {
+
+      projectEvidenceForm.addEventListener(
+        'submit',
+        () => {
+
+          if (
+            projectEvidenceButton
+          ) {
+
+            projectEvidenceButton.disabled =
+              true;
+
+          }
+
+
+          projectEvidenceReady.hidden =
+            true;
+
+
+          projectEvidenceWorking.hidden =
+            false;
+
+
+          projectEvidenceWorking.setAttribute(
+            'aria-hidden',
+            'false'
+          );
+
+
+          projectEvidenceWorking.scrollIntoView({
+            behavior:
+              'smooth',
+
+            block:
+              'nearest'
+          });
+
+        }
+      );
+
+    }
+
+
+    /* =================================================
+       PERSONNEL EVIDENCE | WORKING STATE
+    ================================================== */
+
+    const personnelEvidenceForm =
+      document.getElementById(
+        'sasha-personnel-evidence-form'
+      );
+
+
+    const personnelEvidenceReady =
+      document.getElementById(
+        'sasha-personnel-evidence-ready'
+      );
+
+
+    const personnelEvidenceWorking =
+      document.getElementById(
+        'sasha-personnel-evidence-working'
+      );
+
+
+    const personnelEvidenceButton =
+      document.getElementById(
+        'sasha-personnel-evidence-button'
+      );
+
+
+    if (
+      personnelEvidenceForm &&
+      personnelEvidenceReady &&
+      personnelEvidenceWorking
+    ) {
+
+      personnelEvidenceForm.addEventListener(
+        'submit',
+        () => {
+
+          if (
+            personnelEvidenceButton
+          ) {
+
+            personnelEvidenceButton.disabled =
+              true;
+
+          }
+
+
+          personnelEvidenceReady.hidden =
+            true;
+
+
+          personnelEvidenceWorking.hidden =
+            false;
+
+
+          personnelEvidenceWorking.setAttribute(
+            'aria-hidden',
+            'false'
+          );
+
+
+          personnelEvidenceWorking.scrollIntoView({
+            behavior:
+              'smooth',
+
+            block:
+              'nearest'
+          });
+
+        }
+      );
+
+    }
   }
 );
 
 </script>
 
 
-  </div>
-
-</section>
