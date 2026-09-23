@@ -280,6 +280,16 @@ router.post(
 );
 
 /* =====================================================
+   COMPLETE / REFRESH PROJECT EVIDENCE
+===================================================== */
+
+router.post(
+  '/plan/complete-project-evidence',
+  ensureOrganization,
+  planController.completeProjectEvidence
+);
+
+/* =====================================================
    COMPLETE PROPOSAL PLAN
 ===================================================== */
 

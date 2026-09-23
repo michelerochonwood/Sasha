@@ -4634,138 +4634,250 @@
 
 </section>
 
-    {{!-- =================================================
-         EVIDENCE
-    ================================================== --}}
+{{!-- =================================================
+     EVIDENCE
+================================================== --}}
 
-    <section class="sasha-plan-section">
+<section class="sasha-plan-section">
 
-      <header class="sasha-plan-section-heading">
+  <header class="sasha-plan-section-heading">
+
+    <div>
+
+      <p class="sasha-work-eyebrow">
+        Supporting evidence
+      </p>
+
+      <h2>
+        Projects and People
+      </h2>
+
+    </div>
+
+    <p>
+      Complete or refresh the project and personnel evidence
+      Sasha will use to support the proposal strategy and writing.
+    </p>
+
+  </header>
+
+
+  <div class="sasha-evidence-grid">
+
+
+    {{!-- =============================================
+         PROJECT EVIDENCE | PHIL
+    ============================================== --}}
+
+    <article class="sasha-evidence-card">
+
+      <div class="sasha-evidence-card-heading">
+
+        <img
+          src="/images/phil.png"
+          alt="Phil"
+          class="sasha-evidence-assistant-image"
+        >
 
         <div>
 
-          <p class="sasha-work-eyebrow">
-            Supporting evidence
-          </p>
+          <span>
+            Phil | Project Experience
+          </span>
 
-          <h2>
-            Projects and People
-          </h2>
+          <h3>
+            Project Evidence
+          </h3>
 
         </div>
 
-        <p>
-          Sasha can use organizational knowledge to identify the
-          experience that best supports the proposal strategy.
+      </div>
+
+
+      <p>
+        Review the available project experience against the RFP
+        and win strategy to identify the strongest comparable
+        projects, outcomes, metrics and proof points.
+      </p>
+
+
+      {{#if winStrategy.projectEvidence}}
+
+        <div class="sasha-plan-rich-copy">
+          {{{winStrategy.projectEvidence}}}
+        </div>
+
+      {{else}}
+
+        <p class="sasha-plan-empty">
+          No project evidence has been selected yet.
         </p>
 
-      </header>
+      {{/if}}
 
 
-      <div class="sasha-evidence-grid">
+      <div class="sasha-evidence-card-actions">
 
+        <form
+          method="POST"
+          action="/plan/complete-project-evidence"
+          class="sasha-evidence-complete-form"
+          id="sasha-project-evidence-form"
+        >
 
-        {{!-- =============================================
-             PHIL
-        ============================================== --}}
+          {{#if csrfToken}}
 
-        <article class="sasha-evidence-card">
-
-          <div class="sasha-evidence-card-heading">
-
-            <span>
-              Phil
-            </span>
-
-            <h3>
-              Project Evidence
-            </h3>
-
-          </div>
-
-          <p>
-            Find relevant completed projects, comparable scope,
-            delivery evidence, outcomes, metrics, and lessons learned.
-          </p>
-
-
-          {{#if winStrategy.projectEvidence}}
-
-            <div class="sasha-plan-rich-copy">
-              {{{winStrategy.projectEvidence}}}
-            </div>
-
-          {{else}}
-
-            <p class="sasha-plan-empty">
-              No project evidence has been selected yet.
-            </p>
+            <input
+              type="hidden"
+              name="_csrf"
+              value="{{csrfToken}}"
+            >
 
           {{/if}}
 
 
-          <button
-            type="button"
-            class="sasha-plan-card-action"
+          <input
+            type="hidden"
+            name="pursuitId"
+            value="{{proposal._id}}"
           >
-            Find project evidence
-          </button>
-
-        </article>
-
-
-        {{!-- =============================================
-             ZOE
-        ============================================== --}}
-
-        <article class="sasha-evidence-card">
-
-          <div class="sasha-evidence-card-heading">
-
-            <span>
-              Zoe
-            </span>
-
-            <h3>
-              Personnel Evidence
-            </h3>
-
-          </div>
-
-          <p>
-            Identify the people whose experience, roles, and
-            qualifications best support the pursuit strategy.
-          </p>
-
-
-          {{#if winStrategy.personnelEvidence}}
-
-            <div class="sasha-plan-rich-copy">
-              {{{winStrategy.personnelEvidence}}}
-            </div>
-
-          {{else}}
-
-            <p class="sasha-plan-empty">
-              No personnel evidence has been selected yet.
-            </p>
-
-          {{/if}}
 
 
           <button
-            type="button"
+            type="submit"
             class="sasha-plan-card-action"
+            id="sasha-project-evidence-button"
           >
-            Find personnel evidence
+            {{#if winStrategy.projectEvidence}}
+              Refresh Project Evidence
+            {{else}}
+              Complete Project Evidence
+            {{/if}}
           </button>
 
-        </article>
+        </form>
+
+
+        <a
+          href="/phil"
+          class="sasha-practice-assistant-link"
+        >
+          Go to Phil →
+        </a>
 
       </div>
 
-    </section>
+    </article>
 
+
+    {{!-- =============================================
+         PERSONNEL EVIDENCE | ZOE
+    ============================================== --}}
+
+    <article class="sasha-evidence-card">
+
+      <div class="sasha-evidence-card-heading">
+
+        <img
+          src="/images/zoe.png"
+          alt="Zoe"
+          class="sasha-evidence-assistant-image"
+        >
+
+        <div>
+
+          <span>
+            Zoe | Personnel Experience
+          </span>
+
+          <h3>
+            Personnel Evidence
+          </h3>
+
+        </div>
+
+      </div>
+
+
+      <p>
+        Review the proposed personnel against the RFP and win
+        strategy to identify the experience, qualifications,
+        roles and individual evidence that best support the pursuit.
+      </p>
+
+
+      {{#if winStrategy.personnelEvidence}}
+
+        <div class="sasha-plan-rich-copy">
+          {{{winStrategy.personnelEvidence}}}
+        </div>
+
+      {{else}}
+
+        <p class="sasha-plan-empty">
+          No personnel evidence has been selected yet.
+        </p>
+
+      {{/if}}
+
+
+      <div class="sasha-evidence-card-actions">
+
+        <form
+          method="POST"
+          action="/plan/complete-personnel-evidence"
+          class="sasha-evidence-complete-form"
+          id="sasha-personnel-evidence-form"
+        >
+
+          {{#if csrfToken}}
+
+            <input
+              type="hidden"
+              name="_csrf"
+              value="{{csrfToken}}"
+            >
+
+          {{/if}}
+
+
+          <input
+            type="hidden"
+            name="pursuitId"
+            value="{{proposal._id}}"
+          >
+
+
+          <button
+            type="submit"
+            class="sasha-plan-card-action"
+            id="sasha-personnel-evidence-button"
+          >
+            {{#if winStrategy.personnelEvidence}}
+              Refresh Personnel Evidence
+            {{else}}
+              Complete Personnel Evidence
+            {{/if}}
+          </button>
+
+        </form>
+
+
+        <a
+          href="/zoe"
+          class="sasha-practice-assistant-link"
+        >
+          Go to Zoe →
+        </a>
+
+      </div>
+
+    </article>
+
+
+  </div>
+
+</section>
 
 
 

@@ -1455,6 +1455,360 @@ a genuine User Override.
   }
 
 };
+
+/* =====================================================
+   COMPLETE / REFRESH PROJECT EVIDENCE
+===================================================== */
+
+exports.completeProjectEvidence =
+async (
+  req,
+  res,
+  next
+) => {
+
+  try {
+
+    /* =================================================
+       PURSUIT ID
+    ================================================== */
+
+    const pursuitId =
+      typeof req.body.pursuitId ===
+        'string'
+        ? req.body.pursuitId.trim()
+        : '';
+
+
+    if (
+      !pursuitId
+    ) {
+
+      return res.redirect(
+        '/pursuits'
+      );
+
+    }
+
+
+    /* =================================================
+       STANDARD PROJECT EVIDENCE INSTRUCTION
+    ================================================== */
+
+    req.body.message = `
+Review the current pursuit record, current procurement documents,
+RFP analysis, Win Strategy, Proposal Outline, and all current uploaded
+pursuit documents and complete or refresh the Project Evidence.
+
+Your task is to identify the strongest AVAILABLE PROJECT EVIDENCE
+for this specific pursuit.
+
+Use only project evidence actually available in the pursuit record
+or uploaded pursuit documents.
+
+Review the evidence against:
+
+- the client's requirements;
+- evaluation criteria;
+- project scope;
+- current Win Strategy;
+- critical project issues;
+- differentiators;
+- proposed approach; and
+- the proposal sections that require project evidence.
+
+Prioritize project evidence that provides:
+
+- genuinely comparable scope;
+- relevant technical experience;
+- relevant delivery conditions;
+- documented challenges and responses;
+- measurable outcomes;
+- useful metrics;
+- lessons learned;
+- evidence supporting the Win Strategy; and
+- evidence that can be used directly during proposal writing.
+
+Do not invent projects.
+
+Do not invent project facts.
+
+Do not invent metrics, outcomes, client relationships, project roles,
+construction values, dates, challenges, lessons learned, or other
+experience.
+
+Do not strengthen weak evidence by inference.
+
+If the available evidence does not support an important proposal
+argument, identify the evidence gap clearly.
+
+PROJECT SELECTION
+
+Select only the strongest evidence needed for this pursuit.
+
+Do not create a long inventory merely because additional projects
+are available.
+
+Prefer a small number of highly relevant projects over a large
+number of marginal examples.
+
+Where projects provide complementary evidence, explain briefly what
+each project proves.
+
+REFRESH RULE
+
+If Project Evidence already exists:
+
+- preserve useful supported conclusions;
+- incorporate materially stronger or newly available evidence;
+- remove unsupported Sasha-generated conclusions;
+- update conclusions where the pursuit strategy or available evidence
+  has materially changed; and
+- do not change valid evidence merely for the sake of producing a
+  different answer.
+
+The result should be concise enough to function as a working evidence
+guide for proposal writing.
+
+This request applies ONLY to Project Evidence.
+
+Set:
+
+action = "update_win_strategy"
+
+Return the complete current winStrategy object.
+
+Update projectEvidence with the strongest current project evidence.
+
+Preserve all other valid Win Strategy fields unless a change is
+strictly necessary to keep projectEvidence consistent with the
+existing strategy.
+
+Do not update:
+
+- Proposal Plan;
+- Proposal Outline;
+- Supporting Materials; or
+- Personnel Evidence
+
+as part of this request.
+`.trim();
+
+
+    /* =================================================
+       COMPLETE PROJECT EVIDENCE MODE
+    ================================================== */
+
+    req.body.isCompleteProjectEvidence =
+      true;
+
+
+    /* =================================================
+       USE EXISTING PLAN PIPELINE
+    ================================================== */
+
+    return exports.postPlanChat(
+      req,
+      res,
+      next
+    );
+
+  } catch (
+    error
+  ) {
+
+    console.error(
+      'COMPLETE PROJECT EVIDENCE FAILED:',
+      error
+    );
+
+
+    return next(
+      error
+    );
+
+  }
+
+};
+
+/* =====================================================
+   COMPLETE / REFRESH PERSONNEL EVIDENCE
+===================================================== */
+
+exports.completePersonnelEvidence =
+async (
+  req,
+  res,
+  next
+) => {
+
+  try {
+
+    /* =================================================
+       PURSUIT ID
+    ================================================== */
+
+    const pursuitId =
+      typeof req.body.pursuitId ===
+        'string'
+        ? req.body.pursuitId.trim()
+        : '';
+
+
+    if (
+      !pursuitId
+    ) {
+
+      return res.redirect(
+        '/pursuits'
+      );
+
+    }
+
+
+    /* =================================================
+       STANDARD PERSONNEL EVIDENCE INSTRUCTION
+    ================================================== */
+
+    req.body.message = `
+Review the current pursuit record, current procurement documents,
+RFP analysis, Win Strategy, Proposal Outline, and all current uploaded
+pursuit documents and complete or refresh the Personnel Evidence.
+
+Your task is to identify the strongest AVAILABLE PERSONNEL EVIDENCE
+for this specific pursuit.
+
+Use only personnel evidence actually available in the pursuit record
+or uploaded pursuit documents.
+
+Review the evidence against:
+
+- the client's requirements;
+- evaluation criteria;
+- project scope;
+- current Win Strategy;
+- critical project issues;
+- required team roles;
+- proposed responsibilities;
+- differentiators; and
+- proposal sections that require personnel evidence.
+
+Prioritize personnel evidence that demonstrates:
+
+- relevant qualifications and credentials;
+- directly relevant project experience;
+- experience in the proposed role;
+- technical expertise relevant to the assignment;
+- municipal or client-specific experience where documented;
+- continuity among proposed team members;
+- documented responsibilities on comparable projects;
+- measurable or specific evidence of individual performance where available;
+- experience supporting the Win Strategy; and
+- evidence that can be used directly during proposal writing.
+
+Do not invent people.
+
+Do not invent credentials.
+
+Do not invent project assignments, roles, years of experience,
+certifications, responsibilities, relationships, achievements,
+client experience, or other personnel facts.
+
+Do not attribute firm experience to an individual unless the available
+evidence specifically supports that individual's involvement.
+
+Do not convert a proposed role on this pursuit into evidence that the
+person has performed that role previously.
+
+If important personnel evidence is missing, identify the evidence gap
+clearly.
+
+PERSONNEL SELECTION
+
+Focus on the people and evidence most relevant to this pursuit.
+
+Give particular attention to the proposed Project Manager and other
+roles that are explicitly required, heavily evaluated, strategically
+important, or responsible for major project risks.
+
+Do not create a long personnel inventory merely because additional
+people are available.
+
+REFRESH RULE
+
+If Personnel Evidence already exists:
+
+- preserve useful supported conclusions;
+- incorporate materially stronger or newly available evidence;
+- remove unsupported Sasha-generated conclusions;
+- update conclusions where the pursuit strategy or available evidence
+  has materially changed; and
+- do not change valid evidence merely for the sake of producing a
+  different answer.
+
+The result should be concise enough to function as a working personnel
+evidence guide for proposal writing.
+
+This request applies ONLY to Personnel Evidence.
+
+Set:
+
+action = "update_win_strategy"
+
+Return the complete current winStrategy object.
+
+Update personnelEvidence with the strongest current personnel evidence.
+
+Preserve all other valid Win Strategy fields unless a change is
+strictly necessary to keep personnelEvidence consistent with the
+existing strategy.
+
+Do not update:
+
+- Proposal Plan;
+- Proposal Outline;
+- Supporting Materials; or
+- Project Evidence
+
+as part of this request.
+`.trim();
+
+
+    /* =================================================
+       COMPLETE PERSONNEL EVIDENCE MODE
+    ================================================== */
+
+    req.body.isCompletePersonnelEvidence =
+      true;
+
+
+    /* =================================================
+       USE EXISTING PLAN PIPELINE
+    ================================================== */
+
+    return exports.postPlanChat(
+      req,
+      res,
+      next
+    );
+
+  } catch (
+    error
+  ) {
+
+    console.error(
+      'COMPLETE PERSONNEL EVIDENCE FAILED:',
+      error
+    );
+
+
+    return next(
+      error
+    );
+
+  }
+
+};
 /* =====================================================
    PLAN | WIN STRATEGY CHAT
 ===================================================== */
@@ -5478,7 +5832,248 @@ unless the current request independently and explicitly constitutes
 a genuine User Override.
 `
   : ''}
-  
+
+  ${req.body.isCompleteProjectEvidence
+  ? `
+=====================================================
+COMPLETE / REFRESH PROJECT EVIDENCE MODE
+=====================================================
+
+The user explicitly requested a complete Project Evidence pass.
+
+Review:
+
+- all attached current pursuit documents;
+- all attached current procurement documents;
+- the current pursuit record;
+- the current RFP analysis;
+- the current Win Strategy;
+- the current Proposal Outline; and
+- any available project-experience evidence.
+
+Your ONLY work-product task in this mode is to complete or refresh:
+
+winStrategy.projectEvidence
+
+Identify the strongest AVAILABLE project evidence for this specific
+pursuit.
+
+Evaluate available project evidence against:
+
+- client requirements;
+- evaluation criteria;
+- project scope;
+- critical project issues;
+- current Win Strategy;
+- differentiators;
+- required proposal content; and
+- the arguments the proposal must substantiate.
+
+Prioritize evidence that demonstrates:
+
+- genuinely comparable project scope;
+- relevant technical experience;
+- relevant delivery conditions;
+- documented project challenges;
+- specific actions taken;
+- measurable outcomes;
+- useful metrics;
+- lessons learned;
+- evidence supporting the Win Strategy; and
+- facts Sasha can legitimately use during proposal writing.
+
+Do not invent:
+
+- projects;
+- clients;
+- project values;
+- dates;
+- scopes;
+- roles;
+- challenges;
+- actions;
+- outcomes;
+- metrics;
+- lessons learned; or
+- other project facts.
+
+Do not strengthen weak evidence by inference.
+
+If important evidence is unavailable, identify the evidence gap rather
+than manufacturing support.
+
+For a REFRESH pass:
+
+- preserve useful supported evidence already recorded;
+- incorporate materially stronger or newly available evidence;
+- remove unsupported Sasha-generated conclusions;
+- correct Sasha-generated errors; and
+- do not change valid evidence merely to make the refreshed version
+  different.
+
+Keep projectEvidence concise and useful as a working evidence guide
+for proposal writing.
+
+Set:
+
+action = "update_win_strategy"
+
+Return the COMPLETE current winStrategy object because the existing
+Win Strategy update pipeline stores the complete object.
+
+However:
+
+- projectEvidence is the ONLY Win Strategy field you are being asked
+  to develop or refresh;
+- preserve all other existing Win Strategy fields exactly unless a
+  change is strictly necessary to prevent a factual contradiction;
+- do NOT independently rewrite the Ten Steps;
+- do NOT revise personnelEvidence;
+- do NOT revise the Win Argument merely because new project evidence
+  has been identified.
+
+This special mode applies ONLY to Project Evidence.
+
+The structured response must use:
+
+action = "update_win_strategy"
+
+and:
+
+plan = null
+outline = null
+supportingMaterials = null
+userOverride = null
+
+unless the current request independently and explicitly constitutes
+a genuine User Override.
+`
+  : ''}
+
+
+${req.body.isCompletePersonnelEvidence
+  ? `
+=====================================================
+COMPLETE / REFRESH PERSONNEL EVIDENCE MODE
+=====================================================
+
+The user explicitly requested a complete Personnel Evidence pass.
+
+Review:
+
+- all attached current pursuit documents;
+- all attached current procurement documents;
+- the current pursuit record;
+- the current RFP analysis;
+- the current Win Strategy;
+- the current Proposal Outline;
+- the current proposed team information; and
+- any available personnel evidence.
+
+Your ONLY work-product task in this mode is to complete or refresh:
+
+winStrategy.personnelEvidence
+
+Identify the strongest AVAILABLE personnel evidence for this specific
+pursuit.
+
+Evaluate available personnel evidence against:
+
+- client requirements;
+- evaluation criteria;
+- project scope;
+- required team roles;
+- proposed responsibilities;
+- critical project issues;
+- current Win Strategy;
+- differentiators; and
+- the arguments the proposal must substantiate.
+
+Prioritize evidence that demonstrates:
+
+- relevant qualifications and credentials;
+- directly relevant individual project experience;
+- experience in the proposed role;
+- technical expertise relevant to the assignment;
+- municipal or client-specific experience where documented;
+- continuity among proposed team members;
+- documented responsibilities on comparable projects;
+- measurable or specific evidence of individual performance where
+  available; and
+- evidence supporting the Win Strategy.
+
+Do not invent:
+
+- people;
+- credentials;
+- years of experience;
+- certifications;
+- project assignments;
+- previous roles;
+- responsibilities;
+- achievements;
+- client experience;
+- relationships between team members; or
+- other personnel facts.
+
+Do not attribute firm experience to an individual unless the available
+evidence specifically supports that individual's involvement.
+
+Do not treat a person's proposed role on this pursuit as evidence that
+they have performed that role previously.
+
+If important personnel evidence is unavailable, identify the evidence
+gap rather than manufacturing support.
+
+For a REFRESH pass:
+
+- preserve useful supported personnel evidence already recorded;
+- incorporate materially stronger or newly available evidence;
+- remove unsupported Sasha-generated conclusions;
+- correct Sasha-generated errors; and
+- do not change valid evidence merely to make the refreshed version
+  different.
+
+Keep personnelEvidence concise and useful as a working evidence guide
+for proposal writing.
+
+Set:
+
+action = "update_win_strategy"
+
+Return the COMPLETE current winStrategy object because the existing
+Win Strategy update pipeline stores the complete object.
+
+However:
+
+- personnelEvidence is the ONLY Win Strategy field you are being asked
+  to develop or refresh;
+- preserve all other existing Win Strategy fields exactly unless a
+  change is strictly necessary to prevent a factual contradiction;
+- do NOT independently rewrite the Ten Steps;
+- do NOT revise projectEvidence;
+- do NOT revise the Win Argument merely because new personnel evidence
+  has been identified.
+
+This special mode applies ONLY to Personnel Evidence.
+
+The structured response must use:
+
+action = "update_win_strategy"
+
+and:
+
+plan = null
+outline = null
+supportingMaterials = null
+userOverride = null
+
+unless the current request independently and explicitly constitutes
+a genuine User Override.
+`
+  : ''}
+
+
 
 ${outlineComplianceInstructions}`,
 
