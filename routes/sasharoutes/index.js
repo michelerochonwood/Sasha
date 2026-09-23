@@ -290,6 +290,16 @@ router.post(
 );
 
 /* =====================================================
+   COMPLETE / REFRESH PERSONNEL EVIDENCE
+===================================================== */
+
+router.post(
+  '/plan/complete-personnel-evidence',
+  ensureOrganization,
+  planController.completePersonnelEvidence
+);
+
+/* =====================================================
    COMPLETE PROPOSAL PLAN
 ===================================================== */
 
