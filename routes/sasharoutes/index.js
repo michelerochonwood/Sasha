@@ -1,71 +1,22 @@
-const express = require(
-  'express'
-);
 
+const express = require('express');
 
-const ensureOrganization = require(
-  '../../middleware/ensureOrganization'
-);
+const ensureOrganization = require('../../middleware/ensureOrganization');
+const instructionResourceUpload = require('../../middleware/instructionResourceUpload');
+const pursuitDocumentUpload = require('../../middleware/pursuitDocumentUpload');
 
+const { verifyCsrfToken } = require('../../middleware/csrfProtection');
 
-const instructionResourceUpload = require(
-  '../../middleware/instructionResourceUpload'
-);
+const organizationController = require('../../controllers/organizationController');
+const proposalController = require('../../controllers/proposalController');
+const analyzeController = require('../../controllers/analyzeController');
+const planController = require('../../controllers/planController');
+const instructionController = require('../../controllers/instructionController');
+const openaiController = require('../../controllers/openaiController');
+const writeController = require('../../controllers/writeController');
+const outcomeController = require('../../controllers/outcomeController');
 
-
-const pursuitDocumentUpload = require(
-  '../../middleware/pursuitDocumentUpload'
-);
-
-
-const {
-  verifyCsrfToken
-} = require(
-  '../../middleware/csrfProtection'
-);
-
-
-const organizationController = require(
-  '../../controllers/organizationController'
-);
-
-
-const proposalController = require(
-  '../../controllers/proposalController'
-);
-
-
-const analyzeController = require(
-  '../../controllers/analyzeController'
-);
-
-
-const planController = require(
-  '../../controllers/planController'
-);
-
-
-const instructionController = require(
-  '../../controllers/instructionController'
-);
-
-
-const openaiController = require(
-  '../../controllers/openaiController'
-);
-
-
-const writeController = require(
-  '../../controllers/writeController'
-);
-
-const outcomeController = require(
-  '../../controllers/outcomeController'
-);
-
-
-const router =
-  express.Router();
+const router = express.Router();
 
 /* =====================================================
    GLOBAL HEADER PURSUITS
@@ -79,27 +30,12 @@ router.use(
    HOME
 ===================================================== */
 
-router.get(
-  '/',
-  (
-    req,
-    res
-  ) => {
-
-    return res.render(
-      'sasha_homepage',
-      {
-        layout:
-          'mainlayout',
-
-        pageTitle:
-          'Sasha | Proposal Assistant'
-      }
-    );
-
-  }
-);
-
+router.get('/', (req, res) => {
+  return res.render('sasha_homepage', {
+    layout: 'mainlayout',
+    pageTitle: 'Sasha | Proposal Assistant'
+  });
+});
 
 /* =====================================================
    CREATE A PURSUIT
@@ -111,11 +47,6 @@ router.get(
   proposalController.getCreatePursuit
 );
 
-
-/* =====================================================
-   ANALYZE PURSUIT MATERIAL DURING CREATION
-===================================================== */
-
 router.post(
   '/create_pursuit/analyze',
   ensureOrganization,
@@ -124,11 +55,6 @@ router.post(
   openaiController.analyzePursuit
 );
 
-
-/* =====================================================
-   SAVE NEW PURSUIT
-===================================================== */
-
 router.post(
   '/create_pursuit',
   ensureOrganization,
@@ -136,7 +62,6 @@ router.post(
   verifyCsrfToken,
   proposalController.postCreatePursuit
 );
-
 
 /* =====================================================
    PURSUITS
@@ -148,31 +73,17 @@ router.get(
   proposalController.getPursuits
 );
 
-
-/* =====================================================
-   PURSUIT DASHBOARD
-===================================================== */
-
 router.get(
   '/pursuit/:id',
   ensureOrganization,
   proposalController.getPursuitDashboard
 );
 
-/* =====================================================
-   ACTIVATE PURSUIT FROM HEADER
-===================================================== */
-
 router.get(
   '/pursuit/:id/activate',
   ensureOrganization,
   proposalController.activatePursuit
 );
-
-
-/* =====================================================
-   ADD DOCUMENTS TO EXISTING PURSUIT
-===================================================== */
 
 router.post(
   '/pursuit/:id/documents',
@@ -181,7 +92,6 @@ router.post(
   verifyCsrfToken,
   proposalController.postPursuitDocuments
 );
-
 
 /* =====================================================
    ANALYZE | GO / NO GO
@@ -193,22 +103,12 @@ router.get(
   analyzeController.getAnalyzePursuit
 );
 
-
-/* =====================================================
-   RECORD GO / NO GO DECISION
-===================================================== */
-
 router.post(
   '/analyze/decision',
   ensureOrganization,
   verifyCsrfToken,
   analyzeController.postGoNoGoDecision
 );
-
-
-/* =====================================================
-   RECORD EFFORT LEVEL
-===================================================== */
 
 router.post(
   '/analyze/effort',
@@ -217,11 +117,6 @@ router.post(
   analyzeController.postEffortLevel
 );
 
-
-/* =====================================================
-   ANALYZE PURSUIT CHAT
-===================================================== */
-
 router.post(
   '/analyze/chat',
   ensureOrganization,
@@ -229,18 +124,12 @@ router.post(
   analyzeController.postAnalyzeChat
 );
 
-
-/* =====================================================
-   COMPLETE RFP ANALYSIS
-===================================================== */
-
 router.post(
   '/analyze/complete-rfp-analysis',
   ensureOrganization,
   verifyCsrfToken,
   analyzeController.completeRfpAnalysis
 );
-
 
 /* =====================================================
    PLAN | WIN STRATEGY
@@ -258,19 +147,11 @@ router.post(
   planController.postPracticeDecision
 );
 
-/* =====================================================
-   REMOVE SUPPORTING MATERIAL
-===================================================== */
-
 router.post(
   '/plan/supporting-material/remove',
   ensureOrganization,
   planController.removeSupportingMaterial
 );
-
-/* =====================================================
-   PLAN | WIN STRATEGY CHAT
-===================================================== */
 
 router.post(
   '/plan/chat',
@@ -279,29 +160,17 @@ router.post(
   planController.postPlanChat
 );
 
-/* =====================================================
-   COMPLETE / REFRESH PROJECT EVIDENCE
-===================================================== */
-
 router.post(
   '/plan/complete-project-evidence',
   ensureOrganization,
   planController.completeProjectEvidence
 );
 
-/* =====================================================
-   COMPLETE / REFRESH PERSONNEL EVIDENCE
-===================================================== */
-
 router.post(
   '/plan/complete-personnel-evidence',
   ensureOrganization,
   planController.completePersonnelEvidence
 );
-
-/* =====================================================
-   COMPLETE PROPOSAL PLAN
-===================================================== */
 
 router.post(
   '/plan/complete-proposal-plan',
@@ -310,20 +179,12 @@ router.post(
   planController.completeProposalPlan
 );
 
-/* =====================================================
-   COMPLETE / REFRESH PROPOSAL OUTLINE
-===================================================== */
-
 router.post(
   '/plan/complete-proposal-outline',
   ensureOrganization,
   verifyCsrfToken,
   planController.completeProposalOutline
 );
-
-/* =====================================================
-   COMPLETE / REFRESH SUPPORTING MATERIALS
-===================================================== */
 
 router.post(
   '/plan/complete-supporting-materials',
@@ -333,354 +194,40 @@ router.post(
 );
 
 /* =====================================================
-   PROPOSAL KICKOFF PRACTICE
+   PLAN | PRACTICE PAGES
 ===================================================== */
 
-router.get(
-  '/plan/proposal-kickoff',
-  ensureOrganization,
-  (
-    req,
-    res
-  ) => {
+const practicePages = [
+  ['/plan/proposal-kickoff', 'kickoff_view', 'Proposal Kickoff'],
+  ['/plan/proposal-schedule', 'proposal_schedule_view', 'Detailed Proposal Schedule'],
+  ['/plan/ten-steps', 'ten_steps_view', 'Ten Steps to a Win Theme'],
+  ['/plan/methodology', 'methodology_view', 'Rapid Fire Methodology Storyboarding'],
+  ['/plan/project-evidence-review', 'project_evidence_review_view', 'Project Experience Evidence Review'],
+  ['/plan/personnel-experience-review', 'personnel_experience_review_view', 'Personnel Experience Evidence Review'],
+  ['/plan/pricing-review', 'pricing_review_view', 'Pricing Review'],
+  ['/plan/proposal-graphics-review', 'proposal_graphics_review_view', 'Proposal Graphics Review'],
+  ['/plan/blue-team-review', 'blue_team_review_view', 'Blue Team Review'],
+  ['/plan/pink-team-review', 'pink_team_review_view', 'Pink Team Review'],
+  ['/plan/red-team-review', 'red_team_review_view', 'Red Team Review'],
+  ['/plan/proofreading-process', 'proofreading_process_view', 'Proposal Proofreading Process']
+];
 
-    return res.render(
-      'kickoff_view',
-      {
-        layout:
-          'mainlayout',
-
-        pageTitle:
-          'Proposal Kickoff | Sasha',
-
-        pursuitId:
-          req.query.pursuit ||
-          null
-      }
-    );
-
-  }
-);
-
-
-/* =====================================================
-   DETAILED PROPOSAL SCHEDULE PRACTICE
-===================================================== */
-
-router.get(
-  '/plan/proposal-schedule',
-  ensureOrganization,
-  (
-    req,
-    res
-  ) => {
-
-    return res.render(
-      'proposal_schedule_view',
-      {
-        layout:
-          'mainlayout',
-
-        pageTitle:
-          'Detailed Proposal Schedule | Sasha',
-
-        pursuitId:
-          req.query.pursuit ||
-          null
-      }
-    );
-
-  }
-);
-
+practicePages.forEach(([path, view, title]) => {
+  router.get(
+    path,
+    ensureOrganization,
+    (req, res) => {
+      return res.render(view, {
+        layout: 'mainlayout',
+        pageTitle: `${title} | Sasha`,
+        pursuitId: req.query.pursuit || null
+      });
+    }
+  );
+});
 
 /* =====================================================
-   TEN STEPS TO A WIN THEME PRACTICE
-===================================================== */
-
-router.get(
-  '/plan/ten-steps',
-  ensureOrganization,
-  (
-    req,
-    res
-  ) => {
-
-    return res.render(
-      'ten_steps_view',
-      {
-        layout:
-          'mainlayout',
-
-        pageTitle:
-          'Ten Steps to a Win Theme | Sasha',
-
-        pursuitId:
-          req.query.pursuit ||
-          null
-      }
-    );
-
-  }
-);
-
-
-
-router.get(
-  '/plan/methodology',
-  ensureOrganization,
-  (
-    req,
-    res
-  ) => {
-
-    return res.render(
-      'methodology_view',
-      {
-        layout:
-          'mainlayout',
-
-        pageTitle:
-          'Rapid Fire Methodology Storyboarding | Sasha',
-
-        pursuitId:
-          req.query.pursuit ||
-          null
-      }
-    );
-
-  }
-);
-
-
-router.get(
-  '/plan/project-evidence-review',
-  ensureOrganization,
-  (
-    req,
-    res
-  ) => {
-
-    return res.render(
-      'project_evidence_review_view',
-      {
-        layout:
-          'mainlayout',
-
-        pageTitle:
-          'Project Experience Evidence Review | Sasha',
-
-        pursuitId:
-          req.query.pursuit ||
-          null
-      }
-    );
-
-  }
-);
-
-router.get(
-  '/plan/personnel-experience-review',
-  ensureOrganization,
-  (
-    req,
-    res
-  ) => {
-
-    return res.render(
-      'personnel_experience_review_view',
-      {
-        layout:
-          'mainlayout',
-
-        pageTitle:
-          'Personnel Experience Evidence Review | Sasha',
-
-        pursuitId:
-          req.query.pursuit ||
-          null
-      }
-    );
-
-  }
-);
-
-router.get(
-  '/plan/pricing-review',
-  ensureOrganization,
-  (
-    req,
-    res
-  ) => {
-
-    return res.render(
-      'pricing_review_view',
-      {
-        layout:
-          'mainlayout',
-
-        pageTitle:
-          'Pricing Review | Sasha',
-
-        pursuitId:
-          req.query.pursuit ||
-          null
-      }
-    );
-
-  }
-);
-
-router.get(
-  '/plan/proposal-graphics-review',
-  ensureOrganization,
-  (
-    req,
-    res
-  ) => {
-
-    return res.render(
-      'proposal_graphics_review_view',
-      {
-        layout:
-          'mainlayout',
-
-        pageTitle:
-          'Proposal Graphics Review | Sasha',
-
-        pursuitId:
-          req.query.pursuit ||
-          null
-      }
-    );
-
-  }
-);
-
-
-router.get(
-  '/plan/blue-team-review',
-  ensureOrganization,
-  (
-    req,
-    res
-  ) => {
-
-    return res.render(
-      'blue_team_review_view',
-      {
-        layout:
-          'mainlayout',
-
-        pageTitle:
-          'Blue Team Review | Sasha',
-
-        pursuitId:
-          req.query.pursuit ||
-          null
-      }
-    );
-
-  }
-);
-
-
-router.get(
-  '/plan/pink-team-review',
-  ensureOrganization,
-  (
-    req,
-    res
-  ) => {
-
-    return res.render(
-      'pink_team_review_view',
-      {
-        layout:
-          'mainlayout',
-
-        pageTitle:
-          'Pink Team Review | Sasha',
-
-        pursuitId:
-          req.query.pursuit ||
-          null
-      }
-    );
-
-  }
-);
-
-router.get(
-  '/plan/red-team-review',
-  ensureOrganization,
-  (
-    req,
-    res
-  ) => {
-
-    return res.render(
-      'red_team_review_view',
-      {
-        layout:
-          'mainlayout',
-
-        pageTitle:
-          'Red Team Review | Sasha',
-
-        pursuitId:
-          req.query.pursuit ||
-          null
-      }
-    );
-
-  }
-);
-
-router.get(
-  '/plan/proofreading-process',
-  ensureOrganization,
-  (
-    req,
-    res
-  ) => {
-
-    return res.render(
-      'proofreading_process_view',
-      {
-        layout:
-          'mainlayout',
-
-        pageTitle:
-          'Proposal Proofreading Process | Sasha',
-
-        pursuitId:
-          req.query.pursuit ||
-          null
-      }
-    );
-
-  }
-);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* =====================================================
-   REVIEW PLAN CHANGE IMPACT
+   PLAN | CHANGE IMPACTS
 ===================================================== */
 
 router.post(
@@ -690,11 +237,6 @@ router.post(
   planController.reviewChangeImpact
 );
 
-
-/* =====================================================
-   ACCEPT PLAN CHANGE IMPACT
-===================================================== */
-
 router.post(
   '/plan/change-impact/:impactId/accept',
   ensureOrganization,
@@ -702,18 +244,12 @@ router.post(
   planController.acceptChangeImpact
 );
 
-
-/* =====================================================
-   DISMISS PLAN CHANGE IMPACT
-===================================================== */
-
 router.post(
   '/plan/change-impact/:impactId/dismiss',
   ensureOrganization,
   verifyCsrfToken,
   planController.dismissChangeImpact
 );
-
 
 /* =====================================================
    WRITE
@@ -725,15 +261,19 @@ router.get(
   writeController.getWritePursuit
 );
 
-/* =====================================================
-   SAVE WRITE SECTION
-===================================================== */
-
 router.post(
   '/write/section',
   ensureOrganization,
   verifyCsrfToken,
   writeController.postWriteSection
+);
+
+
+router.post(
+  '/write/chat',
+  ensureOrganization,
+  verifyCsrfToken,
+  writeController.postWriteChat
 );
 
 
@@ -757,10 +297,6 @@ router.get(
   outcomeController.getOutcomePursuit
 );
 
-/* =====================================================
-   UPLOAD FINAL SUBMITTED PROPOSAL
-===================================================== */
-
 router.post(
   '/outcome/final-proposal',
   ensureOrganization,
@@ -769,21 +305,12 @@ router.post(
   outcomeController.postFinalProposal
 );
 
-/* =====================================================
-   SAVE OUTCOME RESULT
-===================================================== */
-
 router.post(
   '/outcome/result',
   ensureOrganization,
   verifyCsrfToken,
   outcomeController.postOutcomeResult
 );
-
-
-/* =====================================================
-   SAVE OUTCOME DETAILS
-===================================================== */
 
 router.post(
   '/outcome/details',
@@ -792,11 +319,6 @@ router.post(
   outcomeController.postOutcomeDetails
 );
 
-
-/* =====================================================
-   OUTCOME CHAT
-===================================================== */
-
 router.post(
   '/outcome/chat',
   ensureOrganization,
@@ -804,7 +326,6 @@ router.post(
   verifyCsrfToken,
   outcomeController.postOutcomeChat
 );
-
 
 /* =====================================================
    SASHA INSTRUCTIONS
@@ -816,11 +337,6 @@ router.get(
   instructionController.getAddInstructions
 );
 
-
-/* =====================================================
-   ANALYZE INSTRUCTION RESOURCE
-===================================================== */
-
 router.post(
   '/add_instructions/analyze',
   ensureOrganization,
@@ -828,18 +344,12 @@ router.post(
   instructionController.analyzeInstruction
 );
 
-
-/* =====================================================
-   SAVE INSTRUCTION RESOURCE
-===================================================== */
-
 router.post(
   '/add_instructions',
   ensureOrganization,
   instructionResourceUpload,
   instructionController.postAddInstructions
 );
-
 
 /* =====================================================
    ORGANIZATION AUTHENTICATION
@@ -850,20 +360,17 @@ router.get(
   organizationController.showLogin
 );
 
-
 router.post(
   '/login',
   verifyCsrfToken,
   organizationController.login
 );
 
-
 router.post(
   '/logout',
   verifyCsrfToken,
   organizationController.logout
 );
-
 
 /* =====================================================
    ORGANIZATION SETUP
@@ -874,17 +381,14 @@ router.get(
   organizationController.showSetupForm
 );
 
-
 router.post(
   '/setup-organization',
   verifyCsrfToken,
   organizationController.createOrganization
 );
 
-
 /* =====================================================
    EXPORT ROUTER
 ===================================================== */
 
-module.exports =
-  router;
+module.exports = router;

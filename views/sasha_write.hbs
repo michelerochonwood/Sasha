@@ -406,9 +406,9 @@
 
               </div>
 
-              <div class="sasha-chat-bubble">
-                {{{this.content}}}
-              </div>
+<div class="sasha-chat-bubble" style="white-space: pre-wrap;">
+  {{this.content}}
+</div>
 
             </article>
 
@@ -502,12 +502,13 @@
             </p>
 
 
-            <button
-              type="submit"
-              class="sasha-chat-submit"
-            >
-              Send to Sasha
-            </button>
+<button
+  type="submit"
+  class="sasha-chat-submit"
+  {{#unless activeSection}}disabled{{/unless}}
+>
+  Send to Sasha
+</button>
 
           </div>
 
@@ -861,9 +862,9 @@
 
               {{#if this.content}}
 
-                <div class="sasha-write-saved-section-copy">
-                  {{{this.content}}}
-                </div>
+<div class="sasha-write-saved-section-copy" style="white-space: pre-wrap;">
+  {{this.content}}
+</div>
 
               {{else}}
 

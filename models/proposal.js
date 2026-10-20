@@ -730,7 +730,12 @@ supportingMaterials: [
       default: {}
     },
 
-    contentSections: [
+
+/* =====================================================
+   PROPOSAL WRITING SECTIONS
+===================================================== */
+
+contentSections: [
   {
     sectionId: {
       type: String,
@@ -751,15 +756,13 @@ supportingMaterials: [
 
     status: {
       type: String,
-
       enum: [
         "not_started",
-        "drafting",
-        "drafted",
+        "in_progress",
+        "ready_for_review",
         "reviewed",
         "final"
       ],
-
       default: "not_started"
     },
 
@@ -779,6 +782,58 @@ supportingMaterials: [
     }
   }
 ],
+
+/* =====================================================
+   ANALYSIS CONVERSATION
+===================================================== */
+
+analysisMessages: {
+  type: [analysisConversationSchema],
+  default: []
+},
+
+/* =====================================================
+   PLAN CONVERSATION
+===================================================== */
+
+planMessages: {
+  type: [analysisConversationSchema],
+  default: []
+},
+
+/* =====================================================
+   WRITE CONVERSATION
+===================================================== */
+
+writeMessages: [
+  {
+    sectionId: {
+      type: String,
+      required: true,
+      trim: true
+    },
+
+    role: {
+      type: String,
+      enum: [
+        "user",
+        "assistant"
+      ],
+      required: true
+    },
+
+    content: {
+      type: String,
+      required: true
+    },
+
+    createdAt: {
+      type: Date,
+      default: Date.now
+    }
+  }
+],
+
 
 
 /* =====================================================

@@ -1098,17 +1098,24 @@ if (
        RENDER
     ================================================== */
 
-    return res.render(
-      'sasha_write',
-      {
-        layout:
-          'mainlayout',
 
-        pageTitle:
-          `Write ${proposalForView.proposalName} | Sasha`,
+return res.render(
+  'sasha_write',
+  {
+    layout:
+      'mainlayout',
 
-        proposal:
-          proposalForView,
+    pageTitle:
+      `Write ${proposalForView.proposalName} | Sasha`,
+
+    csrfToken:
+      typeof req.csrfToken === 'function'
+        ? req.csrfToken()
+        : null,
+
+    proposal:
+      proposalForView,
+
 
         analysisMessages,
 
@@ -1129,12 +1136,19 @@ if (
 
         activeWritingGuidance,
 
-        /*
-         * Write conversation will be wired next.
-         */
 
-        writeMessages:
-          []
+/* =================================================
+   SAVED WRITE CONVERSATION FOR ACTIVE SECTION
+================================================= */
+
+writeMessages:
+  activeSection &&
+  Array.isArray(proposalForView.writeMessages)
+    ? proposalForView.writeMessages.filter(
+        item => item.sectionId === activeSection.sectionId
+      )
+    : []
+
       }
     );
 
@@ -1364,4 +1378,404 @@ async (
 
   }
 
+};
+
+
+/* =====================================================
+   WRITE | SECTION CHAT
+===================================================== */
+
+exports.postWriteChat = async (req, res, next) => {
+  try {
+    const pursuitId =
+      typeof req.body.pursuitId === 'string'
+        ? req.body.pursuitId.trim()
+        : '';
+
+    const sectionId =
+      typeof req.body.sectionId === 'string'
+        ? req.body.sectionId.trim()
+        : '';
+
+    const message =
+      typeof req.body.message === 'string'
+        ? req.body.message.trim()
+        : '';
+
+    if (!pursuitId || !sectionId || !message) {
+      return res.status(400).send(
+        'Select a proposal section and enter a writing instruction.'
+      );
+    }
+
+    if (message.length > 10000) {
+      return res.status(400).send(
+        'Please shorten your message and try again.'
+      );
+    }
+
+    /* =================================================
+       FIND PURSUIT
+    ================================================= */
+
+    const proposal = await Proposal.findOne({
+      _id: pursuitId,
+      organization: req.session.organizationId
+    });
+
+    if (!proposal) {
+      return res.status(404).send(
+        'Pursuit not found.'
+      );
+    }
+
+    /* =================================================
+       FIND SELECTED SECTION
+    ================================================= */
+
+    const section = proposal.contentSections.find(
+      item => item.sectionId === sectionId
+    );
+
+    if (!section) {
+      return res.status(404).send(
+        'Writing section not found.'
+      );
+    }
+
+    const outlineSections =
+      Array.isArray(proposal.outline?.sections)
+        ? proposal.outline.sections
+        : [];
+
+    const outlineSection = outlineSections.find(
+      item =>
+        item.title === section.title ||
+        item.order === section.order
+    );
+
+    if (!outlineSection) {
+      return res.status(400).send(
+        'The selected section is missing from the proposal outline.'
+      );
+    }
+
+    /* =================================================
+       PREPARE WRITING CONTEXT
+    ================================================= */
+
+    const writingGuidance =
+      prepareWritingGuidanceForSection(
+        outlineSection
+      );
+
+    const existingMessages =
+      Array.isArray(proposal.writeMessages)
+        ? proposal.writeMessages.filter(
+            item => item.sectionId === sectionId
+          )
+        : [];
+
+    const activeOverrides =
+      Array.isArray(proposal.userOverrides)
+        ? proposal.userOverrides.filter(
+            item => item.active !== false
+          )
+        : [];
+
+    const context = {
+      proposalName: proposal.proposalName,
+      clientName: proposal.clientName,
+      rfpNumber: proposal.rfpNumber,
+      submissionDeadline: proposal.submissionDeadline,
+      effortLevel: proposal.effortLevel,
+
+      selectedSection: {
+        sectionId: section.sectionId,
+        title: section.title,
+        order: section.order,
+        content: section.content || '',
+        notes: section.notes || '',
+        status: section.status
+      },
+
+      outlineSection,
+      fullOutline: proposal.outline || {},
+      rfpAnalysis: proposal.rfpAnalysis || {},
+      plan: proposal.plan || {},
+      winStrategy: proposal.winStrategy || {},
+      proposalTeam: proposal.proposalTeam || [],
+      proposalManager: proposal.proposalManager || {},
+      activeOverrides,
+      writingGuidance
+    };
+
+    /* =================================================
+       CREATE OPENAI CLIENT
+    ================================================= */
+
+    const sashaAiService = require(
+      '../services/sashaAiService'
+    );
+
+    const openai = sashaAiService.createClient(
+      process.env.OPENAI_API_KEY
+    );
+
+    /* =================================================
+       PREPARE CONVERSATION
+    ================================================= */
+
+    const conversation = existingMessages
+      .slice(-10)
+      .map(item => ({
+        role: item.role,
+        content: item.content
+      }));
+
+    conversation.push({
+      role: 'user',
+      content: message
+    });
+
+    /* =================================================
+       WRITING INSTRUCTIONS
+    ================================================= */
+
+    const instructions = `
+You are Sasha, an experienced proposal writing assistant
+for architecture, engineering, and professional services firms.
+
+You are working on ONE section of ONE proposal.
+
+Use the supplied pursuit context to write persuasive,
+specific, compliant proposal content.
+
+The controlling RFP and addenda determine client requirements.
+
+The approved proposal outline determines the section
+structure and content.
+
+The win strategy determines the intended positioning.
+
+The proposal plan provides useful pursuit context.
+
+Project and personnel evidence must be supported by
+the supplied pursuit information.
+
+Never invent:
+
+- project experience;
+- project outcomes;
+- personnel credentials;
+- years of experience;
+- individual project assignments;
+- client relationships;
+- technical capabilities;
+- evaluation criteria;
+- procurement requirements; or
+- dates and numerical results.
+
+Do not attribute a firm's project experience to an
+individual without evidence of that person's involvement.
+
+When important evidence is missing, identify the gap.
+
+Respect user-supplied content and active user overrides.
+
+If the user asks for feedback, explanation, or a compliance
+check, do not replace the working draft.
+
+If the user explicitly asks you to draft, rewrite,
+shorten, strengthen, or reorganize the section,
+return a complete proposed replacement draft.
+
+Never silently change an existing draft.
+
+Return a structured response with:
+
+reply:
+Your conversational response to the user.
+
+action:
+"none" when no draft update is requested.
+"update_draft" when the user requests drafting or revision.
+
+draft:
+The complete proposed section draft when action is
+"update_draft"; otherwise null.
+
+The draft must contain only proposal-ready narrative.
+Put evidence gaps, cautions, and questions in the reply,
+not as invented facts in the draft.
+
+CURRENT PURSUIT CONTEXT:
+
+${JSON.stringify(context, null, 2)}
+`;
+
+    /* =================================================
+       SEND TO OPENAI
+    ================================================= */
+
+    console.log(
+      'SASHA WRITE CHAT SENDING TO OPENAI:',
+      {
+        pursuitId,
+        sectionId,
+        sectionTitle: section.title
+      }
+    );
+
+    const response = await openai.responses.create({
+      model: 'gpt-5-mini',
+
+      reasoning: {
+        effort: 'minimal'
+      },
+
+      instructions,
+
+      input: conversation,
+
+      text: {
+        format: {
+          type: 'json_schema',
+          name: 'sasha_write_chat_response',
+          strict: true,
+
+          schema: {
+            type: 'object',
+            additionalProperties: false,
+
+            properties: {
+              reply: {
+                type: 'string'
+              },
+
+              action: {
+                type: 'string',
+                enum: [
+                  'none',
+                  'update_draft'
+                ]
+              },
+
+              draft: {
+                anyOf: [
+                  { type: 'null' },
+                  { type: 'string' }
+                ]
+              }
+            },
+
+            required: [
+              'reply',
+              'action',
+              'draft'
+            ]
+          }
+        }
+      },
+
+      max_output_tokens: 6000
+    });
+
+    /* =================================================
+       PARSE RESPONSE
+    ================================================= */
+
+    const outputText =
+      response.output_text?.trim() || '';
+
+    if (!outputText) {
+      throw new Error(
+        'Sasha returned an empty writing response.'
+      );
+    }
+
+    const result = JSON.parse(outputText);
+
+    if (
+      typeof result.reply !== 'string' ||
+      !result.reply.trim()
+    ) {
+      throw new Error(
+        'Sasha returned an invalid writing reply.'
+      );
+    }
+
+    /* =================================================
+       SAVE CONVERSATION
+    ================================================= */
+
+    if (!Array.isArray(proposal.writeMessages)) {
+      proposal.writeMessages = [];
+    }
+
+    proposal.writeMessages.push(
+      {
+        sectionId,
+        role: 'user',
+        content: message,
+        createdAt: new Date()
+      },
+      {
+        sectionId,
+        role: 'assistant',
+        content: result.reply.trim(),
+        createdAt: new Date()
+      }
+    );
+
+    /* =================================================
+       SAVE WORKING DRAFT
+    ================================================= */
+
+    if (
+      result.action === 'update_draft' &&
+      typeof result.draft === 'string' &&
+      result.draft.trim()
+    ) {
+      section.content = result.draft.trim();
+      section.status = 'in_progress';
+      section.updatedAt = new Date();
+
+      console.log(
+        'SASHA WRITE DRAFT UPDATED:',
+        {
+          pursuitId,
+          sectionId,
+          contentLength: section.content.length
+        }
+      );
+    }
+
+    await proposal.save();
+
+    console.log(
+      'SASHA WRITE CHAT COMPLETE:',
+      {
+        pursuitId,
+        sectionId,
+        action: result.action
+      }
+    );
+
+    /* =================================================
+       RETURN TO SELECTED SECTION
+    ================================================= */
+
+    return res.redirect(
+      `/write?pursuit=${proposal._id}&section=${encodeURIComponent(sectionId)}`
+    );
+
+  } catch (error) {
+    console.error(
+      'SASHA WRITE CHAT FAILED:',
+      error
+    );
+
+    return next(error);
+  }
 };
