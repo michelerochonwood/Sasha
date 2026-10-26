@@ -1108,10 +1108,7 @@ return res.render(
     pageTitle:
       `Write ${proposalForView.proposalName} | Sasha`,
 
-    csrfToken:
-      typeof req.csrfToken === 'function'
-        ? req.csrfToken()
-        : null,
+csrfToken: res.locals.csrfToken,
 
     proposal:
       proposalForView,
