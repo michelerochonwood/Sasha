@@ -22682,3 +22682,46 @@ input[type="file"]::file-selector-button {
 .sasha-outcome-final-proposal-link:hover {
   text-decoration: underline;
 }
+
+
+
+/* =====================================================
+   SASHA WRITE | INLINE SECTION EDITOR
+===================================================== */
+
+.sasha-write-inline-editor {
+  display: block;
+  width: 100%;
+  min-height: 360px;
+  padding: 18px 20px;
+  box-sizing: border-box;
+
+  font-family: inherit;
+  font-size: 15px;
+  line-height: 1.75;
+
+  color: inherit;
+  background: transparent;
+
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+
+  resize: vertical;
+  white-space: pre-wrap;
+}
+
+.sasha-write-inline-editor:focus {
+  outline: 2px solid #3182ce;
+  outline-offset: 2px;
+}
+
+.sasha-write-inline-edit-form {
+  width: 100%;
+}
+
+.sasha-write-inline-edit-form
+.sasha-write-section-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 16px;
+}
