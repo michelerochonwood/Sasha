@@ -853,28 +853,76 @@
                  CURRENT DRAFT
             ========================================== --}}
 
-            <div class="sasha-write-saved-section-content">
 
-              <p class="sasha-write-saved-section-label">
-                Current Draft
-              </p>
+{{!-- =========================================
+     EDITABLE SAVED SECTION
+========================================= --}}
 
+<div class="sasha-write-saved-section-content">
 
-              {{#if this.content}}
+  <form
+    class="sasha-write-inline-edit-form"
+    action="/write/section"
+    method="POST"
+  >
 
-<div class="sasha-write-saved-section-copy" style="white-space: pre-wrap;">
-  {{this.content}}
+    <input
+      type="hidden"
+      name="_csrf"
+      value="{{@root.csrfToken}}"
+    >
+
+    <input
+      type="hidden"
+      name="pursuitId"
+      value="{{@root.proposal._id}}"
+    >
+
+    <input
+      type="hidden"
+      name="sectionId"
+      value="{{this.sectionId}}"
+    >
+
+    <label
+      for="draft-{{this.sectionId}}"
+      class="sasha-write-saved-section-label"
+    >
+      Edit Section Draft
+    </label>
+
+    <textarea
+      id="draft-{{this.sectionId}}"
+      name="content"
+      class="sasha-write-inline-editor"
+      rows="18"
+      spellcheck="true"
+      placeholder="Write or edit this proposal section..."
+    >{{this.content}}</textarea>
+
+    <input
+      type="hidden"
+      name="notes"
+      value="{{this.notes}}"
+    >
+
+    <div class="sasha-write-section-actions">
+
+      <button
+        type="submit"
+        name="action"
+        value="save"
+        class="sasha-write-secondary-button"
+      >
+        Save Changes
+      </button>
+
+    </div>
+
+  </form>
+
 </div>
 
-              {{else}}
-
-                <p class="sasha-write-saved-section-empty">
-                  No draft has been saved for this section yet.
-                </p>
-
-              {{/if}}
-
-            </div>
 
 
             {{!-- =========================================
