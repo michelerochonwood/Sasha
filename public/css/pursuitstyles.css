@@ -22737,7 +22737,7 @@ input[type="file"]::file-selector-button {
   background: #f49ac2;
   color: #34245f;
   border: none;
-  border-radius: 30px;
+  border-radius: 50px;
   padding: 12px 24px;
   font-size: 13px;
   font-weight: 700;
@@ -22751,4 +22751,38 @@ input[type="file"]::file-selector-button {
   background: #ffb1d3;
   color: #34245f;
 }
+
+
+/* =====================================================
+   SASHA WRITE | SECTION DESTINATION
+===================================================== */
+
+.sasha-write-destination {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.sasha-write-destination label {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.sasha-write-destination select {
+  width: 100%;
+  padding: 14px 18px;
+  border: 1px solid #b7a9d8;
+  border-radius: 12px;
+  background: #ffffff;
+  color: #38286b;
+  font: inherit;
+  cursor: pointer;
+}
+
+.sasha-write-destination select:focus {
+  outline: 2px solid #f49ac2;
+  outline-offset: 2px;
+}
+
 

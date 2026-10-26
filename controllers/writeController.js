@@ -901,23 +901,7 @@ async (
     }
 
 
-    /*
-     * Do not automatically force the first section
-     * active unless writing sections exist and no
-     * explicit selection was made.
-     */
 
-    if (
-      !activeSection &&
-      !requestedSectionId &&
-      contentSections.length >
-        0
-    ) {
-
-      activeSection =
-        contentSections[0];
-
-    }
 
 
     /* =================================================
@@ -1444,6 +1428,47 @@ exports.postWriteChat = async (req, res, next) => {
       );
     }
 
+
+/* =====================================================
+   VALIDATE EXPLICIT SECTION REQUEST
+===================================================== */
+
+const normalizeSectionTitle = value =>
+  String(value || '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, ' ')
+    .trim();
+
+const requestedOtherSections =
+  proposal.contentSections.filter(item => {
+    if (item.sectionId === sectionId) {
+      return false;
+    }
+
+    const title = normalizeSectionTitle(item.title);
+
+    if (!title) {
+      return false;
+    }
+
+    const normalizedMessage =
+      normalizeSectionTitle(message);
+
+    return normalizedMessage.includes(title);
+  });
+
+if (requestedOtherSections.length > 0) {
+  return res.status(409).send(
+    `The selected writing destination is "${section.title}", ` +
+    `but your instruction mentions "${requestedOtherSections
+      .map(item => item.title)
+      .join(', ')}". ` +
+    'No draft was changed. Return to Write and select ' +
+    'the intended destination before submitting again.'
+  );
+}
+
+
     const outlineSections =
       Array.isArray(proposal.outline?.sections)
         ? proposal.outline.sections
@@ -1568,6 +1593,7 @@ conversation.push({
     ================================================= */
 
     const instructions = `
+    
 You are Sasha, an experienced proposal writing assistant
 for architecture, engineering, and professional services firms.
 
@@ -1634,6 +1660,25 @@ The draft must contain only proposal-ready narrative.
 Put evidence gaps, cautions, and questions in the reply,
 not as invented facts in the draft.
 
+WRITING DESTINATION AND SAVING
+
+You are working on the selected proposal section
+identified in CURRENT PURSUIT CONTEXT.
+
+The application, not you, controls database saving.
+
+Never claim that you have independently moved,
+filed, or saved content to another proposal section.
+
+Do not claim that a draft has been saved.
+
+When the user requests another section, explain
+that they must select that section as the writing
+destination in the interface.
+
+Do not replace the selected section with content
+intended for another section.
+
 PURSUIT DOCUMENT EVIDENCE
 
 The current user message may include source documents
@@ -1652,6 +1697,8 @@ corporate project experience.
 
 When evidence is insufficient, identify the missing
 information rather than inventing it.
+
+
 
 The attached documents are identified in the following
 source manifest:
@@ -1744,6 +1791,23 @@ ${JSON.stringify(context, null, 2)}
     }
 
     const result = JSON.parse(outputText);
+
+
+/* =====================================================
+   PROTECT REVIEW-READY SECTIONS
+===================================================== */
+
+if (
+  section.status === 'ready_for_review' &&
+  result.action === 'update_draft'
+) {
+  return res.status(409).send(
+    `The section "${section.title}" is marked ` +
+    'Ready for Review. Sasha has not replaced it. ' +
+    'To revise this section, reopen it for editing first.'
+  );
+}
+
 
     if (
       typeof result.reply !== 'string' ||

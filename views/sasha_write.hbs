@@ -446,15 +446,37 @@
           >
 
 
-          {{#if activeSection}}
 
-            <input
-              type="hidden"
-              name="sectionId"
-              value="{{activeSection.sectionId}}"
-            >
+<div class="sasha-write-destination">
 
-          {{/if}}
+  <label for="sasha-target-section">
+    Proposal Section — Writing Destination
+  </label>
+
+  <select
+    id="sasha-target-section"
+    name="sectionId"
+    required
+  >
+    <option value="">
+      Select the section Sasha should write
+    </option>
+
+    {{#each contentSections}}
+
+      <option
+        value="{{this.sectionId}}"
+        {{#if this.isActive}}selected{{/if}}
+      >
+        {{this.order}}. {{this.title}}
+      </option>
+
+    {{/each}}
+
+  </select>
+
+</div>
+
 
 
           <label
@@ -505,7 +527,7 @@
 <button
   type="submit"
   class="sasha-chat-submit"
-  {{#unless activeSection}}disabled{{/unless}}
+  
 >
   Send to Sasha
 </button>
