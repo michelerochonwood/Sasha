@@ -22725,3 +22725,30 @@ input[type="file"]::file-selector-button {
   justify-content: flex-end;
   margin-top: 16px;
 }
+
+
+/* =====================================================
+   SASHA WRITE | INLINE SAVE CHANGES BUTTON
+===================================================== */
+
+.sasha-write-inline-edit-form
+.sasha-write-section-actions button {
+  display: inline-block;
+  background: #f49ac2;
+  color: #34245f;
+  border: none;
+  border-radius: 30px;
+  padding: 12px 24px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  opacity: 1;
+  visibility: visible;
+}
+
+.sasha-write-inline-edit-form
+.sasha-write-section-actions button:hover {
+  background: #ffb1d3;
+  color: #34245f;
+}
+
