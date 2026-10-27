@@ -656,6 +656,187 @@ function generateProposalDocument({
   });
 }
 
+
+/* =====================================================
+   READ AND UPDATE WORD DOCUMENT
+===================================================== */
+
+function paragraphText(paragraph) {
+  return Array.from(
+    paragraph.getElementsByTagNameNS(W_NS, 't')
+  )
+    .map(node => node.textContent || '')
+    .join('');
+}
+
+function findMarkerParagraph(doc, marker = MARKER) {
+  const paragraphs = Array.from(
+    doc.getElementsByTagNameNS(W_NS, 'p')
+  );
+
+  return paragraphs.find(
+    paragraph => paragraphText(paragraph).includes(marker)
+  ) || null;
+}
+
+function insertSections(
+  doc,
+  sections,
+  styles,
+  numbering,
+  marker = MARKER
+) {
+  const body = doc
+    .getElementsByTagNameNS(W_NS, 'body')
+    .item(0);
+
+  if (!body) {
+    throw new Error(
+      'The Word template has no document body.'
+    );
+  }
+
+  const anchor = findMarkerParagraph(doc, marker);
+
+  if (!anchor) {
+    throw new Error(
+      `Word template placeholder not found: ${marker}`
+    );
+  }
+
+  if (anchor.parentNode !== body) {
+    throw new Error(
+      'The proposal placeholder must be in a top-level body paragraph.'
+    );
+  }
+
+  // Replace the placeholder with the proposal sections.
+  for (const section of sections) {
+    const paragraphs = createSectionParagraphs(
+      doc,
+      section,
+      styles,
+      numbering
+    );
+
+    for (const paragraph of paragraphs) {
+      body.insertBefore(paragraph, anchor);
+    }
+  }
+
+  body.removeChild(anchor);
+}
+
+/* =====================================================
+   VALIDATE PROPOSAL SECTIONS
+===================================================== */
+
+function validateSections(sections) {
+  if (!Array.isArray(sections) || !sections.length) {
+    throw new Error(
+      'At least one proposal section is required.'
+    );
+  }
+
+  return sections.map((section, index) => {
+    if (
+      !section ||
+      typeof section.title !== 'string' ||
+      !section.title.trim()
+    ) {
+      throw new Error(
+        `Section ${index + 1} is missing a title.`
+      );
+    }
+
+    return {
+      title: normalizeText(section.title).trim(),
+      content: normalizeText(section.content ?? '')
+    };
+  });
+}
+
+/* =====================================================
+   GENERATE PROPOSAL DOCUMENT
+===================================================== */
+
+/**
+ * Generate a DOCX Buffer from an existing
+ * organization Word template.
+ *
+ * @param {Object} options
+ * @param {Buffer|Uint8Array} options.templateBuffer
+ * @param {Array<{title:string,content:string}>} options.sections
+ * @param {string} [options.marker]
+ * @returns {Buffer}
+ */
+
+function generateProposalDocument({
+  templateBuffer,
+  sections,
+  marker = MARKER
+} = {}) {
+  if (
+    !templateBuffer ||
+    !(
+      Buffer.isBuffer(templateBuffer) ||
+      templateBuffer instanceof Uint8Array
+    )
+  ) {
+    throw new TypeError(
+      'templateBuffer must contain the organization DOCX bytes.'
+    );
+  }
+
+  const normalizedSections = validateSections(sections);
+
+  const zip = new PizZip(templateBuffer);
+
+  const documentFile = zip.file('word/document.xml');
+
+  if (!documentFile) {
+    throw new Error(
+      'Invalid DOCX: word/document.xml is missing.'
+    );
+  }
+
+  const styles = readStyles(zip);
+  const numbering = readNumbering(zip);
+
+  const doc = parseXml(
+    documentFile.asText(),
+    'word/document.xml'
+  );
+
+  insertSections(
+    doc,
+    normalizedSections,
+    styles,
+    numbering,
+    marker
+  );
+
+  zip.file(
+    'word/document.xml',
+    new XMLSerializer().serializeToString(doc)
+  );
+
+  return zip.generate({
+    type: 'nodebuffer',
+    compression: 'DEFLATE'
+  });
+}
+
+/* =====================================================
+   EXPORT SERVICE FUNCTIONS
+===================================================== */
+
 module.exports = {
-  generateProposalDocument
+  generateProposalDocument,
+
+  // Exported for focused unit testing.
+  normalizeText,
+  normalizeHeading,
+  classifyLine
 };
+
