@@ -1016,6 +1016,305 @@
 </section>
 
 
+{{!-- =====================================================
+     GENERATE PROPOSAL DOCUMENT
+===================================================== --}}
+
+<section
+  class="sasha-write-document-generator"
+  aria-labelledby="sasha-document-generator-heading"
+>
+
+  <header class="sasha-write-section-heading">
+
+    <div>
+
+      <p class="sasha-work-eyebrow">
+        Document Production
+      </p>
+
+      <h2 id="sasha-document-generator-heading">
+        Generate Proposal Document
+      </h2>
+
+    </div>
+
+    <p>
+      Upload your organization's Word proposal template.
+      Sasha will use it to assemble the saved proposal
+      sections into an editable document.
+    </p>
+
+  </header>
+
+
+  {{!-- ===============================================
+       ACTIVE TEMPLATE
+  ================================================ --}}
+
+  <div class="sasha-template-status">
+
+    <h3>
+      Active Proposal Template
+    </h3>
+
+    <p id="sasha-active-template-name">
+      Checking for an existing template...
+    </p>
+
+  </div>
+
+
+  {{!-- ===============================================
+       TEMPLATE UPLOAD FORM
+  ================================================ --}}
+
+  <form
+    id="sasha-proposal-template-form"
+    class="sasha-template-upload-form"
+    enctype="multipart/form-data"
+  >
+
+    <input
+      type="hidden"
+      name="_csrf"
+      value="{{csrfToken}}"
+    >
+
+    <div class="sasha-write-section-field">
+
+      <label for="sasha-template-name">
+        Template Name
+      </label>
+
+      <input
+        type="text"
+        id="sasha-template-name"
+        name="templateName"
+        placeholder="e.g. TOMA Engineering Proposal Template"
+        maxlength="150"
+        required
+      >
+
+    </div>
+
+
+    <div class="sasha-write-section-field">
+
+      <label for="sasha-template-file">
+        Word Template (.docx)
+      </label>
+
+      <input
+        type="file"
+        id="sasha-template-file"
+        name="proposalTemplate"
+        accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+        required
+      >
+
+    </div>
+
+
+    <div class="sasha-write-section-actions">
+
+      <button
+        type="submit"
+        id="sasha-template-upload-button"
+        class="sasha-form-submit-button"
+      >
+        Upload Proposal Template
+      </button>
+
+    </div>
+
+  </form>
+
+
+  <p
+    id="sasha-template-upload-message"
+    class="sasha-template-upload-message"
+    role="status"
+    aria-live="polite"
+  ></p>
+
+
+  {{!-- ===============================================
+       DOCUMENT GENERATION PLACEHOLDER
+  ================================================ --}}
+
+  <div class="sasha-document-generation-coming-soon">
+
+    <h3>
+      Generate Word Document
+    </h3>
+
+    <p>
+      Once the document generator is connected,
+      Sasha will assemble the current proposal
+      sections using your active Word template.
+    </p>
+
+    <button
+      type="button"
+      class="sasha-write-secondary-button"
+      disabled
+    >
+      Generate Word Document
+    </button>
+
   </div>
 
 </section>
+
+
+{{!-- =====================================================
+     PROPOSAL TEMPLATE UPLOAD SCRIPT
+===================================================== --}}
+
+
+
+  </div>
+
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+  const form =
+    document.getElementById(
+      'sasha-proposal-template-form'
+    );
+
+  const templateStatus =
+    document.getElementById(
+      'sasha-active-template-name'
+    );
+
+  const uploadMessage =
+    document.getElementById(
+      'sasha-template-upload-message'
+    );
+
+  const uploadButton =
+    document.getElementById(
+      'sasha-template-upload-button'
+    );
+
+  if (!form) {
+    return;
+  }
+
+  async function loadActiveTemplate() {
+
+    try {
+
+      const response = await fetch(
+        '/write/proposal-template',
+        {
+          credentials: 'same-origin'
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(
+          'Could not retrieve template information.'
+        );
+      }
+
+      const data = await response.json();
+
+      if (data.template) {
+
+        templateStatus.textContent =
+          data.template.templateName +
+          ' (' +
+          data.template.originalFileName +
+          ')';
+
+      } else {
+
+        templateStatus.textContent =
+          'No proposal template has been uploaded yet.';
+
+      }
+
+    } catch (error) {
+
+      console.error(
+        'LOAD PROPOSAL TEMPLATE FAILED:',
+        error
+      );
+
+      templateStatus.textContent =
+        'Unable to load the active template.';
+
+    }
+
+  }
+
+
+  form.addEventListener('submit', async (event) => {
+
+    event.preventDefault();
+
+    uploadMessage.textContent = '';
+
+    uploadButton.disabled = true;
+    uploadButton.textContent = 'Uploading...';
+
+    try {
+
+      const formData = new FormData(form);
+
+      const response = await fetch(
+        '/write/proposal-template',
+        {
+          method: 'POST',
+          credentials: 'same-origin',
+          body: formData
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok || !data.success) {
+        throw new Error(
+          data.errorMessage ||
+          'The template could not be uploaded.'
+        );
+      }
+
+      uploadMessage.textContent =
+        'Proposal template uploaded successfully.';
+
+      form.reset();
+
+      await loadActiveTemplate();
+
+    } catch (error) {
+
+      console.error(
+        'PROPOSAL TEMPLATE UPLOAD FAILED:',
+        error
+      );
+
+      uploadMessage.textContent =
+        error.message ||
+        'The template upload failed.';
+
+    } finally {
+
+      uploadButton.disabled = false;
+      uploadButton.textContent =
+        'Upload Proposal Template';
+
+    }
+
+  });
+
+
+  loadActiveTemplate();
+
+});
+</script>

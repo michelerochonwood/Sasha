@@ -22786,3 +22786,75 @@ input[type="file"]::file-selector-button {
 }
 
 
+/* =====================================================
+   SASHA WRITE | DOCUMENT GENERATOR
+===================================================== */
+
+.sasha-write-document-generator {
+  margin-top: 36px;
+  padding: 28px;
+  background: #ffffff;
+  border: 1px solid #e5e0ee;
+  border-radius: 16px;
+}
+
+.sasha-template-status {
+  margin: 24px 0;
+  padding: 18px 22px;
+  background: #f5f3fa;
+  border-radius: 12px;
+}
+
+.sasha-template-status h3,
+.sasha-document-generation-coming-soon h3 {
+  margin: 0 0 10px;
+  font-size: 17px;
+  color: #38286b;
+}
+
+.sasha-template-status p {
+  margin: 0;
+  font-size: 14px;
+}
+
+.sasha-template-upload-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.sasha-template-upload-form input[type="text"],
+.sasha-template-upload-form input[type="file"] {
+  display: block;
+  width: 100%;
+  padding: 12px 14px;
+  box-sizing: border-box;
+  border: 1px solid #cfc6df;
+  border-radius: 9px;
+  background: #ffffff;
+  font: inherit;
+}
+
+.sasha-template-upload-message {
+  margin-top: 16px;
+  font-weight: 600;
+  color: #38286b;
+}
+
+.sasha-document-generation-coming-soon {
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid #e5e0ee;
+}
+
+.sasha-document-generation-coming-soon p {
+  margin-bottom: 18px;
+}
+
+.sasha-document-generation-coming-soon button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+
+

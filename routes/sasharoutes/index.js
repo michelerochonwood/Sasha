@@ -5,6 +5,10 @@ const ensureOrganization = require('../../middleware/ensureOrganization');
 const instructionResourceUpload = require('../../middleware/instructionResourceUpload');
 const pursuitDocumentUpload = require('../../middleware/pursuitDocumentUpload');
 
+const proposalTemplateUpload = require(
+  '../../middleware/proposalTemplateUpload'
+);
+
 const { verifyCsrfToken } = require('../../middleware/csrfProtection');
 
 const organizationController = require('../../controllers/organizationController');
@@ -15,6 +19,11 @@ const instructionController = require('../../controllers/instructionController')
 const openaiController = require('../../controllers/openaiController');
 const writeController = require('../../controllers/writeController');
 const outcomeController = require('../../controllers/outcomeController');
+const proposalTemplateController = require(
+  '../../controllers/proposalTemplateController'
+);
+
+
 
 const router = express.Router();
 
@@ -275,6 +284,40 @@ router.post(
   verifyCsrfToken,
   writeController.postWriteChat
 );
+
+
+/* =====================================================
+   WRITE | PROPOSAL TEMPLATES
+===================================================== */
+
+/*
+ * Retrieve the active proposal template
+ * belonging to the logged-in organization.
+ */
+
+router.get(
+  '/write/proposal-template',
+  ensureOrganization,
+  proposalTemplateController.getActiveProposalTemplate
+);
+
+
+/*
+ * Upload a new Word proposal template.
+ *
+ * The controller stores the DOCX in Cloudinary,
+ * creates its MongoDB record, and activates it
+ * for the organization.
+ */
+
+router.post(
+  '/write/proposal-template',
+  ensureOrganization,
+  proposalTemplateUpload,
+  verifyCsrfToken,
+  proposalTemplateController.postUploadProposalTemplate
+);
+
 
 
 /* =====================================================
