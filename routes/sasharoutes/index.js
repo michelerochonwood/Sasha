@@ -23,6 +23,10 @@ const proposalTemplateController = require(
   '../../controllers/proposalTemplateController'
 );
 
+const proposalDocumentController = require(
+  '../../controllers/proposalDocumentController'
+);
+
 
 
 const router = express.Router();
@@ -317,6 +321,19 @@ router.post(
   verifyCsrfToken,
   proposalTemplateController.postUploadProposalTemplate
 );
+
+
+/* =====================================================
+   WRITE | GENERATE WORD DOCUMENT
+===================================================== */
+
+router.post(
+  '/write/generate-document',
+  ensureOrganization,
+  verifyCsrfToken,
+  proposalDocumentController.postGenerateProposalDocument
+);
+
 
 
 

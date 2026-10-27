@@ -1143,27 +1143,52 @@
        DOCUMENT GENERATION PLACEHOLDER
   ================================================ --}}
 
-  <div class="sasha-document-generation-coming-soon">
 
-    <h3>
-      Generate Word Document
-    </h3>
+{{!-- =====================================================
+     GENERATE WORD DOCUMENT
+===================================================== --}}
 
-    <p>
-      Once the document generator is connected,
-      Sasha will assemble the current proposal
-      sections using your active Word template.
-    </p>
+<div class="sasha-document-generation-coming-soon">
+
+  <h3>
+    Generate Word Document
+  </h3>
+
+  <p>
+    Assemble the saved proposal sections in their
+    approved order using your organization's active
+    Word template. The resulting document will be
+    editable in Microsoft Word.
+  </p>
+
+  <form
+    action="/write/generate-document"
+    method="POST"
+  >
+
+    <input
+      type="hidden"
+      name="_csrf"
+      value="{{csrfToken}}"
+    >
+
+    <input
+      type="hidden"
+      name="pursuitId"
+      value="{{proposal._id}}"
+    >
 
     <button
-      type="button"
-      class="sasha-write-secondary-button"
-      disabled
+      type="submit"
+      class="sasha-form-submit-button"
     >
       Generate Word Document
     </button>
 
-  </div>
+  </form>
+
+</div>
+
 
 </section>
 

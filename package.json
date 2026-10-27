@@ -13,6 +13,7 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "@xmldom/xmldom": "^0.9.12",
     "bcryptjs": "^3.0.3",
     "cloudinary": "^2.10.0",
     "compression": "^1.8.1",
@@ -28,6 +29,7 @@
     "mongoose": "^9.9.1",
     "multer": "^2.2.0",
     "openai": "^7.4.0",
+    "pizzip": "^3.3.0",
     "sanitize-html": "^2.17.6",
     "stripe": "^22.4.0"
   },
