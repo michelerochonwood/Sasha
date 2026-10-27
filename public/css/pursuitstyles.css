@@ -22792,69 +22792,345 @@ input[type="file"]::file-selector-button {
 
 .sasha-write-document-generator {
   margin-top: 36px;
-  padding: 28px;
+  padding: 30px 32px 34px;
   background: #ffffff;
   border: 1px solid #e5e0ee;
-  border-radius: 16px;
-}
-
-.sasha-template-status {
-  margin: 24px 0;
-  padding: 18px 22px;
-  background: #f5f3fa;
-  border-radius: 12px;
-}
-
-.sasha-template-status h3,
-.sasha-document-generation-coming-soon h3 {
-  margin: 0 0 10px;
-  font-size: 17px;
+  border-radius: 18px;
+  box-sizing: border-box;
   color: #38286b;
 }
 
-.sasha-template-status p {
-  margin: 0;
-  font-size: 14px;
+/* =====================================================
+   PANEL HEADER
+===================================================== */
+
+.sasha-write-document-generator
+.sasha-write-section-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 30px;
+  margin: 0 0 24px;
+  padding: 0;
 }
+
+.sasha-write-document-generator
+.sasha-work-eyebrow {
+  margin: 0 0 8px;
+  color: #f49ac2;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+
+.sasha-write-document-generator
+.sasha-write-section-heading h2 {
+  margin: 0;
+  color: #38286b;
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.sasha-write-document-generator
+.sasha-write-section-heading > p {
+  margin: 4px 0 0;
+  max-width: 460px;
+  color: #62567e;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* =====================================================
+   ACTIVE TEMPLATE STATUS
+===================================================== */
+
+.sasha-template-status {
+  margin: 0 0 24px;
+  padding: 18px 22px;
+  background: #f5f3fa;
+  border: 1px solid #ebe6f3;
+  border-radius: 12px;
+}
+
+.sasha-template-status h3 {
+  margin: 0 0 8px;
+  color: #38286b;
+  font-size: 17px;
+  font-weight: 750;
+}
+
+.sasha-template-status p,
+#sasha-active-template-name {
+  margin: 0;
+  color: #62567e;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5;
+  opacity: 1;
+  visibility: visible;
+}
+
+/* =====================================================
+   TEMPLATE UPLOAD FORM
+===================================================== */
 
 .sasha-template-upload-form {
   display: flex;
   flex-direction: column;
   gap: 18px;
+  width: 100%;
+  margin: 0;
 }
 
-.sasha-template-upload-form input[type="text"],
-.sasha-template-upload-form input[type="file"] {
+.sasha-template-upload-form
+.sasha-write-section-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  margin: 0;
+}
+
+.sasha-template-upload-form
+.sasha-write-section-field label {
+  display: block;
+  margin: 0;
+  color: #38286b;
+  font-size: 14px;
+  font-weight: 700;
+  opacity: 1;
+  visibility: visible;
+}
+
+.sasha-template-upload-form
+input[type="text"],
+.sasha-template-upload-form
+input[type="file"] {
   display: block;
   width: 100%;
+  min-height: 48px;
   padding: 12px 14px;
   box-sizing: border-box;
-  border: 1px solid #cfc6df;
-  border-radius: 9px;
+
   background: #ffffff;
-  font: inherit;
+  color: #38286b;
+
+  border: 1px solid #d4cce3;
+  border-radius: 10px;
+
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.4;
+
+  opacity: 1;
+  visibility: visible;
 }
+
+.sasha-template-upload-form
+input[type="text"]::placeholder {
+  color: #9b94a9;
+  opacity: 1;
+}
+
+.sasha-template-upload-form
+input[type="text"]:focus,
+.sasha-template-upload-form
+input[type="file"]:focus {
+  outline: 2px solid #f49ac2;
+  outline-offset: 2px;
+  border-color: #f49ac2;
+}
+
+.sasha-template-upload-form
+input[type="file"] {
+  cursor: pointer;
+}
+
+.sasha-template-upload-form
+input[type="file"]::file-selector-button {
+  margin-right: 16px;
+  padding: 8px 16px;
+
+  background: #f5f3fa;
+  color: #38286b;
+
+  border: 1px solid #d4cce3;
+  border-radius: 8px;
+
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.sasha-template-upload-form
+input[type="file"]::file-selector-button:hover {
+  background: #ebe5f5;
+}
+
+/* =====================================================
+   UPLOAD ACTION
+===================================================== */
+
+.sasha-template-upload-form
+.sasha-write-section-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin: 4px 0 0;
+  padding: 0;
+}
+
+.sasha-template-upload-form
+#sasha-template-upload-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: auto;
+  min-height: 46px;
+  padding: 12px 24px;
+
+  background: #f49ac2;
+  color: #38286b;
+
+  border: none;
+  border-radius: 28px;
+
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.3;
+
+  cursor: pointer;
+  opacity: 1;
+  visibility: visible;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.sasha-template-upload-form
+#sasha-template-upload-button:hover {
+  background: #ffb1d3;
+  color: #38286b;
+  transform: translateY(-1px);
+}
+
+.sasha-template-upload-form
+#sasha-template-upload-button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+  transform: none;
+}
+
+/* =====================================================
+   UPLOAD FEEDBACK
+===================================================== */
 
 .sasha-template-upload-message {
-  margin-top: 16px;
-  font-weight: 600;
+  margin: 14px 0 0;
   color: #38286b;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.5;
 }
 
+.sasha-template-upload-message:empty {
+  display: none;
+}
+
+/* =====================================================
+   GENERATE WORD DOCUMENT
+===================================================== */
+
 .sasha-document-generation-coming-soon {
-  margin-top: 28px;
-  padding-top: 24px;
+  margin-top: 26px;
+  padding-top: 22px;
   border-top: 1px solid #e5e0ee;
 }
 
-.sasha-document-generation-coming-soon p {
-  margin-bottom: 18px;
+.sasha-document-generation-coming-soon h3 {
+  margin: 0 0 10px;
+  color: #38286b;
+  font-size: 18px;
+  font-weight: 750;
 }
 
-.sasha-document-generation-coming-soon button:disabled {
-  opacity: 0.5;
+.sasha-document-generation-coming-soon p {
+  margin: 0 0 18px;
+  color: #62567e;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.sasha-document-generation-coming-soon
+button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 44px;
+  padding: 11px 22px;
+
+  background: #eee9f5;
+  color: #62567e;
+
+  border: 1px solid #d4cce3;
+  border-radius: 24px;
+
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.sasha-document-generation-coming-soon
+button:disabled {
+  opacity: 0.65;
   cursor: not-allowed;
 }
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media (max-width: 768px) {
+
+  .sasha-write-document-generator {
+    padding: 22px 18px 26px;
+    margin-top: 24px;
+  }
+
+  .sasha-write-document-generator
+  .sasha-write-section-heading {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .sasha-write-document-generator
+  .sasha-write-section-heading h2 {
+    font-size: 23px;
+  }
+
+  .sasha-write-document-generator
+  .sasha-write-section-heading > p {
+    max-width: 100%;
+  }
+
+  .sasha-template-status {
+    padding: 16px;
+  }
+
+  .sasha-template-upload-form
+  #sasha-template-upload-button {
+    width: 100%;
+  }
+
+}
+
 
 
 
