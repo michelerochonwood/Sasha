@@ -96,13 +96,17 @@ function normalizeHeading(value) {
    WORD STYLES
 ===================================================== */
 
+
 function readStyles(zip) {
   const styles = {
     normal: 'Normal',
     heading1: 'Heading1',
     heading2: 'Heading2',
     heading3: 'Heading3',
-    bullet: null
+    bullet: null,
+    evidenceGap: null,
+    complianceRisk: null,
+    actionRequired: null
   };
 
   const file = zip.file('word/styles.xml');
@@ -131,10 +135,32 @@ function readStyles(zip) {
     ) {
       styles.bullet = id;
     }
+
+    if (
+      name === 'evidencegap' ||
+      name === 'evidence gap'
+    ) {
+      styles.evidenceGap = id;
+    }
+
+    if (
+      name === 'compliancerisk' ||
+      name === 'compliance risk'
+    ) {
+      styles.complianceRisk = id;
+    }
+
+    if (
+      name === 'actionrequired' ||
+      name === 'action required'
+    ) {
+      styles.actionRequired = id;
+    }
   }
 
   return styles;
 }
+
 
 /* =====================================================
    BULLET NUMBERING
@@ -255,6 +281,24 @@ function classifyLine(line, nextLine, styles) {
   const text = line.trim();
   if (!text) return null;
 
+const flagMatch = text.match(
+  /^(?:\*\*)?(EVIDENCE GAP|COMPLIANCE RISK|ACTION REQUIRED)(?:\*\*)?\s*:\s*(.+)$/i
+);
+
+if (flagMatch) {
+  const flagTypes = {
+    'EVIDENCE GAP': 'evidenceGap',
+    'COMPLIANCE RISK': 'complianceRisk',
+    'ACTION REQUIRED': 'actionRequired'
+  };
+
+  return {
+    type: 'flag',
+    flagType: flagTypes[flagMatch[1].toUpperCase()],
+    text: `${flagMatch[1].toUpperCase()}: ${flagMatch[2].trim()}`
+  };
+}
+
   const markdownHeading =
     text.match(/^(#{1,6})\s+(.+)$/);
 
@@ -358,6 +402,17 @@ function createSectionParagraphs(
       classifyLine(line, nextLine, styles);
 
     if (!classified) continue;
+
+if (classified.type === 'flag') {
+  paragraphs.push(
+    createParagraph(
+      doc,
+      classified.text,
+      styles[classified.flagType] || styles.normal
+    )
+  );
+  continue;
+}
 
     if (classified.type === 'heading') {
       paragraphs.push(
