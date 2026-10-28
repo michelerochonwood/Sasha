@@ -141,7 +141,7 @@ exports.postGenerateProposalDocument =
           .slice(0, 70);
 
       const filename =
-        `TOMA_Proposal_${safeName}.docx`;
+        `Proposal_${safeName}.docx`;
 
       res.setHeader(
         'Content-Type',

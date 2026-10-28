@@ -20,17 +20,12 @@ function element(doc, name) {
 }
 
 function setWordAttribute(node, name, value) {
-  node.setAttributeNS(
-    W_NS,
-    `w:${name}`,
-    String(value)
-  );
+  node.setAttributeNS(W_NS, `w:${name}`, String(value));
 }
 
 function getWordAttribute(node, name) {
   return node.getAttributeNS(W_NS, name) ||
-    node.getAttribute(`w:${name}`) ||
-    '';
+    node.getAttribute(`w:${name}`) || '';
 }
 
 function getDirectChild(parent, localName) {
@@ -43,8 +38,28 @@ function getDirectChild(parent, localName) {
       return child;
     }
   }
-
   return null;
+}
+
+function parseXml(xml, filename) {
+  const errors = [];
+
+  const doc = new DOMParser({
+    errorHandler: {
+      warning: message => errors.push(message),
+      error: message => errors.push(message),
+      fatalError: message => errors.push(message)
+    }
+  }).parseFromString(xml, 'application/xml');
+
+  if (
+    errors.length ||
+    doc.getElementsByTagName('parsererror').length
+  ) {
+    throw new Error(`Invalid XML in ${filename}`);
+  }
+
+  return doc;
 }
 
 /* =====================================================
@@ -52,7 +67,7 @@ function getDirectChild(parent, localName) {
 ===================================================== */
 
 function normalizeText(value) {
-  return String(value || '')
+  return String(value ?? '')
     .normalize('NFC')
     .replace(/\r\n?/g, '\n')
     .replace(/\u0000/g, '')
@@ -76,12 +91,10 @@ function normalizeHeading(value) {
 }
 
 /* =====================================================
-   READ WORD STYLES
+   WORD STYLES
 ===================================================== */
 
 function readStyles(zip) {
-  const stylesFile = zip.file('word/styles.xml');
-
   const styles = {
     normal: 'Normal',
     heading1: 'Heading1',
@@ -90,54 +103,31 @@ function readStyles(zip) {
     bullet: null
   };
 
-  if (!stylesFile) {
-    return styles;
-  }
+  const file = zip.file('word/styles.xml');
+  if (!file) return styles;
 
-  const doc = new DOMParser().parseFromString(
-    stylesFile.asText(),
-    'application/xml'
-  );
+  const doc = parseXml(file.asText(), 'word/styles.xml');
 
-  const styleNodes =
-    doc.getElementsByTagNameNS(W_NS, 'style');
+  const nodes = doc.getElementsByTagNameNS(W_NS, 'style');
 
-  for (const node of Array.from(styleNodes)) {
-    const styleId =
-      getWordAttribute(node, 'styleId');
+  for (const node of Array.from(nodes)) {
+    const id = getWordAttribute(node, 'styleId');
+    const nameNode = getDirectChild(node, 'name');
 
-    const nameNode =
-      getDirectChild(node, 'name');
+    const name = nameNode
+      ? getWordAttribute(nameNode, 'val').toLowerCase().trim()
+      : '';
 
-    const styleName =
-      nameNode
-        ? getWordAttribute(nameNode, 'val')
-        : '';
-
-    const normalized =
-      styleName.toLowerCase().trim();
-
-    if (normalized === 'normal') {
-      styles.normal = styleId;
-    }
-
-    if (normalized === 'heading 1') {
-      styles.heading1 = styleId;
-    }
-
-    if (normalized === 'heading 2') {
-      styles.heading2 = styleId;
-    }
-
-    if (normalized === 'heading 3') {
-      styles.heading3 = styleId;
-    }
+    if (name === 'normal') styles.normal = id;
+    if (name === 'heading 1') styles.heading1 = id;
+    if (name === 'heading 2') styles.heading2 = id;
+    if (name === 'heading 3') styles.heading3 = id;
 
     if (
       !styles.bullet &&
-      /^(list bullet|normal bullets?|bullet)$/.test(normalized)
+      /^(list bullet|normal bullets?|bullet)$/.test(name)
     ) {
-      styles.bullet = styleId;
+      styles.bullet = id;
     }
   }
 
@@ -145,66 +135,49 @@ function readStyles(zip) {
 }
 
 /* =====================================================
-   READ WORD NUMBERING DEFINITIONS
+   BULLET NUMBERING
 ===================================================== */
 
 function readBulletNumbering(zip) {
   const file = zip.file('word/numbering.xml');
+  if (!file) return null;
 
-  if (!file) {
-    return null;
-  }
+  const doc = parseXml(file.asText(), 'word/numbering.xml');
 
-  const doc = new DOMParser().parseFromString(
-    file.asText(),
-    'application/xml'
-  );
+  const abstractIds = new Set();
 
-  const abstractDefinitions =
-    doc.getElementsByTagNameNS(
-      W_NS,
-      'abstractNum'
-    );
+  const definitions =
+    doc.getElementsByTagNameNS(W_NS, 'abstractNum');
 
-  const bulletAbstractIds = new Set();
-
-  for (const abstract of Array.from(abstractDefinitions)) {
+  for (const abstract of Array.from(definitions)) {
     const levels =
       abstract.getElementsByTagNameNS(W_NS, 'lvl');
 
     for (const level of Array.from(levels)) {
       const format =
-        level.getElementsByTagNameNS(
-          W_NS,
-          'numFmt'
-        ).item(0);
+        level.getElementsByTagNameNS(W_NS, 'numFmt').item(0);
 
       if (
         format &&
         getWordAttribute(format, 'val') === 'bullet'
       ) {
-        bulletAbstractIds.add(
+        abstractIds.add(
           getWordAttribute(abstract, 'abstractNumId')
         );
       }
     }
   }
 
-  const nums =
-    doc.getElementsByTagNameNS(W_NS, 'num');
+  const nums = doc.getElementsByTagNameNS(W_NS, 'num');
 
   for (const num of Array.from(nums)) {
-    const abstractRef =
-      num.getElementsByTagNameNS(
-        W_NS,
-        'abstractNumId'
-      ).item(0);
+    const ref =
+      num.getElementsByTagNameNS(W_NS, 'abstractNumId')
+        .item(0);
 
     if (
-      abstractRef &&
-      bulletAbstractIds.has(
-        getWordAttribute(abstractRef, 'val')
-      )
+      ref &&
+      abstractIds.has(getWordAttribute(ref, 'val'))
     ) {
       return {
         numId: getWordAttribute(num, 'numId'),
@@ -217,27 +190,16 @@ function readBulletNumbering(zip) {
 }
 
 /* =====================================================
-   CREATE WORD PARAGRAPHS
+   CREATE WORD PARAGRAPH
 ===================================================== */
 
-function createParagraph(
-  doc,
-  content,
-  style,
-  options = {}
-) {
+function createParagraph(doc, content, style, options = {}) {
   const paragraph = element(doc, 'p');
   const properties = element(doc, 'pPr');
 
   if (style) {
     const styleNode = element(doc, 'pStyle');
-
-    setWordAttribute(
-      styleNode,
-      'val',
-      style
-    );
-
+    setWordAttribute(styleNode, 'val', style);
     properties.appendChild(styleNode);
   }
 
@@ -264,9 +226,7 @@ function createParagraph(
   }
 
   if (options.keepWithNext) {
-    properties.appendChild(
-      element(doc, 'keepNext')
-    );
+    properties.appendChild(element(doc, 'keepNext'));
   }
 
   paragraph.appendChild(properties);
@@ -274,11 +234,7 @@ function createParagraph(
   const run = element(doc, 'r');
   const text = element(doc, 't');
 
-  text.setAttribute(
-    'xml:space',
-    'preserve'
-  );
-
+  text.setAttribute('xml:space', 'preserve');
   text.appendChild(
     doc.createTextNode(normalizeText(content))
   );
@@ -290,36 +246,31 @@ function createParagraph(
 }
 
 /* =====================================================
-   CLASSIFY CONTENT LINES
+   CLASSIFY PROPOSAL TEXT
 ===================================================== */
 
 function classifyLine(line, nextLine, styles) {
   const text = line.trim();
-
-  if (!text) {
-    return null;
-  }
+  if (!text) return null;
 
   const markdownHeading =
     text.match(/^(#{1,6})\s+(.+)$/);
 
   if (markdownHeading) {
-    const depth = markdownHeading[1].length;
-
     return {
       type: 'heading',
-      level: Math.min(depth + 1, 3),
+      level: Math.min(markdownHeading[1].length + 1, 3),
       text: markdownHeading[2].trim()
     };
   }
 
-  const bulletMatch =
-    text.match(/^(?:[•*-]|\u2022)\s+(.+)$/);
+  const bullet =
+    text.match(/^(?:[•*-])\s+(.+)$/);
 
-  if (bulletMatch) {
+  if (bullet) {
     return {
       type: 'bullet',
-      text: bulletMatch[1].trim()
+      text: bullet[1].trim()
     };
   }
 
@@ -329,32 +280,20 @@ function classifyLine(line, nextLine, styles) {
   if (numberedHeading) {
     return {
       type: 'heading',
-      level:
-        numberedHeading[1].split('.').length >= 3
-          ? 3
-          : 2,
+      level: numberedHeading[1].split('.').length >= 3
+        ? 3
+        : 2,
       text
     };
   }
 
-  /*
-   * Conservative heading detection.
-   *
-   * Short standalone lines without sentence-ending
-   * punctuation are treated as subsection headings.
-   */
-
-  const wordCount =
-    text.split(/\s+/).length;
-
-  const nextHasContent =
-    Boolean(nextLine && nextLine.trim());
+  const wordCount = text.split(/\s+/).length;
 
   const looksLikeHeading =
     wordCount <= 10 &&
     text.length <= 90 &&
     !/[.!?;:]$/.test(text) &&
-    nextHasContent &&
+    Boolean(nextLine && nextLine.trim()) &&
     !/^[-•*]/.test(text) &&
     !/^\d+[.)]\s/.test(text);
 
@@ -373,7 +312,7 @@ function classifyLine(line, nextLine, styles) {
 }
 
 /* =====================================================
-   BUILD SECTION PARAGRAPHS
+   BUILD SAVED PROPOSAL SECTION
 ===================================================== */
 
 function createSectionParagraphs(
@@ -393,33 +332,20 @@ function createSectionParagraphs(
     )
   );
 
-  const lines =
-    normalizeText(section.content)
-      .split('\n');
-
+  const lines = normalizeText(section.content).split('\n');
   let firstContentLine = true;
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i].trim();
-
-    if (!line) {
-      continue;
-    }
+    if (!line) continue;
 
     const nextLine =
-      lines.slice(i + 1).find(
-        value => value.trim()
-      ) || '';
-
-    /*
-     * Skip duplicate section headings,
-     * including headings with numbering or Markdown.
-     */
+      lines.slice(i + 1).find(value => value.trim()) || '';
 
     if (
       firstContentLine &&
       normalizeHeading(line) ===
-      normalizeHeading(section.title)
+        normalizeHeading(section.title)
     ) {
       continue;
     }
@@ -427,31 +353,21 @@ function createSectionParagraphs(
     firstContentLine = false;
 
     const classified =
-      classifyLine(
-        line,
-        nextLine,
-        styles
-      );
+      classifyLine(line, nextLine, styles);
 
-    if (!classified) {
-      continue;
-    }
+    if (!classified) continue;
 
     if (classified.type === 'heading') {
-      const style =
-        classified.level === 3
-          ? styles.heading3
-          : styles.heading2;
-
       paragraphs.push(
         createParagraph(
           doc,
           classified.text,
-          style,
+          classified.level === 3
+            ? styles.heading3
+            : styles.heading2,
           { keepWithNext: true }
         )
       );
-
       continue;
     }
 
@@ -461,12 +377,9 @@ function createSectionParagraphs(
           doc,
           classified.text,
           styles.bullet || styles.normal,
-          {
-            numbering: bulletNumbering
-          }
+          { numbering: bulletNumbering }
         )
       );
-
       continue;
     }
 
@@ -483,108 +396,175 @@ function createSectionParagraphs(
 }
 
 /* =====================================================
-   FIND TEMPLATE INSERTION POINT
+   METADATA PLACEHOLDERS
 ===================================================== */
 
-function getParagraphText(paragraph) {
-  const textNodes =
-    paragraph.getElementsByTagNameNS(
-      W_NS,
-      't'
-    );
+function formatSubmissionDate(value) {
+  if (!value) return '';
 
-  return Array.from(textNodes)
-    .map(node => node.textContent || '')
-    .join('');
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return '';
+
+  // Date only. The stored deadline may have a time zone.
+  return new Intl.DateTimeFormat('en-CA', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    timeZone: 'UTC'
+  }).format(date);
 }
 
-function findMarkerParagraph(body) {
-  const paragraphs =
-    body.getElementsByTagNameNS(
-      W_NS,
-      'p'
-    );
+function buildMetadata(proposal) {
+  return {
+    '{{proposalName}}':
+      normalizeText(proposal.proposalName),
 
-  for (const paragraph of Array.from(paragraphs)) {
-    if (
-      getParagraphText(paragraph).includes(MARKER)
-    ) {
-      return paragraph;
-    }
-  }
+    '{{clientName}}':
+      normalizeText(proposal.clientName),
 
-  return null;
+    '{{rfpNumber}}':
+      normalizeText(proposal.rfpNumber),
+
+    '{{submissionDeadline}}':
+      formatSubmissionDate(proposal.submissionDeadline),
+
+    '{{proposalManager}}':
+      normalizeText(proposal.proposalManager?.name)
+  };
 }
 
 /* =====================================================
-   GENERATE PROPOSAL DOCUMENT
+   REPLACE PLACEHOLDERS IN WORD PARAGRAPHS
+
+   Handles placeholders divided across multiple text runs.
+   Preserves the surrounding paragraph, table and run
+   formatting. The replacement inherits formatting from
+   the first text run containing the placeholder.
 ===================================================== */
 
-function generateProposalDocument({
-  templateBuffer,
-  proposal
-}) {
-  if (!Buffer.isBuffer(templateBuffer)) {
-    throw new Error(
-      'Word template buffer is missing.'
-    );
-  }
-
-  const sections = (
-    Array.isArray(proposal.contentSections)
-      ? proposal.contentSections
-      : []
-  )
-    .filter(section =>
-      typeof section.content === 'string' &&
-      section.content.trim()
-    )
-    .sort((a, b) =>
-      Number(a.order || 0) -
-      Number(b.order || 0)
-    );
-
-  if (!sections.length) {
-    throw new Error(
-      'This pursuit has no saved proposal sections.'
-    );
-  }
-
-  const zip = new PizZip(templateBuffer);
-
-  const documentFile =
-    zip.file('word/document.xml');
-
-  if (!documentFile) {
-    throw new Error(
-      'The template is missing word/document.xml.'
-    );
-  }
-
-  const styles = readStyles(zip);
-
-  const bulletNumbering =
-    readBulletNumbering(zip);
-
-  const doc = new DOMParser().parseFromString(
-    documentFile.asText(),
-    'application/xml'
+function replaceTextInParagraph(paragraph, replacements) {
+  const nodes = Array.from(
+    paragraph.getElementsByTagNameNS(W_NS, 't')
   );
 
-  const body =
-    doc.getElementsByTagNameNS(
-      W_NS,
-      'body'
-    ).item(0);
+  if (!nodes.length) return;
 
-  if (!body) {
-    throw new Error(
-      'The Word template has no document body.'
-    );
+  for (const [placeholder, replacement] of
+    Object.entries(replacements)) {
+
+    let text = nodes.map(node => node.textContent || '').join('');
+    let position = text.indexOf(placeholder);
+
+    while (position !== -1) {
+      let cursor = 0;
+      let startIndex = -1;
+      let endIndex = -1;
+      let startOffset = 0;
+      let endOffset = 0;
+
+      for (let i = 0; i < nodes.length; i++) {
+        const length = (nodes[i].textContent || '').length;
+
+        if (
+          startIndex === -1 &&
+          position >= cursor &&
+          position < cursor + length
+        ) {
+          startIndex = i;
+          startOffset = position - cursor;
+        }
+
+        if (
+          startIndex !== -1 &&
+          position + placeholder.length <= cursor + length
+        ) {
+          endIndex = i;
+          endOffset = position + placeholder.length - cursor;
+          break;
+        }
+
+        cursor += length;
+      }
+
+      if (startIndex === -1 || endIndex === -1) break;
+
+      const first = nodes[startIndex];
+      const last = nodes[endIndex];
+
+      const firstText = first.textContent || '';
+      const lastText = last.textContent || '';
+
+      const before = firstText.slice(0, startOffset);
+      const after = lastText.slice(endOffset);
+
+      if (startIndex === endIndex) {
+        first.textContent =
+          before + String(replacement) + after;
+      } else {
+        first.textContent =
+          before + String(replacement);
+
+        for (let i = startIndex + 1; i < endIndex; i++) {
+          nodes[i].textContent = '';
+        }
+
+        last.textContent = after;
+      }
+
+      text = nodes.map(node => node.textContent || '').join('');
+      position = text.indexOf(
+        placeholder,
+        position + String(replacement).length
+      );
+    }
   }
+}
 
-  const markerParagraph =
-    findMarkerParagraph(body);
+function replaceMetadataInDocument(doc, replacements) {
+  const paragraphs = Array.from(
+    doc.getElementsByTagNameNS(W_NS, 'p')
+  );
+
+  for (const paragraph of paragraphs) {
+    replaceTextInParagraph(paragraph, replacements);
+  }
+}
+
+/* =====================================================
+   FIND MAIN PROPOSAL CONTENT MARKER
+===================================================== */
+
+function findMarkerParagraph(body) {
+  const paragraphs = Array.from(
+    body.getElementsByTagNameNS(W_NS, 'p')
+  );
+
+  return paragraphs.find(paragraph => {
+    const text = Array.from(
+      paragraph.getElementsByTagNameNS(W_NS, 't')
+    )
+      .map(node => node.textContent || '')
+      .join('');
+
+    return text.includes(MARKER);
+  }) || null;
+}
+
+/* =====================================================
+   INSERT PROPOSAL CONTENT
+
+   Replace only the marker paragraph.
+   Preserve all subsequent template content.
+===================================================== */
+
+function insertProposalContent(
+  doc,
+  body,
+  sections,
+  styles,
+  bulletNumbering
+) {
+  const markerParagraph = findMarkerParagraph(body);
 
   if (!markerParagraph) {
     throw new Error(
@@ -598,76 +578,173 @@ function generateProposalDocument({
     );
   }
 
-  /*
-   * Remove the marker and subsequent sample content,
-   * preserving final section properties.
-   */
+  const markerText = Array.from(
+    markerParagraph.getElementsByTagNameNS(W_NS, 't')
+  )
+    .map(node => node.textContent || '')
+    .join('')
+    .trim();
 
-  let node = markerParagraph;
-
-  while (node) {
-    const next = node.nextSibling;
-
-    if (
-      node.nodeType === 1 &&
-      node.localName === 'sectPr' &&
-      node.namespaceURI === W_NS
-    ) {
-      break;
-    }
-
-    body.removeChild(node);
-    node = next;
+  if (markerText !== MARKER) {
+    throw new Error(
+      '{{PROPOSAL_CONTENT}} must be alone in its paragraph.'
+    );
   }
-
-  const sectionProperties =
-    Array.from(body.childNodes).find(
-      child =>
-        child.nodeType === 1 &&
-        child.localName === 'sectPr' &&
-        child.namespaceURI === W_NS
-    ) || null;
 
   for (const section of sections) {
-    const paragraphs =
-      createSectionParagraphs(
-        doc,
-        section,
-        styles,
-        bulletNumbering
-      );
+    const paragraphs = createSectionParagraphs(
+      doc,
+      section,
+      styles,
+      bulletNumbering
+    );
 
     for (const paragraph of paragraphs) {
-      body.insertBefore(
-        paragraph,
-        sectionProperties
-      );
+      body.insertBefore(paragraph, markerParagraph);
     }
   }
+
+  body.removeChild(markerParagraph);
+}
+
+/* =====================================================
+   GENERATE PROPOSAL DOCUMENT
+===================================================== */
+
+function generateProposalDocument({
+  templateBuffer,
+  proposal
+} = {}) {
+  if (!Buffer.isBuffer(templateBuffer)) {
+    throw new Error(
+      'Word template buffer is missing.'
+    );
+  }
+
+  if (!proposal || typeof proposal !== 'object') {
+    throw new Error(
+      'Proposal data is missing.'
+    );
+  }
+
+
+  const sections = (
+    Array.isArray(proposal.contentSections)
+      ? proposal.contentSections
+      : []
+  )
+    .filter(section =>
+      section &&
+      typeof section.content === 'string' &&
+      section.content.trim().length > 0
+    )
+    .map(section => ({
+      title: normalizeText(section.title || 'Untitled Section'),
+      content: normalizeText(section.content)
+    }));
+
+  if (!sections.length) {
+    throw new Error(
+      'The proposal has no saved written sections to assemble.'
+    );
+  }
+
+  let zip;
+
+  try {
+    zip = new PizZip(templateBuffer);
+  } catch (error) {
+    throw new Error(
+      `Unable to open Word template: ${error.message}`
+    );
+  }
+
+  const documentFile = zip.file('word/document.xml');
+
+  if (!documentFile) {
+    throw new Error(
+      'The uploaded template is not a valid Word DOCX document.'
+    );
+  }
+
+  const doc = parseXml(
+    documentFile.asText(),
+    'word/document.xml'
+  );
+
+  const body = doc.getElementsByTagNameNS(
+    W_NS,
+    'body'
+  ).item(0);
+
+  if (!body) {
+    throw new Error(
+      'The Word template does not contain a document body.'
+    );
+  }
+
+  // Read paragraph styles and numbering from the template.
+  const styles = readStyles(zip);
+  const bulletNumbering = readBulletNumbering(zip);
+
+  // Replace proposal metadata throughout the main document.
+  const metadata = buildMetadata(proposal);
+
+  replaceMetadataInDocument(doc, metadata);
+
+  // Insert the saved proposal sections at the content marker.
+  insertProposalContent(
+    doc,
+    body,
+    sections,
+    styles,
+    bulletNumbering
+  );
+
+  // Save the modified main document XML.
+  const serializer = new XMLSerializer();
 
   zip.file(
     'word/document.xml',
-    new XMLSerializer().serializeToString(doc)
+    serializer.serializeToString(doc)
   );
 
+  // Replace metadata in headers and footers, if present.
+  const auxiliaryFiles = Object.keys(zip.files)
+    .filter(filename =>
+      /^word\/(?:header|footer)\d+\.xml$/.test(filename)
+    );
+
+  for (const filename of auxiliaryFiles) {
+    const file = zip.file(filename);
+    if (!file) continue;
+
+    const auxiliaryDoc = parseXml(
+      file.asText(),
+      filename
+    );
+
+    replaceMetadataInDocument(
+      auxiliaryDoc,
+      metadata
+    );
+
+    zip.file(
+      filename,
+      serializer.serializeToString(auxiliaryDoc)
+    );
+  }
+
+  // Generate the completed Word document as a Buffer.
   return zip.generate({
     type: 'nodebuffer',
-    compression: 'DEFLATE'
+    compression: 'DEFLATE',
+    compressionOptions: {
+      level: 6
+    }
   });
 }
 
-
-
-/* =====================================================
-   EXPORT SERVICE FUNCTIONS
-===================================================== */
-
-
-
 module.exports = {
-  generateProposalDocument,
-  normalizeText,
-  normalizeHeading,
-  classifyLine
+  generateProposalDocument
 };
-
