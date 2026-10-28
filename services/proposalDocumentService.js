@@ -41,14 +41,13 @@ function getDirectChild(parent, localName) {
   return null;
 }
 
+
 function parseXml(xml, filename) {
   const errors = [];
 
   const doc = new DOMParser({
-    errorHandler: {
-      warning: message => errors.push(message),
-      error: message => errors.push(message),
-      fatalError: message => errors.push(message)
+    onError: (level, message) => {
+      errors.push(`${level}: ${message}`);
     }
   }).parseFromString(xml, 'application/xml');
 
@@ -56,11 +55,14 @@ function parseXml(xml, filename) {
     errors.length ||
     doc.getElementsByTagName('parsererror').length
   ) {
-    throw new Error(`Invalid XML in ${filename}`);
+    throw new Error(
+      `Invalid XML in ${filename}: ${errors.join('; ')}`
+    );
   }
 
   return doc;
 }
+
 
 /* =====================================================
    TEXT NORMALIZATION
