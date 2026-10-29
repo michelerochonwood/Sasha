@@ -23399,6 +23399,70 @@ button:disabled {
 
 
 
+/* =====================================================
+   SASHA FINDINGS: CATEGORY COLUMNS
+===================================================== */
+
+.sasha-write-findings-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: start;
+  gap: 1.25rem;
+}
+
+.sasha-findings-column {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: 1rem;
+}
+
+.sasha-findings-column-heading {
+  margin: 0 0 0.25rem;
+  padding: 0.85rem 1rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  border-radius: 8px;
+}
+
+.sasha-findings-column-heading.is-evidence {
+  background: #fffbf1;
+  color: #99620b;
+  border-bottom: 3px solid #d89a24;
+}
+
+.sasha-findings-column-heading.is-compliance {
+  background: #fff7f7;
+  color: #a72e3b;
+  border-bottom: 3px solid #d65c65;
+}
+
+.sasha-findings-column-heading.is-action {
+  background: #f5f9ff;
+  color: #235d99;
+  border-bottom: 3px solid #4787c7;
+}
+
+.sasha-findings-column .sasha-write-finding {
+  height: auto;
+}
+
+/* Tablets */
+
+@media (max-width: 1100px) {
+  .sasha-write-findings-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Mobile */
+
+@media (max-width: 700px) {
+  .sasha-write-findings-list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
 
 
 

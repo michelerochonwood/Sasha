@@ -765,6 +765,7 @@
 
 {{/if}}
 
+
 {{!-- =====================================================
      SASHA WRITING FINDINGS
 ===================================================== --}}
@@ -788,48 +789,29 @@
     </div>
 
     <p>
-      These are internal findings identified by Sasha
-      while developing this proposal section.
-      They are not part of the client-facing draft.
+      Internal findings identified by Sasha while
+      developing this proposal section.
+      These are not part of the client-facing draft.
     </p>
   </header>
 
-  {{#if writingFlags.length}}
+  <div class="sasha-write-findings-list">
 
-    <div class="sasha-write-findings-list">
+    {{!-- =========================================
+         COLUMN 1: EVIDENCE GAPS
+    ========================================== --}}
 
-      {{#each writingFlags}}
+    <div class="sasha-findings-column">
 
-        
-<article class="
-  sasha-write-finding
-  {{#ifEquals this.type "evidence_gap"}}
-    sasha-flag-evidence
-  {{/ifEquals}}
-  {{#ifEquals this.type "compliance_risk"}}
-    sasha-flag-compliance
-  {{/ifEquals}}
-  {{#ifEquals this.type "action_required"}}
-    sasha-flag-action
-  {{/ifEquals}}
-">
+      <h3 class="sasha-findings-column-heading is-evidence">
+        Evidence Gaps ({{evidenceFlags.length}})
+      </h3>
 
+      {{#each evidenceFlags}}
 
-          <h3>
-            {{#ifEquals this.type "evidence_gap"}}
-              Evidence Gap
-            {{else}}
-              {{#ifEquals this.type "compliance_risk"}}
-                Compliance Risk
-              {{else}}
-                Action Required
-              {{/ifEquals}}
-            {{/ifEquals}}
-          </h3>
+        <article class="sasha-write-finding sasha-flag-evidence">
 
-          <p>
-            {{this.description}}
-          </p>
+          <p>{{this.description}}</p>
 
           {{#if this.actionRequired}}
             <p>
@@ -840,17 +822,92 @@
 
         </article>
 
+      {{else}}
+
+        <p class="sasha-write-findings-empty">
+          No open evidence gaps.
+        </p>
+
       {{/each}}
 
     </div>
 
-  {{else}}
+    {{!-- =========================================
+         COLUMN 2: COMPLIANCE RISKS
+    ========================================== --}}
 
-    <p class="sasha-write-findings-empty">
-      No open findings have been recorded for this section.
-    </p>
+    <div class="sasha-findings-column">
 
-  {{/if}}
+      <h3 class="sasha-findings-column-heading is-compliance">
+        Compliance Risks ({{complianceFlags.length}})
+      </h3>
+
+      {{#each complianceFlags}}
+
+        <article class="sasha-write-finding sasha-flag-compliance">
+
+          <p>{{this.description}}</p>
+
+          {{#if this.actionRequired}}
+            <p>
+              <strong>Recommended action:</strong>
+              {{this.actionRequired}}
+            </p>
+          {{/if}}
+
+        </article>
+
+      {{else}}
+
+        <p class="sasha-write-findings-empty">
+          No open compliance risks.
+        </p>
+
+      {{/each}}
+
+    </div>
+
+    {{!-- =========================================
+         COLUMN 3: ACTIONS REQUIRED
+    ========================================== --}}
+
+    <div class="sasha-findings-column">
+
+      <h3 class="sasha-findings-column-heading is-action">
+        Actions Required ({{actionFlags.length}})
+      </h3>
+
+      {{#each actionFlags}}
+
+        <article class="sasha-write-finding sasha-flag-action">
+
+          <p>{{this.description}}</p>
+
+          {{#if this.actionRequired}}
+            <p>
+              <strong>Recommended action:</strong>
+              {{this.actionRequired}}
+            </p>
+          {{/if}}
+
+        </article>
+
+      {{else}}
+
+        <p class="sasha-write-findings-empty">
+          No open actions required.
+        </p>
+
+      {{/each}}
+
+    </div>
+
+  </div>
+
+</section>
+
+{{/if}}
+
 
 </section>
 

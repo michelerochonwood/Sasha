@@ -1124,6 +1124,7 @@ csrfToken: res.locals.csrfToken,
         activeWritingGuidance,
 
 
+
 /* =================================================
    SAVED WRITE CONVERSATION FOR ACTIVE SECTION
 ================================================= */
@@ -1132,9 +1133,14 @@ writeMessages:
   activeSection &&
   Array.isArray(proposalForView.writeMessages)
     ? proposalForView.writeMessages.filter(
-        item => item.sectionId === activeSection.sectionId
+        item =>
+          item.sectionId === activeSection.sectionId
       )
     : [],
+
+/* =================================================
+   ALL OPEN WRITING FLAGS
+================================================= */
 
 writingFlags:
   activeSection &&
@@ -1144,26 +1150,68 @@ writingFlags:
           flag.sectionId === activeSection.sectionId &&
           flag.status === 'open'
       )
+    : [],
+
+/* =================================================
+   EVIDENCE GAPS
+================================================= */
+
+evidenceFlags:
+  activeSection &&
+  Array.isArray(proposalForView.writingFlags)
+    ? proposalForView.writingFlags.filter(
+        flag =>
+          flag.sectionId === activeSection.sectionId &&
+          flag.status === 'open' &&
+          flag.type === 'evidence_gap'
+      )
+    : [],
+
+/* =================================================
+   COMPLIANCE RISKS
+================================================= */
+
+complianceFlags:
+  activeSection &&
+  Array.isArray(proposalForView.writingFlags)
+    ? proposalForView.writingFlags.filter(
+        flag =>
+          flag.sectionId === activeSection.sectionId &&
+          flag.status === 'open' &&
+          flag.type === 'compliance_risk'
+      )
+    : [],
+
+/* =================================================
+   ACTIONS REQUIRED
+================================================= */
+
+actionFlags:
+  activeSection &&
+  Array.isArray(proposalForView.writingFlags)
+    ? proposalForView.writingFlags.filter(
+        flag =>
+          flag.sectionId === activeSection.sectionId &&
+          flag.status === 'open' &&
+          flag.type === 'action_required'
+      )
     : []
 
+  }
+);
 
-      }
-    );
+/* =================================================
+   ERROR HANDLING
+================================================= */
 
-
-  } catch (
-    error
-  ) {
+  } catch (error) {
 
     console.error(
       'LOAD PURSUIT WRITE FAILED:',
       error
     );
 
-
-    return next(
-      error
-    );
+    return next(error);
 
   }
 
