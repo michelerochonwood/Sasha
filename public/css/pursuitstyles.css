@@ -23132,6 +23132,7 @@ button:disabled {
 }
 
 
+
 /* =====================================================
    SASHA WRITE FINDINGS
 ===================================================== */
@@ -23183,19 +23184,19 @@ button:disabled {
   max-width: 560px;
   color: #526174;
   font-size: 0.95rem;
-  font-weight: 400;
   line-height: 1.6;
   opacity: 1;
 }
 
 /* =====================================================
-   FINDINGS LIST
+   THREE-COLUMN FINDINGS GRID
 ===================================================== */
 
 .sasha-write-findings-list {
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 1rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 1.25rem;
   margin-top: 1.5rem;
 }
 
@@ -23204,10 +23205,13 @@ button:disabled {
 ===================================================== */
 
 .sasha-write-findings .sasha-write-finding {
-  display: block;
+  display: flex;
+  flex-direction: column;
   width: 100%;
+  min-width: 0;
+  height: 100%;
   box-sizing: border-box;
-  padding: 1.25rem 1.5rem;
+  padding: 1.5rem;
   margin: 0;
   background: #f8fafc;
   border: 1px solid #dce2eb;
@@ -23224,10 +23228,10 @@ button:disabled {
 
 .sasha-write-findings .sasha-write-finding h3 {
   display: block;
-  margin: 0 0 0.75rem;
+  margin: 0 0 0.85rem;
   padding: 0;
   color: #263445;
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   font-weight: 700;
   line-height: 1.4;
   letter-spacing: 0;
@@ -23241,23 +23245,26 @@ button:disabled {
 
 .sasha-write-findings .sasha-write-finding p {
   display: block;
-  margin: 0.5rem 0;
+  margin: 0 0 1rem;
   padding: 0;
   color: #334155;
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: 400;
   line-height: 1.65;
   letter-spacing: normal;
   opacity: 1;
 }
 
-.sasha-write-findings .sasha-write-finding p:last-child {
-  margin-bottom: 0;
-}
-
 /* =====================================================
    RECOMMENDED ACTION
 ===================================================== */
+
+.sasha-write-findings .sasha-write-finding p:last-child {
+  margin-top: auto;
+  margin-bottom: 0;
+  padding-top: 0.85rem;
+  border-top: 1px solid rgba(100, 116, 139, 0.18);
+}
 
 .sasha-write-findings .sasha-write-finding strong {
   color: #172b4d;
@@ -23336,7 +23343,24 @@ button:disabled {
    RESPONSIVE LAYOUT
 ===================================================== */
 
-@media (max-width: 768px) {
+/* Tablets and smaller laptops: two columns */
+
+@media (max-width: 1100px) {
+
+  .sasha-write-findings-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .sasha-write-findings {
+    padding: 1.5rem;
+  }
+
+}
+
+/* Mobile: one column */
+
+@media (max-width: 700px) {
 
   .sasha-write-findings {
     padding: 1.25rem;
@@ -23352,8 +23376,13 @@ button:disabled {
     font-size: 1.4rem;
   }
 
+  .sasha-write-findings-list {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+  }
+
   .sasha-write-findings .sasha-write-finding {
-    padding: 1rem;
+    padding: 1.15rem;
   }
 
   .sasha-write-findings .sasha-write-finding h3 {
@@ -23365,6 +23394,7 @@ button:disabled {
   }
 
 }
+
 
 
 
