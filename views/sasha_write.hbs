@@ -800,7 +800,20 @@
 
       {{#each writingFlags}}
 
-        <article class="sasha-write-finding">
+        
+<article class="
+  sasha-write-finding
+  {{#ifEquals this.type "evidence_gap"}}
+    sasha-flag-evidence
+  {{/ifEquals}}
+  {{#ifEquals this.type "compliance_risk"}}
+    sasha-flag-compliance
+  {{/ifEquals}}
+  {{#ifEquals this.type "action_required"}}
+    sasha-flag-action
+  {{/ifEquals}}
+">
+
 
           <h3>
             {{#ifEquals this.type "evidence_gap"}}

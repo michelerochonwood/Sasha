@@ -23137,52 +23137,236 @@ button:disabled {
 ===================================================== */
 
 .sasha-write-findings {
-  margin-top: 2rem;
-  padding: 1.75rem;
-  background: #fff;
-  border: 1px solid #dbe3ec;
+  margin: 2rem 0;
+  padding: 2rem;
+  background: #ffffff;
+  border: 1px solid #dce2eb;
   border-radius: 16px;
+  color: #263445;
+  box-sizing: border-box;
 }
+
+/* =====================================================
+   FINDINGS SECTION HEADER
+===================================================== */
+
+.sasha-write-findings .sasha-work-eyebrow {
+  margin: 0 0 0.5rem;
+  color: #7657a6;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 1;
+}
+
+.sasha-write-findings .sasha-write-section-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.sasha-write-findings .sasha-write-section-heading h2 {
+  margin: 0;
+  color: #263445;
+  font-size: 1.65rem;
+  font-weight: 700;
+  line-height: 1.3;
+  opacity: 1;
+}
+
+.sasha-write-findings .sasha-write-section-heading p {
+  margin: 0;
+  max-width: 560px;
+  color: #526174;
+  font-size: 0.95rem;
+  font-weight: 400;
+  line-height: 1.6;
+  opacity: 1;
+}
+
+/* =====================================================
+   FINDINGS LIST
+===================================================== */
 
 .sasha-write-findings-list {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 1rem;
   margin-top: 1.5rem;
 }
 
-.sasha-write-finding {
-  padding: 1.25rem;
-  border: 1px solid #dbe3ec;
+/* =====================================================
+   INDIVIDUAL FINDING CARD
+===================================================== */
+
+.sasha-write-findings .sasha-write-finding {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 1.25rem 1.5rem;
+  margin: 0;
+  background: #f8fafc;
+  border: 1px solid #dce2eb;
   border-left: 5px solid #64748b;
   border-radius: 10px;
-  background: #f8fafc;
-}
-
-.sasha-write-finding h3 {
-  margin: 0 0 0.75rem;
-  font-size: 1rem;
-  color: #263b53;
-}
-
-.sasha-write-finding p {
-  margin: 0.5rem 0;
-  line-height: 1.6;
-}
-
-.sasha-write-finding:has(h3:first-child) {
+  color: #263445;
   overflow-wrap: anywhere;
+  opacity: 1;
 }
+
+/* =====================================================
+   FINDING TITLE
+===================================================== */
+
+.sasha-write-findings .sasha-write-finding h3 {
+  display: block;
+  margin: 0 0 0.75rem;
+  padding: 0;
+  color: #263445;
+  font-size: 1.1rem;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: 0;
+  text-transform: none;
+  opacity: 1;
+}
+
+/* =====================================================
+   FINDING DESCRIPTION
+===================================================== */
+
+.sasha-write-findings .sasha-write-finding p {
+  display: block;
+  margin: 0.5rem 0;
+  padding: 0;
+  color: #334155;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.65;
+  letter-spacing: normal;
+  opacity: 1;
+}
+
+.sasha-write-findings .sasha-write-finding p:last-child {
+  margin-bottom: 0;
+}
+
+/* =====================================================
+   RECOMMENDED ACTION
+===================================================== */
+
+.sasha-write-findings .sasha-write-finding strong {
+  color: #172b4d;
+  font-weight: 700;
+  opacity: 1;
+}
+
+/* =====================================================
+   CATEGORY: EVIDENCE GAP
+   Amber
+===================================================== */
+
+.sasha-write-findings
+.sasha-write-finding.sasha-flag-evidence {
+  background: #fffbf1;
+  border-color: #f0e1bd;
+  border-left: 5px solid #d89a24;
+}
+
+.sasha-write-findings
+.sasha-write-finding.sasha-flag-evidence h3 {
+  color: #99620b;
+}
+
+/* =====================================================
+   CATEGORY: COMPLIANCE RISK
+   Red
+===================================================== */
+
+.sasha-write-findings
+.sasha-write-finding.sasha-flag-compliance {
+  background: #fff7f7;
+  border-color: #f0d5d8;
+  border-left: 5px solid #d65c65;
+}
+
+.sasha-write-findings
+.sasha-write-finding.sasha-flag-compliance h3 {
+  color: #a72e3b;
+}
+
+/* =====================================================
+   CATEGORY: ACTION REQUIRED
+   Blue
+===================================================== */
+
+.sasha-write-findings
+.sasha-write-finding.sasha-flag-action {
+  background: #f5f9ff;
+  border-color: #d4e3f5;
+  border-left: 5px solid #4787c7;
+}
+
+.sasha-write-findings
+.sasha-write-finding.sasha-flag-action h3 {
+  color: #235d99;
+}
+
+/* =====================================================
+   EMPTY STATE
+===================================================== */
 
 .sasha-write-findings-empty {
-  margin-top: 1.25rem;
-  color: #64748b;
+  margin: 1.25rem 0 0;
+  padding: 1rem 1.25rem;
+  background: #f8fafc;
+  border: 1px solid #dce2eb;
+  border-radius: 8px;
+  color: #526174;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  opacity: 1;
 }
 
-/* Category-specific styling */
+/* =====================================================
+   RESPONSIVE LAYOUT
+===================================================== */
 
-.sasha-write-finding:has(h3) {
-  border-left-color: #64748b;
+@media (max-width: 768px) {
+
+  .sasha-write-findings {
+    padding: 1.25rem;
+    margin: 1.5rem 0;
+  }
+
+  .sasha-write-findings .sasha-write-section-heading {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .sasha-write-findings .sasha-write-section-heading h2 {
+    font-size: 1.4rem;
+  }
+
+  .sasha-write-findings .sasha-write-finding {
+    padding: 1rem;
+  }
+
+  .sasha-write-findings .sasha-write-finding h3 {
+    font-size: 1rem;
+  }
+
+  .sasha-write-findings .sasha-write-finding p {
+    font-size: 0.95rem;
+  }
+
 }
+
+
 
 
 
