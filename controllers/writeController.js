@@ -1808,78 +1808,83 @@ ${JSON.stringify(context, null, 2)}
 
       input: conversation,
 
-      text: {
-        format: {
-          type: 'json_schema',
-          name: 'sasha_write_chat_response',
-          strict: true,
 
-          schema: {
+text: {
+  format: {
+    type: 'json_schema',
+    name: 'sasha_write_chat_response',
+    strict: true,
+
+    schema: {
+      type: 'object',
+      additionalProperties: false,
+
+      properties: {
+        reply: {
+          type: 'string'
+        },
+
+        action: {
+          type: 'string',
+          enum: [
+            'none',
+            'update_draft'
+          ]
+        },
+
+        draft: {
+          anyOf: [
+            { type: 'null' },
+            { type: 'string' }
+          ]
+        },
+
+        flags: {
+          type: 'array',
+          items: {
             type: 'object',
             additionalProperties: false,
 
             properties: {
-              reply: {
+              type: {
+                type: 'string',
+                enum: [
+                  'evidence_gap',
+                  'compliance_risk',
+                  'action_required'
+                ]
+              },
+
+              description: {
                 type: 'string'
               },
 
-              action: {
-                type: 'string',
-                enum: [
-                  'none',
-                  'update_draft'
-                ]
-              },
-
-              draft: {
-                anyOf: [
-                  { type: 'null' },
-                  { type: 'string' }
-                ]
+              actionRequired: {
+                type: 'string'
               }
             },
 
-flags: {
-  type: 'array',
-  items: {
-    type: 'object',
-    additionalProperties: false,
-    properties: {
-      type: {
-        type: 'string',
-        enum: [
-          'evidence_gap',
-          'compliance_risk',
-          'action_required'
-        ]
-      },
-      description: {
-        type: 'string'
-      },
-      actionRequired: {
-        type: 'string'
-      }
-    },
-    required: [
-      'type',
-      'description',
-      'actionRequired'
-    ]
-  }
-},
-
-
-required: [
-  'reply',
-  'action',
-  'draft',
-  'flags'
-]
+            required: [
+              'type',
+              'description',
+              'actionRequired'
+            ]
           }
         }
       },
 
-      max_output_tokens: 6000
+      required: [
+        'reply',
+        'action',
+        'draft',
+        'flags'
+      ]
+    }
+  }
+},
+
+max_output_tokens: 6000
+
     });
 
     /* =================================================
