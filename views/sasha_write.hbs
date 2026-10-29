@@ -765,6 +765,84 @@
 
 {{/if}}
 
+{{!-- =====================================================
+     SASHA WRITING FINDINGS
+===================================================== --}}
+
+{{#if activeSection}}
+
+<section
+  class="sasha-write-findings"
+  aria-labelledby="sasha-write-findings-heading"
+>
+
+  <header class="sasha-write-section-heading">
+    <div>
+      <p class="sasha-work-eyebrow">
+        Sasha's Review
+      </p>
+
+      <h2 id="sasha-write-findings-heading">
+        Items Requiring Attention
+      </h2>
+    </div>
+
+    <p>
+      These are internal findings identified by Sasha
+      while developing this proposal section.
+      They are not part of the client-facing draft.
+    </p>
+  </header>
+
+  {{#if writingFlags.length}}
+
+    <div class="sasha-write-findings-list">
+
+      {{#each writingFlags}}
+
+        <article class="sasha-write-finding">
+
+          <h3>
+            {{#ifEquals this.type "evidence_gap"}}
+              Evidence Gap
+            {{else}}
+              {{#ifEquals this.type "compliance_risk"}}
+                Compliance Risk
+              {{else}}
+                Action Required
+              {{/ifEquals}}
+            {{/ifEquals}}
+          </h3>
+
+          <p>
+            {{this.description}}
+          </p>
+
+          {{#if this.actionRequired}}
+            <p>
+              <strong>Recommended action:</strong>
+              {{this.actionRequired}}
+            </p>
+          {{/if}}
+
+        </article>
+
+      {{/each}}
+
+    </div>
+
+  {{else}}
+
+    <p class="sasha-write-findings-empty">
+      No open findings have been recorded for this section.
+    </p>
+
+  {{/if}}
+
+</section>
+
+{{/if}}
+
 {{!-- =================================================
      SAVED PROPOSAL SECTIONS
 ================================================== --}}

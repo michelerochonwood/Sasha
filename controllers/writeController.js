@@ -1134,7 +1134,18 @@ writeMessages:
     ? proposalForView.writeMessages.filter(
         item => item.sectionId === activeSection.sectionId
       )
+    : [],
+
+writingFlags:
+  activeSection &&
+  Array.isArray(proposalForView.writingFlags)
+    ? proposalForView.writingFlags.filter(
+        flag =>
+          flag.sectionId === activeSection.sectionId &&
+          flag.status === 'open'
+      )
     : []
+
 
       }
     );
@@ -1534,8 +1545,19 @@ if (requestedOtherSections.length > 0) {
       winStrategy: proposal.winStrategy || {},
       proposalTeam: proposal.proposalTeam || [],
       proposalManager: proposal.proposalManager || {},
-      activeOverrides,
-      writingGuidance
+activeOverrides,
+writingGuidance,
+
+openWritingFlags: Array.isArray(proposal.writingFlags)
+  ? proposal.writingFlags
+      .filter(flag => flag.status === 'open')
+      .map(flag => ({
+        sectionId: flag.sectionId,
+        type: flag.type,
+        description: flag.description,
+        actionRequired: flag.actionRequired
+      }))
+  : []
     };
 
     /* =====================================================
@@ -1658,9 +1680,46 @@ draft:
 The complete proposed section draft when action is
 "update_draft"; otherwise null.
 
-The draft must contain only proposal-ready narrative.
-Put evidence gaps, cautions, and questions in the reply,
-not as invented facts in the draft.
+The draft must contain only client-facing proposal narrative.
+
+Identify material evidence gaps, compliance risks, and
+actions required during drafting and review.
+
+Return these findings separately in the flags array.
+
+Use exactly these types:
+
+evidence_gap:
+Important evidence needed to support a proposal claim
+is missing or cannot be verified.
+
+compliance_risk:
+A possible conflict with an RFP requirement, addendum,
+mandatory criterion, or material proposal commitment.
+
+action_required:
+A specific task or decision the proposal team must
+complete that is not already captured by another flag.
+
+For each finding, provide:
+- type
+- description
+- actionRequired
+
+Be specific. Identify what is missing, why it matters,
+and what the proposal team should do.
+
+Do not repeat the same underlying issue under multiple
+flag types.
+
+Do not treat the absence of information in the supplied
+documents as proof that the firm lacks that experience.
+
+Do not include internal findings in the draft.
+Do not invent evidence to eliminate a finding.
+
+Return an empty flags array when there are no material
+new findings.
 
 WRITING DESTINATION AND SAVING
 
@@ -1680,6 +1739,19 @@ destination in the interface.
 
 Do not replace the selected section with content
 intended for another section.
+
+EXISTING WRITING FLAGS
+
+CURRENT PURSUIT CONTEXT includes existing open writing flags.
+
+Consider these findings when writing or reviewing.
+Do not return an existing finding again unless it
+represents a materially different issue.
+
+Do not assume an existing flag has been resolved merely
+because a revised draft no longer mentions it.
+
+WRITING DESTINATION AND SAVING
 
 PURSUIT DOCUMENT EVIDENCE
 
@@ -1767,11 +1839,42 @@ ${JSON.stringify(context, null, 2)}
               }
             },
 
-            required: [
-              'reply',
-              'action',
-              'draft'
-            ]
+flags: {
+  type: 'array',
+  items: {
+    type: 'object',
+    additionalProperties: false,
+    properties: {
+      type: {
+        type: 'string',
+        enum: [
+          'evidence_gap',
+          'compliance_risk',
+          'action_required'
+        ]
+      },
+      description: {
+        type: 'string'
+      },
+      actionRequired: {
+        type: 'string'
+      }
+    },
+    required: [
+      'type',
+      'description',
+      'actionRequired'
+    ]
+  }
+},
+
+
+required: [
+  'reply',
+  'action',
+  'draft',
+  'flags'
+]
           }
         }
       },
@@ -1794,6 +1897,44 @@ ${JSON.stringify(context, null, 2)}
 
     const result = JSON.parse(outputText);
 
+
+/* =====================================================
+   VALIDATE STRUCTURED WRITING FLAGS
+===================================================== */
+
+if (!Array.isArray(result.flags)) {
+  throw new Error(
+    'Sasha returned an invalid writing flags array.'
+  );
+}
+
+const validFlagTypes = new Set([
+  'evidence_gap',
+  'compliance_risk',
+  'action_required'
+]);
+
+const normalizedFlags = result.flags.map(flag => {
+  if (
+    !flag ||
+    !validFlagTypes.has(flag.type) ||
+    typeof flag.description !== 'string' ||
+    !flag.description.trim() ||
+    typeof flag.actionRequired !== 'string'
+  ) {
+    throw new Error(
+      'Sasha returned an invalid writing flag.'
+    );
+  }
+
+  return {
+    sectionId,
+    type: flag.type,
+    description: flag.description.trim(),
+    actionRequired: flag.actionRequired.trim(),
+    source: 'sasha_write'
+  };
+});
 
 /* =====================================================
    PROTECT REVIEW-READY SECTIONS
@@ -1865,6 +2006,47 @@ if (
         }
       );
     }
+
+/* =====================================================
+   SAVE NEW WRITING FLAGS
+===================================================== */
+
+if (!Array.isArray(proposal.writingFlags)) {
+  proposal.writingFlags = [];
+}
+
+const normalizeFlagText = value =>
+  String(value || '')
+    .toLowerCase()
+    .replace(/\s+/g, ' ')
+    .trim();
+
+let flagsAdded = 0;
+
+for (const flag of normalizedFlags) {
+  const alreadyExists = proposal.writingFlags.some(
+    existing =>
+      existing.status === 'open' &&
+      existing.sectionId === flag.sectionId &&
+      existing.type === flag.type &&
+      normalizeFlagText(existing.description) ===
+        normalizeFlagText(flag.description)
+  );
+
+  if (alreadyExists) {
+    continue;
+  }
+
+  proposal.writingFlags.push(flag);
+  flagsAdded++;
+}
+
+console.log('SASHA WRITE FLAGS PROCESSED:', {
+  pursuitId,
+  sectionId,
+  returned: normalizedFlags.length,
+  added: flagsAdded
+});
 
     await proposal.save();
 

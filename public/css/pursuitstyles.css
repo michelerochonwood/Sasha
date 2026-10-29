@@ -23132,5 +23132,59 @@ button:disabled {
 }
 
 
+/* =====================================================
+   SASHA WRITE FINDINGS
+===================================================== */
+
+.sasha-write-findings {
+  margin-top: 2rem;
+  padding: 1.75rem;
+  background: #fff;
+  border: 1px solid #dbe3ec;
+  border-radius: 16px;
+}
+
+.sasha-write-findings-list {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.sasha-write-finding {
+  padding: 1.25rem;
+  border: 1px solid #dbe3ec;
+  border-left: 5px solid #64748b;
+  border-radius: 10px;
+  background: #f8fafc;
+}
+
+.sasha-write-finding h3 {
+  margin: 0 0 0.75rem;
+  font-size: 1rem;
+  color: #263b53;
+}
+
+.sasha-write-finding p {
+  margin: 0.5rem 0;
+  line-height: 1.6;
+}
+
+.sasha-write-finding:has(h3:first-child) {
+  overflow-wrap: anywhere;
+}
+
+.sasha-write-findings-empty {
+  margin-top: 1.25rem;
+  color: #64748b;
+}
+
+/* Category-specific styling */
+
+.sasha-write-finding:has(h3) {
+  border-left-color: #64748b;
+}
+
+
+
 
 
