@@ -801,6 +801,77 @@ planMessages: {
   default: []
 },
 
+
+/* =====================================================
+   WRITING FLAGS
+   Internal findings, excluded from proposal narrative
+===================================================== */
+
+writingFlags: [
+  {
+    sectionId: {
+      type: String,
+      required: true,
+      trim: true
+    },
+
+    type: {
+      type: String,
+      enum: [
+        'evidence_gap',
+        'compliance_risk',
+        'action_required'
+      ],
+      required: true
+    },
+
+    description: {
+      type: String,
+      required: true,
+      trim: true
+    },
+
+    actionRequired: {
+      type: String,
+      trim: true,
+      default: ''
+    },
+
+    status: {
+      type: String,
+      enum: [
+        'open',
+        'resolved',
+        'dismissed'
+      ],
+      default: 'open'
+    },
+
+    source: {
+      type: String,
+      trim: true,
+      default: 'sasha_write'
+    },
+
+    createdAt: {
+      type: Date,
+      default: Date.now
+    },
+
+    resolvedAt: {
+      type: Date,
+      default: null
+    },
+
+    resolutionNotes: {
+      type: String,
+      trim: true,
+      default: ''
+    }
+  }
+],
+
+
 /* =====================================================
    WRITE CONVERSATION
 ===================================================== */
