@@ -291,6 +291,19 @@ router.post(
 
 
 /* =====================================================
+   WRITE | ADDRESS OR DISMISS FINDING
+===================================================== */
+
+router.post(
+  '/write/flag-decision',
+  ensureOrganization,
+  verifyCsrfToken,
+  writeController.postWritingFlagDecision
+);
+
+
+
+/* =====================================================
    WRITE | PROPOSAL TEMPLATES
 ===================================================== */
 

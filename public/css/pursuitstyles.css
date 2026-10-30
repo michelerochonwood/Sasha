@@ -23466,3 +23466,73 @@ button:disabled {
 
 
 
+/* =====================================================
+   SASHA WRITE | FINDING DECISION BUTTONS
+===================================================== */
+
+.sasha-write-findings
+.sasha-write-finding-decision-form {
+  margin-top: auto;
+  padding-top: 1.25rem;
+}
+
+.sasha-write-findings
+.sasha-write-finding-decision-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  padding-top: 1rem;
+  border-top: 1px solid #dce2eb;
+}
+
+.sasha-write-findings
+.sasha-write-finding-decision-actions button {
+  appearance: none;
+  border-radius: 7px;
+  padding: 0.65rem 1rem;
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  line-height: 1.3;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+/* Addressed */
+
+.sasha-write-findings
+.sasha-write-finding-addressed {
+  background: #e7f4ed;
+  border: 1px solid #9dcbb0;
+  color: #226344;
+}
+
+.sasha-write-findings
+.sasha-write-finding-addressed:hover {
+  background: #d3ebdd;
+  border-color: #6fa88a;
+}
+
+/* Dismiss */
+
+.sasha-write-findings
+.sasha-write-finding-dismiss {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  color: #475569;
+}
+
+.sasha-write-findings
+.sasha-write-finding-dismiss:hover {
+  background: #f1f5f9;
+  border-color: #94a3b8;
+}
+
+.sasha-write-findings
+.sasha-write-finding-decision-actions button:focus-visible {
+  outline: 3px solid #7657a6;
+  outline-offset: 3px;
+}
+

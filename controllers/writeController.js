@@ -947,6 +947,49 @@ async (
     }
 
 
+/* =====================================================
+   ATTACH SAVED WRITING FLAGS TO EACH PROPOSAL SECTION
+===================================================== */
+
+const allWritingFlags =
+  Array.isArray(proposalForView.writingFlags)
+    ? proposalForView.writingFlags
+    : [];
+
+const sectionsWithFlags = preparedSections.map(section => {
+
+  const sectionFlags = allWritingFlags.filter(
+    flag =>
+      flag.sectionId === section.sectionId &&
+      flag.status === 'open'
+  );
+
+  const evidenceFlags = sectionFlags.filter(
+    flag => flag.type === 'evidence_gap'
+  );
+
+  const complianceFlags = sectionFlags.filter(
+    flag => flag.type === 'compliance_risk'
+  );
+
+  const actionFlags = sectionFlags.filter(
+    flag => flag.type === 'action_required'
+  );
+
+  return {
+    ...section,
+
+    evidenceFlags,
+    complianceFlags,
+    actionFlags,
+
+    openFlagCount: sectionFlags.length
+  };
+
+});
+
+
+
     /* =================================================
        PREPARE PURSUIT WORK
     ================================================== */
@@ -1106,8 +1149,11 @@ csrfToken: res.locals.csrfToken,
 
         analysisMessages,
 
+
         contentSections:
-          preparedSections,
+          sectionsWithFlags,
+
+        
 
         activeSection,
 
@@ -1122,6 +1168,8 @@ csrfToken: res.locals.csrfToken,
         activeOutlineSection,
 
         activeWritingGuidance,
+
+      
 
 
 
@@ -2129,3 +2177,145 @@ console.log('SASHA WRITE FLAGS PROCESSED:', {
     return next(error);
   }
 };
+
+
+/* =====================================================
+   WRITE | UPDATE WRITING FLAG STATUS
+===================================================== */
+
+exports.postWritingFlagDecision = async (req, res, next) => {
+
+  try {
+
+    const mongoose = require('mongoose');
+
+    const organizationId = req.session?.organizationId;
+
+    const pursuitId =
+      typeof req.body?.pursuitId === 'string'
+        ? req.body.pursuitId.trim()
+        : '';
+
+    const sectionId =
+      typeof req.body?.sectionId === 'string'
+        ? req.body.sectionId.trim()
+        : '';
+
+    const flagId =
+      typeof req.body?.flagId === 'string'
+        ? req.body.flagId.trim()
+        : '';
+
+    const decision =
+      typeof req.body?.decision === 'string'
+        ? req.body.decision.trim()
+        : '';
+
+    /* =================================================
+       VALIDATE REQUEST
+    ================================================= */
+
+    if (!organizationId) {
+      return res.status(401).send(
+        'Please log in to update this finding.'
+      );
+    }
+
+    if (
+      !mongoose.isValidObjectId(pursuitId) ||
+      !mongoose.isValidObjectId(flagId) ||
+      !sectionId
+    ) {
+      return res.status(400).send(
+        'Invalid writing finding request.'
+      );
+    }
+
+    if (!['addressed', 'dismissed'].includes(decision)) {
+      return res.status(400).send(
+        'Invalid writing finding decision.'
+      );
+    }
+
+    /* =================================================
+       FIND ORGANIZATION PURSUIT
+    ================================================= */
+
+    const proposal = await Proposal.findOne({
+      _id: pursuitId,
+      organization: organizationId
+    });
+
+    if (!proposal) {
+      return res.status(404).send(
+        'Pursuit not found.'
+      );
+    }
+
+    /* =================================================
+       FIND WRITING FLAG
+    ================================================= */
+
+    const flag = proposal.writingFlags?.id(flagId);
+
+    if (!flag || flag.sectionId !== sectionId) {
+      return res.status(404).send(
+        'Writing finding not found in this section.'
+      );
+    }
+
+    if (flag.status !== 'open') {
+      return res.status(409).send(
+        'This finding has already been addressed or dismissed.'
+      );
+    }
+
+    /* =================================================
+       RECORD USER DECISION
+    ================================================= */
+
+    flag.status =
+      decision === 'addressed'
+        ? 'resolved'
+        : 'dismissed';
+
+    flag.resolvedAt = new Date();
+
+    flag.resolutionNotes =
+      decision === 'addressed'
+        ? 'Marked addressed by user.'
+        : 'Dismissed by user.';
+
+    await proposal.save();
+
+    console.log('SASHA WRITING FLAG UPDATED:', {
+      pursuitId,
+      sectionId,
+      flagId,
+      status: flag.status
+    });
+
+    /* =================================================
+       RETURN TO SAME SECTION
+    ================================================= */
+
+    return res.redirect(
+      303,
+      `/write?pursuit=${encodeURIComponent(pursuitId)}` +
+      `&section=${encodeURIComponent(sectionId)}` +
+      '#sasha-write-findings-heading'
+    );
+
+  } catch (error) {
+
+    console.error(
+      'SASHA WRITING FLAG UPDATE FAILED:',
+      error
+    );
+
+    return next(error);
+
+  }
+
+};
+

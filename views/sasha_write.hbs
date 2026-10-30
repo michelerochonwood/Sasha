@@ -766,148 +766,6 @@
 {{/if}}
 
 
-{{!-- =====================================================
-     SASHA WRITING FINDINGS
-===================================================== --}}
-
-{{#if activeSection}}
-
-<section
-  class="sasha-write-findings"
-  aria-labelledby="sasha-write-findings-heading"
->
-
-  <header class="sasha-write-section-heading">
-    <div>
-      <p class="sasha-work-eyebrow">
-        Sasha's Review
-      </p>
-
-      <h2 id="sasha-write-findings-heading">
-        Items Requiring Attention
-      </h2>
-    </div>
-
-    <p>
-      Internal findings identified by Sasha while
-      developing this proposal section.
-      These are not part of the client-facing draft.
-    </p>
-  </header>
-
-  <div class="sasha-write-findings-list">
-
-    {{!-- =========================================
-         COLUMN 1: EVIDENCE GAPS
-    ========================================== --}}
-
-    <div class="sasha-findings-column">
-
-      <h3 class="sasha-findings-column-heading is-evidence">
-        Evidence Gaps ({{evidenceFlags.length}})
-      </h3>
-
-      {{#each evidenceFlags}}
-
-        <article class="sasha-write-finding sasha-flag-evidence">
-
-          <p>{{this.description}}</p>
-
-          {{#if this.actionRequired}}
-            <p>
-              <strong>Recommended action:</strong>
-              {{this.actionRequired}}
-            </p>
-          {{/if}}
-
-        </article>
-
-      {{else}}
-
-        <p class="sasha-write-findings-empty">
-          No open evidence gaps.
-        </p>
-
-      {{/each}}
-
-    </div>
-
-    {{!-- =========================================
-         COLUMN 2: COMPLIANCE RISKS
-    ========================================== --}}
-
-    <div class="sasha-findings-column">
-
-      <h3 class="sasha-findings-column-heading is-compliance">
-        Compliance Risks ({{complianceFlags.length}})
-      </h3>
-
-      {{#each complianceFlags}}
-
-        <article class="sasha-write-finding sasha-flag-compliance">
-
-          <p>{{this.description}}</p>
-
-          {{#if this.actionRequired}}
-            <p>
-              <strong>Recommended action:</strong>
-              {{this.actionRequired}}
-            </p>
-          {{/if}}
-
-        </article>
-
-      {{else}}
-
-        <p class="sasha-write-findings-empty">
-          No open compliance risks.
-        </p>
-
-      {{/each}}
-
-    </div>
-
-    {{!-- =========================================
-         COLUMN 3: ACTIONS REQUIRED
-    ========================================== --}}
-
-    <div class="sasha-findings-column">
-
-      <h3 class="sasha-findings-column-heading is-action">
-        Actions Required ({{actionFlags.length}})
-      </h3>
-
-      {{#each actionFlags}}
-
-        <article class="sasha-write-finding sasha-flag-action">
-
-          <p>{{this.description}}</p>
-
-          {{#if this.actionRequired}}
-            <p>
-              <strong>Recommended action:</strong>
-              {{this.actionRequired}}
-            </p>
-          {{/if}}
-
-        </article>
-
-      {{else}}
-
-        <p class="sasha-write-findings-empty">
-          No open actions required.
-        </p>
-
-      {{/each}}
-
-    </div>
-
-
-  </div>
-
-</section>
-
-{{/if}}
 
 {{!-- =================================================
      SAVED PROPOSAL SECTIONS
@@ -1090,6 +948,270 @@
 
 </div>
 
+
+{{!-- =====================================================
+     SECTION-SPECIFIC WRITING FINDINGS
+===================================================== --}}
+
+<section class="sasha-write-findings">
+
+  <header class="sasha-write-section-heading">
+
+    <div>
+      <p class="sasha-work-eyebrow">
+        Sasha's Review
+      </p>
+
+      <h3>
+        Items Requiring Attention
+        ({{this.openFlagCount}})
+      </h3>
+    </div>
+
+    <p>
+      Findings associated with this proposal section.
+      These are internal review notes and are not
+      included in the client-facing proposal.
+    </p>
+
+  </header>
+
+  <div class="sasha-write-findings-list">
+
+    {{!-- =========================================
+         COLUMN 1: EVIDENCE GAPS
+    ========================================== --}}
+
+    <div class="sasha-findings-column">
+
+      <h3 class="sasha-findings-column-heading is-evidence">
+        Evidence Gaps ({{this.evidenceFlags.length}})
+      </h3>
+
+      {{#each this.evidenceFlags}}
+
+        <article class="sasha-write-finding sasha-flag-evidence">
+
+          <p>{{this.description}}</p>
+
+          {{#if this.actionRequired}}
+            <p>
+              <strong>Recommended action:</strong>
+              {{this.actionRequired}}
+            </p>
+          {{/if}}
+
+          <form
+            action="/write/flag-decision"
+            method="POST"
+            class="sasha-write-finding-decision-form"
+          >
+
+            <input type="hidden" name="_csrf"
+              value="{{@root.csrfToken}}">
+
+            <input type="hidden" name="pursuitId"
+              value="{{@root.proposal._id}}">
+
+            <input type="hidden" name="sectionId"
+              value="{{this.sectionId}}">
+
+            <input type="hidden" name="flagId"
+              value="{{this._id}}">
+
+            <div class="sasha-write-finding-decision-actions">
+
+              <button
+                type="submit"
+                name="decision"
+                value="addressed"
+                class="sasha-write-finding-addressed"
+              >
+                Addressed
+              </button>
+
+              <button
+                type="submit"
+                name="decision"
+                value="dismissed"
+                class="sasha-write-finding-dismiss"
+              >
+                Dismiss
+              </button>
+
+            </div>
+
+          </form>
+
+        </article>
+
+      {{else}}
+
+        <p class="sasha-write-findings-empty">
+          No open evidence gaps.
+        </p>
+
+      {{/each}}
+
+    </div>
+
+    {{!-- =========================================
+         COLUMN 2: COMPLIANCE RISKS
+    ========================================== --}}
+
+    <div class="sasha-findings-column">
+
+      <h3 class="sasha-findings-column-heading is-compliance">
+        Compliance Risks ({{this.complianceFlags.length}})
+      </h3>
+
+      {{#each this.complianceFlags}}
+
+        <article class="sasha-write-finding sasha-flag-compliance">
+
+          <p>{{this.description}}</p>
+
+          {{#if this.actionRequired}}
+            <p>
+              <strong>Recommended action:</strong>
+              {{this.actionRequired}}
+            </p>
+          {{/if}}
+
+          <form
+            action="/write/flag-decision"
+            method="POST"
+            class="sasha-write-finding-decision-form"
+          >
+
+            <input type="hidden" name="_csrf"
+              value="{{@root.csrfToken}}">
+
+            <input type="hidden" name="pursuitId"
+              value="{{@root.proposal._id}}">
+
+            <input type="hidden" name="sectionId"
+              value="{{this.sectionId}}">
+
+            <input type="hidden" name="flagId"
+              value="{{this._id}}">
+
+            <div class="sasha-write-finding-decision-actions">
+
+              <button
+                type="submit"
+                name="decision"
+                value="addressed"
+                class="sasha-write-finding-addressed"
+              >
+                Addressed
+              </button>
+
+              <button
+                type="submit"
+                name="decision"
+                value="dismissed"
+                class="sasha-write-finding-dismiss"
+              >
+                Dismiss
+              </button>
+
+            </div>
+
+          </form>
+
+        </article>
+
+      {{else}}
+
+        <p class="sasha-write-findings-empty">
+          No open compliance risks.
+        </p>
+
+      {{/each}}
+
+    </div>
+
+    {{!-- =========================================
+         COLUMN 3: ACTIONS REQUIRED
+    ========================================== --}}
+
+    <div class="sasha-findings-column">
+
+      <h3 class="sasha-findings-column-heading is-action">
+        Actions Required ({{this.actionFlags.length}})
+      </h3>
+
+      {{#each this.actionFlags}}
+
+        <article class="sasha-write-finding sasha-flag-action">
+
+          <p>{{this.description}}</p>
+
+          {{#if this.actionRequired}}
+            <p>
+              <strong>Recommended action:</strong>
+              {{this.actionRequired}}
+            </p>
+          {{/if}}
+
+          <form
+            action="/write/flag-decision"
+            method="POST"
+            class="sasha-write-finding-decision-form"
+          >
+
+            <input type="hidden" name="_csrf"
+              value="{{@root.csrfToken}}">
+
+            <input type="hidden" name="pursuitId"
+              value="{{@root.proposal._id}}">
+
+            <input type="hidden" name="sectionId"
+              value="{{this.sectionId}}">
+
+            <input type="hidden" name="flagId"
+              value="{{this._id}}">
+
+            <div class="sasha-write-finding-decision-actions">
+
+              <button
+                type="submit"
+                name="decision"
+                value="addressed"
+                class="sasha-write-finding-addressed"
+              >
+                Addressed
+              </button>
+
+              <button
+                type="submit"
+                name="decision"
+                value="dismissed"
+                class="sasha-write-finding-dismiss"
+              >
+                Dismiss
+              </button>
+
+            </div>
+
+          </form>
+
+        </article>
+
+      {{else}}
+
+        <p class="sasha-write-findings-empty">
+          No open actions required.
+        </p>
+
+      {{/each}}
+
+    </div>
+
+  </div>
+
+</section>
 
 
             {{!-- =========================================
