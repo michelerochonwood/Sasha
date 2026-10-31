@@ -23536,3 +23536,93 @@ button:disabled {
   outline-offset: 3px;
 }
 
+
+/* =====================================================
+   SASHA WRITE | FINDING ACTION BUTTONS
+===================================================== */
+
+.sasha-write-findings
+.sasha-write-finding form {
+  margin: 1rem 0 0;
+  padding: 0;
+}
+
+.sasha-write-findings
+.sasha-write-finding form button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 38px;
+  margin: 0.25rem 0.4rem 0.25rem 0;
+  padding: 0.55rem 1.1rem;
+
+  appearance: none;
+  -webkit-appearance: none;
+
+  font-family: "Figtree", sans-serif;
+  font-size: 0.78rem;
+  font-weight: 800;
+  line-height: 1.2;
+
+  border-radius: 999px;
+  cursor: pointer;
+
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease,
+    transform 180ms ease;
+}
+
+/* ADDRESSED */
+
+.sasha-write-findings
+.sasha-write-finding form button:first-of-type {
+  color: #ffffff;
+  background: #262262;
+  border: 1px solid #262262;
+}
+
+.sasha-write-findings
+.sasha-write-finding form button:first-of-type:hover {
+  background: #49418e;
+  border-color: #49418e;
+  transform: translateY(-1px);
+}
+
+/* DISMISS */
+
+.sasha-write-findings
+.sasha-write-finding form button:last-of-type {
+  color: #334155;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+}
+
+.sasha-write-findings
+.sasha-write-finding form button:last-of-type:hover {
+  color: #262262;
+  background: #f1f0fa;
+  border-color: #9186c2;
+  transform: translateY(-1px);
+}
+
+/* KEYBOARD FOCUS */
+
+.sasha-write-findings
+.sasha-write-finding form button:focus-visible {
+  outline: 3px solid #f282aa;
+  outline-offset: 3px;
+}
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+  .sasha-write-findings
+  .sasha-write-finding form button {
+    min-height: 42px;
+    padding: 0.65rem 1rem;
+  }
+}
+
+

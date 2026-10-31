@@ -68,16 +68,48 @@ function parseXml(xml, filename) {
    TEXT NORMALIZATION
 ===================================================== */
 
+
+/* =====================================================
+   TEXT NORMALIZATION
+   Preserve organization typography.
+   Standardize unusual hyphen characters.
+===================================================== */
+
 function normalizeText(value) {
+
   return String(value ?? '')
     .normalize('NFC')
+
+    // Standardize line endings.
     .replace(/\r\n?/g, '\n')
-    .replace(/\u0000/g, '')
+
+    // Convert uncommon Unicode hyphens to ASCII hyphen.
     .replace(
-      /[\u0001-\u0008\u000B\u000C\u000E-\u001F]/g,
+      /[\u2010\u2011\u2012\u2043\u2212\uFE58\uFE63\uFF0D]/g,
+      '-'
+    )
+
+    // Remove invisible soft hyphens.
+    .replace(/\u00AD/g, '')
+
+    // Remove invalid XML 1.0 control characters.
+    .replace(
+      /[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g,
+      ''
+    )
+
+    // Remove unpaired UTF-16 surrogates.
+    .replace(
+      /[\uD800-\uDBFF](?![\uDC00-\uDFFF])/g,
+      ''
+    )
+    .replace(
+      /(?<![\uD800-\uDBFF])[\uDC00-\uDFFF]/g,
       ''
     );
+
 }
+
 
 function normalizeHeading(value) {
   return normalizeText(value)
