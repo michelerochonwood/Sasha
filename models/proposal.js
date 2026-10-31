@@ -735,6 +735,11 @@ supportingMaterials: [
    PROPOSAL WRITING SECTIONS
 ===================================================== */
 
+
+/* =====================================================
+   PROPOSAL WRITING SECTIONS
+===================================================== */
+
 contentSections: [
   {
     sectionId: {
@@ -779,9 +784,20 @@ contentSections: [
     updatedAt: {
       type: Date,
       default: Date.now
+    },
+
+    /* =================================================
+       SECTION COMPLIANCE REVIEW
+    ================================================= */
+
+    complianceLastCheckedAt: {
+      type: Date,
+      default: null
     }
+
   }
 ],
+
 
 /* =====================================================
    ANALYSIS CONVERSATION

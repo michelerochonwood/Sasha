@@ -950,6 +950,92 @@
 
 
 {{!-- =====================================================
+     SECTION COMPLIANCE REVIEW CONTROLS
+===================================================== --}}
+
+<div class="sasha-write-compliance-review">
+
+  <div class="sasha-write-compliance-review-header">
+
+    <div class="sasha-write-compliance-review-copy">
+
+      <h3>Evidence &amp; Compliance Review</h3>
+
+      <p>
+        Check this section against the RFP, addenda,
+        available evidence, and previous findings.
+      </p>
+
+      <p class="sasha-write-review-date">
+        Last checked:
+        {{#if this.complianceLastCheckedAt}}
+          {{this.complianceLastCheckedAt}}
+        {{else}}
+          Not yet checked
+        {{/if}}
+      </p>
+
+    </div>
+
+    <form
+      action="/write/check-compliance"
+      method="POST"
+      class="sasha-write-compliance-review-form"
+    >
+
+      <input
+        type="hidden"
+        name="_csrf"
+        value="{{@root.csrfToken}}"
+      >
+
+      <input
+        type="hidden"
+        name="pursuitId"
+        value="{{@root.proposal._id}}"
+      >
+
+      <input
+        type="hidden"
+        name="sectionId"
+        value="{{this.sectionId}}"
+      >
+
+
+<button
+  type="submit"
+  class="sasha-write-check-compliance-button"
+>
+  Check Compliance
+</button>
+
+
+    </form>
+
+  </div>
+
+  <div class="sasha-write-compliance-counts">
+
+    <div class="sasha-write-compliance-count is-evidence">
+      <strong>{{this.evidenceFlags.length}}</strong>
+      <span>Evidence Gaps</span>
+    </div>
+
+    <div class="sasha-write-compliance-count is-compliance">
+      <strong>{{this.complianceFlags.length}}</strong>
+      <span>Compliance Risks</span>
+    </div>
+
+    <div class="sasha-write-compliance-count is-action">
+      <strong>{{this.actionFlags.length}}</strong>
+      <span>Actions Required</span>
+    </div>
+
+  </div>
+
+</div>
+
+{{!-- =====================================================
      SECTION-SPECIFIC WRITING FINDINGS
 ===================================================== --}}
 
@@ -1207,11 +1293,40 @@
 
       {{/each}}
 
+
     </div>
 
   </div>
 
+  {{!-- =========================================
+       ZERO OPEN FINDINGS REMINDER
+  ========================================== --}}
+
+  {{#unless this.openFlagCount}}
+
+    <div
+      class="sasha-write-zero-findings"
+      role="note"
+    >
+
+      <div class="sasha-write-zero-findings-heading">
+        <span class="sasha-write-zero-findings-icon"
+              aria-hidden="true">✓</span>
+
+        <strong>0 Open Findings</strong>
+      </div>
+
+      <p>
+        Conduct your own analysis before approving
+        this section.
+      </p>
+
+    </div>
+
+  {{/unless}}
+
 </section>
+
 
 
             {{!-- =========================================

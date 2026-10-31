@@ -23626,3 +23626,188 @@ button:disabled {
 }
 
 
+/* =====================================================
+   SASHA WRITE | ZERO FINDINGS REMINDER
+===================================================== */
+
+.sasha-write-zero-findings {
+  margin-top: 1.5rem;
+  padding: 1.25rem 1.5rem;
+  background: #f8fafc;
+  border: 1px solid #dce2eb;
+  border-left: 4px solid #64748b;
+  border-radius: 10px;
+}
+
+.sasha-write-zero-findings-heading {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  color: #263445;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.sasha-write-zero-findings-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #e2e8f0;
+  color: #475569;
+  font-size: 0.85rem;
+  font-weight: 800;
+}
+
+.sasha-write-zero-findings p {
+  margin: 0.75rem 0 0;
+  color: #526174;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+
+/* =====================================================
+   SASHA WRITE | COMPLIANCE REVIEW CONTROLS
+===================================================== */
+
+.sasha-write-compliance-review {
+  margin: 1.5rem 0;
+  padding: 1.5rem;
+  background: #ffffff;
+  border: 1px solid #dce2eb;
+  border-radius: 14px;
+}
+
+.sasha-write-compliance-review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.sasha-write-compliance-review-copy {
+  flex: 1;
+  min-width: 240px;
+}
+
+.sasha-write-compliance-review-copy h3 {
+  margin: 0 0 0.5rem;
+  color: #263445;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.sasha-write-compliance-review-copy p {
+  margin: 0.35rem 0;
+  color: #526174;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.sasha-write-compliance-review-copy
+.sasha-write-review-date {
+  margin-top: 0.75rem;
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
+.sasha-write-check-compliance-button {
+  padding: 0.85rem 1.4rem;
+  background: #262262;
+  color: #ffffff;
+  border: 1px solid #262262;
+  border-radius: 999px;
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.sasha-write-check-compliance-button:hover:not(:disabled) {
+  background: #49418e;
+}
+
+.sasha-write-check-compliance-button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.sasha-write-check-compliance-button:focus-visible {
+  outline: 3px solid #f282aa;
+  outline-offset: 3px;
+}
+
+/* THREE FINDING COUNTS */
+
+.sasha-write-compliance-counts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.sasha-write-compliance-count {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 1rem;
+  background: #f8fafc;
+  border: 1px solid #dce2eb;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.sasha-write-compliance-count strong {
+  font-size: 1.8rem;
+  line-height: 1.2;
+  font-weight: 800;
+  color: #263445;
+}
+
+.sasha-write-compliance-count span {
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.sasha-write-compliance-count.is-evidence span {
+  color: #99620b;
+}
+
+.sasha-write-compliance-count.is-compliance span {
+  color: #a72e3b;
+}
+
+.sasha-write-compliance-count.is-action span {
+  color: #235d99;
+}
+
+@media (max-width: 700px) {
+  .sasha-write-compliance-review {
+    padding: 1.15rem;
+  }
+
+  .sasha-write-compliance-counts {
+    gap: 0.5rem;
+  }
+
+  .sasha-write-compliance-count {
+    padding: 0.75rem 0.35rem;
+  }
+
+  .sasha-write-compliance-count strong {
+    font-size: 1.4rem;
+  }
+
+  .sasha-write-compliance-count span {
+    font-size: 0.7rem;
+  }
+}
+
+
+
+

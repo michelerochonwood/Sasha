@@ -302,6 +302,19 @@ router.post(
 );
 
 
+/* =====================================================
+   WRITE | CHECK SECTION COMPLIANCE
+===================================================== */
+
+router.post(
+  '/write/check-compliance',
+  ensureOrganization,
+  verifyCsrfToken,
+  writeController.postCheckCompliance
+);
+
+
+
 
 /* =====================================================
    WRITE | PROPOSAL TEMPLATES
