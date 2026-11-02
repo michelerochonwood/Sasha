@@ -23820,42 +23820,285 @@ a.sasha-color-review-action {
 }
 
 
-/* ============================================
-   COLOR TEAM REVIEW UPLOADS
-============================================ */
+/* =====================================================
+   COLOR TEAM REVIEWS | UPLOAD CONTROLS
+===================================================== */
+
+.sasha-color-review-card {
+  min-width: 0;
+}
+
+/* =====================================================
+   UPLOAD FORM
+===================================================== */
 
 .sasha-review-upload-form {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  margin-top: 20px;
+  align-items: flex-start;
+
+  gap: 1rem;
+
+  width: 100%;
+  min-width: 0;
+
+  margin: 1.5rem 0 0;
+  padding: 1.35rem;
+
+  background: rgba(255, 255, 255, 0.045);
+
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 16px;
+
+  box-sizing: border-box;
 }
+
+/* =====================================================
+   UPLOAD LABEL
+===================================================== */
 
 .sasha-review-upload-form label {
-  font-size: 0.9rem;
-  font-weight: 600;
+  display: block;
+
+  margin: 0;
+
+  color: rgba(255, 255, 255, 0.85);
+
+  font-size: 0.78rem;
+  font-weight: 800;
+
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
+
+/* =====================================================
+   FILE INPUT
+===================================================== */
 
 .sasha-review-upload-form input[type="file"] {
+  display: block;
+
   width: 100%;
   max-width: 100%;
-  font-size: 0.85rem;
+  min-width: 0;
+
+  padding: 0.75rem;
+
+  color: rgba(255, 255, 255, 0.72);
+
+  background: rgba(255, 255, 255, 0.06);
+
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 12px;
+
+  font-family: inherit;
+  font-size: 0.82rem;
+
+  box-sizing: border-box;
 }
 
-.sasha-color-review-card form:not(.sasha-review-upload-form) {
-  margin-top: 12px;
-}
+/* =====================================================
+   BROWSE BUTTON
+===================================================== */
 
-.sasha-color-review-card button.sasha-color-review-action {
+.sasha-review-upload-form
+input[type="file"]::file-selector-button {
+  min-height: 42px;
+
+  margin-right: 0.9rem;
+
+  padding: 0.65rem 1.15rem;
+
+  color: var(--sasha-white);
+
+  background: rgba(255, 255, 255, 0.08);
+
+  border: 1px solid var(--sasha-white-25);
+  border-radius: 999px;
+
+  font-family: inherit;
+  font-size: 0.78rem;
+  font-weight: 800;
+
   cursor: pointer;
-  font: inherit;
-  width: 100%;
-  text-align: center;
+
+  transition:
+    color 180ms ease,
+    background-color 180ms ease,
+    border-color 180ms ease;
 }
 
-.sasha-color-review-card .sasha-review-upload-form button {
-  margin-top: 4px;
+.sasha-review-upload-form
+input[type="file"]::file-selector-button:hover {
+  color: var(--sasha-navy);
+
+  background: var(--sasha-pink);
+  border-color: var(--sasha-pink);
 }
+
+/* =====================================================
+   UPLOAD BUTTON | PRIMARY
+===================================================== */
+
+.sasha-color-review-card
+.sasha-review-upload-form
+button.sasha-color-review-action {
+  display: inline-flex;
+
+  min-height: 46px;
+  width: auto;
+
+  align-items: center;
+  justify-content: center;
+
+  align-self: flex-start;
+
+  margin: 0;
+  padding: 0.75rem 1.35rem;
+
+  color: var(--sasha-navy);
+
+  background: var(--sasha-pink);
+
+  border: 1px solid var(--sasha-pink);
+  border-radius: 999px;
+
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 800;
+
+  cursor: pointer;
+
+  transition:
+    transform 180ms ease,
+    background-color 180ms ease,
+    border-color 180ms ease;
+}
+
+.sasha-color-review-card
+.sasha-review-upload-form
+button.sasha-color-review-action:hover {
+  transform: translateY(-2px);
+
+  background: var(--sasha-white);
+  border-color: var(--sasha-white);
+}
+
+/* =====================================================
+   SUMMARIZE REVIEW | SECONDARY ACTION
+===================================================== */
+
+.sasha-color-review-card
+form:not(.sasha-review-upload-form) {
+  margin: 1rem 0 0;
+  padding: 0;
+}
+
+.sasha-color-review-card
+form:not(.sasha-review-upload-form)
+button.sasha-color-review-action {
+  display: inline-flex;
+
+  min-height: 44px;
+  width: auto;
+
+  align-items: center;
+  justify-content: center;
+
+  margin: 0;
+  padding: 0.7rem 1.2rem;
+
+  color: var(--sasha-white);
+
+  background: rgba(255, 255, 255, 0.06);
+
+  border: 1px solid var(--sasha-white-25);
+  border-radius: 999px;
+
+  font-family: inherit;
+  font-size: 0.78rem;
+  font-weight: 800;
+
+  cursor: pointer;
+}
+
+.sasha-color-review-card
+form:not(.sasha-review-upload-form)
+button.sasha-color-review-action:hover {
+  color: var(--sasha-navy);
+
+  background: var(--sasha-pink);
+  border-color: var(--sasha-pink);
+}
+
+/* =====================================================
+   INSTRUCTIONAL LINKS
+===================================================== */
+
+.sasha-color-review-card
+a.sasha-color-review-action {
+  display: inline-flex;
+
+  min-height: 42px;
+  width: fit-content;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 0.65rem 1.1rem;
+
+  color: var(--sasha-white);
+
+  background: transparent;
+
+  border: 1px solid var(--sasha-white-25);
+  border-radius: 999px;
+
+  font-size: 0.76rem;
+  font-weight: 800;
+
+  text-decoration: none;
+}
+
+.sasha-color-review-card
+a.sasha-color-review-action:hover {
+  color: var(--sasha-navy);
+
+  background: var(--sasha-pink);
+  border-color: var(--sasha-pink);
+}
+
+/* =====================================================
+   KEYBOARD FOCUS
+===================================================== */
+
+.sasha-review-upload-form input[type="file"]:focus-visible,
+.sasha-color-review-card .sasha-color-review-action:focus-visible {
+  outline: 3px solid var(--sasha-pink);
+  outline-offset: 3px;
+}
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media screen and (max-width: 680px) {
+
+  .sasha-review-upload-form {
+    padding: 1rem;
+  }
+
+  .sasha-color-review-card
+  .sasha-review-upload-form
+  button.sasha-color-review-action,
+  .sasha-color-review-card
+  form:not(.sasha-review-upload-form)
+  button.sasha-color-review-action {
+    width: 100%;
+  }
+
+}
+
 
 
 
