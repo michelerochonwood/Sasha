@@ -23820,5 +23820,44 @@ a.sasha-color-review-action {
 }
 
 
+/* ============================================
+   COLOR TEAM REVIEW UPLOADS
+============================================ */
+
+.sasha-review-upload-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.sasha-review-upload-form label {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.sasha-review-upload-form input[type="file"] {
+  width: 100%;
+  max-width: 100%;
+  font-size: 0.85rem;
+}
+
+.sasha-color-review-card form:not(.sasha-review-upload-form) {
+  margin-top: 12px;
+}
+
+.sasha-color-review-card button.sasha-color-review-action {
+  cursor: pointer;
+  font: inherit;
+  width: 100%;
+  text-align: center;
+}
+
+.sasha-color-review-card .sasha-review-upload-form button {
+  margin-top: 4px;
+}
+
+
+
 
 

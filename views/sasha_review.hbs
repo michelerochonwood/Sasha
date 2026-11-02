@@ -715,12 +715,51 @@
 
             </div>
 
+
 <a
   href="/plan/blue-team-review?pursuit={{proposal._id}}"
   class="sasha-color-review-action"
 >
   Learn About Blue Team Review
 </a>
+
+<form
+  action="/review/upload-notes"
+  method="POST"
+  enctype="multipart/form-data"
+  class="sasha-review-upload-form"
+>
+  <input type="hidden" name="_csrf" value="{{csrfToken}}">
+  <input type="hidden" name="pursuitId" value="{{proposal._id}}">
+  <input type="hidden" name="reviewType" value="blue">
+
+  <label for="blue-review-notes">
+    Upload Blue Team Review Notes
+  </label>
+
+  <input
+    type="file"
+    id="blue-review-notes"
+    name="reviewNotes"
+    accept=".pdf,.doc,.docx,.txt"
+    required
+  >
+
+  <button type="submit" class="sasha-color-review-action">
+    Upload Review Notes
+  </button>
+</form>
+
+<form action="/review/summarize" method="POST">
+  <input type="hidden" name="_csrf" value="{{csrfToken}}">
+  <input type="hidden" name="pursuitId" value="{{proposal._id}}">
+  <input type="hidden" name="reviewType" value="blue">
+
+  <button type="submit" class="sasha-color-review-action">
+    Summarize Review
+  </button>
+</form>
+
 
           </article>
 
@@ -766,12 +805,51 @@
 
             </div>
 
+
 <a
   href="/plan/pink-team-review?pursuit={{proposal._id}}"
   class="sasha-color-review-action"
 >
   Learn About Pink Team Review
 </a>
+
+<form
+  action="/review/upload-notes"
+  method="POST"
+  enctype="multipart/form-data"
+  class="sasha-review-upload-form"
+>
+  <input type="hidden" name="_csrf" value="{{csrfToken}}">
+  <input type="hidden" name="pursuitId" value="{{proposal._id}}">
+  <input type="hidden" name="reviewType" value="pink">
+
+  <label for="pink-review-notes">
+    Upload Pink Team Review Notes
+  </label>
+
+  <input
+    type="file"
+    id="pink-review-notes"
+    name="reviewNotes"
+    accept=".pdf,.doc,.docx,.txt"
+    required
+  >
+
+  <button type="submit" class="sasha-color-review-action">
+    Upload Review Notes
+  </button>
+</form>
+
+<form action="/review/summarize" method="POST">
+  <input type="hidden" name="_csrf" value="{{csrfToken}}">
+  <input type="hidden" name="pursuitId" value="{{proposal._id}}">
+  <input type="hidden" name="reviewType" value="pink">
+
+  <button type="submit" class="sasha-color-review-action">
+    Summarize Review
+  </button>
+</form>
+
 
           </article>
 
@@ -817,14 +895,44 @@
 
             </div>
 
-<p>
-  Gold Team is an executive review of the proposed
-  fee, pricing strategy, contractual obligations,
-  commercial exposure, and significant project risks.
-  Its purpose is to confirm that the firm is
-  comfortable with both the opportunity and the
-  commitments it is preparing to make.
-</p>
+
+<form
+  action="/review/upload-notes"
+  method="POST"
+  enctype="multipart/form-data"
+  class="sasha-review-upload-form"
+>
+  <input type="hidden" name="_csrf" value="{{csrfToken}}">
+  <input type="hidden" name="pursuitId" value="{{proposal._id}}">
+  <input type="hidden" name="reviewType" value="gold">
+
+  <label for="gold-review-notes">
+    Upload Gold Team Review Notes
+  </label>
+
+  <input
+    type="file"
+    id="gold-review-notes"
+    name="reviewNotes"
+    accept=".pdf,.doc,.docx,.txt"
+    required
+  >
+
+  <button type="submit" class="sasha-color-review-action">
+    Upload Review Notes
+  </button>
+</form>
+
+<form action="/review/summarize" method="POST">
+  <input type="hidden" name="_csrf" value="{{csrfToken}}">
+  <input type="hidden" name="pursuitId" value="{{proposal._id}}">
+  <input type="hidden" name="reviewType" value="gold">
+
+  <button type="submit" class="sasha-color-review-action">
+    Summarize Review
+  </button>
+</form>
+
 
           </article>
 
@@ -870,12 +978,51 @@
 
             </div>
 
+
 <a
   href="/plan/red-team-review?pursuit={{proposal._id}}"
   class="sasha-color-review-action"
 >
   Learn About Red Team Review
 </a>
+
+<form
+  action="/review/upload-notes"
+  method="POST"
+  enctype="multipart/form-data"
+  class="sasha-review-upload-form"
+>
+  <input type="hidden" name="_csrf" value="{{csrfToken}}">
+  <input type="hidden" name="pursuitId" value="{{proposal._id}}">
+  <input type="hidden" name="reviewType" value="red">
+
+  <label for="red-review-notes">
+    Upload Red Team Review Notes
+  </label>
+
+  <input
+    type="file"
+    id="red-review-notes"
+    name="reviewNotes"
+    accept=".pdf,.doc,.docx,.txt"
+    required
+  >
+
+  <button type="submit" class="sasha-color-review-action">
+    Upload Review Notes
+  </button>
+</form>
+
+<form action="/review/summarize" method="POST">
+  <input type="hidden" name="_csrf" value="{{csrfToken}}">
+  <input type="hidden" name="pursuitId" value="{{proposal._id}}">
+  <input type="hidden" name="reviewType" value="red">
+
+  <button type="submit" class="sasha-color-review-action">
+    Summarize Review
+  </button>
+</form>
+
 
           </article>
 
