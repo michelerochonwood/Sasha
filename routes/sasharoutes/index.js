@@ -28,6 +28,16 @@ const proposalDocumentController = require(
 );
 
 
+const reviewController = require(
+  '../../controllers/reviewController'
+);
+
+const reviewNotesUpload = require(
+  '../../middleware/reviewNotesUpload'
+);
+
+
+
 
 const router = express.Router();
 
@@ -372,6 +382,22 @@ router.get(
   ensureOrganization,
   proposalController.getReviewPursuit
 );
+
+
+/* =====================================================
+   REVIEW | UPLOAD COLOR TEAM NOTES
+===================================================== */
+
+router.post(
+  '/review/upload-notes',
+  ensureOrganization,
+  reviewNotesUpload,
+  verifyCsrfToken,
+  reviewController.postUploadReviewNotes
+);
+
+
+
 
 /* =====================================================
    OUTCOMES

@@ -4,6 +4,60 @@ const analysisConversationSchema =
     './analysisconversation'
   );
 
+
+/* =====================================================
+   COLOR TEAM REVIEW NOTES DOCUMENT SCHEMA
+===================================================== */
+
+const reviewNoteSchema = new mongoose.Schema({
+  originalName: {
+    type: String,
+    required: true
+  },
+
+  cloudinaryPublicId: {
+    type: String,
+    required: true
+  },
+
+  cloudinaryUrl: {
+    type: String,
+    required: true
+  },
+
+  cloudinaryResourceType: {
+  type: String,
+  default: 'raw'
+},
+
+cloudinaryDeliveryType: {
+  type: String,
+  default: 'authenticated'
+},
+
+  mimeType: {
+    type: String,
+    default: ''
+  },
+
+  size: {
+    type: Number,
+    default: 0
+  },
+
+  uploadedAt: {
+    type: Date,
+    default: Date.now
+  },
+
+  reviewType: {
+    type: String,
+    enum: ['blue', 'pink', 'gold', 'red'],
+    required: true
+  }
+});
+
+
 const proposalSchema = new mongoose.Schema(
   {
 
@@ -715,20 +769,57 @@ supportingMaterials: [
 ],
 
 
-    winStrategy: {
-      type: mongoose.Schema.Types.Mixed,
-      default: {}
-    },
 
-    plan: {
-      type: mongoose.Schema.Types.Mixed,
-      default: {}
-    },
+/* =====================================================
+   COLOR TEAM REVIEWS
+===================================================== */
 
-    reviews: {
-      type: mongoose.Schema.Types.Mixed,
-      default: {}
+reviews: {
+  blue: {
+    status: {
+      type: String,
+      default: 'not_started'
     },
+    reviewNotes: {
+      type: [reviewNoteSchema],
+      default: []
+    }
+  },
+
+  pink: {
+    status: {
+      type: String,
+      default: 'not_started'
+    },
+    reviewNotes: {
+      type: [reviewNoteSchema],
+      default: []
+    }
+  },
+
+  gold: {
+    status: {
+      type: String,
+      default: 'not_required'
+    },
+    reviewNotes: {
+      type: [reviewNoteSchema],
+      default: []
+    }
+  },
+
+  red: {
+    status: {
+      type: String,
+      default: 'not_started'
+    },
+    reviewNotes: {
+      type: [reviewNoteSchema],
+      default: []
+    }
+  }
+},
+
 
 
 /* =====================================================
