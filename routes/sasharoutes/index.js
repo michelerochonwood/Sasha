@@ -397,6 +397,18 @@ router.post(
 );
 
 
+/* =====================================================
+   REVIEW | COMPLETE COLOR TEAM REVIEW
+===================================================== */
+
+router.post(
+  '/review/summarize',
+  ensureOrganization,
+  verifyCsrfToken,
+  reviewController.postCompleteReview
+);
+
+
 
 
 /* =====================================================

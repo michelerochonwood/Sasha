@@ -6,56 +6,45 @@ const analysisConversationSchema =
 
 
 /* =====================================================
-   COLOR TEAM REVIEW NOTES DOCUMENT SCHEMA
+   COLOR TEAM REVIEWS
 ===================================================== */
 
-const reviewNoteSchema = new mongoose.Schema({
-  originalName: {
+const colorTeamReviewSchema = new mongoose.Schema({
+  status: {
     type: String,
-    required: true
+    enum: [
+      'not_started',
+      'not_required',
+      'notes_uploaded',
+      'complete'
+    ],
+    default: 'not_started'
   },
 
-  cloudinaryPublicId: {
-    type: String,
-    required: true
+  reviewNotes: {
+    type: [reviewNoteSchema],
+    default: []
   },
 
-  cloudinaryUrl: {
+  summary: {
     type: String,
-    required: true
-  },
-
-  cloudinaryResourceType: {
-  type: String,
-  default: 'raw'
-},
-
-cloudinaryDeliveryType: {
-  type: String,
-  default: 'authenticated'
-},
-
-  mimeType: {
-    type: String,
+    trim: true,
     default: ''
   },
 
-  size: {
-    type: Number,
-    default: 0
-  },
-
-  uploadedAt: {
+  summarizedAt: {
     type: Date,
-    default: Date.now
+    default: null
   },
 
-  reviewType: {
-    type: String,
-    enum: ['blue', 'pink', 'gold', 'red'],
-    required: true
+  completedAt: {
+    type: Date,
+    default: null
   }
+}, {
+  _id: false
 });
+
 
 
 const proposalSchema = new mongoose.Schema(
@@ -776,55 +765,36 @@ supportingMaterials: [
 
 reviews: {
   blue: {
-    status: {
-      type: String,
-      default: 'not_started'
-    },
-    reviewNotes: {
-      type: [reviewNoteSchema],
-      default: []
-    }
+    type: colorTeamReviewSchema,
+    default: () => ({
+      status: 'not_started'
+    })
   },
 
   pink: {
-    status: {
-      type: String,
-      default: 'not_started'
-    },
-    reviewNotes: {
-      type: [reviewNoteSchema],
-      default: []
-    }
+    type: colorTeamReviewSchema,
+    default: () => ({
+      status: 'not_started'
+    })
   },
 
   gold: {
-    status: {
-      type: String,
-      default: 'not_required'
-    },
-    reviewNotes: {
-      type: [reviewNoteSchema],
-      default: []
-    }
+    type: colorTeamReviewSchema,
+    default: () => ({
+      status: 'not_required'
+    })
   },
 
   red: {
-    status: {
-      type: String,
-      default: 'not_started'
-    },
-    reviewNotes: {
-      type: [reviewNoteSchema],
-      default: []
-    }
+    type: colorTeamReviewSchema,
+    default: () => ({
+      status: 'not_started'
+    })
   }
 },
 
 
 
-/* =====================================================
-   PROPOSAL WRITING SECTIONS
-===================================================== */
 
 
 /* =====================================================

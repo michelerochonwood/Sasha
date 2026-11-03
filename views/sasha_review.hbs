@@ -566,21 +566,43 @@
               extensive proposal writing begins.
             </p>
 
-            <div class="sasha-color-review-status">
 
-              <span>
-                Status
-              </span>
+<div class="sasha-color-review-status">
 
-              <strong>
-                {{#if reviews.blue.status}}
-                  {{reviews.blue.status}}
-                {{else}}
-                  Not started
-                {{/if}}
-              </strong>
+  <span>Status</span>
 
-            </div>
+  <strong>
+    {{#ifEquals reviews.blue.status "complete"}}
+      Review Complete
+    {{else}}
+      {{#ifEquals reviews.blue.status "notes_uploaded"}}
+        Notes Uploaded Successfully
+      {{else}}
+        Not Started
+      {{/ifEquals}}
+    {{/ifEquals}}
+  </strong>
+
+</div>
+
+{{#if reviews.blue.reviewNotes.length}}
+
+  <div class="sasha-review-upload-confirmation">
+
+    <p>
+      Review notes saved to this pursuit:
+    </p>
+
+    <ul>
+      {{#each reviews.blue.reviewNotes}}
+        <li>{{this.originalName}}</li>
+      {{/each}}
+    </ul>
+
+  </div>
+
+{{/if}}
+
 
 
 <a
@@ -608,7 +630,7 @@
     type="file"
     id="blue-review-notes"
     name="reviewNotes"
-    accept=".pdf,.doc,.docx,.txt"
+    accept=".pdf,.docx,.txt"
     required
   >
 
@@ -656,21 +678,43 @@
               drafting is complete.
             </p>
 
-            <div class="sasha-color-review-status">
 
-              <span>
-                Status
-              </span>
+<div class="sasha-color-review-status">
 
-              <strong>
-                {{#if reviews.pink.status}}
-                  {{reviews.pink.status}}
-                {{else}}
-                  Not started
-                {{/if}}
-              </strong>
+  <span>Status</span>
 
-            </div>
+  <strong>
+    {{#ifEquals reviews.pink.status "complete"}}
+      Review Complete
+    {{else}}
+      {{#ifEquals reviews.pink.status "notes_uploaded"}}
+        Notes Uploaded Successfully
+      {{else}}
+        Not Started
+      {{/ifEquals}}
+    {{/ifEquals}}
+  </strong>
+
+</div>
+
+{{#if reviews.pink.reviewNotes.length}}
+
+  <div class="sasha-review-upload-confirmation">
+
+    <p>
+      Review notes saved to this pursuit:
+    </p>
+
+    <ul>
+      {{#each reviews.pink.reviewNotes}}
+        <li>{{this.originalName}}</li>
+      {{/each}}
+    </ul>
+
+  </div>
+
+{{/if}}
+
 
 
 <a
@@ -746,21 +790,43 @@
               organizational risk.
             </p>
 
-            <div class="sasha-color-review-status">
 
-              <span>
-                Status
-              </span>
+<div class="sasha-color-review-status">
 
-              <strong>
-                {{#if reviews.gold.status}}
-                  {{reviews.gold.status}}
-                {{else}}
-                  Not required
-                {{/if}}
-              </strong>
+  <span>Status</span>
 
-            </div>
+  <strong>
+    {{#ifEquals reviews.gold.status "complete"}}
+      Review Complete
+    {{else}}
+      {{#ifEquals reviews.gold.status "notes_uploaded"}}
+        Notes Uploaded Successfully
+      {{else}}
+        Not Required
+      {{/ifEquals}}
+    {{/ifEquals}}
+  </strong>
+
+</div>
+
+{{#if reviews.gold.reviewNotes.length}}
+
+  <div class="sasha-review-upload-confirmation">
+
+    <p>
+      Review notes saved to this pursuit:
+    </p>
+
+    <ul>
+      {{#each reviews.gold.reviewNotes}}
+        <li>{{this.originalName}}</li>
+      {{/each}}
+    </ul>
+
+  </div>
+
+{{/if}}
+
 
 
 <form
@@ -829,21 +895,43 @@
               in its current form.
             </p>
 
-            <div class="sasha-color-review-status">
 
-              <span>
-                Status
-              </span>
+<div class="sasha-color-review-status">
 
-              <strong>
-                {{#if reviews.red.status}}
-                  {{reviews.red.status}}
-                {{else}}
-                  Not started
-                {{/if}}
-              </strong>
+  <span>Status</span>
 
-            </div>
+  <strong>
+    {{#ifEquals reviews.red.status "complete"}}
+      Review Complete
+    {{else}}
+      {{#ifEquals reviews.red.status "notes_uploaded"}}
+        Notes Uploaded Successfully
+      {{else}}
+        Not Started
+      {{/ifEquals}}
+    {{/ifEquals}}
+  </strong>
+
+</div>
+
+{{#if reviews.red.reviewNotes.length}}
+
+  <div class="sasha-review-upload-confirmation">
+
+    <p>
+      Review notes saved to this pursuit:
+    </p>
+
+    <ul>
+      {{#each reviews.red.reviewNotes}}
+        <li>{{this.originalName}}</li>
+      {{/each}}
+    </ul>
+
+  </div>
+
+{{/if}}
+
 
 
 <a
