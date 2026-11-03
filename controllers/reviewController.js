@@ -823,3 +823,134 @@ Return a concise professional summary.
 };
 
 
+/* =====================================================
+   DOWNLOAD COLOR TEAM REVIEW DOCUMENT
+===================================================== */
+
+exports.getReviewDocument = async (req, res) => {
+  try {
+
+    /* ===============================================
+       IDENTIFY REQUEST
+    =============================================== */
+
+    const {
+      pursuitId,
+      reviewType,
+      documentId
+    } = req.params;
+
+    const organizationId =
+      getOrganizationId(req);
+
+
+    /* ===============================================
+       VALIDATE REQUEST
+    =============================================== */
+
+    if (
+      !organizationId ||
+      !mongoose.isValidObjectId(organizationId)
+    ) {
+      return res.status(401).send(
+        'Organization authentication required.'
+      );
+    }
+
+    if (
+      !mongoose.isValidObjectId(pursuitId) ||
+      !mongoose.isValidObjectId(documentId) ||
+      !VALID_REVIEW_TYPES.includes(reviewType)
+    ) {
+      return res.status(400).send(
+        'Invalid review document request.'
+      );
+    }
+
+
+    /* ===============================================
+       VERIFY PURSUIT OWNERSHIP
+    =============================================== */
+
+    const proposal = await Proposal.findOne({
+      _id: pursuitId,
+      organization: organizationId
+    }).select('reviews');
+
+    if (!proposal) {
+      return res.status(404).send(
+        'Pursuit not found.'
+      );
+    }
+
+
+    /* ===============================================
+       FIND REQUESTED REVIEW DOCUMENT
+    =============================================== */
+
+    const review =
+      proposal.reviews?.[reviewType];
+
+    const document = review?.reviewNotes?.find(
+      item =>
+        String(item._id) === String(documentId)
+    );
+
+    if (!document) {
+      return res.status(404).send(
+        'Review document not found.'
+      );
+    }
+
+    if (!document.cloudinaryPublicId) {
+      return res.status(404).send(
+        'Review document storage reference is missing.'
+      );
+    }
+
+
+    /* ===============================================
+       GENERATE SHORT-LIVED DOWNLOAD URL
+    =============================================== */
+
+    const downloadUrl =
+      cloudinary.utils.private_download_url(
+        document.cloudinaryPublicId,
+        null,
+        {
+          resource_type:
+            document.cloudinaryResourceType || 'raw',
+
+          type:
+            document.cloudinaryDeliveryType || 'authenticated',
+
+          expires_at:
+            Math.floor(Date.now() / 1000) + 300,
+
+          attachment: true
+        }
+      );
+
+
+    /* ===============================================
+       REDIRECT TO SECURE DOCUMENT
+    =============================================== */
+
+    return res.redirect(downloadUrl);
+
+  } catch (error) {
+
+    console.error(
+      'REVIEW DOCUMENT DOWNLOAD ERROR:',
+      error
+    );
+
+    return res.status(500).send(
+      'Unable to download review document. Please try again.'
+    );
+
+  }
+};
+
+
+

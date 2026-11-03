@@ -398,6 +398,18 @@ router.post(
 
 
 /* =====================================================
+   REVIEW | DOWNLOAD COLOR TEAM REVIEW DOCUMENT
+===================================================== */
+
+router.get(
+  '/review/document/:pursuitId/:reviewType/:documentId',
+  ensureOrganization,
+  reviewController.getReviewDocument
+);
+
+
+
+/* =====================================================
    REVIEW | COMPLETE COLOR TEAM REVIEW
 ===================================================== */
 

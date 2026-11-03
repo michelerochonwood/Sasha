@@ -593,11 +593,23 @@
       Review notes saved to this pursuit:
     </p>
 
-    <ul>
-      {{#each reviews.blue.reviewNotes}}
-        <li>{{this.originalName}}</li>
-      {{/each}}
-    </ul>
+
+<ul>
+  {{#each reviews.blue.reviewNotes}}
+
+    <li>
+      <a
+        href="/review/document/{{../proposal._id}}/blue/{{this._id}}"
+        class="sasha-review-document-link"
+        title="Download {{this.originalName}}"
+      >
+        {{this.originalName}}
+      </a>
+    </li>
+
+  {{/each}}
+</ul>
+
 
   </div>
 
@@ -705,11 +717,23 @@
       Review notes saved to this pursuit:
     </p>
 
-    <ul>
-      {{#each reviews.pink.reviewNotes}}
-        <li>{{this.originalName}}</li>
-      {{/each}}
-    </ul>
+
+<ul>
+  {{#each reviews.pink.reviewNotes}}
+
+    <li>
+      <a
+        href="/review/document/{{../proposal._id}}/pink/{{this._id}}"
+        class="sasha-review-document-link"
+        title="Download {{this.originalName}}"
+      >
+        {{this.originalName}}
+      </a>
+    </li>
+
+  {{/each}}
+</ul>
+
 
   </div>
 
@@ -817,11 +841,23 @@
       Review notes saved to this pursuit:
     </p>
 
-    <ul>
-      {{#each reviews.gold.reviewNotes}}
-        <li>{{this.originalName}}</li>
-      {{/each}}
-    </ul>
+
+<ul>
+  {{#each reviews.gold.reviewNotes}}
+
+    <li>
+      <a
+        href="/review/document/{{../proposal._id}}/gold/{{this._id}}"
+        class="sasha-review-document-link"
+        title="Download {{this.originalName}}"
+      >
+        {{this.originalName}}
+      </a>
+    </li>
+
+  {{/each}}
+</ul>
+
 
   </div>
 
@@ -922,11 +958,23 @@
       Review notes saved to this pursuit:
     </p>
 
-    <ul>
-      {{#each reviews.red.reviewNotes}}
-        <li>{{this.originalName}}</li>
-      {{/each}}
-    </ul>
+
+<ul>
+  {{#each reviews.red.reviewNotes}}
+
+    <li>
+      <a
+        href="/review/document/{{../proposal._id}}/red/{{this._id}}"
+        class="sasha-review-document-link"
+        title="Download {{this.originalName}}"
+      >
+        {{this.originalName}}
+      </a>
+    </li>
+
+  {{/each}}
+</ul>
+
 
   </div>
 
