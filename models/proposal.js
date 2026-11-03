@@ -6,6 +6,60 @@ const analysisConversationSchema =
 
 
 /* =====================================================
+   COLOR TEAM REVIEW NOTES
+===================================================== */
+
+const reviewNoteSchema = new mongoose.Schema({
+
+  originalName: {
+    type: String,
+    required: true
+  },
+
+  cloudinaryPublicId: {
+    type: String,
+    required: true
+  },
+
+  cloudinaryUrl: {
+    type: String,
+    required: true
+  },
+
+  cloudinaryResourceType: {
+    type: String,
+    default: 'raw'
+  },
+
+  cloudinaryDeliveryType: {
+    type: String,
+    default: 'authenticated'
+  },
+
+  mimeType: {
+    type: String,
+    default: ''
+  },
+
+  size: {
+    type: Number,
+    default: 0
+  },
+
+  uploadedAt: {
+    type: Date,
+    default: Date.now
+  },
+
+  reviewType: {
+    type: String,
+    enum: ['blue', 'pink', 'gold', 'red'],
+    required: true
+  }
+
+});
+
+/* =====================================================
    COLOR TEAM REVIEWS
 ===================================================== */
 
