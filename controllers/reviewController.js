@@ -885,9 +885,34 @@ const findings = reviewResult.findings.map(
         );
       }
 
-      const matchingDocuments = review.reviewNotes.filter(
-        document => document.originalName === documentName
-      );
+
+const normalizeDocumentName = value =>
+  String(value || '')
+    .toLowerCase()
+    .replace(/\.[^.]+$/, '')
+    .replace(/[^a-z0-9]+/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+const requestedName = normalizeDocumentName(documentName);
+
+let matchingDocuments = review.reviewNotes.filter(
+  document =>
+    normalizeDocumentName(document.originalName) ===
+    requestedName
+);
+
+// If there is exactly one uploaded source document,
+// use its stored MongoDB reference rather than
+// rejecting an AI-generated title or heading.
+
+if (
+  matchingDocuments.length === 0 &&
+  review.reviewNotes.length === 1
+) {
+  matchingDocuments = [review.reviewNotes[0]];
+}
+
 
       if (matchingDocuments.length === 0) {
         throw new Error(
