@@ -11445,6 +11445,117 @@ h3 {
 
 
 /* =====================================================
+   COLOUR TEAM | HUMAN COMPLETION
+===================================================== */
+
+/* Completion form */
+
+.sasha-color-review-card
+form[action="/review/complete-human"] {
+  margin: 1rem 0 0;
+  padding: 0;
+}
+
+/* Completed review status */
+
+.sasha-color-review-card
+.sasha-review-upload-confirmation {
+  margin-top: 1rem;
+  padding: 0.9rem 1rem;
+
+  background: rgba(255, 255, 255, 0.07);
+
+  border: 1px solid rgba(242, 130, 170, 0.42);
+  border-radius: 12px;
+}
+
+.sasha-color-review-card
+.sasha-review-upload-confirmation p {
+  margin: 0;
+
+  color: var(--sasha-white);
+
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+.sasha-color-review-card
+.sasha-review-upload-confirmation strong {
+  color: var(--sasha-pink);
+  font-weight: 800;
+}
+
+.sasha-color-review-card
+.sasha-review-upload-confirmation small {
+  display: block;
+
+  margin-top: 0.4rem;
+
+  color: rgba(255, 255, 255, 0.66);
+
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+
+/* Confirm completion button */
+
+.sasha-color-review-card
+form[action="/review/complete-human"]
+.sasha-color-review-action {
+  display: inline-flex;
+
+  min-height: 44px;
+
+  align-items: center;
+  justify-content: center;
+
+  margin-top: 0;
+
+  padding: 0.7rem 1.1rem;
+
+  color: var(--sasha-navy);
+  background: var(--sasha-pink);
+
+  border: 1px solid var(--sasha-pink);
+  border-radius: 999px;
+
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 800;
+
+  cursor: pointer;
+}
+
+.sasha-color-review-card
+form[action="/review/complete-human"]
+.sasha-color-review-action:hover {
+  color: var(--sasha-navy);
+  background: var(--sasha-white);
+  border-color: var(--sasha-white);
+}
+
+/* Keyboard accessibility */
+
+.sasha-color-review-card
+form[action="/review/complete-human"]
+.sasha-color-review-action:focus-visible {
+  outline: 3px solid var(--sasha-white);
+  outline-offset: 3px;
+}
+
+/* Mobile */
+
+@media screen and (max-width: 620px) {
+
+  .sasha-color-review-card
+  form[action="/review/complete-human"]
+  .sasha-color-review-action {
+    width: 100%;
+  }
+
+}
+
+/* =====================================================
    USUAL EFFORT OPTIONAL REVIEW
 ===================================================== */
 
@@ -11595,17 +11706,52 @@ h3 {
 }
 
 
-.sasha-review-finding.is-resolved
-.sasha-review-finding-marker {
-  color:
-    var(--sasha-navy);
 
-  background:
-    var(--sasha-pink);
+/* =====================================================
+   REVIEW FINDINGS | STATUS STATES
+===================================================== */
 
-  border-color:
-    var(--sasha-pink);
+/* OPEN */
+
+.sasha-review-finding.is-open {
+  border-color: rgba(242, 130, 170, 0.45);
 }
+
+.sasha-review-finding.is-open
+.sasha-review-finding-marker {
+  color: var(--sasha-pink);
+  background: rgba(242, 130, 170, 0.08);
+  border-color: var(--sasha-pink);
+}
+
+/* ADDRESSED */
+
+.sasha-review-finding.is-addressed {
+  background: rgba(255, 255, 255, 0.065);
+  border-color: rgba(255, 255, 255, 0.24);
+}
+
+.sasha-review-finding.is-addressed
+.sasha-review-finding-marker {
+  color: var(--sasha-navy);
+  background: var(--sasha-pink);
+  border-color: var(--sasha-pink);
+}
+
+/* SKIPPED */
+
+.sasha-review-finding.is-skipped {
+  opacity: 0.78;
+  border-color: rgba(255, 255, 255, 0.14);
+}
+
+.sasha-review-finding.is-skipped
+.sasha-review-finding-marker {
+  color: rgba(255, 255, 255, 0.72);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
 
 
 .sasha-review-finding-copy {
@@ -11696,6 +11842,129 @@ h3 {
 
   font-size:
     0.7rem;
+}
+
+
+/* =====================================================
+   REVIEW FINDINGS | RESOLUTION CONTROLS
+===================================================== */
+
+.sasha-review-finding-copy {
+  flex: 1;
+  min-width: 0;
+}
+
+.sasha-review-finding form {
+  margin-top: 1rem;
+}
+
+.sasha-review-finding textarea {
+  display: block;
+  width: 100%;
+  min-height: 86px;
+  box-sizing: border-box;
+
+  padding: 0.85rem 1rem;
+
+  color: var(--sasha-white);
+  background: rgba(38, 34, 98, 0.5);
+
+  border: 1px solid var(--sasha-white-25);
+  border-radius: 12px;
+
+  font: inherit;
+  font-size: 0.84rem;
+  line-height: 1.5;
+
+  resize: vertical;
+}
+
+.sasha-review-finding textarea::placeholder {
+  color: rgba(255, 255, 255, 0.48);
+}
+
+.sasha-review-finding textarea:focus {
+  outline: none;
+  border-color: var(--sasha-pink);
+
+  box-shadow:
+    0 0 0 3px rgba(242, 130, 170, 0.16);
+}
+
+/* =====================================================
+   FINDING ACTION BUTTONS
+===================================================== */
+
+.sasha-review-finding button {
+  display: inline-flex;
+  min-height: 40px;
+
+  align-items: center;
+  justify-content: center;
+
+  margin: 0.65rem 0.5rem 0 0;
+  padding: 0.6rem 1rem;
+
+  color: var(--sasha-white);
+  background: transparent;
+
+  border: 1px solid var(--sasha-white-25);
+  border-radius: 999px;
+
+  font: inherit;
+  font-size: 0.76rem;
+  font-weight: 800;
+
+  cursor: pointer;
+
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease,
+    transform 180ms ease;
+}
+
+.sasha-review-finding button:hover {
+  transform: translateY(-1px);
+
+  color: var(--sasha-navy);
+  background: var(--sasha-pink);
+  border-color: var(--sasha-pink);
+}
+
+.sasha-review-finding button:focus-visible {
+  outline: 3px solid var(--sasha-pink);
+  outline-offset: 3px;
+}
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media screen and (max-width: 620px) {
+
+  .sasha-review-finding {
+    gap: 0.75rem;
+    padding: 0.9rem;
+  }
+
+  .sasha-review-finding button {
+    width: 100%;
+    margin-right: 0;
+  }
+
+}
+
+/* =====================================================
+   REDUCED MOTION
+===================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .sasha-review-finding button {
+    transition: none;
+  }
+
 }
 
 
@@ -11829,6 +12098,154 @@ h3 {
     1.5;
 }
 
+
+/* =====================================================
+   FINAL QUALITY | SIGN-OFF CONTROLS
+===================================================== */
+
+/* Keep action controls aligned at the bottom */
+
+.sasha-review-final-grid article {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* Confirmation message */
+
+.sasha-review-final-grid
+.sasha-review-upload-confirmation {
+  margin-top: 1rem;
+  padding: 0.85rem 0.95rem;
+
+  background: rgba(255, 255, 255, 0.07);
+
+  border: 1px solid rgba(242, 130, 170, 0.42);
+  border-radius: 12px;
+}
+
+.sasha-review-final-grid
+.sasha-review-upload-confirmation p {
+  margin: 0;
+
+  color: var(--sasha-white);
+
+  font-size: 0.82rem;
+  line-height: 1.4;
+}
+
+.sasha-review-final-grid
+.sasha-review-upload-confirmation strong {
+  color: var(--sasha-pink);
+  font-weight: 800;
+}
+
+.sasha-review-final-grid
+.sasha-review-upload-confirmation small {
+  display: block;
+
+  margin-top: 0.4rem;
+
+  color: rgba(255, 255, 255, 0.66);
+
+  font-size: 0.74rem;
+  line-height: 1.4;
+}
+
+/* Sign-off forms */
+
+.sasha-review-final-grid
+form[action="/review/final-quality-decision"] {
+  margin: auto 0 0;
+  padding-top: 1.25rem;
+}
+
+/* Confirm Complete and Reopen buttons */
+
+.sasha-review-final-grid
+.sasha-color-review-action {
+  display: inline-flex;
+
+  min-height: 44px;
+
+  align-items: center;
+  justify-content: center;
+
+  margin: 0;
+  padding: 0.7rem 1.1rem;
+
+  color: var(--sasha-navy);
+  background: var(--sasha-pink);
+
+  border: 1px solid var(--sasha-pink);
+  border-radius: 999px;
+
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 800;
+
+  cursor: pointer;
+
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease,
+    transform 180ms ease;
+}
+
+.sasha-review-final-grid
+.sasha-color-review-action:hover {
+  transform: translateY(-1px);
+
+  background: var(--sasha-white);
+  border-color: var(--sasha-white);
+}
+
+.sasha-review-final-grid
+.sasha-color-review-action:focus-visible {
+  outline: 3px solid var(--sasha-white);
+  outline-offset: 3px;
+}
+
+/* Reopen is a secondary action */
+
+.sasha-review-final-grid
+form:has(input[name="decision"][value="reopen"])
+.sasha-color-review-action {
+  color: var(--sasha-white);
+  background: transparent;
+
+  border-color: var(--sasha-white-25);
+}
+
+.sasha-review-final-grid
+form:has(input[name="decision"][value="reopen"])
+.sasha-color-review-action:hover {
+  color: var(--sasha-navy);
+  background: var(--sasha-pink);
+  border-color: var(--sasha-pink);
+}
+
+/* Mobile */
+
+@media screen and (max-width: 620px) {
+
+  .sasha-review-final-grid
+  .sasha-color-review-action {
+    width: 100%;
+  }
+
+}
+
+/* Reduced motion */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .sasha-review-final-grid
+  .sasha-color-review-action {
+    transition: none;
+  }
+
+}
 
 /* =====================================================
    TABLET

@@ -567,23 +567,45 @@
             </p>
 
 
+
 <div class="sasha-color-review-status">
 
-  <span>Status</span>
+  <span>Human Review</span>
 
   <strong>
     {{#ifEquals reviews.blue.status "complete"}}
       Review Complete
     {{else}}
-      {{#ifEquals reviews.blue.status "notes_uploaded"}}
-        Notes Uploaded Successfully
+      {{#if reviews.blue.reviewNotes.length}}
+        Review Notes Uploaded
       {{else}}
         Not Started
-      {{/ifEquals}}
+      {{/if}}
     {{/ifEquals}}
   </strong>
 
 </div>
+
+{{!-- ===============================================
+     SASHA REVIEW PROCESSING
+=============================================== --}}
+
+{{#if reviews.blue.summarizedAt}}
+
+  <div class="sasha-review-upload-confirmation">
+
+    <p>
+      <strong>Sasha's Review Summary</strong>
+    </p>
+
+    <p>
+      {{reviews.blue.summary}}
+    </p>
+
+  </div>
+
+{{/if}}
+
 
 {{#if reviews.blue.reviewNotes.length}}
 
@@ -651,15 +673,115 @@
   </button>
 </form>
 
-<form action="/review/summarize" method="POST">
-  <input type="hidden" name="_csrf" value="{{csrfToken}}">
-  <input type="hidden" name="pursuitId" value="{{proposal._id}}">
-  <input type="hidden" name="reviewType" value="blue">
 
-  <button type="submit" class="sasha-color-review-action">
-    Summarize Review
-  </button>
-</form>
+{{#if reviews.blue.reviewNotes.length}}
+
+  <form action="/review/summarize" method="POST">
+
+    <input
+      type="hidden"
+      name="_csrf"
+      value="{{csrfToken}}"
+    >
+
+    <input
+      type="hidden"
+      name="pursuitId"
+      value="{{proposal._id}}"
+    >
+
+    <input
+      type="hidden"
+      name="reviewType"
+      value="blue"
+    >
+
+    <button
+      type="submit"
+      class="sasha-color-review-action"
+    >
+      {{#if reviews.blue.summarizedAt}}
+        Reprocess Review Findings
+      {{else}}
+        Process Review Findings
+      {{/if}}
+    </button>
+
+  </form>
+
+{{/if}}
+
+
+{{!-- ===============================================
+     BLUE TEAM | HUMAN REVIEW COMPLETION
+=============================================== --}}
+
+{{#if reviews.blue.summarizedAt}}
+
+  {{#ifEquals reviews.blue.status "complete"}}
+
+    <div class="sasha-review-upload-confirmation">
+
+      <p>
+        <strong>Human Review Complete</strong>
+      </p>
+
+      <p>
+        The proposal team has confirmed that
+        the Blue Team review is complete.
+      </p>
+
+      {{#if reviews.blue.completedBy}}
+        <small>
+          Confirmed by: {{reviews.blue.completedBy}}
+        </small>
+      {{/if}}
+
+    </div>
+
+  {{else}}
+
+    <form
+      action="/review/complete-human"
+      method="POST"
+      class="sasha-review-completion-form"
+    >
+
+      <input
+        type="hidden"
+        name="_csrf"
+        value="{{csrfToken}}"
+      >
+
+      <input
+        type="hidden"
+        name="pursuitId"
+        value="{{proposal._id}}"
+      >
+
+      <input
+        type="hidden"
+        name="reviewType"
+        value="blue"
+      >
+
+      <p>
+        Confirm completion after all Blue Team
+        findings have been addressed or skipped.
+      </p>
+
+      <button
+        type="submit"
+        class="sasha-color-review-action"
+      >
+        Confirm Review Complete
+      </button>
+
+    </form>
+
+  {{/ifEquals}}
+
+{{/if}}
 
 
           </article>
@@ -691,23 +813,45 @@
             </p>
 
 
+
 <div class="sasha-color-review-status">
 
-  <span>Status</span>
+  <span>Human Review</span>
 
   <strong>
     {{#ifEquals reviews.pink.status "complete"}}
       Review Complete
     {{else}}
-      {{#ifEquals reviews.pink.status "notes_uploaded"}}
-        Notes Uploaded Successfully
+      {{#if reviews.pink.reviewNotes.length}}
+        Review Notes Uploaded
       {{else}}
         Not Started
-      {{/ifEquals}}
+      {{/if}}
     {{/ifEquals}}
   </strong>
 
 </div>
+
+{{!-- ===============================================
+     SASHA REVIEW PROCESSING
+=============================================== --}}
+
+{{#if reviews.pink.summarizedAt}}
+
+  <div class="sasha-review-upload-confirmation">
+
+    <p>
+      <strong>Sasha's Review Summary</strong>
+    </p>
+
+    <p>
+      {{reviews.pink.summary}}
+    </p>
+
+  </div>
+
+{{/if}}
+
 
 {{#if reviews.pink.reviewNotes.length}}
 
@@ -775,15 +919,115 @@
   </button>
 </form>
 
-<form action="/review/summarize" method="POST">
-  <input type="hidden" name="_csrf" value="{{csrfToken}}">
-  <input type="hidden" name="pursuitId" value="{{proposal._id}}">
-  <input type="hidden" name="reviewType" value="pink">
 
-  <button type="submit" class="sasha-color-review-action">
-    Summarize Review
-  </button>
-</form>
+{{#if reviews.pink.reviewNotes.length}}
+
+  <form action="/review/summarize" method="POST">
+
+    <input
+      type="hidden"
+      name="_csrf"
+      value="{{csrfToken}}"
+    >
+
+    <input
+      type="hidden"
+      name="pursuitId"
+      value="{{proposal._id}}"
+    >
+
+    <input
+      type="hidden"
+      name="reviewType"
+      value="pink"
+    >
+
+    <button
+      type="submit"
+      class="sasha-color-review-action"
+    >
+      {{#if reviews.pink.summarizedAt}}
+        Reprocess Review Findings
+      {{else}}
+        Process Review Findings
+      {{/if}}
+    </button>
+
+  </form>
+
+{{/if}}
+
+
+{{!-- ===============================================
+     PINK TEAM | HUMAN REVIEW COMPLETION
+=============================================== --}}
+
+{{#if reviews.pink.summarizedAt}}
+
+  {{#ifEquals reviews.pink.status "complete"}}
+
+    <div class="sasha-review-upload-confirmation">
+
+      <p>
+        <strong>Human Review Complete</strong>
+      </p>
+
+      <p>
+        The proposal team has confirmed that
+        the Pink Team review is complete.
+      </p>
+
+      {{#if reviews.pink.completedBy}}
+        <small>
+          Confirmed by: {{reviews.pink.completedBy}}
+        </small>
+      {{/if}}
+
+    </div>
+
+  {{else}}
+
+    <form
+      action="/review/complete-human"
+      method="POST"
+      class="sasha-review-completion-form"
+    >
+
+      <input
+        type="hidden"
+        name="_csrf"
+        value="{{csrfToken}}"
+      >
+
+      <input
+        type="hidden"
+        name="pursuitId"
+        value="{{proposal._id}}"
+      >
+
+      <input
+        type="hidden"
+        name="reviewType"
+        value="pink"
+      >
+
+      <p>
+        Confirm completion after all Pink Team
+        findings have been addressed or skipped.
+      </p>
+
+      <button
+        type="submit"
+        class="sasha-color-review-action"
+      >
+        Confirm Review Complete
+      </button>
+
+    </form>
+
+  {{/ifEquals}}
+
+{{/if}}
 
 
           </article>
@@ -815,23 +1059,49 @@
             </p>
 
 
+
 <div class="sasha-color-review-status">
 
-  <span>Status</span>
+  <span>Human Review</span>
 
   <strong>
     {{#ifEquals reviews.gold.status "complete"}}
       Review Complete
     {{else}}
-      {{#ifEquals reviews.gold.status "notes_uploaded"}}
-        Notes Uploaded Successfully
+      {{#if reviews.gold.reviewNotes.length}}
+        Review Notes Uploaded
       {{else}}
-        Not Required
-      {{/ifEquals}}
+        {{#ifEquals reviews.gold.status "not_required"}}
+          Not Required
+        {{else}}
+          Not Started
+        {{/ifEquals}}
+      {{/if}}
     {{/ifEquals}}
   </strong>
 
 </div>
+
+{{!-- ===============================================
+     SASHA REVIEW PROCESSING
+=============================================== --}}
+
+{{#if reviews.gold.summarizedAt}}
+
+  <div class="sasha-review-upload-confirmation">
+
+    <p>
+      <strong>Sasha's Review Summary</strong>
+    </p>
+
+    <p>
+      {{reviews.gold.summary}}
+    </p>
+
+  </div>
+
+{{/if}}
+
 
 {{#if reviews.gold.reviewNotes.length}}
 
@@ -892,15 +1162,115 @@
   </button>
 </form>
 
-<form action="/review/summarize" method="POST">
-  <input type="hidden" name="_csrf" value="{{csrfToken}}">
-  <input type="hidden" name="pursuitId" value="{{proposal._id}}">
-  <input type="hidden" name="reviewType" value="gold">
 
-  <button type="submit" class="sasha-color-review-action">
-    Summarize Review
-  </button>
-</form>
+{{#if reviews.gold.reviewNotes.length}}
+
+  <form action="/review/summarize" method="POST">
+
+    <input
+      type="hidden"
+      name="_csrf"
+      value="{{csrfToken}}"
+    >
+
+    <input
+      type="hidden"
+      name="pursuitId"
+      value="{{proposal._id}}"
+    >
+
+    <input
+      type="hidden"
+      name="reviewType"
+      value="gold"
+    >
+
+    <button
+      type="submit"
+      class="sasha-color-review-action"
+    >
+      {{#if reviews.gold.summarizedAt}}
+        Reprocess Review Findings
+      {{else}}
+        Process Review Findings
+      {{/if}}
+    </button>
+
+  </form>
+
+{{/if}}
+
+
+{{!-- ===============================================
+     GOLD TEAM | HUMAN REVIEW COMPLETION
+=============================================== --}}
+
+{{#if reviews.gold.summarizedAt}}
+
+  {{#ifEquals reviews.gold.status "complete"}}
+
+    <div class="sasha-review-upload-confirmation">
+
+      <p>
+        <strong>Human Review Complete</strong>
+      </p>
+
+      <p>
+        The proposal team has confirmed that
+        the Gold Team review is complete.
+      </p>
+
+      {{#if reviews.gold.completedBy}}
+        <small>
+          Confirmed by: {{reviews.gold.completedBy}}
+        </small>
+      {{/if}}
+
+    </div>
+
+  {{else}}
+
+    <form
+      action="/review/complete-human"
+      method="POST"
+      class="sasha-review-completion-form"
+    >
+
+      <input
+        type="hidden"
+        name="_csrf"
+        value="{{csrfToken}}"
+      >
+
+      <input
+        type="hidden"
+        name="pursuitId"
+        value="{{proposal._id}}"
+      >
+
+      <input
+        type="hidden"
+        name="reviewType"
+        value="gold"
+      >
+
+      <p>
+        Confirm completion after all Gold Team
+        findings have been addressed or skipped.
+      </p>
+
+      <button
+        type="submit"
+        class="sasha-color-review-action"
+      >
+        Confirm Review Complete
+      </button>
+
+    </form>
+
+  {{/ifEquals}}
+
+{{/if}}
 
 
           </article>
@@ -932,23 +1302,45 @@
             </p>
 
 
+
 <div class="sasha-color-review-status">
 
-  <span>Status</span>
+  <span>Human Review</span>
 
   <strong>
     {{#ifEquals reviews.red.status "complete"}}
       Review Complete
     {{else}}
-      {{#ifEquals reviews.red.status "notes_uploaded"}}
-        Notes Uploaded Successfully
+      {{#if reviews.red.reviewNotes.length}}
+        Review Notes Uploaded
       {{else}}
         Not Started
-      {{/ifEquals}}
+      {{/if}}
     {{/ifEquals}}
   </strong>
 
 </div>
+
+{{!-- ===============================================
+     SASHA REVIEW PROCESSING
+=============================================== --}}
+
+{{#if reviews.red.summarizedAt}}
+
+  <div class="sasha-review-upload-confirmation">
+
+    <p>
+      <strong>Sasha's Review Summary</strong>
+    </p>
+
+    <p>
+      {{reviews.red.summary}}
+    </p>
+
+  </div>
+
+{{/if}}
+
 
 {{#if reviews.red.reviewNotes.length}}
 
@@ -1016,15 +1408,115 @@
   </button>
 </form>
 
-<form action="/review/summarize" method="POST">
-  <input type="hidden" name="_csrf" value="{{csrfToken}}">
-  <input type="hidden" name="pursuitId" value="{{proposal._id}}">
-  <input type="hidden" name="reviewType" value="red">
 
-  <button type="submit" class="sasha-color-review-action">
-    Summarize Review
-  </button>
-</form>
+{{#if reviews.red.reviewNotes.length}}
+
+  <form action="/review/summarize" method="POST">
+
+    <input
+      type="hidden"
+      name="_csrf"
+      value="{{csrfToken}}"
+    >
+
+    <input
+      type="hidden"
+      name="pursuitId"
+      value="{{proposal._id}}"
+    >
+
+    <input
+      type="hidden"
+      name="reviewType"
+      value="red"
+    >
+
+    <button
+      type="submit"
+      class="sasha-color-review-action"
+    >
+      {{#if reviews.red.summarizedAt}}
+        Reprocess Review Findings
+      {{else}}
+        Process Review Findings
+      {{/if}}
+    </button>
+
+  </form>
+
+{{/if}}
+
+
+{{!-- ===============================================
+     RED TEAM | HUMAN REVIEW COMPLETION
+=============================================== --}}
+
+{{#if reviews.red.summarizedAt}}
+
+  {{#ifEquals reviews.red.status "complete"}}
+
+    <div class="sasha-review-upload-confirmation">
+
+      <p>
+        <strong>Human Review Complete</strong>
+      </p>
+
+      <p>
+        The proposal team has confirmed that
+        the Red Team review is complete.
+      </p>
+
+      {{#if reviews.red.completedBy}}
+        <small>
+          Confirmed by: {{reviews.red.completedBy}}
+        </small>
+      {{/if}}
+
+    </div>
+
+  {{else}}
+
+    <form
+      action="/review/complete-human"
+      method="POST"
+      class="sasha-review-completion-form"
+    >
+
+      <input
+        type="hidden"
+        name="_csrf"
+        value="{{csrfToken}}"
+      >
+
+      <input
+        type="hidden"
+        name="pursuitId"
+        value="{{proposal._id}}"
+      >
+
+      <input
+        type="hidden"
+        name="reviewType"
+        value="red"
+      >
+
+      <p>
+        Confirm completion after all Red Team
+        findings have been addressed or skipped.
+      </p>
+
+      <button
+        type="submit"
+        class="sasha-color-review-action"
+      >
+        Confirm Review Complete
+      </button>
+
+    </form>
+
+  {{/ifEquals}}
+
+{{/if}}
 
 
           </article>
@@ -1079,117 +1571,276 @@
     {{/ifEquals}}
 
 
-    {{!-- =================================================
-         REVIEW FINDINGS
-    ================================================== --}}
 
-    <section class="sasha-review-section">
+{{!-- =================================================
+     REVIEW FINDINGS
+================================================== --}}
 
-      <header class="sasha-review-section-heading">
+<section class="sasha-review-section">
 
-        <div>
+  <header class="sasha-review-section-heading">
 
-          <p class="sasha-work-eyebrow">
-            Findings
-          </p>
+    <div>
+      <p class="sasha-work-eyebrow">
+        Findings
+      </p>
 
-          <h2>
-            Review Findings
-          </h2>
+      <h2>
+        Review Findings
+      </h2>
+    </div>
 
-        </div>
+    <p>
+      Sasha organizes findings from the human review
+      documents. Address each finding or skip it
+      when no action is required.
+    </p>
 
-        <p>
-          Keep findings specific and actionable. Review comments should
-          identify what needs attention and why.
-        </p>
+  </header>
 
-      </header>
+  {{#if reviewFindings.length}}
 
+    <div class="sasha-review-findings-list">
 
-      {{#if reviewFindings.length}}
+      {{#each reviewFindings}}
 
-        <div class="sasha-review-findings-list">
+        <article
+          class="sasha-review-finding is-{{this.status}}"
+        >
 
-          {{#each reviewFindings}}
+          {{!-- FINDING STATUS --}}
 
-            <article
-              class="
-                sasha-review-finding
-                is-{{this.status}}
-              "
-            >
+          <div class="sasha-review-finding-marker">
 
-              <div class="sasha-review-finding-marker">
+            {{#ifEquals this.status "addressed"}}
+              ✓
+            {{else}}
+              {{#ifEquals this.status "skipped"}}
+                −
+              {{else}}
+                !
+              {{/ifEquals}}
+            {{/ifEquals}}
 
-                {{#ifEquals this.status "resolved"}}
-                  ✓
-                {{else}}
-                  !
-                {{/ifEquals}}
+          </div>
 
-              </div>
+          {{!-- FINDING CONTENT --}}
 
+          <div class="sasha-review-finding-copy">
 
-              <div class="sasha-review-finding-copy">
+            <div class="sasha-review-finding-heading">
 
-                <div class="sasha-review-finding-heading">
+              <strong>
+                {{this.title}}
+              </strong>
+
+              <span class="sasha-review-finding-source">
+                {{this.reviewLabel}}
+              </span>
+
+            </div>
+
+            {{#if this.description}}
+              <p>
+                {{this.description}}
+              </p>
+            {{/if}}
+
+            {{#if this.recommendedAction}}
+
+              <p>
+                <strong>Recommended Action:</strong>
+                {{this.recommendedAction}}
+              </p>
+
+            {{/if}}
+
+            {{#if this.relatedSection}}
+
+              <small>
+                Section: {{this.relatedSection}}
+              </small>
+
+            {{/if}}
+
+            {{#if this.sourceExcerpt}}
+
+              <p class="sasha-review-finding-excerpt">
+                <strong>Reviewer Comment:</strong>
+                {{this.sourceExcerpt}}
+              </p>
+
+            {{/if}}
+
+            {{!-- HUMAN DECISION --}}
+
+            <div class="sasha-review-finding-decision">
+
+              {{#ifEquals this.status "open"}}
+
+                <form
+                  action="/review/finding-decision"
+                  method="POST"
+                >
+
+                  <input
+                    type="hidden"
+                    name="_csrf"
+                    value="{{../csrfToken}}"
+                  >
+
+                  <input
+                    type="hidden"
+                    name="pursuitId"
+                    value="{{../proposal._id}}"
+                  >
+
+                  <input
+                    type="hidden"
+                    name="reviewType"
+                    value="{{this.reviewType}}"
+                  >
+
+                  <input
+                    type="hidden"
+                    name="findingId"
+                    value="{{this._id}}"
+                  >
+
+                  <label for="finding-notes-{{this._id}}">
+                    Resolution Notes (Optional)
+                  </label>
+
+                  <textarea
+                    id="finding-notes-{{this._id}}"
+                    name="resolutionNotes"
+                    rows="2"
+                    placeholder="Describe the action taken or explain why this finding can be skipped..."
+                  ></textarea>
+
+                  <div class="sasha-review-finding-actions">
+
+                    <button
+                      type="submit"
+                      name="decision"
+                      value="addressed"
+                      class="sasha-color-review-action"
+                    >
+                      Addressed
+                    </button>
+
+                    <button
+                      type="submit"
+                      name="decision"
+                      value="skipped"
+                      class="sasha-color-review-action"
+                    >
+                      Skip
+                    </button>
+
+                  </div>
+
+                </form>
+
+              {{else}}
+
+                <div class="sasha-review-finding-resolution">
 
                   <strong>
-                    {{this.title}}
+                    {{#ifEquals this.status "addressed"}}
+                      Addressed
+                    {{else}}
+                      Skipped
+                    {{/ifEquals}}
                   </strong>
 
-                  {{#if this.category}}
-
-                    <span>
-                      {{this.category}}
-                    </span>
-
+                  {{#if this.resolutionNotes}}
+                    <p>
+                      {{this.resolutionNotes}}
+                    </p>
                   {{/if}}
+
+                  {{#if this.resolvedBy}}
+                    <small>
+                      Decision by: {{this.resolvedBy}}
+                    </small>
+                  {{/if}}
+
+                  <form
+                    action="/review/finding-decision"
+                    method="POST"
+                  >
+
+                    <input
+                      type="hidden"
+                      name="_csrf"
+                      value="{{../csrfToken}}"
+                    >
+
+                    <input
+                      type="hidden"
+                      name="pursuitId"
+                      value="{{../proposal._id}}"
+                    >
+
+                    <input
+                      type="hidden"
+                      name="reviewType"
+                      value="{{this.reviewType}}"
+                    >
+
+                    <input
+                      type="hidden"
+                      name="findingId"
+                      value="{{this._id}}"
+                    >
+
+                    <input
+                      type="hidden"
+                      name="decision"
+                      value="open"
+                    >
+
+                    <button
+                      type="submit"
+                      class="sasha-color-review-action"
+                    >
+                      Reopen
+                    </button>
+
+                  </form>
 
                 </div>
 
+              {{/ifEquals}}
 
-                {{#if this.description}}
+            </div>
 
-                  <p>
-                    {{this.description}}
-                  </p>
+          </div>
 
-                {{/if}}
+        </article>
 
+      {{/each}}
 
-                {{#if this.section}}
+    </div>
 
-                  <small>
-                    Section: {{this.section}}
-                  </small>
+  {{else}}
 
-                {{/if}}
+    <div class="sasha-review-findings-empty">
 
-              </div>
+      <p>
+        No review findings have been recorded yet.
+        Upload Color Team review notes and ask Sasha
+        to process them. Actionable findings will
+        appear here.
+      </p>
 
-            </article>
+    </div>
 
-          {{/each}}
+  {{/if}}
 
-        </div>
+</section>
 
-      {{else}}
-
-        <div class="sasha-review-findings-empty">
-
-          <p>
-            No review findings have been recorded yet. As Sasha and
-            the proposal team review the submission, findings and
-            required actions will appear here.
-          </p>
-
-        </div>
-
-      {{/if}}
-
-    </section>
 
 
     {{!-- =================================================
@@ -1218,76 +1869,488 @@
       <div class="sasha-review-final-grid">
 
 
-        <article>
 
-          <span>
-            01
-          </span>
+{{!-- ===============================================
+     FINAL QUALITY | COMPLIANCE
+=============================================== --}}
 
-          <h3>
-            Final Compliance
-          </h3>
+<article>
 
-          <p>
-            Confirm that every mandatory requirement and submission
-            instruction has been satisfied.
-          </p>
+  <span>
+    01
+  </span>
 
-        </article>
+  <h3>
+    Final Compliance
+  </h3>
+
+  <p>
+    Confirm that every mandatory requirement and submission
+    instruction has been satisfied.
+  </p>
+
+  {{#if proposal.finalQuality.compliance.completed}}
+
+    <div class="sasha-review-upload-confirmation">
+
+      <p>
+        <strong>Complete</strong>
+      </p>
+
+      {{#if proposal.finalQuality.compliance.completedBy}}
+        <small>
+          Confirmed by:
+          {{proposal.finalQuality.compliance.completedBy}}
+        </small>
+      {{/if}}
+
+    </div>
+
+    <form
+      action="/review/final-quality-decision"
+      method="POST"
+    >
+
+      <input
+        type="hidden"
+        name="_csrf"
+        value="{{csrfToken}}"
+      >
+
+      <input
+        type="hidden"
+        name="pursuitId"
+        value="{{proposal._id}}"
+      >
+
+      <input
+        type="hidden"
+        name="qualityType"
+        value="compliance"
+      >
+
+      <input
+        type="hidden"
+        name="decision"
+        value="reopen"
+      >
+
+      <button
+        type="submit"
+        class="sasha-color-review-action"
+      >
+        Reopen
+      </button>
+
+    </form>
+
+  {{else}}
+
+    <form
+      action="/review/final-quality-decision"
+      method="POST"
+    >
+
+      <input
+        type="hidden"
+        name="_csrf"
+        value="{{csrfToken}}"
+      >
+
+      <input
+        type="hidden"
+        name="pursuitId"
+        value="{{proposal._id}}"
+      >
+
+      <input
+        type="hidden"
+        name="qualityType"
+        value="compliance"
+      >
+
+      <input
+        type="hidden"
+        name="decision"
+        value="confirm"
+      >
+
+      <button
+        type="submit"
+        class="sasha-color-review-action"
+      >
+        Confirm Complete
+      </button>
+
+    </form>
+
+  {{/if}}
+
+</article>
 
 
-        <article>
-
-          <span>
-            02
-          </span>
-
-          <h3>
-            Proofreading
-          </h3>
-
-          <p>
-            Check spelling, grammar, formatting, labels, numbering,
-            names, dates, and other detailed quality issues.
-          </p>
-
-        </article>
 
 
-        <article>
+{{!-- ===============================================
+     FINAL QUALITY | PROOFREADING
+=============================================== --}}
 
-          <span>
-            03
-          </span>
+<article>
 
-          <h3>
-            Consistency
-          </h3>
+  <span>
+    02
+  </span>
 
-          <p>
-            Confirm that methodology, team, schedule, scope,
-            commitments, and proposal evidence agree with one another.
-          </p>
+  <h3>
+    Proofreading
+  </h3>
 
-        </article>
+  <p>
+    Check spelling, grammar, formatting, labels, numbering,
+    names, dates, and other detailed quality issues.
+  </p>
+
+  {{#if proposal.finalQuality.proofreading.completed}}
+
+    <div class="sasha-review-upload-confirmation">
+
+      <p>
+        <strong>Complete</strong>
+      </p>
+
+      {{#if proposal.finalQuality.proofreading.completedBy}}
+        <small>
+          Confirmed by:
+          {{proposal.finalQuality.proofreading.completedBy}}
+        </small>
+      {{/if}}
+
+    </div>
+
+    <form
+      action="/review/final-quality-decision"
+      method="POST"
+    >
+
+      <input
+        type="hidden"
+        name="_csrf"
+        value="{{csrfToken}}"
+      >
+
+      <input
+        type="hidden"
+        name="pursuitId"
+        value="{{proposal._id}}"
+      >
+
+      <input
+        type="hidden"
+        name="qualityType"
+        value="proofreading"
+      >
+
+      <input
+        type="hidden"
+        name="decision"
+        value="reopen"
+      >
+
+      <button
+        type="submit"
+        class="sasha-color-review-action"
+      >
+        Reopen
+      </button>
+
+    </form>
+
+  {{else}}
+
+    <form
+      action="/review/final-quality-decision"
+      method="POST"
+    >
+
+      <input
+        type="hidden"
+        name="_csrf"
+        value="{{csrfToken}}"
+      >
+
+      <input
+        type="hidden"
+        name="pursuitId"
+        value="{{proposal._id}}"
+      >
+
+      <input
+        type="hidden"
+        name="qualityType"
+        value="proofreading"
+      >
+
+      <input
+        type="hidden"
+        name="decision"
+        value="confirm"
+      >
+
+      <button
+        type="submit"
+        class="sasha-color-review-action"
+      >
+        Confirm Complete
+      </button>
+
+    </form>
+
+  {{/if}}
+
+</article>
 
 
-        <article>
 
-          <span>
-            04
-          </span>
 
-          <h3>
-            Submission Readiness
-          </h3>
+{{!-- ===============================================
+     FINAL QUALITY | CONSISTENCY
+=============================================== --}}
 
-          <p>
-            Verify approvals, signatures, document assembly,
-            file preparation, upload requirements, and final delivery.
-          </p>
+<article>
 
-        </article>
+  <span>
+    03
+  </span>
+
+  <h3>
+    Consistency
+  </h3>
+
+  <p>
+    Confirm that methodology, team, schedule, scope,
+    commitments, and proposal evidence agree with one another.
+  </p>
+
+  {{#if proposal.finalQuality.consistency.completed}}
+
+    <div class="sasha-review-upload-confirmation">
+
+      <p>
+        <strong>Complete</strong>
+      </p>
+
+      {{#if proposal.finalQuality.consistency.completedBy}}
+        <small>
+          Confirmed by:
+          {{proposal.finalQuality.consistency.completedBy}}
+        </small>
+      {{/if}}
+
+    </div>
+
+    <form
+      action="/review/final-quality-decision"
+      method="POST"
+    >
+
+      <input
+        type="hidden"
+        name="_csrf"
+        value="{{csrfToken}}"
+      >
+
+      <input
+        type="hidden"
+        name="pursuitId"
+        value="{{proposal._id}}"
+      >
+
+      <input
+        type="hidden"
+        name="qualityType"
+        value="consistency"
+      >
+
+      <input
+        type="hidden"
+        name="decision"
+        value="reopen"
+      >
+
+      <button
+        type="submit"
+        class="sasha-color-review-action"
+      >
+        Reopen
+      </button>
+
+    </form>
+
+  {{else}}
+
+    <form
+      action="/review/final-quality-decision"
+      method="POST"
+    >
+
+      <input
+        type="hidden"
+        name="_csrf"
+        value="{{csrfToken}}"
+      >
+
+      <input
+        type="hidden"
+        name="pursuitId"
+        value="{{proposal._id}}"
+      >
+
+      <input
+        type="hidden"
+        name="qualityType"
+        value="consistency"
+      >
+
+      <input
+        type="hidden"
+        name="decision"
+        value="confirm"
+      >
+
+      <button
+        type="submit"
+        class="sasha-color-review-action"
+      >
+        Confirm Complete
+      </button>
+
+    </form>
+
+  {{/if}}
+
+</article>
+
+
+
+
+{{!-- ===============================================
+     FINAL QUALITY | SUBMISSION READINESS
+=============================================== --}}
+
+<article>
+
+  <span>
+    04
+  </span>
+
+  <h3>
+    Submission Readiness
+  </h3>
+
+  <p>
+    Verify approvals, signatures, document assembly,
+    file preparation, upload requirements, and final delivery.
+  </p>
+
+  {{#if proposal.finalQuality.submissionReadiness.completed}}
+
+    <div class="sasha-review-upload-confirmation">
+
+      <p>
+        <strong>Complete</strong>
+      </p>
+
+      {{#if proposal.finalQuality.submissionReadiness.completedBy}}
+        <small>
+          Confirmed by:
+          {{proposal.finalQuality.submissionReadiness.completedBy}}
+        </small>
+      {{/if}}
+
+    </div>
+
+    <form
+      action="/review/final-quality-decision"
+      method="POST"
+    >
+
+      <input
+        type="hidden"
+        name="_csrf"
+        value="{{csrfToken}}"
+      >
+
+      <input
+        type="hidden"
+        name="pursuitId"
+        value="{{proposal._id}}"
+      >
+
+      <input
+        type="hidden"
+        name="qualityType"
+        value="submissionReadiness"
+      >
+
+      <input
+        type="hidden"
+        name="decision"
+        value="reopen"
+      >
+
+      <button
+        type="submit"
+        class="sasha-color-review-action"
+      >
+        Reopen
+      </button>
+
+    </form>
+
+  {{else}}
+
+    <form
+      action="/review/final-quality-decision"
+      method="POST"
+    >
+
+      <input
+        type="hidden"
+        name="_csrf"
+        value="{{csrfToken}}"
+      >
+
+      <input
+        type="hidden"
+        name="pursuitId"
+        value="{{proposal._id}}"
+      >
+
+      <input
+        type="hidden"
+        name="qualityType"
+        value="submissionReadiness"
+      >
+
+      <input
+        type="hidden"
+        name="decision"
+        value="confirm"
+      >
+
+      <button
+        type="submit"
+        class="sasha-color-review-action"
+      >
+        Confirm Complete
+      </button>
+
+    </form>
+
+  {{/if}}
+
+</article>
+
 
       </div>
 

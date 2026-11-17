@@ -2914,26 +2914,64 @@ async (
         : {};
 
 
-    /* =================================================
-       PREPARE REVIEW FINDINGS
-    ================================================== */
 
-    const reviewFindings =
-      Array.isArray(
-        reviews.findings
-      )
-        ? reviews.findings
-        : [];
+/* =================================================
+   PREPARE COLOR TEAM REVIEW FINDINGS
+================================================= */
 
+const reviewTypes = [
+  {
+    type: 'blue',
+    label: 'Blue Team'
+  },
+  {
+    type: 'pink',
+    label: 'Pink Team'
+  },
+  {
+    type: 'gold',
+    label: 'Gold Team'
+  },
+  {
+    type: 'red',
+    label: 'Red Team'
+  }
+];
 
-    const openReviewFindings =
-      reviewFindings.filter(
-        (
-          finding
-        ) =>
-          finding.status !==
-          'resolved'
-      );
+const reviewFindings = [];
+
+for (const reviewType of reviewTypes) {
+
+  const colorReview =
+    reviews[reviewType.type] || {};
+
+  const findings =
+    Array.isArray(colorReview.findings)
+      ? colorReview.findings
+      : [];
+
+  for (const finding of findings) {
+
+    reviewFindings.push({
+      ...finding,
+
+      reviewType: reviewType.type,
+
+      reviewLabel: reviewType.label
+    });
+
+  }
+}
+
+/* =================================================
+   COUNT OPEN REVIEW FINDINGS
+================================================= */
+
+const openReviewFindings =
+  reviewFindings.filter(
+    finding =>
+      finding.status === 'open'
+  );
 
 
     /* =================================================

@@ -410,14 +410,50 @@ router.get(
 
 
 /* =====================================================
-   REVIEW | COMPLETE COLOR TEAM REVIEW
+   REVIEW | PROCESS COLOR TEAM REVIEW NOTES
 ===================================================== */
 
 router.post(
   '/review/summarize',
   ensureOrganization,
   verifyCsrfToken,
-  reviewController.postCompleteReview
+  reviewController.postProcessReviewNotes
+);
+
+
+/* =====================================================
+   REVIEW | ADDRESS, SKIP, OR REOPEN FINDING
+===================================================== */
+
+router.post(
+  '/review/finding-decision',
+  ensureOrganization,
+  verifyCsrfToken,
+  reviewController.postReviewFindingDecision
+);
+
+
+/* =====================================================
+   REVIEW | CONFIRM HUMAN REVIEW COMPLETION
+===================================================== */
+
+router.post(
+  '/review/complete-human',
+  ensureOrganization,
+  verifyCsrfToken,
+  reviewController.postCompleteHumanReview
+);
+
+
+/* =====================================================
+   REVIEW | FINAL QUALITY SIGN-OFF
+===================================================== */
+
+router.post(
+  '/review/final-quality-decision',
+  ensureOrganization,
+  verifyCsrfToken,
+  reviewController.postFinalQualityDecision
 );
 
 

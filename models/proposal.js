@@ -59,9 +59,87 @@ const reviewNoteSchema = new mongoose.Schema({
 
 });
 
+
+/* =====================================================
+   COLOR TEAM REVIEW FINDINGS
+===================================================== */
+
+const reviewFindingSchema = new mongoose.Schema({
+
+  title: {
+    type: String,
+    trim: true,
+    required: true
+  },
+
+  description: {
+    type: String,
+    trim: true,
+    default: ''
+  },
+
+  recommendedAction: {
+    type: String,
+    trim: true,
+    default: ''
+  },
+
+  relatedSection: {
+    type: String,
+    trim: true,
+    default: ''
+  },
+
+  sourceNoteIds: [{
+    type: mongoose.Schema.Types.ObjectId
+  }],
+
+  sourceExcerpt: {
+    type: String,
+    trim: true,
+    default: ''
+  },
+
+  status: {
+    type: String,
+    enum: ['open', 'addressed', 'skipped'],
+    default: 'open'
+  },
+
+  resolutionNotes: {
+    type: String,
+    trim: true,
+    default: ''
+  },
+
+  resolvedAt: {
+    type: Date,
+    default: null
+  },
+
+  resolvedBy: {
+    type: String,
+    trim: true,
+    default: ''
+  },
+
+  resolvedByUserId: {
+    type: mongoose.Schema.Types.ObjectId,
+    default: null
+  },
+
+  createdAt: {
+    type: Date,
+    default: Date.now
+  }
+
+});
+
+
 /* =====================================================
    COLOR TEAM REVIEWS
 ===================================================== */
+
 
 const colorTeamReviewSchema = new mongoose.Schema({
   status: {
@@ -80,6 +158,11 @@ const colorTeamReviewSchema = new mongoose.Schema({
     default: []
   },
 
+  findings: {
+  type: [reviewFindingSchema],
+  default: []
+},
+
   summary: {
     type: String,
     trim: true,
@@ -94,10 +177,22 @@ const colorTeamReviewSchema = new mongoose.Schema({
   completedAt: {
     type: Date,
     default: null
+  },
+
+  completedBy: {
+    type: String,
+    trim: true,
+    default: ''
+  },
+
+  completedByUserId: {
+    type: mongoose.Schema.Types.ObjectId,
+    default: null
   }
 }, {
   _id: false
 });
+
 
 
 
@@ -846,6 +941,116 @@ reviews: {
     })
   }
 },
+
+/* =====================================================
+   OVERALL HUMAN REVIEW CONFIRMATION
+===================================================== */
+
+humanReview: {
+  // Paste the complete humanReview fields here
+},
+
+
+/* =====================================================
+   FINAL QUALITY SIGN-OFFS
+===================================================== */
+
+finalQuality: {
+
+  compliance: {
+    completed: {
+      type: Boolean,
+      default: false
+    },
+
+    completedAt: {
+      type: Date,
+      default: null
+    },
+
+    completedBy: {
+      type: String,
+      trim: true,
+      default: ''
+    },
+
+    completedByUserId: {
+      type: mongoose.Schema.Types.ObjectId,
+      default: null
+    }
+  },
+
+  proofreading: {
+    completed: {
+      type: Boolean,
+      default: false
+    },
+
+    completedAt: {
+      type: Date,
+      default: null
+    },
+
+    completedBy: {
+      type: String,
+      trim: true,
+      default: ''
+    },
+
+    completedByUserId: {
+      type: mongoose.Schema.Types.ObjectId,
+      default: null
+    }
+  },
+
+  consistency: {
+    completed: {
+      type: Boolean,
+      default: false
+    },
+
+    completedAt: {
+      type: Date,
+      default: null
+    },
+
+    completedBy: {
+      type: String,
+      trim: true,
+      default: ''
+    },
+
+    completedByUserId: {
+      type: mongoose.Schema.Types.ObjectId,
+      default: null
+    }
+  },
+
+  submissionReadiness: {
+    completed: {
+      type: Boolean,
+      default: false
+    },
+
+    completedAt: {
+      type: Date,
+      default: null
+    },
+
+    completedBy: {
+      type: String,
+      trim: true,
+      default: ''
+    },
+
+    completedByUserId: {
+      type: mongoose.Schema.Types.ObjectId,
+      default: null
+    }
+  }
+
+},
+
 
 
 
