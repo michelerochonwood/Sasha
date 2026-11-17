@@ -346,13 +346,17 @@ exports.postUploadReviewNotes = async (req, res) => {
 
 
 
-$set: {
-  [`reviews.${reviewType}.summary`]:
-    '',
 
-  [`reviews.${reviewType}.summarizedAt`]:
-    null
+$set: {
+  [`reviews.${reviewType}.summary`]: '',
+  [`reviews.${reviewType}.summarizedAt`]: null,
+
+  [`reviews.${reviewType}.status`]: 'notes_uploaded',
+  [`reviews.${reviewType}.completedAt`]: null,
+  [`reviews.${reviewType}.completedBy`]: '',
+  [`reviews.${reviewType}.completedByUserId`]: null
 },
+
 
 $inc: {
   __v: 1
@@ -1335,6 +1339,21 @@ exports.postReviewFindingDecision = async (req, res) => {
       [`${findingPath}.$.resolvedByUserId`]:
         decision === 'open' ? null : userId
     };
+
+
+/* ===============================================
+   REOPEN HUMAN REVIEW WHEN A FINDING REOPENS
+=============================================== */
+
+if (decision === 'open') {
+  const reviewPath = `reviews.${reviewType}`;
+
+  setFields[`${reviewPath}.status`] = 'in_progress';
+  setFields[`${reviewPath}.completedAt`] = null;
+  setFields[`${reviewPath}.completedBy`] = '';
+  setFields[`${reviewPath}.completedByUserId`] = null;
+}
+
 
     /* ===============================================
        SAVE DECISION ATOMICALLY
