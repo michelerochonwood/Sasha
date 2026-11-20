@@ -328,22 +328,7 @@
             ></textarea>
 
 
-            <div class="sasha-outcome-chat-upload">
 
-              <label
-                class="sasha-outcome-file-label"
-                for="outcomeEvidenceFile"
-              >
-                Add debrief document
-              </label>
-
-              <input
-                id="outcomeEvidenceFile"
-                name="outcomeEvidenceFile"
-                type="file"
-              >
-
-            </div>
 
 
             <div class="sasha-chat-actions">
@@ -811,27 +796,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
   async function sendMessage() {
 
-    const message = messageInput?.value.trim() || '';
-    const file = evidenceInput?.files?.[0] || null;
+const message = messageInput?.value.trim() || '';
 
-    if (!message && !file) {
-      alert('Enter a message or attach a document.');
-      return;
-    }
-
-    if (file && file.size > 25 * 1024 * 1024) {
-      alert('The document must be 25 MB or smaller.');
-      return;
-    }
+if (!message) {
+  alert('Enter a message for Sasha.');
+  return;
+}
 
     const formData = new FormData();
 
     formData.append('pursuitId', pursuitId);
     formData.append('message', message);
 
-    if (file) {
-      formData.append('sourceDocuments', file);
-    }
+
 
     setBusy(sendButton, true, 'Send to Sasha');
 
@@ -859,7 +836,7 @@ document.addEventListener('DOMContentLoaded', () => {
       );
 
       if (messageInput) messageInput.value = '';
-      if (evidenceInput) evidenceInput.value = '';
+  
 
       if (data.outcomeUpdated || data.refresh) {
         window.setTimeout(() => {
