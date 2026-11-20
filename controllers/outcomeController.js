@@ -1841,6 +1841,13 @@ ${JSON.stringify(
                     ]
                   },
 
+                    decisionDate: {
+    type: [
+      'string',
+      'null'
+    ]
+  },
+
 
                   successfulProponent: {
                     type: [
