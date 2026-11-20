@@ -13,6 +13,167 @@ const cloudinary =
     '../config/cloudinary'
   );
 
+
+/* =====================================================
+   LOAD STORED OUTCOME DOCUMENTS FOR SASHA
+===================================================== */
+
+async function loadOutcomeEvidence(proposal) {
+
+  const MAX_EVIDENCE_FILES = 6;
+  const MAX_TOTAL_BYTES = 50 * 1024 * 1024;
+  const MAX_FILE_BYTES = 25 * 1024 * 1024;
+
+  const documents = [];
+
+  const outcomeDocuments =
+    Array.isArray(proposal.outcome?.documents)
+      ? proposal.outcome.documents
+      : [];
+
+  for (const document of outcomeDocuments) {
+
+    if (![
+      'client_debrief',
+      'lessons_learned'
+    ].includes(document.documentType)) {
+      continue;
+    }
+
+    if (!document.cloudinaryPublicId) {
+      continue;
+    }
+
+    documents.push({
+      name: document.originalName,
+      type: document.documentType,
+      mimeType: document.mimeType,
+      publicId: document.cloudinaryPublicId,
+      resourceType:
+        document.cloudinaryResourceType || 'raw',
+      deliveryType:
+        document.cloudinaryDeliveryType ||
+        'authenticated'
+    });
+  }
+
+  /* =================================================
+     INCLUDE FINAL SUBMITTED PROPOSAL
+  ================================================= */
+
+  const finalProposals =
+    Array.isArray(proposal.proposalDocuments)
+      ? proposal.proposalDocuments
+      : [];
+
+  for (const document of finalProposals) {
+
+    if (!document.fileUrl) continue;
+
+    documents.push({
+      name: document.fileName || 'Final Proposal.pdf',
+      type: 'final_submitted_proposal',
+      mimeType: 'application/pdf',
+      fileUrl: document.fileUrl
+    });
+  }
+
+  /* =================================================
+     DOWNLOAD AND PREPARE DOCUMENTS
+  ================================================= */
+
+  const evidence = [];
+  let totalBytes = 0;
+
+  for (const document of documents.slice(-MAX_EVIDENCE_FILES)) {
+
+    let url;
+
+    if (document.publicId) {
+
+      url = cloudinary.utils.private_download_url(
+        document.publicId,
+        null,
+        {
+          resource_type: document.resourceType,
+          type: document.deliveryType,
+          expires_at:
+            Math.floor(Date.now() / 1000) + 300
+        }
+      );
+
+    } else {
+
+      url = document.fileUrl;
+    }
+
+    /* ===============================================
+       ACCEPT ONLY CLOUDINARY HTTPS URLS
+    =============================================== */
+
+    const parsedUrl = new URL(url);
+
+    if (
+      parsedUrl.protocol !== 'https:' ||
+      parsedUrl.hostname !== 'res.cloudinary.com'
+    ) {
+      throw new Error(
+        'An outcome document has an invalid storage URL.'
+      );
+    }
+
+    const response = await fetch(url, {
+      signal: AbortSignal.timeout(30000)
+    });
+
+    if (!response.ok) {
+      throw new Error(
+        `Could not retrieve ${document.name}: ` +
+        response.status
+      );
+    }
+
+    const buffer =
+      Buffer.from(await response.arrayBuffer());
+
+    if (
+      buffer.length > MAX_FILE_BYTES ||
+      totalBytes + buffer.length > MAX_TOTAL_BYTES
+    ) {
+      throw new Error(
+        'The stored outcome evidence exceeds the ' +
+        'analysis size limit.'
+      );
+    }
+
+    totalBytes += buffer.length;
+
+    const mimeType =
+      document.mimeType ||
+      (
+        document.name?.toLowerCase().endsWith('.docx')
+          ? 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+          : document.name?.toLowerCase().endsWith('.txt')
+            ? 'text/plain'
+            : 'application/pdf'
+      );
+
+    evidence.push({
+      type: document.type,
+      name: document.name,
+      input: {
+        type: 'input_file',
+        filename: document.name,
+        file_data:
+          `data:${mimeType};base64,${buffer.toString('base64')}`
+      }
+    });
+  }
+
+  return evidence;
+}
+
+
 /* =====================================================
    GET OUTCOME PURSUIT
 ===================================================== */
@@ -530,248 +691,206 @@ async (
 
 };
 
+
 /* =====================================================
    POST OUTCOME RESULT
+   Save only user-approved changes
 ===================================================== */
 
-exports.postOutcomeResult =
-async (
-  req,
-  res,
-  next
-) => {
+exports.postOutcomeResult = async (req, res, next) => {
 
   try {
 
-    /* =================================================
-       REQUIRE ORGANIZATION
-    ================================================== */
-
     const organizationId =
-      req.session.organizationId ||
-      null;
+      req.session.organizationId || null;
 
-
-    if (
-      !organizationId
-    ) {
-
-      return res.status(
-        401
-      ).json(
-        {
-          error:
-            'Organization session not found.'
-        }
-      );
-
+    if (!organizationId) {
+      return res.status(401).json({
+        success: false,
+        error: 'Organization session not found.'
+      });
     }
-
-
-    /* =================================================
-       DETERMINE PURSUIT
-    ================================================== */
 
     const pursuitId =
       req.body.pursuitId ||
       req.session.activePursuitId ||
       null;
 
-
-    if (
-      !pursuitId
-    ) {
-
-      return res.status(
-        400
-      ).json(
-        {
-          error:
-            'Pursuit ID is required.'
-        }
-      );
-
+    if (!pursuitId) {
+      return res.status(400).json({
+        success: false,
+        error: 'Pursuit ID is required.'
+      });
     }
 
+    /* ===============================================
+       VALIDATE AND APPLY ONLY APPROVED FIELDS
+       Missing fields must not erase existing values.
+    =============================================== */
 
-    /* =================================================
-       NORMALIZE RESULT VALUES
-    ================================================== */
+    const allowedStatuses = new Set([
+      'pending',
+      'won',
+      'lost',
+      'withdrawn',
+      'cancelled',
+      'unknown'
+    ]);
 
-const allowedStatuses = [
-  'pending',
-  'won',
-  'lost',
-  'withdrawn',
-  'cancelled',
-  'unknown'
-];
+    const updates = {};
 
-
-    const requestedStatus =
-      typeof req.body.status ===
-      'string'
-        ? req.body.status.trim()
-        : 'pending';
-
-
-    const status =
-      allowedStatuses.includes(
-        requestedStatus
-      )
-        ? requestedStatus
-        : 'pending';
-
-
-    const decisionDate =
-      req.body.decisionDate
-        ? new Date(
-            req.body.decisionDate
-          )
-        : null;
-
-
-    const successfulProponent =
-      typeof req.body.successfulProponent ===
-      'string'
-        ? req.body.successfulProponent.trim()
-        : '';
-
-
-    const parsePrice =
-      value => {
-
-        if (
-          value === undefined ||
-          value === null ||
-          value === ''
-        ) {
-
-          return null;
-
-        }
-
-
-        const parsed =
-          Number(
-            value
-          );
-
-
-        return Number.isFinite(
-          parsed
-        )
-          ? parsed
-          : null;
-
-      };
-
-
-    const ourPrice =
-      parsePrice(
-        req.body.ourPrice
+    const has = key =>
+      Object.prototype.hasOwnProperty.call(
+        req.body,
+        key
       );
 
+    if (
+      has('status') &&
+      req.body.status != null
+    ) {
 
-    const winningPrice =
-      parsePrice(
-        req.body.winningPrice
-      );
+      if (!allowedStatuses.has(req.body.status)) {
+        return res.status(400).json({
+          success: false,
+          error: 'Invalid outcome status.'
+        });
+      }
 
+      updates['outcome.status'] =
+        req.body.status;
+    }
 
-    /* =================================================
-       UPDATE PURSUIT
-    ================================================== */
+    if (
+      has('decisionDate') &&
+      req.body.decisionDate != null
+    ) {
+
+      if (
+        typeof req.body.decisionDate !== 'string'
+      ) {
+        return res.status(400).json({
+          success: false,
+          error: 'Invalid decision date.'
+        });
+      }
+
+      const date =
+        new Date(req.body.decisionDate);
+
+      if (
+        !req.body.decisionDate.trim() ||
+        Number.isNaN(date.getTime())
+      ) {
+        return res.status(400).json({
+          success: false,
+          error: 'Invalid decision date.'
+        });
+      }
+
+      updates['outcome.decisionDate'] = date;
+    }
+
+    if (
+      has('successfulProponent') &&
+      req.body.successfulProponent != null
+    ) {
+
+      if (
+        typeof req.body.successfulProponent !==
+        'string'
+      ) {
+        return res.status(400).json({
+          success: false,
+          error: 'Invalid successful proponent.'
+        });
+      }
+
+      const name =
+        req.body.successfulProponent.trim();
+
+      if (name) {
+        updates['outcome.successfulProponent'] =
+          name;
+      }
+    }
+
+    for (
+      const key of ['ourPrice', 'winningPrice']
+    ) {
+
+      if (
+        !has(key) ||
+        req.body[key] == null
+      ) {
+        continue;
+      }
+
+      if (
+        typeof req.body[key] !== 'number' ||
+        !Number.isFinite(req.body[key]) ||
+        req.body[key] < 0
+      ) {
+        return res.status(400).json({
+          success: false,
+          error: `Invalid ${key} value.`
+        });
+      }
+
+      updates[`outcome.${key}`] =
+        req.body[key];
+    }
+
+    if (!Object.keys(updates).length) {
+      return res.status(400).json({
+        success: false,
+        error: 'No valid changes to approve.'
+      });
+    }
+
+    /* ===============================================
+       UPDATE ORGANIZATION'S PURSUIT
+    =============================================== */
 
     const pursuit =
       await Proposal.findOneAndUpdate(
         {
-          _id:
-            pursuitId,
-
-          organization:
-            organizationId
+          _id: pursuitId,
+          organization: organizationId
         },
         {
-          $set: {
-
-            'outcome.status':
-              status,
-
-            'outcome.decisionDate':
-              decisionDate,
-
-            'outcome.successfulProponent':
-              successfulProponent,
-
-            'outcome.ourPrice':
-              ourPrice,
-
-            'outcome.winningPrice':
-              winningPrice
-
-          }
+          $set: updates
         },
         {
-          new:
-            true,
-
-          runValidators:
-            true
+          new: true,
+          runValidators: true
         }
       );
 
-
-    /* =================================================
-       PURSUIT NOT FOUND
-    ================================================== */
-
-    if (
-      !pursuit
-    ) {
-
-      return res.status(
-        404
-      ).json(
-        {
-          error:
-            'Pursuit not found.'
-        }
-      );
-
+    if (!pursuit) {
+      return res.status(404).json({
+        success: false,
+        error: 'Pursuit not found.'
+      });
     }
 
+    return res.json({
+      success: true,
+      outcome: pursuit.outcome
+    });
 
-    /* =================================================
-       SUCCESS
-    ================================================== */
-
-    return res.json(
-      {
-        success:
-          true,
-
-        outcome:
-          pursuit.outcome
-      }
-    );
-
-  } catch (
-    error
-  ) {
+  } catch (error) {
 
     console.error(
       'POST OUTCOME RESULT ERROR:',
       error
     );
 
-    return next(
-      error
-    );
-
+    return next(error);
   }
 
 };
+
 
 /* =====================================================
    POST OUTCOME DETAILS
@@ -1058,67 +1177,30 @@ async (
     }
 
 
+
 /* =================================================
-   MESSAGE + OUTCOME EVIDENCE
-================================================= */
+   REQUIRE CHAT MESSAGE
+================================================ */
 
 const message =
-  typeof req.body.message ===
-  'string'
+  typeof req.body.message === 'string'
     ? req.body.message.trim()
     : '';
 
-
-const uploadedFiles =
-  Array.isArray(
-    req.files
-  )
-    ? req.files
-    : [];
-
-
-const evidenceFile =
-  uploadedFiles.length > 0
-    ? uploadedFiles[0]
-    : null;
-
-
-/* =================================================
-   REQUIRE MESSAGE OR EVIDENCE
-================================================= */
-
-if (
-  !message &&
-  !evidenceFile
-) {
-
-  return res.status(
-    400
-  ).json(
-    {
-      error:
-        'Add a message or debrief document first.'
-    }
-  );
-
+if (!message) {
+  return res.status(400).json({
+    success: false,
+    error: 'Enter a message for Sasha.'
+  });
 }
 
-
-if (
-  message.length >
-  10000
-) {
-
-  return res.status(
-    400
-  ).json(
-    {
-      error:
-        'Please shorten your message and try again.'
-    }
-  );
-
+if (message.length > 10000) {
+  return res.status(400).json({
+    success: false,
+    error: 'Please shorten your message and try again.'
+  });
 }
+
 
 
     /* =================================================
@@ -1227,6 +1309,10 @@ if (
         decisionDate:
           outcome.decisionDate ||
           null,
+
+          decisionDate: {
+  type: ['string', 'null']
+},
 
         successfulProponent:
           outcome.successfulProponent ||
@@ -1370,6 +1456,7 @@ You may propose updates for:
 - evaluation criteria and scores;
 - documented client comments;
 - outcome factors;
+- decision date;
 - lessons for future pursuits.
 
 For evaluation results, preserve:
@@ -1454,12 +1541,36 @@ as well as weaknesses.
 Do not attribute the result solely to price unless the
 evidence supports that conclusion.
 
-Your structured findings will be validated by the
-application before they are saved to the permanent
-pursuit record.
+Your structured findings are proposals only. Do not claim
+that they have been saved or approved. The user must approve
+changes before the permanent pursuit record is updated.
+
+For decisionDate, use YYYY-MM-DD only when explicitly
+supported by evidence. Otherwise return null.
 
 Keep your conversational reply practical, concise, and
 useful to a professional proposal team.
+
+STORED OUTCOME DOCUMENTS
+
+Documents supplied in this conversation were retrieved
+from the pursuit's saved document records.
+
+Treat client debrief documents as client evidence.
+
+Treat team lessons-learned documents as internal
+observations, not as verified client conclusions.
+
+The final submitted proposal is the actual submission,
+not necessarily Sasha's original assembled draft.
+
+Use these documents when relevant to the user's question.
+
+Do not claim to have reviewed a document unless its
+contents were actually provided in this request.
+
+Propose changes to the outcome record, but do not
+save structured findings without user approval.
 `;
 
 
@@ -1521,71 +1632,55 @@ if (
 }
 
 
-/* =================================================
-   ADD OUTCOME EVIDENCE DOCUMENT
-================================================= */
-
-if (
-  evidenceFile
-) {
-
-currentMessageContent.push(
-  {
-    type:
-      'input_file',
-
-    filename:
-      evidenceFile.originalname,
-
-    file_data:
-      `data:${evidenceFile.mimetype};base64,${evidenceFile.buffer.toString(
-        'base64'
-      )}`
-  }
-);
-
-}
-
 
 /* =================================================
-   DEFAULT DOCUMENT INSTRUCTION
-================================================= */
+   LOAD STORED OUTCOME EVIDENCE
+================================================ */
 
-if (
-  evidenceFile &&
-  !message
-) {
+const storedEvidence =
+  await loadOutcomeEvidence(pursuit);
 
-  currentMessageContent.unshift(
-    {
-      type:
-        'input_text',
+if (storedEvidence.length) {
 
+  currentMessageContent.push({
+    type: 'input_text',
+    text: `The following documents are stored in
+this pursuit's Outcomes workspace.
+
+Use them as supporting evidence when answering
+questions about the result, evaluation, proposal
+development process, and lessons learned.
+
+Distinguish:
+- client_debrief: feedback from the client;
+- lessons_learned: internal pursuit-team observations;
+- final_submitted_proposal: the actual client submission.
+
+Do not assume internal observations represent
+the client's conclusions.
+
+Do not invent missing dates, prices, scores,
+or reasons for the result.
+
+Documents available in this request:
+${storedEvidence.map(
+  item => `${item.type}: ${item.name}`
+).join('\n')}`
+  });
+
+  for (const item of storedEvidence) {
+
+    currentMessageContent.push({
+      type: 'input_text',
       text:
-        `Review the attached outcome evidence document.
+        `Stored document: ${item.name}\n` +
+        `Source category: ${item.type}`
+    });
 
-Extract only information supported by the document.
-
-Identify any:
-
-- proposal result information;
-- successful proponent;
-- our price;
-- winning price;
-- evaluation criteria and scores;
-- documented client comments;
-- positive outcome factors;
-- negative outcome factors;
-- practices worth repeating;
-- practices that should change; and
-- issues to watch for on future pursuits.
-
-Clearly distinguish documented client evidence from your
-own interpretation.`
-    }
-  );
-
+    currentMessageContent.push(item.input);
+  }
 }
+
 
 
 /* =================================================
@@ -2004,6 +2099,7 @@ evaluationResults: {
 
 required: [
   'status',
+  'decisionDate',
   'successfulProponent',
   'ourPrice',
   'winningPrice',
@@ -2184,494 +2280,102 @@ console.log(
   }
 );
 
+
 /* =================================================
-   APPLY STRUCTURED OUTCOME UPDATE
+   PROPOSE CHANGES, DO NOT SAVE WITHOUT APPROVAL
 ================================================= */
 
-/*
- * Sasha may extract structured findings from the
- * evidence, but only schema-compatible values are
- * allowed into the permanent pursuit record.
- */
+const proposedUpdate = {};
 
+const allowedOutcomeStatuses = new Set([
+  'pending',
+  'won',
+  'lost',
+  'withdrawn',
+  'cancelled',
+  'unknown'
+]);
 
-/* =================================================
+/* ===============================================
    RESULT STATUS
-================================================= */
-
-const allowedOutcomeStatuses =
-  new Set([
-    'pending',
-    'won',
-    'lost',
-    'withdrawn',
-    'cancelled',
-    'unknown'
-  ]);
-
+=============================================== */
 
 if (
-  typeof outcomeUpdate.status ===
-    'string' &&
-  allowedOutcomeStatuses.has(
-    outcomeUpdate.status
+  allowedOutcomeStatuses.has(outcomeUpdate.status) &&
+  outcomeUpdate.status !==
+    (outcome.status || 'pending')
+) {
+  proposedUpdate.status =
+    outcomeUpdate.status;
+}
+
+/* ===============================================
+   DECISION DATE
+=============================================== */
+
+if (
+  typeof outcomeUpdate.decisionDate === 'string' &&
+  /^\d{4}-\d{2}-\d{2}$/.test(
+    outcomeUpdate.decisionDate
   )
 ) {
 
-  pursuit.outcome.status =
-    outcomeUpdate.status;
+  const parsedDate =
+    new Date(outcomeUpdate.decisionDate);
 
+  if (
+    !Number.isNaN(parsedDate.getTime()) &&
+    parsedDate.toISOString().slice(0, 10) ===
+      outcomeUpdate.decisionDate &&
+    (
+      !outcome.decisionDate ||
+      new Date(outcome.decisionDate)
+        .toISOString()
+        .slice(0, 10) !==
+        outcomeUpdate.decisionDate
+    )
+  ) {
+    proposedUpdate.decisionDate =
+      outcomeUpdate.decisionDate;
+  }
 }
 
-
-/* =================================================
+/* ===============================================
    SUCCESSFUL PROPONENT
-================================================= */
+=============================================== */
 
 if (
   typeof outcomeUpdate.successfulProponent ===
     'string' &&
-  outcomeUpdate.successfulProponent.trim()
+  outcomeUpdate.successfulProponent.trim() &&
+  outcomeUpdate.successfulProponent.trim() !==
+    (outcome.successfulProponent || '')
 ) {
-
-  pursuit.outcome.successfulProponent =
+  proposedUpdate.successfulProponent =
     outcomeUpdate.successfulProponent.trim();
-
 }
 
+/* ===============================================
+   PRICES
+=============================================== */
 
-/* =================================================
-   OUR PRICE
-================================================= */
-
-if (
-  typeof outcomeUpdate.ourPrice ===
-    'number' &&
-  Number.isFinite(
-    outcomeUpdate.ourPrice
-  )
+for (
+  const key of ['ourPrice', 'winningPrice']
 ) {
 
-  pursuit.outcome.ourPrice =
-    outcomeUpdate.ourPrice;
+  const value = outcomeUpdate[key];
 
+  if (
+    typeof value === 'number' &&
+    Number.isFinite(value) &&
+    value >= 0 &&
+    value !== outcome[key]
+  ) {
+    proposedUpdate[key] = value;
+  }
 }
 
 
-/* =================================================
-   WINNING PRICE
-================================================= */
-
-if (
-  typeof outcomeUpdate.winningPrice ===
-    'number' &&
-  Number.isFinite(
-    outcomeUpdate.winningPrice
-  )
-) {
-
-  pursuit.outcome.winningPrice =
-    outcomeUpdate.winningPrice;
-
-}
-
-/* =================================================
-   CLIENT DEBRIEF
-================================================= */
-
-if (
-  outcomeUpdate.debrief &&
-  typeof outcomeUpdate.debrief ===
-    'object'
-) {
-
-  if (
-    !pursuit.outcome.debrief ||
-    typeof pursuit.outcome.debrief !==
-      'object'
-  ) {
-
-    pursuit.outcome.debrief =
-      {};
-
-  }
-
-
-  /* ===============================================
-     DEBRIEF DATE
-  =============================================== */
-
-  if (
-    typeof outcomeUpdate.debrief.date ===
-      'string' &&
-    outcomeUpdate.debrief.date.trim()
-  ) {
-
-    const parsedDebriefDate =
-      new Date(
-        outcomeUpdate.debrief.date
-      );
-
-
-    if (
-      !Number.isNaN(
-        parsedDebriefDate.getTime()
-      )
-    ) {
-
-      pursuit.outcome.debrief.date =
-        parsedDebriefDate;
-
-    }
-
-  }
-
-
-  /* ===============================================
-     PROVIDED BY
-  =============================================== */
-
-  if (
-    typeof outcomeUpdate.debrief.providedBy ===
-      'string' &&
-    outcomeUpdate.debrief.providedBy.trim()
-  ) {
-
-    pursuit.outcome.debrief.providedBy =
-      outcomeUpdate.debrief.providedBy.trim();
-
-  }
-
-
-  /* ===============================================
-     SOURCE TYPE
-  =============================================== */
-
-  const allowedDebriefSourceTypes =
-    new Set([
-      'written',
-      'verbal',
-      'formal_debrief',
-      'evaluation_scores',
-      'internal'
-    ]);
-
-
-  if (
-    typeof outcomeUpdate.debrief.sourceType ===
-      'string' &&
-    allowedDebriefSourceTypes.has(
-      outcomeUpdate.debrief.sourceType
-    )
-  ) {
-
-    pursuit.outcome.debrief.sourceType =
-      outcomeUpdate.debrief.sourceType;
-
-  }
-
-
-  /* ===============================================
-     RAW CLIENT NOTES
-  =============================================== */
-
-  if (
-    typeof outcomeUpdate.debrief.rawNotes ===
-      'string' &&
-    outcomeUpdate.debrief.rawNotes.trim()
-  ) {
-
-    pursuit.outcome.debrief.rawNotes =
-      outcomeUpdate.debrief.rawNotes.trim();
-
-  }
-
-}
-
-
-/* =================================================
-   EVALUATION RESULTS
-================================================= */
-
-if (
-  Array.isArray(
-    outcomeUpdate.evaluationResults
-  ) &&
-  outcomeUpdate.evaluationResults.length >
-    0
-) {
-
-  pursuit.outcome.evaluationResults =
-    outcomeUpdate.evaluationResults.map(
-      result => {
-
-        return {
-
-          criterion:
-            typeof result.criterion ===
-            'string'
-              ? result.criterion.trim()
-              : '',
-
-          ourScore:
-            typeof result.ourScore ===
-              'number' &&
-            Number.isFinite(
-              result.ourScore
-            )
-              ? result.ourScore
-              : null,
-
-          maxScore:
-            typeof result.maxScore ===
-              'number' &&
-            Number.isFinite(
-              result.maxScore
-            )
-              ? result.maxScore
-              : null,
-
-          winningScore:
-            typeof result.winningScore ===
-              'number' &&
-            Number.isFinite(
-              result.winningScore
-            )
-              ? result.winningScore
-              : null,
-
-          comments:
-            typeof result.comments ===
-            'string'
-              ? result.comments.trim()
-              : ''
-
-        };
-
-      }
-    )
-    .filter(
-      result =>
-        result.criterion
-    );
-
-}
-
-
-/* =================================================
-   OUTCOME FACTORS
-================================================= */
-
-const allowedFactorCategories =
-  new Set([
-    'team',
-    'experience',
-    'project_understanding',
-    'methodology',
-    'schedule',
-    'price',
-    'presentation',
-    'compliance',
-    'relationship',
-    'interview',
-    'technical_approach',
-    'other'
-  ]);
-
-
-const allowedFactorImpacts =
-  new Set([
-    'positive',
-    'negative',
-    'neutral'
-  ]);
-
-
-const allowedFactorSources =
-  new Set([
-    'client_debrief',
-    'evaluation_scores',
-    'award_information',
-    'internal_assessment',
-    'other'
-  ]);
-
-
-if (
-  Array.isArray(
-    outcomeUpdate.outcomeFactors
-  ) &&
-  outcomeUpdate.outcomeFactors.length >
-    0
-) {
-
-  pursuit.outcome.outcomeFactors =
-    outcomeUpdate.outcomeFactors
-      .map(
-        factor => {
-
-          const category =
-            allowedFactorCategories.has(
-              factor.category
-            )
-              ? factor.category
-              : 'other';
-
-
-          const impact =
-            allowedFactorImpacts.has(
-              factor.impact
-            )
-              ? factor.impact
-              : 'neutral';
-
-
-          const sourceType =
-            allowedFactorSources.has(
-              factor.sourceType
-            )
-              ? factor.sourceType
-              : 'other';
-
-
-          return {
-
-            category,
-
-            impact,
-
-            summary:
-              typeof factor.summary ===
-              'string'
-                ? factor.summary.trim()
-                : '',
-
-            sourceType,
-
-            sourceDetail:
-              typeof factor.sourceDetail ===
-              'string'
-                ? factor.sourceDetail.trim()
-                : ''
-
-          };
-
-        }
-      )
-      .filter(
-        factor =>
-          factor.summary
-      );
-
-}
-
-
-/* =================================================
-   LESSONS LEARNED
-================================================= */
-
-if (
-  outcomeUpdate.lessons &&
-  typeof outcomeUpdate.lessons ===
-    'object'
-) {
-
-  const normalizeLessons =
-    lessons => {
-
-      if (
-        !Array.isArray(
-          lessons
-        )
-      ) {
-
-        return [];
-
-      }
-
-
-      return lessons
-        .filter(
-          lesson =>
-            typeof lesson ===
-              'string' &&
-            lesson.trim()
-        )
-        .map(
-          lesson =>
-            lesson.trim()
-        );
-
-    };
-
-
-  const repeatLessons =
-    normalizeLessons(
-      outcomeUpdate.lessons.repeat
-    );
-
-
-  const changeLessons =
-    normalizeLessons(
-      outcomeUpdate.lessons.change
-    );
-
-
-  const watchForLessons =
-    normalizeLessons(
-      outcomeUpdate.lessons.watchFor
-    );
-
-
-  /*
-   * Replace a lesson category only when Sasha
-   * actually extracted findings for that category.
-   * An empty AI array must not erase existing
-   * institutional knowledge.
-   */
-
-  if (
-    repeatLessons.length >
-    0
-  ) {
-
-    pursuit.outcome.lessons.repeat =
-      repeatLessons;
-
-  }
-
-
-  if (
-    changeLessons.length >
-    0
-  ) {
-
-    pursuit.outcome.lessons.change =
-      changeLessons;
-
-  }
-
-
-  if (
-    watchForLessons.length >
-    0
-  ) {
-
-    pursuit.outcome.lessons.watchFor =
-      watchForLessons;
-
-  }
-
-}
-
-
-/* =================================================
-   MARK STRUCTURED OUTCOME AS MODIFIED
-================================================= */
-
-pursuit.markModified(
-  'outcome'
-);
     /* =================================================
        SAVE CHAT HISTORY
     ================================================== */
@@ -2742,17 +2446,18 @@ pursuit.markModified(
        SUCCESS
     ================================================== */
 
-return res.json(
-  {
-    success:
-      true,
+return res.json({
+  success: true,
 
-    reply,
+  reply,
 
-    outcomeUpdated:
-      true
-  }
-);
+  proposedUpdate:
+    Object.keys(proposedUpdate).length
+      ? proposedUpdate
+      : null,
+
+  outcomeUpdated: false
+});
 
   } catch (
     error
@@ -3129,3 +2834,5 @@ exports.getOutcomeDocument =
     }
 
   };
+
+  

@@ -355,6 +355,50 @@
 
 
  
+{{!-- =================================================
+     PROPOSED OUTCOME UPDATE
+================================================== --}}
+
+<div
+  id="outcomeApprovalPanel"
+  class="sasha-outcome-card"
+  style="margin: 20px; display: none;"
+>
+  <h3>Proposed Outcome Update</h3>
+
+  <p class="sasha-outcome-guidance">
+    Sasha has identified information to update in the
+    pursuit record. Review the proposed changes before
+    approving them.
+  </p>
+
+  <div
+    id="outcomeProposedChanges"
+    style="white-space: pre-wrap;"
+  ></div>
+
+  <div
+    class="sasha-chat-actions"
+    style="margin-top: 16px;"
+  >
+    <button
+      type="button"
+      class="sasha-outcome-save-button"
+      id="approveOutcomeUpdate"
+    >
+      Approve Changes
+    </button>
+
+    <button
+      type="button"
+      class="sasha-outcome-save-button"
+      id="dismissOutcomeUpdate"
+    >
+      Dismiss
+    </button>
+  </div>
+</div>
+
 
 
 
@@ -612,6 +656,20 @@ document.addEventListener('DOMContentLoaded', () => {
   const working =
     document.getElementById('outcomeWorking');
 
+    const approvalPanel =
+  document.getElementById('outcomeApprovalPanel');
+
+const proposedChanges =
+  document.getElementById('outcomeProposedChanges');
+
+const approveButton =
+  document.getElementById('approveOutcomeUpdate');
+
+const dismissButton =
+  document.getElementById('dismissOutcomeUpdate');
+
+let pendingOutcomeUpdate = null;
+
   /* =====================================================
      HELPERS
   ===================================================== */
@@ -835,6 +893,47 @@ if (!message) {
         data.reply || 'Sasha has reviewed the information.'
       );
 
+
+if (data.proposedUpdate) {
+
+  pendingOutcomeUpdate = data.proposedUpdate;
+
+  const update = pendingOutcomeUpdate;
+
+  const changes = [];
+
+  if (update.status) {
+    changes.push(`Outcome: ${update.status}`);
+  }
+
+  if (update.decisionDate) {
+    changes.push(`Decision Date: ${update.decisionDate}`);
+  }
+
+  if (update.successfulProponent) {
+    changes.push(
+      `Successful Proponent: ${update.successfulProponent}`
+    );
+  }
+
+  if (update.ourPrice !== null &&
+      update.ourPrice !== undefined) {
+    changes.push(`Our Price: $${update.ourPrice}`);
+  }
+
+  if (update.winningPrice !== null &&
+      update.winningPrice !== undefined) {
+    changes.push(`Winning Price: $${update.winningPrice}`);
+  }
+
+  if (changes.length) {
+    proposedChanges.textContent = changes.join('\n');
+    approvalPanel.style.display = 'block';
+  }
+
+}
+
+
       if (messageInput) messageInput.value = '';
   
 
@@ -872,6 +971,57 @@ if (!message) {
       }
     });
   }
+
+if (approveButton) {
+
+  approveButton.addEventListener('click', async () => {
+
+    if (!pendingOutcomeUpdate) return;
+
+    setBusy(approveButton, true, 'Approve Changes');
+
+    try {
+
+      const response = await fetch('/outcome/result', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-csrf-token': csrfToken
+        },
+        body: JSON.stringify({
+          pursuitId,
+          ...pendingOutcomeUpdate
+        })
+      });
+
+      await readResponse(response);
+
+      window.location.reload();
+
+    } catch (error) {
+
+      console.error('OUTCOME APPROVAL ERROR:', error);
+      alert(error.message);
+
+    } finally {
+
+      setBusy(approveButton, false, 'Approve Changes');
+
+    }
+
+  });
+
+}
+
+if (dismissButton) {
+
+  dismissButton.addEventListener('click', () => {
+    pendingOutcomeUpdate = null;
+    approvalPanel.style.display = 'none';
+    proposedChanges.textContent = '';
+  });
+
+}
 
 });
 </script>
