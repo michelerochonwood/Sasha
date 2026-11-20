@@ -111,16 +111,41 @@ async function loadOutcomeEvidence(proposal) {
        ACCEPT ONLY CLOUDINARY HTTPS URLS
     =============================================== */
 
-    const parsedUrl = new URL(url);
 
-    if (
-      parsedUrl.protocol !== 'https:' ||
-      parsedUrl.hostname !== 'res.cloudinary.com'
-    ) {
-      throw new Error(
-        'An outcome document has an invalid storage URL.'
-      );
+/* =================================================
+   VALIDATE CLOUDINARY DOCUMENT URL
+================================================= */
+
+const parsedUrl = new URL(url);
+
+const allowedCloudinaryHosts = new Set([
+  'res.cloudinary.com',
+  'api.cloudinary.com'
+]);
+
+if (
+  parsedUrl.protocol !== 'https:' ||
+  !allowedCloudinaryHosts.has(
+    parsedUrl.hostname.toLowerCase()
+  )
+) {
+
+  console.error(
+    'OUTCOME DOCUMENT URL VALIDATION FAILED:',
+    {
+      documentName: document.name,
+      documentType: document.type,
+      hostname: parsedUrl.hostname,
+      pathname: parsedUrl.pathname
     }
+  );
+
+  throw new Error(
+    `Unable to validate the storage URL for ` +
+    `${document.name}.`
+  );
+}
+
 
     const response = await fetch(url, {
       signal: AbortSignal.timeout(30000)
