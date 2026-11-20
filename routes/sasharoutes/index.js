@@ -500,6 +500,43 @@ router.post(
 );
 
 /* =====================================================
+   OUTCOME | UPLOAD CLIENT DEBRIEF
+===================================================== */
+
+router.post(
+  '/outcome/client-debrief',
+  ensureOrganization,
+  pursuitDocumentUpload,
+  verifyCsrfToken,
+  outcomeController.postUploadClientDebrief
+);
+
+
+/* =====================================================
+   OUTCOME | UPLOAD LESSONS LEARNED
+===================================================== */
+
+router.post(
+  '/outcome/lessons-learned',
+  ensureOrganization,
+  pursuitDocumentUpload,
+  verifyCsrfToken,
+  outcomeController.postUploadLessonsLearned
+);
+
+
+
+/* =====================================================
+   OUTCOME | DOWNLOAD DOCUMENT
+===================================================== */
+
+router.get(
+  '/outcome/document/:pursuitId/:documentId',
+  ensureOrganization,
+  outcomeController.getOutcomeDocument
+);
+
+/* =====================================================
    SASHA INSTRUCTIONS
 ===================================================== */
 

@@ -226,10 +226,7 @@ const isAnalysisRequest =
 
 const isOutcomeRequest =
   req.originalUrl.includes(
-    '/outcome/final-proposal'
-  ) ||
-  req.originalUrl.includes(
-    '/outcome/chat'
+    '/outcome/'
   );
 
 

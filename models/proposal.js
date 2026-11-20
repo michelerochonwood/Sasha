@@ -1567,15 +1567,98 @@ outcome: {
   },
 
 
-  /* =================================================
-     GENERAL NOTES
-  ================================================= */
+/* =================================================
+   GENERAL NOTES
+================================================= */
 
-  notes: {
-    type: String,
-    trim: true,
-    default: ""
+notes: {
+  type: String,
+  trim: true,
+  default: ""
+},
+
+/* =================================================
+   OUTCOME DOCUMENTS
+================================================= */
+
+documents: [
+  {
+    documentType: {
+      type: String,
+      enum: [
+        'client_debrief',
+        'lessons_learned'
+      ],
+      required: true
+    },
+
+    originalName: {
+      type: String,
+      required: true
+    },
+
+    cloudinaryPublicId: {
+      type: String,
+      required: true
+    },
+
+    cloudinaryUrl: {
+      type: String,
+      required: true
+    },
+
+    cloudinaryResourceType: {
+      type: String,
+      default: 'raw'
+    },
+
+    cloudinaryDeliveryType: {
+      type: String,
+      default: 'authenticated'
+    },
+
+    mimeType: {
+      type: String,
+      default: ''
+    },
+
+    size: {
+      type: Number,
+      default: 0
+    },
+
+    uploadedAt: {
+      type: Date,
+      default: Date.now
+    }
   }
+],
+
+/* =================================================
+   SASHA'S LESSONS LEARNED
+================================================= */
+
+sashaLessons: {
+  summary: {
+    type: String,
+    default: ''
+  },
+
+  generatedAt: {
+    type: Date,
+    default: null
+  },
+
+  approved: {
+    type: Boolean,
+    default: false
+  },
+
+  approvedAt: {
+    type: Date,
+    default: null
+  }
+}
 
 },
 

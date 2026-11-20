@@ -1,3 +1,5 @@
+const mongoose = require('mongoose');
+
 const Proposal = require(
   '../models/proposal'
 );
@@ -2768,3 +2770,362 @@ return res.json(
   }
 
 };
+
+
+/* =====================================================
+   OUTCOME DOCUMENT UPLOADS
+   Client debrief and lessons learned
+===================================================== */
+
+async function uploadOutcomeDocument(
+  req,
+  res,
+  next,
+  documentType
+) {
+
+  try {
+
+    const organizationId =
+      req.session.organizationId;
+
+    if (!organizationId) {
+      return res.status(401).json({
+        success: false,
+        error: 'Organization session not found.'
+      });
+    }
+
+    const pursuitId =
+      (
+        typeof req.body.pursuitId === 'string' &&
+        req.body.pursuitId.trim()
+      ) ||
+      req.session.activePursuitId;
+
+    if (!pursuitId) {
+      return res.status(400).json({
+        success: false,
+        error: 'Pursuit ID is required.'
+      });
+    }
+
+    /* =================================================
+       VALIDATE UPLOADED FILE
+    ================================================= */
+
+    const files =
+      Array.isArray(req.files)
+        ? req.files
+        : [];
+
+    if (files.length !== 1) {
+      return res.status(400).json({
+        success: false,
+        error: 'Select exactly one document to upload.'
+      });
+    }
+
+    const file = files[0];
+
+    const allowedTypes = new Set([
+      'application/pdf',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      'text/plain'
+    ]);
+
+    if (
+      !allowedTypes.has(file.mimetype) ||
+      !file.buffer
+    ) {
+      return res.status(400).json({
+        success: false,
+        error: 'Upload a PDF, DOCX, or TXT document.'
+      });
+    }
+
+    /* =================================================
+       FIND PURSUIT
+    ================================================= */
+
+    const proposal =
+      await Proposal.findOne({
+        _id: pursuitId,
+        organization: organizationId
+      });
+
+    if (!proposal) {
+      return res.status(404).json({
+        success: false,
+        error: 'Pursuit not found.'
+      });
+    }
+
+    /* =================================================
+       UPLOAD DOCUMENT TO CLOUDINARY
+    ================================================= */
+
+    const uploadResult =
+      await new Promise((resolve, reject) => {
+
+        const stream =
+          cloudinary.uploader.upload_stream(
+            {
+              resource_type: 'raw',
+              type: 'authenticated',
+
+              folder:
+                `sasha/${organizationId}/outcome-documents`,
+
+              public_id:
+                `${documentType}-${Date.now()}-${require('crypto').randomBytes(8).toString('hex')}`
+            },
+
+            (error, result) => {
+              if (error) {
+                return reject(error);
+              }
+
+              return resolve(result);
+            }
+          );
+
+        stream.end(file.buffer);
+
+      });
+
+    /* =================================================
+       SAVE DOCUMENT METADATA
+    ================================================= */
+
+    if (!proposal.outcome) {
+      proposal.outcome = {};
+    }
+
+    if (
+      !Array.isArray(
+        proposal.outcome.documents
+      )
+    ) {
+      proposal.outcome.documents = [];
+    }
+
+    proposal.outcome.documents.push({
+      documentType,
+
+      originalName:
+        file.originalname,
+
+      cloudinaryPublicId:
+        uploadResult.public_id,
+
+      cloudinaryUrl:
+        uploadResult.secure_url || '',
+
+      cloudinaryResourceType:
+        'raw',
+
+      cloudinaryDeliveryType:
+        'authenticated',
+
+      mimeType:
+        file.mimetype,
+
+      size:
+        file.size,
+
+      uploadedAt:
+        new Date()
+    });
+
+    proposal.markModified(
+      'outcome.documents'
+    );
+
+    await proposal.save();
+
+    /* =================================================
+       KEEP PURSUIT ACTIVE
+    ================================================= */
+
+    req.session.activePursuitId =
+      proposal._id.toString();
+
+    req.session.activePursuitName =
+      proposal.proposalName;
+
+    const savedDocument =
+      proposal.outcome.documents[
+        proposal.outcome.documents.length - 1
+      ];
+
+    /* =================================================
+       SUCCESS
+    ================================================= */
+
+    return res.json({
+      success: true,
+      document: savedDocument
+    });
+
+  } catch (error) {
+
+    console.error(
+      'OUTCOME DOCUMENT UPLOAD ERROR:',
+      error
+    );
+
+    return next(error);
+
+  }
+
+}
+
+
+/* =====================================================
+   UPLOAD CLIENT DEBRIEF
+===================================================== */
+
+exports.postUploadClientDebrief =
+  (req, res, next) =>
+    uploadOutcomeDocument(
+      req,
+      res,
+      next,
+      'client_debrief'
+    );
+
+
+/* =====================================================
+   UPLOAD LESSONS LEARNED
+===================================================== */
+
+exports.postUploadLessonsLearned =
+  (req, res, next) =>
+    uploadOutcomeDocument(
+      req,
+      res,
+      next,
+      'lessons_learned'
+    );
+
+
+
+/* =====================================================
+   DOWNLOAD OUTCOME DOCUMENT
+===================================================== */
+
+exports.getOutcomeDocument =
+  async (req, res, next) => {
+
+    try {
+
+      const organizationId =
+        req.session.organizationId;
+
+      if (!organizationId) {
+        return res.status(401).send(
+          'Organization session not found.'
+        );
+      }
+
+      const {
+        pursuitId,
+        documentId
+      } = req.params;
+
+      if (
+        !mongoose.isValidObjectId(pursuitId) ||
+        !mongoose.isValidObjectId(documentId)
+      ) {
+        return res.status(400).send(
+          'Invalid document request.'
+        );
+      }
+
+      /* ===============================================
+         FIND PURSUIT BELONGING TO ORGANIZATION
+      =============================================== */
+
+      const proposal =
+        await Proposal.findOne({
+          _id: pursuitId,
+          organization: organizationId
+        });
+
+      if (!proposal) {
+        return res.status(404).send(
+          'Pursuit not found.'
+        );
+      }
+
+      /* ===============================================
+         FIND DOCUMENT
+      =============================================== */
+
+      const documents =
+        proposal.outcome?.documents || [];
+
+      const document =
+        documents.id(documentId);
+
+      if (!document) {
+        return res.status(404).send(
+          'Outcome document not found.'
+        );
+      }
+
+      if (!document.cloudinaryPublicId) {
+        return res.status(404).send(
+          'Document storage reference missing.'
+        );
+      }
+
+      /* ===============================================
+         GENERATE AUTHENTICATED DOWNLOAD URL
+      =============================================== */
+
+      const expiresAt =
+        Math.floor(Date.now() / 1000) + 300;
+
+      const downloadUrl =
+        cloudinary.utils.private_download_url(
+          document.cloudinaryPublicId,
+          null,
+          {
+            resource_type:
+              document.cloudinaryResourceType ||
+              'raw',
+
+            type:
+              document.cloudinaryDeliveryType ||
+              'authenticated',
+
+            expires_at:
+              expiresAt,
+
+            attachment:
+              true
+          }
+        );
+
+      /* ===============================================
+         REDIRECT TO TEMPORARY DOWNLOAD URL
+      =============================================== */
+
+      return res.redirect(
+        downloadUrl
+      );
+
+    } catch (error) {
+
+      console.error(
+        'OUTCOME DOCUMENT DOWNLOAD ERROR:',
+        error
+      );
+
+      return next(error);
+
+    }
+
+  };

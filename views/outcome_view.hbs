@@ -369,480 +369,36 @@
         </section>
 
 
-        {{!-- =================================================
-             EVALUATION RESULTS
-        ================================================== --}}
+ 
 
-        <details class="sasha-outcome-card sasha-outcome-details" style="margin-top: 30px">
 
-          <summary>
-            Evaluation Results
-          </summary>
 
-          <div class="sasha-outcome-details-content">
 
-            {{#if pursuit.outcome.evaluationResults.length}}
 
-              <div class="sasha-outcome-evaluation-list">
-
-                {{#each pursuit.outcome.evaluationResults}}
-
-                  <article class="sasha-outcome-evaluation-item">
-
-                    <strong>
-                      {{criterion}}
-                    </strong>
-
-                    <div class="sasha-outcome-score-row">
-
-                      <span>
-                        Our score:
-                        <strong>
-                          {{ourScore}} / {{maxScore}}
-                        </strong>
-                      </span>
-
-                      {{#if winningScore}}
-
-                        <span>
-                          Winner:
-                          <strong>
-                            {{winningScore}} / {{maxScore}}
-                          </strong>
-                        </span>
-
-                      {{/if}}
-
-                    </div>
-
-                    {{#if comments}}
-
-                      <p>
-                        {{comments}}
-                      </p>
-
-                    {{/if}}
-
-                  </article>
-
-                {{/each}}
-
-              </div>
-
-            {{else}}
-
-              <p class="sasha-outcome-empty">
-                No evaluation scores have been recorded.
-                Sasha can extract them from scoring sheets
-                or debrief notes.
-              </p>
-
-            {{/if}}
-
-
-            <button
-              class="sasha-outcome-secondary-button"
-              type="button"
-              id="addEvaluationCriterion"
-            >
-              + Add Criterion
-            </button>
-
-          </div>
-
-        </details>
-
-
-        {{!-- =================================================
-             KEY OUTCOME FACTORS
-        ================================================== --}}
-
-        <details
-          class="sasha-outcome-card sasha-outcome-details"
-          open
-        >
-
-          <summary>
-            Key Outcome Factors
-          </summary>
-
-          <div class="sasha-outcome-details-content">
-
-            {{#if pursuit.outcome.outcomeFactors.length}}
-
-              <div class="sasha-outcome-factor-list">
-
-                {{#each pursuit.outcome.outcomeFactors}}
-
-                  <article
-                    class="
-                      sasha-outcome-factor
-                      is-{{impact}}
-                    "
-                  >
-
-                    <div class="sasha-outcome-factor-top">
-
-<span class="sasha-outcome-factor-category">
-
-  {{#if (eq category "team")}}
-    Team
-
-  {{else if (eq category "experience")}}
-    Experience
-
-  {{else if (eq category "project_understanding")}}
-    Project Understanding
-
-  {{else if (eq category "methodology")}}
-    Methodology
-
-  {{else if (eq category "schedule")}}
-    Schedule
-
-  {{else if (eq category "price")}}
-    Price
-
-  {{else if (eq category "presentation")}}
-    Presentation
-
-  {{else if (eq category "compliance")}}
-    Compliance
-
-  {{else if (eq category "relationship")}}
-    Client Relationship
-
-  {{else if (eq category "interview")}}
-    Interview
-
-  {{else if (eq category "technical_approach")}}
-    Technical Approach
-
-  {{else}}
-    Other
-  {{/if}}
-
-</span>
-
-<span
-  class="
-    sasha-outcome-factor-impact
-    is-{{impact}}
-  "
->
-
-  {{#if (eq impact "positive")}}
-    Positive Factor
-
-  {{else if (eq impact "negative")}}
-    Negative Factor
-
-  {{else}}
-    Neutral Factor
-  {{/if}}
-
-</span>
-
-                    </div>
-
-                    <p>
-                      {{summary}}
-                    </p>
-
-<small>
-  Source:
-
-  {{#if (eq sourceType "client_debrief")}}
-    Client Debrief
-  {{else if (eq sourceType "evaluation_scores")}}
-    Evaluation Scores
-  {{else if (eq sourceType "award_information")}}
-    Award Information
-  {{else if (eq sourceType "internal_assessment")}}
-    Internal Assessment
-  {{else}}
-    Other
-  {{/if}}
-
-  {{#if sourceDetail}}
-    — {{sourceDetail}}
-  {{/if}}
-</small>
-
-                  </article>
-
-                {{/each}}
-
-              </div>
-
-            {{else}}
-
-              <p class="sasha-outcome-empty">
-                No outcome factors have been recorded yet.
-                Give Sasha the debrief evidence and she can
-                propose the factors that appear to have
-                influenced the result.
-              </p>
-
-            {{/if}}
-
-          </div>
-
-        </details>
-
-
-        {{!-- =================================================
-             LESSONS FOR FUTURE PURSUITS
-        ================================================== --}}
-
-        <details
-          class="sasha-outcome-card sasha-outcome-details"
-          open
-        >
-
-          <summary>
-            Lessons for Future Pursuits
-          </summary>
-
-          <div class="sasha-outcome-details-content">
-
-<div class="sasha-outcome-lessons">
-
-  {{!-- ===============================================
-       PRACTICES TO REPEAT
-  ================================================ --}}
-
-  {{#if pursuit.outcome.lessons.repeat.length}}
-
-    <section class="sasha-outcome-lesson-group">
-
-      <h3>
-        Practices to Repeat
-      </h3>
-
-      {{#each pursuit.outcome.lessons.repeat}}
-
-        <article class="sasha-outcome-lesson is-repeat">
-
-          <p>
-            {{this}}
-          </p>
-
-        </article>
-
-      {{/each}}
-
-    </section>
-
-  {{/if}}
-
-
-  {{!-- ===============================================
-       PRACTICES TO CHANGE
-  ================================================ --}}
-
-  {{#if pursuit.outcome.lessons.change.length}}
-
-    <section class="sasha-outcome-lesson-group">
-
-      <h3>
-        Practices to Change
-      </h3>
-
-      {{#each pursuit.outcome.lessons.change}}
-
-        <article class="sasha-outcome-lesson is-change">
-
-          <p>
-            {{this}}
-          </p>
-
-        </article>
-
-      {{/each}}
-
-    </section>
-
-  {{/if}}
-
-
-  {{!-- ===============================================
-       WATCH FOR
-  ================================================ --}}
-
-  {{#if pursuit.outcome.lessons.watchFor.length}}
-
-    <section class="sasha-outcome-lesson-group">
-
-      <h3>
-        Watch For on Future Pursuits
-      </h3>
-
-      {{#each pursuit.outcome.lessons.watchFor}}
-
-        <article class="sasha-outcome-lesson is-watch">
-
-          <p>
-            {{this}}
-          </p>
-
-        </article>
-
-      {{/each}}
-
-    </section>
-
-  {{/if}}
-
-
-  {{!-- ===============================================
-       EMPTY STATE
-  ================================================ --}}
-
-  {{#unless pursuit.outcome.lessons.repeat.length}}
-
-    {{#unless pursuit.outcome.lessons.change.length}}
-
-      {{#unless pursuit.outcome.lessons.watchFor.length}}
-
-        <p class="sasha-outcome-empty">
-          No lessons have been recorded yet.
-          Sasha can help turn the outcome evidence into
-          practical lessons for future pursuits.
-        </p>
-
-      {{/unless}}
-
-    {{/unless}}
-
-  {{/unless}}
-
-</div>
-
-        </details>
-
-
-        {{!-- =================================================
-             INTERNAL OBSERVATIONS
-        ================================================== --}}
-
-        <details class="sasha-outcome-card sasha-outcome-details">
-
-          <summary>
-            Internal Observations
-          </summary>
-
-          <div class="sasha-outcome-details-content">
-
-            <p class="sasha-outcome-guidance">
-              Record observations from the pursuit team that may
-              help explain the result. These are internal
-              interpretations and should remain distinct from
-              documented client feedback.
-            </p>
-
-
-            <div class="sasha-outcome-field">
-
-              <label for="internalObservations">
-                Pursuit Team Observations
-              </label>
-
-              <textarea
-                id="internalObservations"
-                name="internalObservations"
-                placeholder="What did the pursuit team observe about the strategy, process, proposal, competition or client?"
-              >{{pursuit.outcome.internalObservations}}</textarea>
-
-            </div>
-
-          </div>
-
-        </details>
-
-
-        {{!-- =================================================
-             RECORD NOTES
-        ================================================== --}}
-
-        <details class="sasha-outcome-card sasha-outcome-details">
-
-          <summary>
-            Record Notes
-          </summary>
-
-          <div class="sasha-outcome-details-content">
-
-            <div class="sasha-outcome-field">
-
-              <label for="outcomeNotes">
-                Additional Notes
-              </label>
-
-              <textarea
-                id="outcomeNotes"
-                name="outcomeNotes"
-                placeholder="Add any other information that should remain with the permanent pursuit record."
-              >{{pursuit.outcome.notes}}</textarea>
-
-            </div>
-
-
-            <button
-              class="sasha-outcome-save-button"
-              type="button"
-              id="saveOutcomeDetails"
-            >
-              Save Outcome Details
-            </button>
-
-          </div>
-
-        </details>
 
       </main>
 
 
-      {{!-- ===================================================
-           SIDEBAR
-      ==================================================== --}}
-
-      <aside class="sasha-outcome-sidebar">
-
-
-        {{!-- =================================================
-             RESULT
-        ================================================== --}}
 
 <aside class="sasha-outcome-sidebar">
 
-
-  {{!-- =================================================
+  {{!-- ================================================
        FINAL SUBMITTED PROPOSAL
-  ================================================== --}}
+  ================================================= --}}
 
   <section class="sasha-outcome-card">
 
     <div class="sasha-outcome-card-heading">
-
       <p class="sasha-work-eyebrow">
         Submission Record
       </p>
-
-      <h2>
-        Final Submitted Proposal
-      </h2>
-
+      <h2>Final Submitted Proposal</h2>
     </div>
 
-
     <p class="sasha-outcome-guidance">
-      Preserve the final proposal exactly as it was
-      submitted to the client. Sasha can use completed
-      proposals and outcome information to help identify
-      patterns across future pursuits.
+      Preserve the proposal exactly as submitted to
+      the client, separately from Sasha's original draft.
     </p>
-
 
     {{#if pursuit.proposalDocuments.length}}
 
@@ -860,27 +416,20 @@
               {{/if}}
             </strong>
 
-{{#if fileName}}
+            {{#if fileName}}
+              <span>{{fileName}}</span>
+            {{/if}}
 
-  <span>
-    {{fileName}}
-  </span>
-
-{{/if}}
-
-
-{{#if fileUrl}}
-
-  <a
-    class="sasha-outcome-final-proposal-link"
-    href="{{fileUrl}}"
-    target="_blank"
-    rel="noopener noreferrer"
-  >
-    View Final Proposal
-  </a>
-
-{{/if}}
+            {{#if fileUrl}}
+              <a
+                class="sasha-outcome-final-proposal-link"
+                href="{{fileUrl}}"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View Final Proposal
+              </a>
+            {{/if}}
 
           </div>
 
@@ -896,22 +445,16 @@
 
     {{/if}}
 
-
     <div class="sasha-outcome-field">
-
       <label for="finalProposalFile">
         Final Proposal PDF
       </label>
-
       <input
         id="finalProposalFile"
-        name="finalProposalFile"
         type="file"
         accept=".pdf,application/pdf"
       >
-
     </div>
-
 
     <button
       class="sasha-outcome-save-button"
@@ -924,163 +467,128 @@
   </section>
 
 
-  {{!-- =================================================
-       RESULT
-  ================================================== --}}
+  {{!-- ================================================
+       CLIENT DEBRIEF
+  ================================================= --}}
 
+  <section class="sasha-outcome-card">
 
-        {{!-- =================================================
-             CLIENT DEBRIEF
-        ================================================== --}}
+    <div class="sasha-outcome-card-heading">
+      <p class="sasha-work-eyebrow">
+        Client Feedback
+      </p>
+      <h2>Client Debrief</h2>
+    </div>
 
-        <section class="sasha-outcome-card">
+    <p class="sasha-outcome-guidance">
+      Preserve client feedback, evaluation reports,
+      and debrief documents for Sasha's analysis.
+    </p>
 
-          <div class="sasha-outcome-card-heading">
+    {{#each pursuit.outcome.documents}}
 
-            <p class="sasha-work-eyebrow">
-              Client Feedback
-            </p>
+      {{#if (eq documentType "client_debrief")}}
 
-            <h2>
-              Client Debrief
-            </h2>
+        <div class="sasha-outcome-final-proposal-item">
 
-          </div>
+          <strong>{{originalName}}</strong>
 
-
-          <p class="sasha-outcome-guidance">
-            Record feedback received directly from the client.
-            Keep documented client comments separate from the
-            pursuit team's own interpretation of the result.
-          </p>
-
-
-          <div class="sasha-outcome-field">
-
-            <label for="clientDebrief">
-              Client Feedback
-            </label>
-
-<textarea
-  id="debriefRawNotes"
-  name="debriefRawNotes"
-  placeholder="Paste or summarize the client's debrief comments here."
->{{pursuit.outcome.debrief.rawNotes}}</textarea>
-
-          </div>
-
-
-          <div class="sasha-outcome-field">
-
-            <label for="debriefDate">
-              Debrief Date
-            </label>
-
-<input
-  id="debriefDate"
-  name="debriefDate"
-  type="date"
-  value="{{pursuit.outcome.debrief.date}}"
->
-
-          </div>
-
-
-          <div class="sasha-outcome-field">
-
-            <label for="debriefContact">
-              Client Contact
-            </label>
-
-<input
-  id="debriefProvidedBy"
-  name="debriefProvidedBy"
-  type="text"
-  value="{{pursuit.outcome.debrief.providedBy}}"
-  placeholder="Name or role of person providing feedback"
->
-
-          </div>
-
-<div class="sasha-outcome-field">
-
-  <label for="debriefSourceType">
-    Feedback Source
-  </label>
-
-  <select
-    id="debriefSourceType"
-    name="debriefSourceType"
-  >
-
-    <option
-      value=""
-      {{#if (eq pursuit.outcome.debrief.sourceType "")}}
-        selected
-      {{/if}}
-    >
-      Select source
-    </option>
-
-    <option
-      value="written"
-      {{#if (eq pursuit.outcome.debrief.sourceType "written")}}
-        selected
-      {{/if}}
-    >
-      Written Feedback
-    </option>
-
-    <option
-      value="verbal"
-      {{#if (eq pursuit.outcome.debrief.sourceType "verbal")}}
-        selected
-      {{/if}}
-    >
-      Verbal Feedback
-    </option>
-
-    <option
-      value="formal_debrief"
-      {{#if (eq pursuit.outcome.debrief.sourceType "formal_debrief")}}
-        selected
-      {{/if}}
-    >
-      Formal Debrief
-    </option>
-
-    <option
-      value="evaluation_scores"
-      {{#if (eq pursuit.outcome.debrief.sourceType "evaluation_scores")}}
-        selected
-      {{/if}}
-    >
-      Evaluation Scores
-    </option>
-
-    <option
-      value="internal"
-      {{#if (eq pursuit.outcome.debrief.sourceType "internal")}}
-        selected
-      {{/if}}
-    >
-      Internal Record
-    </option>
-
-  </select>
-
-</div>
-          <button
-            class="sasha-outcome-save-button"
-            type="button"
-            id="saveClientDebrief"
+          <a
+            href="/outcome/document/{{../../pursuit._id}}/{{_id}}"
+            class="sasha-outcome-final-proposal-link"
           >
-            Save Client Debrief
-          </button>
+            Download Document
+          </a>
 
-        </section>
+        </div>
 
-      </aside>
+      {{/if}}
+
+    {{/each}}
+
+    <div class="sasha-outcome-field">
+      <label for="clientDebriefFile">
+        Client Debrief Document
+      </label>
+      <input
+        id="clientDebriefFile"
+        type="file"
+        accept=".pdf,.docx,.txt"
+      >
+    </div>
+
+    <button
+      class="sasha-outcome-save-button"
+      type="button"
+      id="uploadClientDebrief"
+    >
+      Upload Client Debrief
+    </button>
+
+  </section>
+
+
+  {{!-- ================================================
+       LESSONS LEARNED DOCUMENTS
+  ================================================= --}}
+
+  <section class="sasha-outcome-card">
+
+    <div class="sasha-outcome-card-heading">
+      <p class="sasha-work-eyebrow">
+        Pursuit Knowledge
+      </p>
+      <h2>Lessons Learned Documents</h2>
+    </div>
+
+    <p class="sasha-outcome-guidance">
+      Preserve the pursuit team's lessons learned
+      for Sasha to analyze and reference.
+    </p>
+
+    {{#each pursuit.outcome.documents}}
+
+      {{#if (eq documentType "lessons_learned")}}
+
+        <div class="sasha-outcome-final-proposal-item">
+
+          <strong>{{originalName}}</strong>
+
+          <a
+            href="/outcome/document/{{../../pursuit._id}}/{{_id}}"
+            class="sasha-outcome-final-proposal-link"
+          >
+            Download Document
+          </a>
+
+        </div>
+
+      {{/if}}
+
+    {{/each}}
+
+    <div class="sasha-outcome-field">
+      <label for="lessonsLearnedFile">
+        Team Lessons Learned Document
+      </label>
+      <input
+        id="lessonsLearnedFile"
+        type="file"
+        accept=".pdf,.docx,.txt"
+      >
+    </div>
+
+    <button
+      class="sasha-outcome-save-button"
+      type="button"
+      id="uploadLessonsLearned"
+    >
+      Upload Lessons Learned
+    </button>
+
+ </section>
+
+</aside>
 
     </div>
 
@@ -1089,1108 +597,304 @@
 </section>
 
 
+
+
+
+
+
 {{!-- =====================================================
      OUTCOME VIEW JAVASCRIPT
-====================================================== --}}
+===================================================== --}}
 
 <script>
+document.addEventListener('DOMContentLoaded', () => {
 
-document.addEventListener(
-  'DOMContentLoaded',
-  () => {
+  const pursuitId = '{{pursuit._id}}';
+  const csrfToken = '{{csrfToken}}';
 
-    const pursuitId =
-      '{{pursuit._id}}';
+  const chatThread =
+    document.getElementById('outcomeChatThread');
 
+  const messageInput =
+    document.getElementById('outcomeMessage');
 
-    /* =====================================================
-       ELEMENTS
-    ====================================================== */
+  const evidenceInput =
+    document.getElementById('outcomeEvidenceFile');
 
-    const outcomeChatThread =
-      document.getElementById(
-        'outcomeChatThread'
-      );
+  const sendButton =
+    document.getElementById('sendOutcomeMessage');
 
-    const outcomeMessage =
-      document.getElementById(
-        'outcomeMessage'
-      );
+  const working =
+    document.getElementById('outcomeWorking');
 
-    const outcomeEvidenceFile =
-      document.getElementById(
-        'outcomeEvidenceFile'
-      );
+  /* =====================================================
+     HELPERS
+  ===================================================== */
 
-    const sendOutcomeMessage =
-      document.getElementById(
-        'sendOutcomeMessage'
-      );
+  function setBusy(button, busy, normalText) {
+    if (!button) return;
 
-    const outcomeWorking =
-      document.getElementById(
-        'outcomeWorking'
-      );
-
-    const saveOutcomeResult =
-      document.getElementById(
-        'saveOutcomeResult'
-      );
-
-    const saveClientDebrief =
-      document.getElementById(
-        'saveClientDebrief'
-      );
-
-    const saveOutcomeDetails =
-      document.getElementById(
-        'saveOutcomeDetails'
-      );
-
-      const finalProposalFile =
-  document.getElementById(
-    'finalProposalFile'
-  );
-
-
-const uploadFinalProposal =
-  document.getElementById(
-    'uploadFinalProposal'
-  );
-
-
-    /* =====================================================
-       SMALL HELPERS
-    ====================================================== */
-
-    const setButtonState =
-      (
-        button,
-        isWorking,
-        workingText,
-        normalText
-      ) => {
-
-        if (
-          !button
-        ) {
-          return;
-        }
-
-        button.disabled =
-          isWorking;
-
-        button.textContent =
-          isWorking
-            ? workingText
-            : normalText;
-
-      };
-
-
-    const showWorking =
-      () => {
-
-        if (
-          outcomeWorking
-        ) {
-
-          outcomeWorking.hidden =
-            false;
-
-        }
-
-      };
-
-
-    const hideWorking =
-      () => {
-
-        if (
-          outcomeWorking
-        ) {
-
-          outcomeWorking.hidden =
-            true;
-
-        }
-
-      };
-
-
-    const appendChatMessage =
-      (
-        role,
-        content
-      ) => {
-
-        if (
-          !outcomeChatThread ||
-          !content
-        ) {
-          return;
-        }
-
-
-        const article =
-          document.createElement(
-            'article'
-          );
-
-        article.className =
-          'sasha-chat-message ' +
-          (
-            role === 'user'
-              ? 'is-user'
-              : 'is-sasha'
-          );
-
-
-        const speaker =
-          document.createElement(
-            'div'
-          );
-
-        speaker.className =
-          'sasha-chat-speaker';
-
-        speaker.textContent =
-          role === 'user'
-            ? 'You'
-            : 'Sasha';
-
-
-        const bubble =
-          document.createElement(
-            'div'
-          );
-
-        bubble.className =
-          'sasha-chat-bubble';
-
-        bubble.textContent =
-          content;
-
-
-        article.appendChild(
-          speaker
-        );
-
-        article.appendChild(
-          bubble
-        );
-
-        outcomeChatThread.appendChild(
-          article
-        );
-
-
-        outcomeChatThread.scrollTop =
-          outcomeChatThread.scrollHeight;
-
-      };
-
-/* =====================================================
-   UPLOAD FINAL SUBMITTED PROPOSAL
-====================================================== */
-
-if (
-  uploadFinalProposal
-) {
-
-  uploadFinalProposal.addEventListener(
-    'click',
-    async () => {
-
-      const file =
-        finalProposalFile &&
-        finalProposalFile.files
-          ? finalProposalFile.files[0]
-          : null;
-
-
-      if (
-        !file
-      ) {
-
-        alert(
-          'Choose the final proposal PDF first.'
-        );
-
-        return;
-
-      }
-
-
-      if (
-        file.type !==
-        'application/pdf'
-      ) {
-
-        alert(
-          'The final submitted proposal must be a PDF.'
-        );
-
-        return;
-
-      }
-
-
-const formData =
-  new FormData();
-
-
-formData.append(
-  'pursuitId',
-  pursuitId
-);
-
-
-formData.append(
-  '_csrf',
-  '{{csrfToken}}'
-);
-
-
-formData.append(
-  'message',
-  message
-);
-
-
-formData.append(
-  'sourceDocuments',
-  file
-);
-
-
-      setButtonState(
-        uploadFinalProposal,
-        true,
-        'Uploading...',
-        'Upload Final Proposal'
-      );
-
-
-      try {
-
-        const response =
-          await fetch(
-            '/outcome/final-proposal',
-            {
-              method:
-                'POST',
-
-              body:
-                formData
-            }
-          );
-
-
-        const data =
-          await response.json();
-
-
-        if (
-          !response.ok
-        ) {
-
-          throw new Error(
-            data.message ||
-            data.error ||
-            'Could not upload the final proposal.'
-          );
-
-        }
-
-
-        window.location.reload();
-
-      } catch (
-        error
-      ) {
-
-        console.error(
-          'FINAL PROPOSAL UPLOAD ERROR:',
-          error
-        );
-
-
-        alert(
-          error.message ||
-          'The final proposal could not be uploaded.'
-        );
-
-      } finally {
-
-        setButtonState(
-          uploadFinalProposal,
-          false,
-          'Uploading...',
-          'Upload Final Proposal'
-        );
-
-      }
-
-    }
-  );
-
-}
-    /* =====================================================
-       SEND MESSAGE TO SASHA
-    ====================================================== */
-
-    if (
-      sendOutcomeMessage
-    ) {
-
-      sendOutcomeMessage.addEventListener(
-        'click',
-        async () => {
-
-          const message =
-            outcomeMessage
-              ? outcomeMessage.value.trim()
-              : '';
-
-          const file =
-            outcomeEvidenceFile &&
-            outcomeEvidenceFile.files
-              ? outcomeEvidenceFile.files[0]
-              : null;
-
-
-          if (
-            !message &&
-            !file
-          ) {
-
-            alert(
-              'Add a message or debrief document first.'
-            );
-
-            return;
-
-          }
-
-
-          const formData =
-            new FormData();
-
-          formData.append(
-            'pursuitId',
-            pursuitId
-          );
-
-          formData.append(
-            'message',
-            message
-          );
-
-
-if (
-  file
-) {
-
-  formData.append(
-    'sourceDocuments',
-    file
-  );
-
-}
-
-
-          if (
-            message
-          ) {
-
-            appendChatMessage(
-              'user',
-              message
-            );
-
-          }
-
-
-          setButtonState(
-            sendOutcomeMessage,
-            true,
-            'Sasha is working...',
-            'Send to Sasha'
-          );
-
-          showWorking();
-
-
-          try {
-
-const response =
-  await fetch(
-    '/outcome/chat',
-    {
-      method:
-        'POST',
-
-      headers: {
-        'x-csrf-token':
-          '{{csrfToken}}'
-      },
-
-      body:
-        formData
-    }
-  );
-
-
-            const data =
-              await response.json();
-
-
-            if (
-              !response.ok
-            ) {
-
-              throw new Error(
-                data.message ||
-                data.error ||
-                'Sasha could not process the outcome information.'
-              );
-
-            }
-
-
-            const reply =
-              data.reply ||
-              data.message ||
-              data.response ||
-              data.assistantMessage ||
-              'The outcome information has been reviewed.';
-
-
-            appendChatMessage(
-              'assistant',
-              reply
-            );
-
-
-            if (
-              outcomeMessage
-            ) {
-
-              outcomeMessage.value =
-                '';
-
-            }
-
-
-            if (
-              outcomeEvidenceFile
-            ) {
-
-              outcomeEvidenceFile.value =
-                '';
-
-            }
-
-
-            /*
-             * Reload when Sasha has updated structured
-             * outcome information so the cards reflect
-             * the saved record.
-             */
-
-            if (
-              data.outcomeUpdated ||
-              data.refresh
-            ) {
-
-              window.setTimeout(
-                () => {
-                  window.location.reload();
-                },
-                700
-              );
-
-            }
-
-          } catch (
-            error
-          ) {
-
-            console.error(
-              'OUTCOME CHAT ERROR:',
-              error
-            );
-
-            appendChatMessage(
-              'assistant',
-              'I could not process that outcome information. ' +
-              'Please try again.'
-            );
-
-          } finally {
-
-            hideWorking();
-
-            setButtonState(
-              sendOutcomeMessage,
-              false,
-              'Sasha is working...',
-              'Send to Sasha'
-            );
-
-          }
-
-        }
-      );
-
-    }
-
-
-    /* =====================================================
-       ENTER TO SEND
-       SHIFT + ENTER CREATES NEW LINE
-    ====================================================== */
-
-    if (
-      outcomeMessage
-    ) {
-
-      outcomeMessage.addEventListener(
-        'keydown',
-        event => {
-
-          if (
-            event.key === 'Enter' &&
-            !event.shiftKey
-          ) {
-
-            event.preventDefault();
-
-            if (
-              sendOutcomeMessage
-            ) {
-
-              sendOutcomeMessage.click();
-
-            }
-
-          }
-
-        }
-      );
-
-    }
-
-
-    /* =====================================================
-       SAVE RESULT
-    ====================================================== */
-
-    if (
-      saveOutcomeResult
-    ) {
-
-      saveOutcomeResult.addEventListener(
-        'click',
-        async () => {
-
-          const payload = {
-
-            pursuitId,
-
-            status:
-              document.getElementById(
-                'outcomeStatus'
-              )?.value || 'pending',
-
-            decisionDate:
-              document.getElementById(
-                'decisionDate'
-              )?.value || null,
-
-            successfulProponent:
-              document.getElementById(
-                'successfulProponent'
-              )?.value.trim() || '',
-
-            ourPrice:
-              document.getElementById(
-                'ourPrice'
-              )?.value || null,
-
-            winningPrice:
-              document.getElementById(
-                'winningPrice'
-              )?.value || null
-
-          };
-
-
-          setButtonState(
-            saveOutcomeResult,
-            true,
-            'Saving...',
-            'Save Result'
-          );
-
-
-          try {
-
-            const response =
-              await fetch(
-                '/outcome/result',
-                {
-                  method: 'POST',
-
-                  headers: {
-                    'Content-Type':
-                      'application/json'
-                  },
-
-                  body:
-                    JSON.stringify(
-                      payload
-                    )
-                }
-              );
-
-
-            const data =
-              await response.json();
-
-
-            if (
-              !response.ok
-            ) {
-
-              throw new Error(
-                data.message ||
-                data.error ||
-                'Could not save the proposal result.'
-              );
-
-            }
-
-
-            window.location.reload();
-
-          } catch (
-            error
-          ) {
-
-            console.error(
-              'SAVE OUTCOME RESULT ERROR:',
-              error
-            );
-
-            alert(
-              error.message
-            );
-
-          } finally {
-
-            setButtonState(
-              saveOutcomeResult,
-              false,
-              'Saving...',
-              'Save Result'
-            );
-
-          }
-
-        }
-      );
-
-    }
-
-/* =====================================================
-   SAVE CLIENT DEBRIEF
-====================================================== */
-
-if (
-  saveClientDebrief
-) {
-
-  saveClientDebrief.addEventListener(
-    'click',
-    async () => {
-
-      const payload = {
-
-        pursuitId,
-
-        debrief: {
-
-          date:
-            document.getElementById(
-              'debriefDate'
-            )?.value || null,
-
-          providedBy:
-            document.getElementById(
-              'debriefProvidedBy'
-            )?.value.trim() || '',
-
-          sourceType:
-            document.getElementById(
-              'debriefSourceType'
-            )?.value || '',
-
-          rawNotes:
-            document.getElementById(
-              'debriefRawNotes'
-            )?.value.trim() || ''
-
-        },
-
-        internalObservations:
-          document.getElementById(
-            'internalObservations'
-          )?.value.trim() || '',
-
-        notes:
-          document.getElementById(
-            'outcomeNotes'
-          )?.value.trim() || ''
-
-      };
-
-
-      setButtonState(
-        saveClientDebrief,
-        true,
-        'Saving...',
-        'Save Client Debrief'
-      );
-
-
-      try {
-
-        const response =
-          await fetch(
-            '/outcome/details',
-            {
-              method:
-                'POST',
-
-              headers: {
-                'Content-Type':
-                  'application/json'
-              },
-
-              body:
-                JSON.stringify(
-                  payload
-                )
-            }
-          );
-
-
-        const data =
-          await response.json();
-
-
-        if (
-          !response.ok
-        ) {
-
-          throw new Error(
-            data.message ||
-            data.error ||
-            'Could not save the client debrief.'
-          );
-
-        }
-
-
-        setButtonState(
-          saveClientDebrief,
-          false,
-          'Saving...',
-          'Saved'
-        );
-
-
-        window.setTimeout(
-          () => {
-
-            setButtonState(
-              saveClientDebrief,
-              false,
-              'Saving...',
-              'Save Client Debrief'
-            );
-
-          },
-          1500
-        );
-
-      } catch (
-        error
-      ) {
-
-        console.error(
-          'SAVE CLIENT DEBRIEF ERROR:',
-          error
-        );
-
-
-        alert(
-          error.message
-        );
-
-
-        setButtonState(
-          saveClientDebrief,
-          false,
-          'Saving...',
-          'Save Client Debrief'
-        );
-
-      }
-
-    }
-  );
-
-}
-
-    /* =====================================================
-       SAVE INTERNAL OBSERVATIONS + NOTES
-    ====================================================== */
-
-    if (
-      saveOutcomeDetails
-    ) {
-
-      saveOutcomeDetails.addEventListener(
-        'click',
-        async () => {
-
-const payload = {
-
-  pursuitId,
-
-  debrief: {
-
-    date:
-      document.getElementById(
-        'debriefDate'
-      )?.value || null,
-
-    providedBy:
-      document.getElementById(
-        'debriefProvidedBy'
-      )?.value.trim() || '',
-
-    sourceType:
-      document.getElementById(
-        'debriefSourceType'
-      )?.value || '',
-
-    rawNotes:
-      document.getElementById(
-        'debriefRawNotes'
-      )?.value.trim() || ''
-
-  },
-
-  internalObservations:
-    document.getElementById(
-      'internalObservations'
-    )?.value.trim() || '',
-
-  notes:
-    document.getElementById(
-      'outcomeNotes'
-    )?.value.trim() || ''
-
-};
-
-
-          setButtonState(
-            saveOutcomeDetails,
-            true,
-            'Saving...',
-            'Save Outcome Details'
-          );
-
-
-          try {
-
-            const response =
-              await fetch(
-                '/outcome/details',
-                {
-                  method: 'POST',
-
-                  headers: {
-                    'Content-Type':
-                      'application/json'
-                  },
-
-                  body:
-                    JSON.stringify(
-                      payload
-                    )
-                }
-              );
-
-
-            const data =
-              await response.json();
-
-
-            if (
-              !response.ok
-            ) {
-
-              throw new Error(
-                data.message ||
-                data.error ||
-                'Could not save the outcome details.'
-              );
-
-            }
-
-
-            setButtonState(
-              saveOutcomeDetails,
-              false,
-              'Saving...',
-              'Saved'
-            );
-
-
-            window.setTimeout(
-              () => {
-
-                setButtonState(
-                  saveOutcomeDetails,
-                  false,
-                  'Saving...',
-                  'Save Outcome Details'
-                );
-
-              },
-              1500
-            );
-
-          } catch (
-            error
-          ) {
-
-            console.error(
-              'SAVE OUTCOME DETAILS ERROR:',
-              error
-            );
-
-            alert(
-              error.message
-            );
-
-            setButtonState(
-              saveOutcomeDetails,
-              false,
-              'Saving...',
-              'Save Outcome Details'
-            );
-
-          }
-
-        }
-      );
-
-    }
-
-
-    /* =====================================================
-       ADD EVALUATION CRITERION
-    ====================================================== */
-
-    const addEvaluationCriterion =
-      document.getElementById(
-        'addEvaluationCriterion'
-      );
-
-
-    if (
-      addEvaluationCriterion
-    ) {
-
-      addEvaluationCriterion.addEventListener(
-        'click',
-        () => {
-
-          if (
-            outcomeMessage
-          ) {
-
-            outcomeMessage.value =
-              'I want to add or update an evaluation criterion. ' +
-              'Please help me record the criterion, our score, ' +
-              'maximum score, winning score if known, and any ' +
-              'client comments.';
-
-            outcomeMessage.focus();
-
-            outcomeMessage.scrollIntoView({
-              behavior: 'smooth',
-              block: 'center'
-            });
-
-          }
-
-        }
-      );
-
-    }
-
-
-    /* =====================================================
-       ADD LESSON
-    ====================================================== */
-
-    const addOutcomeLesson =
-      document.getElementById(
-        'addOutcomeLesson'
-      );
-
-
-    if (
-      addOutcomeLesson
-    ) {
-
-      addOutcomeLesson.addEventListener(
-        'click',
-        () => {
-
-          if (
-            outcomeMessage
-          ) {
-
-            outcomeMessage.value =
-              'I want to add a lesson from this pursuit. ' +
-              'Help me describe what we learned, the evidence ' +
-              'supporting it, and what we should do differently ' +
-              'or repeat on future pursuits.';
-
-            outcomeMessage.focus();
-
-            outcomeMessage.scrollIntoView({
-              behavior: 'smooth',
-              block: 'center'
-            });
-
-          }
-
-        }
-      );
-
-    }
-
-
+    button.disabled = busy;
+    button.textContent = busy
+      ? 'Working...'
+      : normalText;
   }
-);
 
+  function appendMessage(role, content) {
+    if (!chatThread || !content) return;
+
+    const article = document.createElement('article');
+
+    article.className =
+      'sasha-chat-message ' +
+      (role === 'user' ? 'is-user' : 'is-sasha');
+
+    const speaker = document.createElement('div');
+    speaker.className = 'sasha-chat-speaker';
+    speaker.textContent =
+      role === 'user' ? 'You' : 'Sasha';
+
+    const bubble = document.createElement('div');
+    bubble.className = 'sasha-chat-bubble';
+    bubble.textContent = content;
+
+    article.appendChild(speaker);
+    article.appendChild(bubble);
+    chatThread.appendChild(article);
+
+    chatThread.scrollTop = chatThread.scrollHeight;
+  }
+
+  async function readResponse(response) {
+    const data = await response.json();
+
+    if (!response.ok || data.success === false) {
+      throw new Error(
+        data.error ||
+        data.message ||
+        'The request could not be completed.'
+      );
+    }
+
+    return data;
+  }
+
+  /* =====================================================
+     SHARED DOCUMENT UPLOAD
+  ===================================================== */
+
+  async function uploadDocument(
+    inputId,
+    buttonId,
+    endpoint,
+    normalText,
+    pdfOnly = false
+  ) {
+
+    const input = document.getElementById(inputId);
+    const button = document.getElementById(buttonId);
+
+    if (!input || !button) return;
+
+    const file = input.files?.[0];
+
+    if (!file) {
+      alert('Choose a document first.');
+      return;
+    }
+
+    const allowedTypes = pdfOnly
+      ? ['application/pdf']
+      : [
+          'application/pdf',
+          'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+          'text/plain'
+        ];
+
+    if (!allowedTypes.includes(file.type)) {
+      alert(
+        pdfOnly
+          ? 'Please select a PDF.'
+          : 'Please select a PDF, DOCX, or TXT file.'
+      );
+      return;
+    }
+
+    if (file.size > 25 * 1024 * 1024) {
+      alert('The document must be 25 MB or smaller.');
+      return;
+    }
+
+    const formData = new FormData();
+
+    formData.append('pursuitId', pursuitId);
+    formData.append('sourceDocuments', file);
+
+    setBusy(button, true, normalText);
+
+    try {
+
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'x-csrf-token': csrfToken
+        },
+        body: formData
+      });
+
+      await readResponse(response);
+
+      window.location.reload();
+
+    } catch (error) {
+
+      console.error('OUTCOME UPLOAD ERROR:', error);
+      alert(error.message);
+
+    } finally {
+
+      setBusy(button, false, normalText);
+
+    }
+  }
+
+  /* =====================================================
+     DOCUMENT UPLOAD BUTTONS
+  ===================================================== */
+
+  const uploadFinalProposal =
+    document.getElementById('uploadFinalProposal');
+
+  if (uploadFinalProposal) {
+    uploadFinalProposal.addEventListener('click', () => {
+      uploadDocument(
+        'finalProposalFile',
+        'uploadFinalProposal',
+        '/outcome/final-proposal',
+        'Upload Final Proposal',
+        true
+      );
+    });
+  }
+
+  const uploadClientDebrief =
+    document.getElementById('uploadClientDebrief');
+
+  if (uploadClientDebrief) {
+    uploadClientDebrief.addEventListener('click', () => {
+      uploadDocument(
+        'clientDebriefFile',
+        'uploadClientDebrief',
+        '/outcome/client-debrief',
+        'Upload Client Debrief'
+      );
+    });
+  }
+
+  const uploadLessonsLearned =
+    document.getElementById('uploadLessonsLearned');
+
+  if (uploadLessonsLearned) {
+    uploadLessonsLearned.addEventListener('click', () => {
+      uploadDocument(
+        'lessonsLearnedFile',
+        'uploadLessonsLearned',
+        '/outcome/lessons-learned',
+        'Upload Lessons Learned'
+      );
+    });
+  }
+
+  /* =====================================================
+     SASHA OUTCOME CHAT
+  ===================================================== */
+
+  async function sendMessage() {
+
+    const message = messageInput?.value.trim() || '';
+    const file = evidenceInput?.files?.[0] || null;
+
+    if (!message && !file) {
+      alert('Enter a message or attach a document.');
+      return;
+    }
+
+    if (file && file.size > 25 * 1024 * 1024) {
+      alert('The document must be 25 MB or smaller.');
+      return;
+    }
+
+    const formData = new FormData();
+
+    formData.append('pursuitId', pursuitId);
+    formData.append('message', message);
+
+    if (file) {
+      formData.append('sourceDocuments', file);
+    }
+
+    setBusy(sendButton, true, 'Send to Sasha');
+
+    if (working) working.hidden = false;
+
+    try {
+
+      const response = await fetch('/outcome/chat', {
+        method: 'POST',
+        headers: {
+          'x-csrf-token': csrfToken
+        },
+        body: formData
+      });
+
+      const data = await readResponse(response);
+
+      if (message) {
+        appendMessage('user', message);
+      }
+
+      appendMessage(
+        'assistant',
+        data.reply || 'Sasha has reviewed the information.'
+      );
+
+      if (messageInput) messageInput.value = '';
+      if (evidenceInput) evidenceInput.value = '';
+
+      if (data.outcomeUpdated || data.refresh) {
+        window.setTimeout(() => {
+          window.location.reload();
+        }, 700);
+      }
+
+    } catch (error) {
+
+      console.error('OUTCOME CHAT ERROR:', error);
+      alert(error.message);
+
+    } finally {
+
+      if (working) working.hidden = true;
+      setBusy(sendButton, false, 'Send to Sasha');
+
+    }
+  }
+
+  if (sendButton) {
+    sendButton.addEventListener('click', sendMessage);
+  }
+
+  if (messageInput) {
+    messageInput.addEventListener('keydown', event => {
+      if (event.key === 'Enter' && !event.shiftKey) {
+        event.preventDefault();
+
+        if (!sendButton?.disabled) {
+          sendMessage();
+        }
+      }
+    });
+  }
+
+});
 </script>
