@@ -708,19 +708,47 @@ let pendingOutcomeUpdate = null;
     chatThread.scrollTop = chatThread.scrollHeight;
   }
 
-  async function readResponse(response) {
-    const data = await response.json();
 
-    if (!response.ok || data.success === false) {
-      throw new Error(
-        data.error ||
-        data.message ||
-        'The request could not be completed.'
-      );
-    }
+async function readResponse(response) {
 
-    return data;
+  const responseText = await response.text();
+
+  let data;
+
+  try {
+
+    data = JSON.parse(responseText);
+
+  } catch (error) {
+
+    console.error(
+      'SERVER RETURNED NON-JSON RESPONSE:',
+      {
+        status: response.status,
+        url: response.url,
+        body: responseText.slice(0, 2000)
+      }
+    );
+
+    throw new Error(
+      `The server returned an unexpected response ` +
+      `(HTTP ${response.status}). ` +
+      `Check the browser console and Railway logs.`
+    );
   }
+
+  if (!response.ok || data.success === false) {
+
+    throw new Error(
+      data.error ||
+      data.message ||
+      `Request failed (HTTP ${response.status}).`
+    );
+  }
+
+  return data;
+}
+
 
   /* =====================================================
      SHARED DOCUMENT UPLOAD
